@@ -39,26 +39,26 @@
 		<Item class="Camera" referent="RBX9BF72FEB7F4448DBBC958DA20DF4A92E">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-28.1285553</X>
-					<Y>30.8668709</Y>
-					<Z>-45.42136</Z>
-					<R00>0.997052968</R00>
-					<R01>-0.0286141727</R01>
-					<R02>0.0711803809</R02>
+					<X>-21.7318192</X>
+					<Y>35.5598869</Y>
+					<Z>-43.2310867</Z>
+					<R00>0.998487771</R00>
+					<R01>-0.0314131342</R01>
+					<R02>0.0451162308</R02>
 					<R10>-0</R10>
-					<R11>0.927837014</R11>
-					<R12>0.372986019</R12>
-					<R20>-0.0767164752</R20>
-					<R21>-0.37188682</R21>
-					<R22>0.925102651</R22>
+					<R11>0.820666969</R11>
+					<R12>0.571406782</R12>
+					<R20>-0.0549750812</R20>
+					<R21>-0.570542693</R21>
+					<R22>0.819425881</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-28.270916</X>
-					<Y>30.1208992</Y>
-					<Z>-47.2715645</Z>
+					<X>-21.822052</X>
+					<Y>34.4170685</Y>
+					<Z>-44.8699455</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -760,24 +760,6 @@ BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX8CD4C29D126F4BA9BD292A9E5AB137B3">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX96536B10515B46E2A74B45BCEAD91BA8">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX12513B53A7F54C83AF5FC83E99D1BC65">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBX2A3F3E857CBE40C48A5DDC08C5D83233">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -2836,7 +2818,7 @@ return{
 					<string name="ScriptGuid">{1F0C3FD2-23C0-4F98-82AD-020FC11EB4DA}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local tool=require(main.ToolModule)
-local orig=require(main.OriginModule)
+local origM=require(main.OriginModule)
 local incr=require(main.IncrementModule)
 local sel=require(main.SelectionModule)
 local mouse=require(main.MouseModule)
@@ -2859,34 +2841,17 @@ local incrT={
 local deb
 local magn=0
 local altered
-local selTags
+local parts={}
 
 function dn()magn=0
 	if deb then return end
-	deb=true local parts=sel.get()
+	deb=true parts=sel.get()
 	local main=origin or currP
 	altered=false
 	
-	local tabl={}
-	selTags={parts=
-	tabl,main=main}
-	
 	sel.lock()
-	if cBind.input then
-		for i,p in next,parts do
-			local nP,tags=tool.set(cMode,p)
-			if p~=nP then
-				print(p.Parent)
-				p:destroy()
-				altered=true
-			end
-			tabl[nP]=tags
-		end
-	else
-		for i,p in next,parts do
-			tabl[p]={}
-		end
-	end
+	for i,p in next,parts do
+	tool.set(cMode,p)end
 	
 	if altered then
 		sel.set(parts)
@@ -2901,24 +2866,14 @@ function up()
 	
 	local main
 	local parts={}
-	local tabl=selTags.parts
 	if cBind.output then
-		for p,t in next,tabl do
+		for p,t in next,parts do
 			
-			local nP=tool.
-			unset(cMode,p,t)
-			
-			if nP~=p then
-				p:destroy()
-				parts[p]=nP
-			end
-			main=main or nP
 		end
 	end
 	
 	selTags=nil
 	sel.unlock()
-	sel.replaceTbl(parts)
 	adorn(main)
 end
 
@@ -2956,7 +2911,7 @@ function setHandle(currM,tempM)
 	currN=h.Name
 	
 	if not isPrev and not tempM then
-	origin=orig.process(cBind.origin)end
+	origin=origM.process(cBind.origin)end
 	
 	if tempM then isPrev=true
 	else isPrev=nil end
@@ -2977,7 +2932,7 @@ adorn(parts[1])end)
 function adorn(p)currP=p
 	if not cMode then setHandle(mode.get())end
 	if not actv.isActive()then return end
-	if p then origin=orig.process(cBind.origin)end
+	if p then origin=origM.process(cBind.origin)end
 	if currH then currH.Adornee=p and(origin or p)or nil end
 end
 
@@ -2988,6 +2943,9 @@ end end)
 
 return{
 	setHandle=setHandle,
+	getCFrame=function()
+		return(origin or currP).CFrame
+	end,
 	adorn=adorn,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -3285,11 +3243,14 @@ return{
 	get=function()return
 	origin.CFrame end,
 	process=function(mode,ovrd)
-		currM=mode if not mode then return
-		end ovrd=currM~=mode or ovrd
+		local parts=sel.get()
+		currM=mode if not mode then return end
+		
+		--Determines whether user input is allowed.
+		ovrd=currM~=mode or ovrd
 		
 		if mode=='axisO'then
-			local p=sel.get()[1]if not p then return
+			local p=parts[1]if not p then return
 			end origin.CFrame=CFrame.new(p.Position)
 			
 			local s=p.Size local
@@ -3309,7 +3270,6 @@ return{
 			.new(maxX,maxY,maxZ)
 		
 		elseif mode=='axisG'then
-			local parts=sel.get()
 			if#parts==0 then return end
 			
 			local maxX,maxY,maxZ=-2^31,-2^31,-2^31
@@ -3697,8 +3657,11 @@ function removeC(p)
 	return r
 end
 
+--Replaces the table values.
 function replaceTbl(t)
-	if debounce then return end
+	
+	--Returns if locked or nothing in the table.
+	if debounce or not next(t)then return end
 	
 	local grRedirs={}
 	for m,g in next,selGroups do
@@ -4069,7 +4032,7 @@ function modeHash(modeT)
 	return modeT[1]..'_'..modeT[2]
 end
 
-local setT={}
+local tagT
 local subs={}
 for i,m in next,script:children() do
 	local t=require(m)
@@ -4081,42 +4044,83 @@ for i,m in next,script:children() do
 	end
 end
 
-function set(modeT,p)
-	local h=modeHash(modeT)
-	local b=binds[h]
+function set(modeT)
+	if tagT 
+	then return
+	end tagT={}
 	
-	if not b or not b.input
-	then return end
+	local repT={}
+	local s=sel.get()
+	for i,p in next,s do
+		
+		local h=modeHash(modeT)
+		local b=binds[h]
+		
+		local nP,tags=p,{}
+		if b and b.input then
+		nP,tags=b.input(p)end
+		tagT[p]=tags
+		
+		if p~=nP then
+		repT[p]=nP end
+	end
 	
-	setT[p]={hash=h,tags=b.input(p)}
+	--Procrastinated call for efficient looping.
+	sel.replaceTbl(repT)
 end
 
-function unset(modeT,p,tags)
-	local h=modeHash(modeT)
-	local t=binds[h]
+function unset()
+	local repT={}
+	local s=tagT
+	for p,t in next,s do
+		local h=t.hash
+		local b=binds[h]
+		
+		local nP=p
+		if b and b.output then
+		nP=t.output(p,t)end
+		
+		tagT[p]=nil
+		if p~=nP then
+		repT[p]=nP end
+	end
 	
-	if not t or not t.output then
-	return end setT[p]=h
-	
-	return t.output(p,tags)
+	--Procrastinated call for efficient looping.
+	sel.replaceTbl(repT)
 end
 
 return{
 	getSubs=function()return subs end,
-	exec=function(modeT,pT,...)
+	exec=function(modeT,...)
 		local h=modeHash(modeT)
 		local b=binds[h]
-		if not b then return end
+		if not b then
+		return end
+		
+		if b and b.input and tagT then
+			local repT={}
+			local t=sel.get()
+			for i,p in next,t do
+				
+				--Sets the object up.
+				local nP,tags=b.input(...)
+				
+				--Executes the object.
+				b.drag(nP,tags,...)
+				
+				--Unsets the object.
+				nP=b.output(p,tags)
+				
+				if p~=nP then
+				repT[p]=nP end
+			end
 			
-		local tagT,nP,tags={}
-		for i,p in next,pT do
-			if b.input and not setT[p]then
-				nP,tags=b.input(...)
-				tagT[nP]=tags
-				b.drag(...)
-				pT[i]=b.output(p,t)
-			else
-				b.drag(...)
+			--Procrastinated call for efficient looping.
+			sel.replaceTbl(repT)
+		else
+			local t=sel.get()
+			for i,p in next,t do
+				b.drag(p,{},...)
 			end
 		end
 	end,
@@ -4133,17 +4137,13 @@ return{
 						<string name="Name">MoveModule</string>
 						<string name="ScriptGuid">{64078164-FFC7-4F87-8ABE-C71B2BAABD9E}</string>
 						<ProtectedString name="Source"><![CDATA[local get=require(script.Parent.Parent.SelectionModule).get
-function move(tags,face,d)
-	local cf=tags.main.CFrame
-	local parts=tags.parts
+function move(p,tags,cf,face,d)
 	local v=(cf-cf.p)*(Vector3.
 	FromNormalId(face)*d)
+	p.CFrame=p.CFrame+v
 	
-	for p in next,parts do
-	p.CFrame=p.CFrame+v end
-	
-	if not parts[tags.main]then
-	local m=tags.main m.CFrame=m.CFrame+v end
+	local m=tags.main
+	m.CFrame=m.CFrame+v
 end
 
 return{
@@ -4192,20 +4192,16 @@ function output(p,tags)
 end
 
 return{
-	[{'resize','face'}]={drag=function(m,f,d)
+	[{'resize','face'}]={drag=function(p,tags,cf,m,f,d)
 		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
 		local v2=Vector3.FromNormalId(f.Value%3)*d
-		local t=sel.get()
-		for i,p in next,t do
-			p.CFrame=p.CFrame*v1
-			resize(p,v2)
-		end
+		resize(p,v2)p.CFrame=p.CFrame*v1
+		
 	end,input=input,output=output},
-	[{'resize','both'}]={drag=function(m,f,d)
+	[{'resize','both'}]={drag=function(p,tags,cf,m,f,d)
 		local v=Vector3.FromNormalId(f.Value%3)*d
-		local t=sel.get()for i,p in next,t do
-			resize(p,v)
-		end
+		resize(p,v)
+		
 	end,input=input,output=output},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -4219,10 +4215,15 @@ return{
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local sel=require(main.SelectionModule)
 
-function rot8Main(tags,axis,angle,...)
-	local t=sel.get()local o0=tags.main.CFrame
-	local o1=CFrame.fromAxisAngle(Vector3.FromAxis(axis),math.rad(angle))
-	for i,p in next,t do p.CFrame=o0*o1*(o0:inverse()*p.CFrame)end
+--Rotation function that takes the CFrame in.
+function rot8Main(p,tags,o0,axis,angle,...)
+
+	local v3=Vector3
+	.FromAxis(axis)
+	local o1=CFrame.
+	fromAxisAngle(v3
+	,math.rad(angle))
+	p.CFrame=o0*o1*(o0:inverse()*p.CFrame)
 end
 
 return{
