@@ -760,6 +760,12 @@ BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXE75FE7ABBD2E4AE7B6317620EC94525C">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBX2A3F3E857CBE40C48A5DDC08C5D83233">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -2829,6 +2835,7 @@ local cgui=game.CoreGui
 local currH,currP,currN
 local cMode,cBind
 local binds={}
+local adornee
 local origin
 local isPrev
 
@@ -2840,48 +2847,29 @@ local incrT={
 
 local deb
 local magn=0
-local altered
 local parts={}
 
 function dn()magn=0
 	if deb then return end
 	deb=true parts=sel.get()
-	local main=origin or currP
-	altered=false
 	
 	sel.lock()
-	for i,p in next,parts do
-	tool.set(cMode,p)end
-	
-	if altered then
-		sel.set(parts)
-		adorn(parts[1])
-	end deb=false
+	tool.set(cMode)
 	sel.unlock()
+	deb=false
 end
 function up()
-	if not altered
-	then return end
 	sel.lock()
-	
-	local main
-	local parts={}
-	if cBind.output then
-		for p,t in next,parts do
-			
-		end
-	end
-	
-	selTags=nil
+	tool.unset()
 	sel.unlock()
-	adorn(main)
 end
 
 function drag(which,m)
 	m=incr.calc(incrT[currN],m)
 	if magn==m then return end
 	gui.action('value','display',m)
-	tool.exec(cMode,selTags,which,m-magn)
+	tool.exec(adornee.CFrame
+	,which,m-magn)
 	magn=m
 end
 
@@ -2892,6 +2880,7 @@ function setHandle(currM,tempM)
 	if currH then
 		currH.Parent=script
 		currH.Adornee=nil
+		adornee=nil
 		currN=nil
 	end
 	
@@ -2917,7 +2906,10 @@ function setHandle(currM,tempM)
 	else isPrev=nil end
 	
 	if not tempM then magn=0
-	h.Adornee=origin or currP h.Parent=cgui
+	adornee=origin or currP
+	h.Adornee=adornee
+	h.Parent=cgui
+	
 	binds[1]=h.MouseDrag:connect(drag)end
 	binds[2]=h.MouseButton1Down:connect(dn)
 	binds[3]=h.MouseButton1Up:connect(up)
@@ -2929,22 +2921,29 @@ mode.setBind('handle',setHandle)
 sel.bind(function(parts)
 adorn(parts[1])end)
 
-function adorn(p)currP=p
+function adorn(p)
+	currP=p
 	if not cMode then setHandle(mode.get())end
 	if not actv.isActive()then return end
 	if p then origin=origM.process(cBind.origin)end
-	if currH then currH.Adornee=p and(origin or p)or nil end
+	
+	if currH then
+		adornee=p and(origin or p)or nil
+		currH.Adornee=adornee
+	end
 end
 
-actv.bind(function(a)if currH then
-	if a then currH.Adornee=currP
-	else currH.Adornee=nil end
-end end)
+actv.bind(function(a)
+	if currH then
+		adornee=a and currP or nil
+		currH.Adornee=adornee
+	end
+end)
 
 return{
 	setHandle=setHandle,
 	getCFrame=function()
-		return(origin or currP).CFrame
+		return adornee.CFrame
 	end,
 	adorn=adorn,
 }]]></ProtectedString>
@@ -3696,6 +3695,7 @@ function replaceTbl(t)
 		or studioSels[i]
 	end
 	setStudioSels()
+	send()
 end
 
 function shift(p)
@@ -4032,7 +4032,9 @@ function modeHash(modeT)
 	return modeT[1]..'_'..modeT[2]
 end
 
-local tagT
+--#hashtagT
+local hash,tagT
+
 local subs={}
 for i,m in next,script:children() do
 	local t=require(m)
@@ -4045,16 +4047,14 @@ for i,m in next,script:children() do
 end
 
 function set(modeT)
-	if tagT 
-	then return
-	end tagT={}
+	if tagT then return end
+	hash=modeHash(modeT)
+	local b=binds[hash]
+	tagT={}
 	
 	local repT={}
 	local s=sel.get()
 	for i,p in next,s do
-		
-		local h=modeHash(modeT)
-		local b=binds[h]
 		
 		local nP,tags=p,{}
 		if b and b.input then
@@ -4070,15 +4070,13 @@ function set(modeT)
 end
 
 function unset()
-	local repT={}
-	local s=tagT
-	for p,t in next,s do
-		local h=t.hash
-		local b=binds[h]
-		
+	if not tagT then return end
+	local repT,b={},binds[hash]
+	
+	for p,t in next,tagT do
 		local nP=p
 		if b and b.output then
-		nP=t.output(p,t)end
+		nP=b.output(p,t)end
 		
 		tagT[p]=nil
 		if p~=nP then
@@ -4087,19 +4085,22 @@ function unset()
 	
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
+	
+	--Variables are reset.
+	tagT,hash=nil,nil
 end
 
-return{
-	getSubs=function()return subs end,
-	exec=function(modeT,...)
-		local h=modeHash(modeT)
-		local b=binds[h]
-		if not b then
-		return end
+--Execute as a 'console' command.
+function execC(modeT,...)
+	local b=binds[hash]
+	if not b then
+	return end
+	
+	if not tagT then
+		local repT={}
+		local t=sel.get()
 		
-		if b and b.input and tagT then
-			local repT={}
-			local t=sel.get()
+		if b.input then
 			for i,p in next,t do
 				
 				--Sets the object up.
@@ -4117,13 +4118,30 @@ return{
 			
 			--Procrastinated call for efficient looping.
 			sel.replaceTbl(repT)
+			
 		else
-			local t=sel.get()
 			for i,p in next,t do
-				b.drag(p,{},...)
+				b.drag(p,tagT[p],...)
 			end
 		end
-	end,
+	end
+end
+
+--Execute after setting and before unsetting.
+function exec(...)
+	local b=binds[hash]
+	if b and tagT then
+		local t=sel.get()
+		for i,p in next,t do
+			b.drag(p,tagT[p],...)
+		end
+	end
+end
+
+return{
+	getSubs=function()return subs end,
+	execC=execC,
+	exec=exec,
 	set=set,
 	unset=unset,
 	getBind=function(modeT)return binds[modeHash(modeT)]or{}end,
@@ -4141,9 +4159,10 @@ function move(p,tags,cf,face,d)
 	local v=(cf-cf.p)*(Vector3.
 	FromNormalId(face)*d)
 	p.CFrame=p.CFrame+v
-	
+	--[[
 	local m=tags.main
 	m.CFrame=m.CFrame+v
+	]]
 end
 
 return{
@@ -4192,13 +4211,13 @@ function output(p,tags)
 end
 
 return{
-	[{'resize','face'}]={drag=function(p,tags,cf,m,f,d)
+	[{'resize','face'}]={drag=function(p,tags,cf,f,d)
 		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
 		local v2=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v2)p.CFrame=p.CFrame*v1
 		
 	end,input=input,output=output},
-	[{'resize','both'}]={drag=function(p,tags,cf,m,f,d)
+	[{'resize','both'}]={drag=function(p,tags,cf,f,d)
 		local v=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v)
 		
