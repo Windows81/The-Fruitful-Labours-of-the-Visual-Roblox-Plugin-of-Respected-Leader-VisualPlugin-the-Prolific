@@ -760,6 +760,12 @@ BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXFD59BD1508404DEA9478A5E9309DE0ED">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXE75FE7ABBD2E4AE7B6317620EC94525C">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -2824,7 +2830,7 @@ return{
 					<string name="ScriptGuid">{1F0C3FD2-23C0-4F98-82AD-020FC11EB4DA}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local tool=require(main.ToolModule)
-local origM=require(main.OriginModule)
+local ogMod=require(main.OriginModule)
 local incr=require(main.IncrementModule)
 local sel=require(main.SelectionModule)
 local mouse=require(main.MouseModule)
@@ -2869,14 +2875,13 @@ function drag(which,m)
 	if magn==m then return end
 	gui.action('value','display',m)
 	tool.exec(adornee.CFrame
-	,which,m-magn)
-	magn=m
+	,which,m-magn)magn=m
 end
 
 function lockM()return mouse.bind(127)end
 function unlockM()return mouse.unbind(127)end
 
-function setHandle(currM,tempM)
+function setHandle(argM,tempM)
 	if currH then
 		currH.Parent=script
 		currH.Adornee=nil
@@ -2893,21 +2898,21 @@ function setHandle(currM,tempM)
 		end
 	end
 	
-	cMode=tempM or currM or cMode
+	cMode=tempM or argM or cMode
 	cBind=tool.getBind(cMode)
 	local h=script:findFirstChild(cMode[1])
 	currH=h if not h then return end
 	currN=h.Name
 	
 	if not isPrev and not tempM then
-	origin=origM.process(cBind.origin)end
+	origin=ogMod.process(cBind.origin)end
 	
 	if tempM then isPrev=true
 	else isPrev=nil end
 	
 	if not tempM then magn=0
-	adornee=origin or currP
-	h.Adornee=adornee
+	h.Adornee=origin
+	adornee=origin
 	h.Parent=cgui
 	
 	binds[1]=h.MouseDrag:connect(drag)end
@@ -2925,10 +2930,10 @@ function adorn(p)
 	currP=p
 	if not cMode then setHandle(mode.get())end
 	if not actv.isActive()then return end
-	if p then origin=origM.process(cBind.origin)end
+	if p then origin=ogMod.process(cBind.origin)end
 	
 	if currH then
-		adornee=p and(origin or p)or nil
+		adornee=p and origin or nil
 		currH.Adornee=adornee
 	end
 end
@@ -3197,7 +3202,7 @@ local rs=game:service'RunService'
 local origin=script.Origin
 local mO=mouse.mouse
 local box=script.Box
-local currM
+local currM,currO
 
 function snap(v3)
 	local x=math.floor(v3.x+.5)
@@ -3239,89 +3244,91 @@ function hover2()
 end
 
 return{
-	get=function()return
-	origin.CFrame end,
+	get=function()return currO end,
 	process=function(mode,ovrd)
 		local parts=sel.get()
-		currM=mode if not mode then return end
-		
-		--Determines whether user input is allowed.
-		ovrd=currM~=mode or ovrd
-		
-		if mode=='axisO'then
-			local p=parts[1]if not p then return
-			end origin.CFrame=CFrame.new(p.Position)
+		currM=mode if not mode
+		then currO=parts[1]else
 			
-			local s=p.Size local
-			r=p.CFrame-p.Position
-			local maxX,maxY,maxZ=0,0,0
-			for x=-1,1,2 do
-			for y=-1,1,2 do
-			for z=-1,1,2 do
-			local v=r*(s*Vector3.new(x,y
-			,z))local X,Y,Z=v.x,v.y,v.z
-			if X>maxX then maxX=X end
-			if Y>maxY then maxY=Y end
-			if Z>maxZ then maxZ=Z end
-			end end end
+			--Determines whether user input is allowed.
+			ovrd,currO=currM~=mode or ovrd,origin
 			
-			origin.Size=Vector3
-			.new(maxX,maxY,maxZ)
-		
-		elseif mode=='axisG'then
-			if#parts==0 then return end
+			if mode=='axisO'then
+				local p=parts[1]if not p then return
+				end origin.CFrame=CFrame.new(p.Position)
+				
+				local s=p.Size local
+				r=p.CFrame-p.Position
+				local maxX,maxY,maxZ=0,0,0
+				for x=-1,1,2 do
+				for y=-1,1,2 do
+				for z=-1,1,2 do
+				local v=r*(s*Vector3.new(x,y
+				,z))local X,Y,Z=v.x,v.y,v.z
+				if X>maxX then maxX=X end
+				if Y>maxY then maxY=Y end
+				if Z>maxZ then maxZ=Z end
+				end end end
+				
+				origin.Size=Vector3
+				.new(maxX,maxY,maxZ)
 			
-			local maxX,maxY,maxZ=-2^31,-2^31,-2^31
-			local minX,minY,minZ=02^31,02^31,02^31
-			for i,p in next,parts do
-			local s,c=p.Size/2,p.CFrame
-			
-			for x=-1,1,2 do
-			for y=-1,1,2 do
-			for z=-1,1,2 do
-			local v=c*(s*Vector3.new(x,y,z))local X,Y,Z=v.x,v.y,v.z
-			if X>maxX then maxX=X elseif X<minX then minX=X end
-			if Y>maxY then maxY=Y elseif Y<minY then minY=Y end
-			if Z>maxZ then maxZ=Z elseif Z<minZ then minZ=Z end
-			end end end end
-			
-			local sX=maxX-minX
-			local sY=maxY-minY
-			local sZ=maxZ-minZ
-			local cX=(maxX+minX)/2
-			local cY=(maxY+minY)/2
-			local cZ=(maxZ+minZ)/2
-			origin.Size=Vector3.new(sX,sY,sZ)
-			origin.CFrame=CFrame.new(cX,cY,cZ)
-			
-		elseif mode=='edge'and ovrd then
-			mouse.bind(666,true)
-			box.Visible=true
-			local t repeat
-				rs:BindToRenderStep(
-				'rlvpOrigin',200,hover1)
-				mO.Button1Down:wait()
-				rs:UnbindFromRenderStep('rlvpOrigin')
-			until hov1
-			hov2=hov1.CFrame
-			hov3=hov2:inverse()
-			hov1=hov1.Size/2
-			local a=buffer(
-			(camCf()-hov2.p
-			).magnitude)
-			box.Size=a
-			
-			box.Adornee=origin
-			local t repeat
-				rs:BindToRenderStep(
-				'rlvpOrigin',200,hover2)
-				mO.Button1Down:wait()
-				rs:UnbindFromRenderStep('rlvpOrigin')
-			until hov1
-			box.Visible=false
-			mouse.unbind(666)
+			elseif mode=='axisG'then
+				if#parts==0 then return end
+				
+				local maxX,maxY,maxZ=-2^31,-2^31,-2^31
+				local minX,minY,minZ=02^31,02^31,02^31
+				for i,p in next,parts do
+				local s,c=p.Size/2,p.CFrame
+				
+				for x=-1,1,2 do
+				for y=-1,1,2 do
+				for z=-1,1,2 do
+				local v=c*(s*Vector3.new(x,y,z))local X,Y,Z=v.x,v.y,v.z
+				if X>maxX then maxX=X elseif X<minX then minX=X end
+				if Y>maxY then maxY=Y elseif Y<minY then minY=Y end
+				if Z>maxZ then maxZ=Z elseif Z<minZ then minZ=Z end
+				end end end end
+				
+				local sX=maxX-minX
+				local sY=maxY-minY
+				local sZ=maxZ-minZ
+				local cX=(maxX+minX)/2
+				local cY=(maxY+minY)/2
+				local cZ=(maxZ+minZ)/2
+				origin.Size=Vector3.new(sX,sY,sZ)
+				origin.CFrame=CFrame.new(cX,cY,cZ)
+				
+			elseif mode=='edge'and ovrd then
+				mouse.bind(666,true)
+				box.Visible=true
+				local t repeat
+					rs:BindToRenderStep(
+					'rlvpOrigin',200,hover1)
+					mO.Button1Down:wait()
+					rs:UnbindFromRenderStep('rlvpOrigin')
+				until hov1
+				hov2=hov1.CFrame
+				hov3=hov2:inverse()
+				hov1=hov1.Size/2
+				local a=buffer(
+				(camCf()-hov2.p
+				).magnitude)
+				box.Size=a
+				
+				box.Adornee=origin
+				local t repeat
+					rs:BindToRenderStep(
+					'rlvpOrigin',200,hover2)
+					mO.Button1Down:wait()
+					rs:UnbindFromRenderStep('rlvpOrigin')
+				until hov1
+				box.Visible=false
+				mouse.unbind(666)
+			end
 		end
-		return origin
+		
+		return currO
 	end
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -4025,6 +4032,7 @@ return{
 					<string name="Name">ToolModule</string>
 					<string name="ScriptGuid">{1FCEB657-1CD6-48F9-8D60-BF8E6CA2F16F}</string>
 					<ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
+local ogMod=require(script.Parent.OriginModule)
 
 local binds={}
 function modeHash(modeT)
@@ -4140,10 +4148,7 @@ end
 
 return{
 	getSubs=function()return subs end,
-	execC=execC,
-	exec=exec,
-	set=set,
-	unset=unset,
+	execC=execC,exec=exec,set=set,unset=unset,
 	getBind=function(modeT)return binds[modeHash(modeT)]or{}end,
 	--setBind=function(modeT,...)binds[modeHash(modeT)]={...}end,
 }]]></ProtectedString>
