@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBX9BF72FEB7F4448DBBC958DA20DF4A92E">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-21.7318192</X>
-					<Y>35.5598869</Y>
-					<Z>-43.2310867</Z>
-					<R00>0.998487771</R00>
-					<R01>-0.0314131342</R01>
-					<R02>0.0451162308</R02>
+					<X>-21.6773586</X>
+					<Y>35.3912277</Y>
+					<Z>-43.1292191</Z>
+					<R00>0.996563137</R00>
+					<R01>-0.0403478295</R01>
+					<R02>0.0723462328</R02>
 					<R10>-0</R10>
-					<R11>0.820666969</R11>
-					<R12>0.571406782</R12>
-					<R20>-0.0549750812</R20>
-					<R21>-0.570542693</R21>
-					<R22>0.819425881</R22>
+					<R11>0.873359382</R11>
+					<R12>0.487076551</R12>
+					<R20>-0.0828367323</R20>
+					<R21>-0.485402524</R21>
+					<R22>0.870357752</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -161,6 +161,81 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
+		<Item class="Part" referent="RBXA3342FF09FA24CA98C5E53F30CA9D6A6">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>-41.5</X>
+					<Y>13.5000048</Y>
+					<Z>-77</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">true</bool>
+				<bool name="CastShadow">true</bool>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="Name">Part</string>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0</float>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>29</X>
+					<Y>27</Y>
+					<Z>8</Z>
+				</Vector3>
+			</Properties>
+		</Item>
 		<Item class="NegateOperation" referent="RBX0A22EACA68CC47AA8DDC67BF458729EB">
 			<Properties>
 				<bool name="Anchored">true</bool>
@@ -244,81 +319,6 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 					<X>29</X>
 					<Y>27</Y>
 					<Z>2</Z>
-				</Vector3>
-			</Properties>
-		</Item>
-		<Item class="Part" referent="RBXA3342FF09FA24CA98C5E53F30CA9D6A6">
-			<Properties>
-				<bool name="Anchored">true</bool>
-				<float name="BackParamA">-0.5</float>
-				<float name="BackParamB">0.5</float>
-				<token name="BackSurface">0</token>
-				<token name="BackSurfaceInput">0</token>
-				<float name="BottomParamA">-0.5</float>
-				<float name="BottomParamB">0.5</float>
-				<token name="BottomSurface">0</token>
-				<token name="BottomSurfaceInput">0</token>
-				<CoordinateFrame name="CFrame">
-					<X>-41.5</X>
-					<Y>13.5000048</Y>
-					<Z>-77</Z>
-					<R00>1</R00>
-					<R01>0</R01>
-					<R02>0</R02>
-					<R10>0</R10>
-					<R11>1</R11>
-					<R12>0</R12>
-					<R20>0</R20>
-					<R21>0</R21>
-					<R22>1</R22>
-				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
-				<bool name="CastShadow">true</bool>
-				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
-				<PhysicalProperties name="CustomPhysicalProperties">
-					<CustomPhysics>false</CustomPhysics>
-				</PhysicalProperties>
-				<float name="FrontParamA">-0.5</float>
-				<float name="FrontParamB">0.5</float>
-				<token name="FrontSurface">0</token>
-				<token name="FrontSurfaceInput">0</token>
-				<float name="LeftParamA">-0.5</float>
-				<float name="LeftParamB">0.5</float>
-				<token name="LeftSurface">0</token>
-				<token name="LeftSurfaceInput">0</token>
-				<bool name="Locked">false</bool>
-				<bool name="Massless">false</bool>
-				<token name="Material">256</token>
-				<string name="Name">Part</string>
-				<float name="Reflectance">0</float>
-				<float name="RightParamA">-0.5</float>
-				<float name="RightParamB">0.5</float>
-				<token name="RightSurface">0</token>
-				<token name="RightSurfaceInput">0</token>
-				<int name="RootPriority">0</int>
-				<Vector3 name="RotVelocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<BinaryString name="Tags"></BinaryString>
-				<float name="TopParamA">-0.5</float>
-				<float name="TopParamB">0.5</float>
-				<token name="TopSurface">0</token>
-				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0</float>
-				<Vector3 name="Velocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<token name="formFactorRaw">1</token>
-				<token name="shape">1</token>
-				<Vector3 name="size">
-					<X>29</X>
-					<Y>27</Y>
-					<Z>8</Z>
 				</Vector3>
 			</Properties>
 		</Item>
@@ -760,6 +760,12 @@ BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX7A89FEAC3B174E63B416A3DC260D95F8">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXFD59BD1508404DEA9478A5E9309DE0ED">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -2859,23 +2865,18 @@ function dn()magn=0
 	if deb then return end
 	deb=true parts=sel.get()
 	
-	sel.lock()
 	tool.set(cMode)
-	sel.unlock()
 	deb=false
 end
 function up()
-	sel.lock()
 	tool.unset()
-	sel.unlock()
 end
 
 function drag(which,m)
 	m=incr.calc(incrT[currN],m)
 	if magn==m then return end
 	gui.action('value','display',m)
-	tool.exec(adornee.CFrame
-	,which,m-magn)magn=m
+	tool.exec(which,m-magn)magn=m
 end
 
 function lockM()return mouse.bind(127)end
@@ -3081,7 +3082,7 @@ local subs=tool.getSubs()
 local cSubs,busy={}
 local binds={}
 
-function setBind(i,f)print(i)binds[i]=f end
+function setBind(i,f)binds[i]=f end
 function getBind(i)return binds[i]end
 
 function setMode(m,s)
@@ -3701,6 +3702,11 @@ function replaceTbl(t)
 		studioSels[i]=t[p]
 		or studioSels[i]
 	end
+	
+	--Redirects your selection mappings.
+	local nSM={}for p,selP in next,selMappings do
+	nSM[t[p]or p]=t[selP]or selP end selMappings=nSM
+	
 	setStudioSels()
 	send()
 end
@@ -4062,16 +4068,28 @@ function set(modeT)
 	
 	local repT={}
 	local s=sel.get()
+	local o=ogMod.get()
 	for i,p in next,s do
 		
-		local nP,tags=p,{}
+		local nP,par=p,p.Parent
+		local tags={noTags=true}
 		if b and b.input then
 		nP,tags=b.input(p)end
-		tagT[p]=tags
+		tags.origin=o
+		tagT[nP]=tags
 		
+		--If the part is altered.
 		if p~=nP then
-		repT[p]=nP end
+			nP.Parent=par
+			if o==p then
+			o=nP end
+			p:destroy()
+			repT[p]=nP
+		end
 	end
+	
+	tagT[o]=tagT[o]or{origin=o}
+	tagT[o].isOrigin=true
 	
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
@@ -4082,13 +4100,17 @@ function unset()
 	local repT,b={},binds[hash]
 	
 	for p,t in next,tagT do
-		local nP=p
-		if b and b.output then
-		nP=b.output(p,t)end
-		
+		local nP,par=p,p.Parent
+		if b.output and not t.noTags
+		then nP=b.output(p,t)end
 		tagT[p]=nil
+		
+		--If the part is altered.
 		if p~=nP then
-		repT[p]=nP end
+			nP.Parent=par
+			p:destroy()
+			repT[p]=nP
+		end
 	end
 	
 	--Procrastinated call for efficient looping.
@@ -4096,6 +4118,16 @@ function unset()
 	
 	--Variables are reset.
 	tagT,hash=nil,nil
+end
+
+--Execute after setting and before unsetting.
+function exec(...)
+	local b=binds[hash]
+	if b and tagT then
+		for p,t in next,tagT do
+			b.drag(p,t,...)
+		end
+	end
 end
 
 --Execute as a 'console' command.
@@ -4107,12 +4139,17 @@ function execC(modeT,...)
 	if not tagT then
 		local repT={}
 		local t=sel.get()
+		local o=ogMod.get()
 		
 		if b.input then
 			for i,p in next,t do
 				
 				--Sets the object up.
 				local nP,tags=b.input(...)
+				
+				--Miscellaneous tags.
+				tags.isOrigin=p==o
+				tags.origin=o
 				
 				--Executes the object.
 				b.drag(nP,tags,...)
@@ -4129,26 +4166,17 @@ function execC(modeT,...)
 			
 		else
 			for i,p in next,t do
-				b.drag(p,tagT[p],...)
+				b.drag(p,{noTags=true},...)
 			end
 		end
-	end
-end
-
---Execute after setting and before unsetting.
-function exec(...)
-	local b=binds[hash]
-	if b and tagT then
-		local t=sel.get()
-		for i,p in next,t do
-			b.drag(p,tagT[p],...)
-		end
+	else
+		exec(...)
 	end
 end
 
 return{
 	getSubs=function()return subs end,
-	execC=execC,exec=exec,set=set,unset=unset,
+	exec=exec,execC=execC,set=set,unset=unset,
 	getBind=function(modeT)return binds[modeHash(modeT)]or{}end,
 	--setBind=function(modeT,...)binds[modeHash(modeT)]={...}end,
 }]]></ProtectedString>
@@ -4160,7 +4188,8 @@ return{
 						<string name="Name">MoveModule</string>
 						<string name="ScriptGuid">{64078164-FFC7-4F87-8ABE-C71B2BAABD9E}</string>
 						<ProtectedString name="Source"><![CDATA[local get=require(script.Parent.Parent.SelectionModule).get
-function move(p,tags,cf,face,d)
+function move(p,tags,face,d)
+	local cf=tags.origin.CFrame
 	local v=(cf-cf.p)*(Vector3.
 	FromNormalId(face)*d)
 	p.CFrame=p.CFrame+v
@@ -4216,13 +4245,13 @@ function output(p,tags)
 end
 
 return{
-	[{'resize','face'}]={drag=function(p,tags,cf,f,d)
+	[{'resize','face'}]={drag=function(p,tags,f,d)
 		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
 		local v2=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v2)p.CFrame=p.CFrame*v1
 		
 	end,input=input,output=output},
-	[{'resize','both'}]={drag=function(p,tags,cf,f,d)
+	[{'resize','both'}]={drag=function(p,tags,f,d)
 		local v=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v)
 		
