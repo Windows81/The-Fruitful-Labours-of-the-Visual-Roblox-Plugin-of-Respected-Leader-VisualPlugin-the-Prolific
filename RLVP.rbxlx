@@ -3464,8 +3464,10 @@ end
 function addP(p,selP)
 	selP=selP or p
 	selMappings[p]=selP
-	for i=#sels,1,-1 do
-		if sels[i]==selP then
+	local n=math.max(#sels,studioSels)
+	for i=1,n do
+		if sels[i]==selP
+		or studioSels[i]==p then
 			return
 		end
 	end
@@ -3538,7 +3540,7 @@ end
 
 function addG(a,p,...)
 	local par,g=p.Parent,{algor=a}
-	g.main,g.parts,g.defSel=a.set(p,...)
+	g.main,g.parts,g.defSel=a.input(p,...)
 	
 	g.main.Parent=par
 	selGroups[g.main]=g
@@ -3553,7 +3555,7 @@ function removeG(i)
 	if g.algor.asUnit then
 		removeP(g.main)
 	end
-	g.algor.reset(i,selGroups[i].parts)
+	g.algor.output(i,selGroups[i].parts)
 	selGroups[i]=nil return true
 end
 
@@ -3829,7 +3831,8 @@ game.Selection.SelectionChanged:connect(function()
 			remove[p]=true
 		elseif l=='add' then
 			local g=createGroup(p)
-			newSS[#newSS+1]=g and g.main or addP(p)and p
+			newSS[#newSS+1]=g and g
+			.main or addP(p)and p
 		else
 			newSS[#newSS+1]=p
 		end
@@ -3862,13 +3865,11 @@ return{
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">TestUnitModule</string>
 						<string name="ScriptGuid">{0E57817F-310F-4A49-8366-270BCBAB96FA}</string>
-						<ProtectedString name="Source"><![CDATA[local dd=require(script.Parent.Parent.DropdownModule)
-local cache={}
+						<ProtectedString name="Source"><![CDATA[local cache={}
 return{
 	--asUnit = whether the parts 
 	asUnit=true,
-	set=function(o)
-		print(dd.show({'death','666','murder'},'Do you like Azerbaycan?'))
+	input=function(o)
 		local t=tick()
 		local f=Instance.new'Folder'
 		local c=o:clone()
@@ -3880,7 +3881,7 @@ return{
 	get=function(f,t)
 		return t[1]
 	end,
-	reset=function(f,t)
+	output=function(f,t)
 		local o=t[1]
 		o.Parent=f.Parent
 		f:destroy()
@@ -3917,7 +3918,7 @@ end]]></ProtectedString>
 						<ProtectedString name="Source"><![CDATA[local cache={}
 return{
 	asUnit=false,
-	set=function(o)
+	input=function(o)
 		local t=tick()
 		local f=Instance.new('Folder',o.Parent)
 		local c=o:clone()
@@ -3930,7 +3931,7 @@ return{
 	get=function(f,t)
 		return t[1]
 	end,
-	reset=function(f,t)
+	output=function(f,t)
 		local o=t[1]
 		o.Parent=f.Parent
 		f:destroy()
