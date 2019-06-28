@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBX9BF72FEB7F4448DBBC958DA20DF4A92E">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-21.6773586</X>
-					<Y>35.3912277</Y>
-					<Z>-43.1292191</Z>
-					<R00>0.996563137</R00>
-					<R01>-0.0403478295</R01>
-					<R02>0.0723462328</R02>
-					<R10>-0</R10>
-					<R11>0.873359382</R11>
-					<R12>0.487076551</R12>
-					<R20>-0.0828367323</R20>
-					<R21>-0.485402524</R21>
-					<R22>0.870357752</R22>
+					<X>-21.6242886</X>
+					<Y>35.4989815</Y>
+					<Z>-43.1994896</Z>
+					<R00>0.993064821</R00>
+					<R01>-0.0635985434</R01>
+					<R02>0.0988808721</R02>
+					<R10>3.72528941e-09</R10>
+					<R11>0.841053665</R11>
+					<R12>0.540951848</R12>
+					<R20>-0.117567845</R20>
+					<R21>-0.537200272</R21>
+					<R22>0.835220814</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -760,36 +760,6 @@ BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX79528DC24D6944EEA8F8FA3283DEBFE6">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXBF95EAA831DE44DABD9E4AA863F10A7C">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX7A89FEAC3B174E63B416A3DC260D95F8">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXFD59BD1508404DEA9478A5E9309DE0ED">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXE75FE7ABBD2E4AE7B6317620EC94525C">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBX2A3F3E857CBE40C48A5DDC08C5D83233">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3629,19 +3599,29 @@ end
 
 --Add part (command)
 function addC(p)
+	
+	--Debounce protection.
+	if debounce then return
+	end debounce=true
+	
 	local b=p and(
 		addPart2Group(p)or
 		createGroup(p)or
 		addP(p))
 	
+	debounce=false
 	if not b then return end
 	send()return true
 end
 
 --Remove part (command)
 function removeC(p)
+	
+	--Debounce protection.
+	if debounce then return
+	end debounce=true
+	
 	local r
-	debounce=true
 	for i,g in next,selGroups do
 		local u,has=g.algor.asUnit
 		
@@ -3888,7 +3868,7 @@ return{
 	--asUnit = whether the parts 
 	asUnit=true,
 	set=function(o)
-		print(dd.show{'death','666','murder'})
+		print(dd.show({'death','666','murder'},'Do you like Azerbaycan?'))
 		local t=tick()
 		local f=Instance.new'Folder'
 		local c=o:clone()
@@ -3923,7 +3903,7 @@ local selAlgors={
 
 return function(p)
 	if p:isA'PartOperation'then
-		return selAlgors.testN
+		return selAlgors.testU
 	end
 end]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -8547,10 +8527,11 @@ local tween=require(main.TweenModule)
 local gui=script.Parent.RLVPGUI
 local dd=script.Dropdown
 local el=script.Element
+local pr=script.Prompt
 
-local currList
 local items={}
-function show(list)
+local currList,currPrompt
+function show(list,prompt)
 	
 	--Prevents multiple from showing.
 	if currList then return end
@@ -8569,36 +8550,58 @@ function show(list)
 	0,nPos.x,0,nPos.y)})
 	dd.AnchorPoint=ap
 	dd.Parent=gui
+	local yS=10
 	
 	currList=list
 	for i,s in next,list do
 		local c=el:clone()
 		c.Parent=dd.Items
-		items[s]=c
+		c.LayoutOrder=i
+		
 		c.NameLabel.Text=s:upper()
 		c.Shortcut.Text=srts.get(''..i)
+		items[s],yS=c,yS+c.AbsoluteSize.Y
 		
 		--Connects the click event to the button itself.
 		c.Button.MouseButton1Click:connect(function()exec(s)end)
 	end
 	
+	currPrompt=prompt
+	if prompt then
+		local tl=pr.TextLabel
+		tl.Text=prompt
+		local y=game.TextService:GetTextSize(prompt,tl.TextSize,tl.
+		Font,Vector2.new(dd.AbsoluteSize.X+tl.Size.X.Offset,666)).Y
+		print(y)
+		pr.Size=UDim2.new(1,0,0,y+5)
+		pr.Parent=dd.Items
+		yS=yS+y
+	end
+	
+	dd.Size=UDim2.new(0,110,0,yS)
 	return dd.Event.Event:Wait()
 end
 
---Event for sleecting an option.
+--Event for selecting an option.
 function exec(s)
 	
-	--Only allows for active dropdowns and valid values.
+	--Only allows active dropdowns and valid values.
 	if not currList or not items[s]then return end
+	
+	--Removes the added items.
+	for i,e in next,items do
+	items[i]=nil e:destroy()end
+	pr.Parent=script
 	
 	dd.Event:Fire(s)
 	dd.Parent=script
+	currPrompt=nil
 	currList=nil
 end
 
 return{
 	get=function()
-		return currList
+		return currList,currPrompt
 	end,
 	exec=exec,
 	show=show,
@@ -9094,6 +9097,128 @@ return{
 						<Properties>
 							<string name="Name">Event</string>
 							<BinaryString name="Tags"></BinaryString>
+						</Properties>
+					</Item>
+				</Item>
+				<Item class="Frame" referent="RBX183ECA4D3C274243A61731B035C9F0A0">
+					<Properties>
+						<bool name="Active">false</bool>
+						<Vector2 name="AnchorPoint">
+							<X>0</X>
+							<Y>0</Y>
+						</Vector2>
+						<bool name="AutoLocalize">true</bool>
+						<Color3 name="BackgroundColor3">
+							<R>1</R>
+							<G>1</G>
+							<B>1</B>
+						</Color3>
+						<float name="BackgroundTransparency">1</float>
+						<Color3 name="BorderColor3">
+							<R>0.105882362</R>
+							<G>0.164705887</G>
+							<B>0.207843155</B>
+						</Color3>
+						<int name="BorderSizePixel">0</int>
+						<bool name="ClipsDescendants">false</bool>
+						<bool name="Draggable">false</bool>
+						<int name="LayoutOrder">0</int>
+						<string name="Name">Prompt</string>
+						<Ref name="NextSelectionDown">null</Ref>
+						<Ref name="NextSelectionLeft">null</Ref>
+						<Ref name="NextSelectionRight">null</Ref>
+						<Ref name="NextSelectionUp">null</Ref>
+						<UDim2 name="Position">
+							<XS>0</XS>
+							<XO>0</XO>
+							<YS>0</YS>
+							<YO>0</YO>
+						</UDim2>
+						<Ref name="RootLocalizationTable">null</Ref>
+						<float name="Rotation">0</float>
+						<bool name="Selectable">false</bool>
+						<Ref name="SelectionImageObject">null</Ref>
+						<UDim2 name="Size">
+							<XS>1</XS>
+							<XO>0</XO>
+							<YS>0</YS>
+							<YO>35</YO>
+						</UDim2>
+						<token name="SizeConstraint">0</token>
+						<token name="Style">0</token>
+						<BinaryString name="Tags"></BinaryString>
+						<bool name="Visible">true</bool>
+						<int name="ZIndex">1</int>
+					</Properties>
+					<Item class="TextLabel" referent="RBXB5B92F18309C40E185F3678FE219EE40">
+						<Properties>
+							<bool name="Active">true</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<token name="Font">6</token>
+							<int name="LayoutOrder">0</int>
+							<float name="LineHeight">1</float>
+							<string name="Name">TextLabel</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0</XS>
+								<XO>5</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>1</XS>
+								<XO>-7</XO>
+								<YS>1</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<string name="Text">Are you sure you want to union?</string>
+							<Color3 name="TextColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<bool name="TextScaled">false</bool>
+							<float name="TextSize">15</float>
+							<Color3 name="TextStrokeColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<float name="TextStrokeTransparency">1</float>
+							<float name="TextTransparency">0.300000012</float>
+							<token name="TextTruncate">0</token>
+							<bool name="TextWrapped">true</bool>
+							<token name="TextXAlignment">0</token>
+							<token name="TextYAlignment">0</token>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
 				</Item>
