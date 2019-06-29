@@ -4244,17 +4244,19 @@ end
 
 --Explodes a union and adds residue into the table.
 function explode(u,t)
-	local f=separate(u)unnegate(f)
+	local f=separate(u)
 	for i,p in next,f:children() do
 		if p:isA'UnionOperation'then
 		explode(p)else t[#t+1]=p end
-	end return f,t
+	end unnegate(f)return f,t
 end
 
 function implode(f)
 	negate(f)for i,u in next,f:children()do
 	if u:isA'Folder'then implode(u)end end
-	return plugin:Union(f:children())
+	
+	--Unions the folder's parts and removes the now-empty folder it came from.
+	local u=plugin:Union(f:children())u.Parent=f.Parent f:destroy()return u
 end
 
 return{
