@@ -5,7 +5,7 @@ For this, we introduce **Respected Leader VisualPlugin**.
 
 ***
 
-To try the plugin out, you first need to have [Accessible Plugins](https://devforum.roblox.com/t/accessible-plugins-per-place-game-editable-executable-straight-from-the-explorer/215672) installed on Studio.  Once done, download [`RLVP.rbxlx`](https://github.com/Windows81/The-Fruitful-Labours-of-the-Visual-Roblox-Plugin-of-Respected-Leader-VisualPlugin-the-Prolific/raw/master/RLVP.rbxlx) and open it.  You then can choose one of two ways to complete the procedure:
+**To try the plugin out, you first need to have [Accessible Plugins](https://devforum.roblox.com/t/accessible-plugins-per-place-game-editable-executable-straight-from-the-explorer/215672) installed on Studio.**  Once done, download [`RLVP.rbxlx`](https://github.com/Windows81/The-Fruitful-Labours-of-the-Visual-Roblox-Plugin-of-Respected-Leader-VisualPlugin-the-Prolific/raw/master/RLVP.rbxlx) and open it.  You then can choose one of two ways to complete the procedure:
 1. Expand `TestService` in your *explorer* widget.  Then manually drag the script into `LocalPlugins`.  The plugin will automatically appear on your *plugins* ribbon tab.
 2. Press the *run* button (not *play*) in Studio and execute the following code in the command line.  The plugin will then appear on your *plugins* ribbon tab.
 ```lua
