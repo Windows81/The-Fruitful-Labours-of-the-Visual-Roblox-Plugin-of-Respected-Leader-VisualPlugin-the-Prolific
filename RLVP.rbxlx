@@ -1001,6 +1001,12 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXDF94A83802824082A031992768C822D6">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXB6D9DA06F51749BBA3A189F5BF5D763F">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3682,13 +3688,14 @@ return{
 					<string name="Name">SelectionModule</string>
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
 					<ProtectedString name="Source"><![CDATA[local algorSel=require(script.AlgorChooserModule)
+local db=require(script.Parent.DebugModule)
 local stMod=require(script.SelTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=script.Parent.Active
 local selMappings={}
 local studioSels={}
 local selGroups={}
-local debounce
+local locked
 local sels={}
 
 local binds={}function get()return active.Value and sels or{}end
@@ -3696,11 +3703,11 @@ function check(p)return p and selGroups[p]or(p:isA'BasePart'and not p:isA'Terrai
 
 function send()
 	for i,b in next,binds do b(sels)end
-	if debounce then return end
+	if locked then return end
 	
-	debounce=true
+	locked=true
 	setStudioSels()
-	debounce=false
+	locked=false
 end
 
 function addP(p,selP)
@@ -3760,7 +3767,7 @@ function bindG(g)
 			
 			--The event for when its parent gets set to nil.
 			gBinds[p]=p.AncestryChanged:connect(function(p,par)
-				if debounce or par then return end
+				if locked or par then return end
 				
 				--Prevents other events from being called and destroy other parts.
 				unbindG(g)removeG(g)for i,p in next,g.parts do p:destroy()end
@@ -3847,15 +3854,15 @@ end
 function addC(p)
 	
 	--Debounce protection.
-	if debounce then return
-	end debounce=true
+	if locked then return
+	end locked=true
 	
 	local b=p and(
 		addPart2Group(p)or
 		createGroup(p)or
 		addP(p))
 	
-	debounce=false
+	locked=false
 	if not b then return end
 	send()return true
 end
@@ -3864,8 +3871,8 @@ end
 function removeC(p)
 	
 	--Debounce protection.
-	if debounce then return
-	end debounce=true
+	if locked then return
+	end locked=true
 	
 	local r
 	for i,g in next,selGroups do
@@ -3899,7 +3906,7 @@ function removeC(p)
 	end
 	
 	if r==nil then r=removeP(p)end
-	debounce=false
+	locked=false
 	
 	if r then send()r=true end
 	return r
@@ -3909,7 +3916,7 @@ end
 function replaceTbl(t)
 	
 	--Returns if locked or nothing in the table.
-	if debounce or not next(t)then return end
+	if locked or not next(t)then return end
 	
 	local grRedirs={}
 	for m,g in next,selGroups do
@@ -3971,7 +3978,8 @@ function setStudioSels(t)
 end
 
 game.Selection.SelectionChanged:connect(function()
-	if debounce or not active.Value then return end
+	if locked or not active.Value then return end
+	db.print'SelectionChanged event fired'
 	hb:wait()
 	
 	local logs={}
@@ -4087,20 +4095,24 @@ game.Selection.SelectionChanged:connect(function()
 	
 	--Sets the redirects in stone.
 	studioSels=newSS
-	debounce=false send()
+	locked=false send()
 end)
 
+--The selection tags need locky functions.
+function lock()db.print(66)locked=true end
+function unlock()locked=false end
+stMod.lock,stMod.unlock=lock,unlock
+
 return{
-	replaceTbl=replaceTbl,
-	remove=removeC,
 	add=addC,get=get,
+	remove=removeC,
+	
 	shift=shift,
 	set=setStudioSels,
-	bind=function(f)
-	binds[#binds+1]=f
-	end,
-	lock=function()debounce=true end,
-	unlock=function()debounce=false end,
+	replaceTbl=replaceTbl,
+	
+	lock=lock,unlock=unlock,
+	bind=function(f)binds[#binds+1]=f end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -4214,22 +4226,6 @@ function unnegate(f)
 	end
 end
 
---Efficiently negates tagged parts.
-function negate(f)
-	local pT={}
-	for i,p in next,f:children() do
-		if p.Name=='RLVP_Negative'then
-			pT[#pT+1]=p
-		end
-	end
-	
-	--The case with no parts to negate.
-	if#pT==0 then return end
-	
-	--Negates your negative parts.
-	local nT=plugin:Negate(pT)
-end
-
 --Explodes the union and group its parts.
 function separate(u)
 	local f=Instance.new'Folder'
@@ -4251,6 +4247,22 @@ function explode(u,t)
 	end unnegate(f)return f,t
 end
 
+--Efficiently negates tagged parts.
+function negate(f)
+	local pT={}
+	for i,p in next,f:children() do
+		if p.Name=='RLVP_Negative'then
+			pT[#pT+1]=p
+		end
+	end
+	
+	--The case with no parts to negate.
+	if#pT==0 then return end
+	
+	--Negates your negative parts.
+	local nT=plugin:Negate(pT)
+end
+
 function implode(f)
 	negate(f)for i,u in next,f:children()do
 	if u:isA'Folder'then implode(u)end end
@@ -4267,9 +4279,9 @@ return{
 	get=function(f,t)
 		return t[1]
 	end,
-	output=function(f,t)
-		return implode(f)
-	end,
+	output=--[[function(f,t)
+		return ]]implode--[[(f)
+	end]],
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -4279,7 +4291,8 @@ return{
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">SelTagModule</string>
 						<string name="ScriptGuid">{63C7A4B9-0351-4559-BAFD-346EF5CE4887}</string>
-						<ProtectedString name="Source"><![CDATA[local cs=game.CollectionService
+						<ProtectedString name="Source"><![CDATA[local db=require(script.Parent.Parent.DebugModule)
+local cs,fT=game.CollectionService
 
 function randomHash()
 	local t={}
@@ -4305,20 +4318,39 @@ function bindG(group)
 	events[hash]={
 		
 		--The event of adding parts to the tag.
-		cs:GetInstanceAddedSignal(hash):connect(
-		
-		--Adds the part to the group's table.
-		function(p)partT[#partT+1]=p end),
+		cs:GetInstanceAddedSignal(hash):connect(function(p)
+			db.print('Part added to tag',hash,p)
+			
+			--Doesn't do anything if locked.
+			if group.locked then return end
+			
+			fT.unlock()
+			
+			--Tries to fire the algorithm's event, halts if returns false.
+			if group.algor.add and not group.algor.add(p,group)then return end
+			
+			--Adds to the group's table.
+			partT[#partT+1]=p
+		end),
 		
 		--The event of removing parts from the tag.
 		cs:GetInstanceRemovedSignal(hash):connect(function(p)
+			db.print('Part removed from tag',hash,p)
+			
+			--Doesn't do anything if locked.
+			if group.locked then return end
+			
+			fT.lock()
+			
+			--Tries to fire the algorithm's event, halts if returns something false.
+			if group.algor.remove and not group.algor.remove(p,group)then return end
 			
 			--Removes all traces if as a unit, it's destroyed.
 			if group.algor.asUnit then unbindG(group)return end
 			
-			--Otherwise, remove the part from the table.
-			for i=#partT,1,-1 do if partT[i]==p then for
-			I=i,#partT do partT[I]=partT[I+1]end end end
+			--Otherwise, remove the part from the part table.
+			for i=#partT,1,-1 do if partT[i]==p then for I=i
+			,#partT do partT[I]=partT[I+1]end break end end
 		end),
 	}
 end
@@ -4352,10 +4384,11 @@ function unbindG(group)
 	events[hash]=nil
 end
 
-return{
+fT={
 	bindG=bindG,
 	unbindG=unbindG,
-}]]></ProtectedString>
+}
+return fT]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
@@ -9658,6 +9691,20 @@ return{
 		--Returns the viewport size.
 		return cam.ViewportSize
 	end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX44A9FBE3EF144CCBB975D36F03C5A5BC">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">DebugModule</string>
+					<string name="ScriptGuid">{ABE5DA32-11B5-4AC6-9B5F-8A54B8BD25E8}</string>
+					<ProtectedString name="Source"><![CDATA[local d=true
+
+return{
+	print=function(...)if d
+	then warn(...)end end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
