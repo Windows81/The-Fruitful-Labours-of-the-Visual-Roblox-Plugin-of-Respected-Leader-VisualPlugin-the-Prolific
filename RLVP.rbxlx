@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBX9BF72FEB7F4448DBBC958DA20DF4A92E">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-21.6242886</X>
-					<Y>35.4989815</Y>
-					<Z>-43.1994896</Z>
-					<R00>0.993064821</R00>
-					<R01>-0.0635985434</R01>
-					<R02>0.0988808721</R02>
-					<R10>3.72528941e-09</R10>
-					<R11>0.841053665</R11>
-					<R12>0.540951848</R12>
-					<R20>-0.117567845</R20>
-					<R21>-0.537200272</R21>
-					<R22>0.835220814</R22>
+					<X>-21.6341</X>
+					<Y>35.4724159</Y>
+					<Z>-43.1814575</Z>
+					<R00>0.993861616</R00>
+					<R01>-0.0583762787</R01>
+					<R02>0.0939751342</R02>
+					<R10>3.72528985e-09</R10>
+					<R11>0.84945035</R11>
+					<R12>0.527668774</R12>
+					<R20>-0.110630527</R20>
+					<R21>-0.524429739</R21>
+					<R22>0.844236076</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -161,81 +161,6 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBXA3342FF09FA24CA98C5E53F30CA9D6A6">
-			<Properties>
-				<bool name="Anchored">true</bool>
-				<float name="BackParamA">-0.5</float>
-				<float name="BackParamB">0.5</float>
-				<token name="BackSurface">0</token>
-				<token name="BackSurfaceInput">0</token>
-				<float name="BottomParamA">-0.5</float>
-				<float name="BottomParamB">0.5</float>
-				<token name="BottomSurface">0</token>
-				<token name="BottomSurfaceInput">0</token>
-				<CoordinateFrame name="CFrame">
-					<X>-41.5</X>
-					<Y>13.5000048</Y>
-					<Z>-77</Z>
-					<R00>1</R00>
-					<R01>0</R01>
-					<R02>0</R02>
-					<R10>0</R10>
-					<R11>1</R11>
-					<R12>0</R12>
-					<R20>0</R20>
-					<R21>0</R21>
-					<R22>1</R22>
-				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
-				<bool name="CastShadow">true</bool>
-				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
-				<PhysicalProperties name="CustomPhysicalProperties">
-					<CustomPhysics>false</CustomPhysics>
-				</PhysicalProperties>
-				<float name="FrontParamA">-0.5</float>
-				<float name="FrontParamB">0.5</float>
-				<token name="FrontSurface">0</token>
-				<token name="FrontSurfaceInput">0</token>
-				<float name="LeftParamA">-0.5</float>
-				<float name="LeftParamB">0.5</float>
-				<token name="LeftSurface">0</token>
-				<token name="LeftSurfaceInput">0</token>
-				<bool name="Locked">false</bool>
-				<bool name="Massless">false</bool>
-				<token name="Material">256</token>
-				<string name="Name">Part</string>
-				<float name="Reflectance">0</float>
-				<float name="RightParamA">-0.5</float>
-				<float name="RightParamB">0.5</float>
-				<token name="RightSurface">0</token>
-				<token name="RightSurfaceInput">0</token>
-				<int name="RootPriority">0</int>
-				<Vector3 name="RotVelocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<BinaryString name="Tags"></BinaryString>
-				<float name="TopParamA">-0.5</float>
-				<float name="TopParamB">0.5</float>
-				<token name="TopSurface">0</token>
-				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0</float>
-				<Vector3 name="Velocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<token name="formFactorRaw">1</token>
-				<token name="shape">1</token>
-				<Vector3 name="size">
-					<X>29</X>
-					<Y>27</Y>
-					<Z>8</Z>
-				</Vector3>
-			</Properties>
-		</Item>
 		<Item class="NegateOperation" referent="RBX0A22EACA68CC47AA8DDC67BF458729EB">
 			<Properties>
 				<bool name="Anchored">true</bool>
@@ -319,6 +244,81 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 					<X>29</X>
 					<Y>27</Y>
 					<Z>2</Z>
+				</Vector3>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBXA3342FF09FA24CA98C5E53F30CA9D6A6">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>-41.5</X>
+					<Y>13.5000048</Y>
+					<Z>-77</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">true</bool>
+				<bool name="CastShadow">true</bool>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="Name">Part</string>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0</float>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>29</X>
+					<Y>27</Y>
+					<Z>8</Z>
 				</Vector3>
 			</Properties>
 		</Item>
@@ -760,6 +760,12 @@ BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX11D59E8043D24893B571FED6CD5139F3">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBX2A3F3E857CBE40C48A5DDC08C5D83233">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3441,6 +3447,7 @@ return{
 					<string name="Name">SelectionModule</string>
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
 					<ProtectedString name="Source"><![CDATA[local algorSel=require(script.AlgorChooserModule)
+local stMod=require(script.SelTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=script.Parent.Active
 local selMappings={}
@@ -3464,7 +3471,7 @@ end
 function addP(p,selP)
 	selP=selP or p
 	selMappings[p]=selP
-	local n=math.max(#sels,studioSels)
+	local n=math.max(#sels,#studioSels)
 	for i=1,n do
 		if sels[i]==selP
 		or studioSels[i]==p then
@@ -3509,6 +3516,7 @@ function removeTbl(t)
 	end end end
 end
 
+--[[
 --Binds the group's parts to events.
 local gBinds={}
 function bindG(g)
@@ -3537,6 +3545,7 @@ function unbindG(g)
 		end
 	end
 end
+]]
 
 function addG(a,p,...)
 	local par,g=p.Parent,{algor=a}
@@ -3544,13 +3553,13 @@ function addG(a,p,...)
 	
 	g.main.Parent=par
 	selGroups[g.main]=g
-	bindG(g)
+	stMod.bindG(g)
 	return g
 end
 
 function removeG(i)
 	if not selGroups[i]then return end
-	local g=selGroups[i]unbindG(g)
+	local g=selGroups[i]stMod.unbindG(g)
 	
 	if g.algor.asUnit then
 		removeP(g.main)
@@ -3941,6 +3950,154 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
+				<Item class="ModuleScript" referent="RBXA911DEE2FFCB4425AEBCA79131CC9312">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">CSGModule</string>
+						<string name="ScriptGuid">{D69757DD-6315-40B9-AA7F-0282C8C102C4}</string>
+						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
+
+--Efficiently 'explodes' all negative parts.
+function unnegate(f)
+	local pT={}
+	for i,p in next,f:children() do
+		if p:isA'NegativeOperation'then
+			pT[#pT+1]=p
+		end
+	end
+	
+	--Negates your negative parts.
+	local nT=plugin:Negate(pT)
+	for i,p in next,nT do
+		p.Name='NegativePart'
+	end
+	return f
+end
+
+--Explodes the union and group its parts.
+function separate(u)
+	local f=Instance.new'Folder'
+	local par=u.Parent
+	u.Parent=f
+	
+	--Separates and sets the parent.
+	local t=plugin:Separate{u}
+	f.Parent=par
+	return f
+end
+
+--Explodes a union and adds residue into the table.
+function explode(u,t)
+	local f=separate(u)unnegate(f)
+	for i,p in next,f:children() do
+		if p:isA'UnionOperation'then
+		explode(p)else t[#t+1]=p end
+	end return f,t
+end
+
+return{
+	asUnit=false,
+	input=function(o)
+		return explode(o,{})
+	end,
+	get=function(f,t)
+		return t[1]
+	end,
+	output=function(f,t)
+		
+		cache={}
+		return o
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXE35B328B30A9425987BC91D8CA83CED7">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">SelTagModule</string>
+						<string name="ScriptGuid">{63C7A4B9-0351-4559-BAFD-346EF5CE4887}</string>
+						<ProtectedString name="Source"><![CDATA[local cs=game.CollectionService
+
+function randomHash()
+	local t={}
+	for i=1,7 do
+		t[i]=string.char(64+math.random(26))
+	end
+	local s=table.concat(t)
+	print(s)
+	return s
+end
+
+local binds={}
+local events={}
+function bindG(group)
+	local hash=randomHash()
+	local partT=group.parts
+	binds[hash]=group
+	
+	--Adds each part to the tagging.
+	for i,p in next,partT do
+	cs:AddTag(p,hash)end
+	
+	--Adds events.
+	events[hash]={
+		
+		--The event of adding parts to the tag.
+		cs:GetInstanceAddedSignal(hash):connect(
+		
+		--Adds the part to the group's table.
+		function(p)partT[#partT+1]=p end),
+		
+		--The event of removing parts from the tag.
+		cs:GetInstanceRemovedSignal(hash):connect(function(p)
+			
+			--Removes all traces if as a unit, it's destroyed.
+			if group.algor.asUnit then unbindG(group)return end
+			
+			--Otherwise, remove the part from the table.
+			for i=#partT,1,-1 do if partT[i]==p then for
+			I=i,#partT do partT[I]=partT[I+1]end end end
+		end),
+	}
+end
+
+function unbindG(group)
+	local hash
+	for i,g in next,binds do
+		if g==group then
+			hash=i
+			break
+		end
+	end
+	
+	--Prevents errors in the future.
+	if not hash then return end
+	
+	--Removes each part from the tagging.
+	for i,p in next,group.parts do
+		cs:RemoveTag(p,hash)
+	end
+	
+	--Disconnects the events.
+	local eT=events[hash]
+	for i,e in next,eT do
+		e:disconnect()
+		eT[i]=nil
+	end
+	
+	--Removes cache.
+	binds[hash]=nil
+	events[hash]=nil
+end
+
+return{
+	bindG=bindG,
+	unbindG=unbindG,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBX398D0B6FF8EB42BFA71BDC89D9D812B1">
 				<Properties>
@@ -4066,7 +4223,7 @@ function set(modeT)
 	for i,p in next,s do
 		
 		local nP,par=p,p.Parent
-		local tags={tagged=false}
+		local tags={tagged=false,mode=modeT}
 		if bind and bind.input then
 			nP,tags=bind.input(p)
 			tags.tagged=true
@@ -4129,6 +4286,7 @@ function exec(...)
 	end
 end
 
+--TODO: make it actually be used.
 --Execute as a 'console' command.
 function execC(modeT,...)
 	if not bind then
@@ -4150,6 +4308,7 @@ function execC(modeT,...)
 				tags.isOrigin=p==o
 				tags.inSelection=true
 				tags.tagged=true
+				tags.mode=modeT
 				tags.origin=o
 				
 				--Stores that the origin part was done.
