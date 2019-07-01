@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBX38A4A41F9469486184BA8CB910B86531">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-18.9014568</X>
-					<Y>32.961937</Y>
-					<Z>-42.6418991</Z>
-					<R00>0.987265587</R00>
-					<R01>-0.0803770795</R01>
-					<R02>0.137281314</R02>
-					<R10>-0</R10>
-					<R11>0.862967074</R11>
-					<R12>0.50526011</R12>
-					<R20>-0.159080595</R20>
-					<R21>-0.498825908</R21>
-					<R22>0.851977706</R22>
+					<X>-18.9302177</X>
+					<Y>32.8702278</Y>
+					<Z>-42.5864792</Z>
+					<R00>0.990381181</R00>
+					<R01>-0.0635657683</R01>
+					<R02>0.122900359</R02>
+					<R10>3.72528985e-09</R10>
+					<R11>0.888227642</R11>
+					<R12>0.459403664</R12>
+					<R20>-0.13836582</R20>
+					<R21>-0.454984754</R21>
+					<R22>0.879683971</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -1001,6 +1001,12 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX6F0F03BE835141BC9B673C828D3EA746">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXDF94A83802824082A031992768C822D6">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3687,7 +3693,8 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelectionModule</string>
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
-					<ProtectedString name="Source"><![CDATA[local algorSel=require(script.AlgorChooserModule)
+					<ProtectedString name="Source"><![CDATA[local evtMod=require(script.Parent.PartEventModule)
+local algorSel=require(script.AlgorChooserModule)
 local db=require(script.Parent.DebugModule)
 local stMod=require(script.SelTagModule)
 local hb=game['Run Service'].Heartbeat
@@ -3977,14 +3984,14 @@ function setStudioSels(t)
 	game.Selection:Set(studioSels)
 end
 
-game.Selection.SelectionChanged:connect(function()
+function selChanged()
 	if locked or not active.Value then return end
 	db.print'SelectionChanged event fired'
 	hb:wait()
 	
 	local logs={}
 	local old=studioSels
-	studioSels=game.Selection:Get()
+	studioSels=selGet
 	
 	--Searches for objects to add.
 	for i,p1 in next,studioSels do
@@ -4096,12 +4103,14 @@ game.Selection.SelectionChanged:connect(function()
 	--Sets the redirects in stone.
 	studioSels=newSS
 	locked=false send()
-end)
+end
 
---The selection tags need locky functions.
-function lock()db.print(66)locked=true end
-function unlock()locked=false end
-stMod.lock,stMod.unlock=lock,unlock
+--The selection tags need locky functions; give it to them.
+function lock()db.print'Selection locked'locked=true end
+function unlock()db.print'Selection unlocked'locked=false end
+
+--Binds the refined selection event.
+evtMod.bind('selChanged',selChanged)
 
 return{
 	add=addC,get=get,
@@ -4113,6 +4122,7 @@ return{
 	
 	lock=lock,unlock=unlock,
 	bind=function(f)binds[#binds+1]=f end,
+	selChanged=selChanged,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -4292,7 +4302,7 @@ return{
 						<string name="Name">SelTagModule</string>
 						<string name="ScriptGuid">{63C7A4B9-0351-4559-BAFD-346EF5CE4887}</string>
 						<ProtectedString name="Source"><![CDATA[local db=require(script.Parent.Parent.DebugModule)
-local cs,fT=game.CollectionService
+local cs=game.CollectionService
 
 function randomHash()
 	local t={}
@@ -4324,8 +4334,6 @@ function bindG(group)
 			--Doesn't do anything if locked.
 			if group.locked then return end
 			
-			fT.unlock()
-			
 			--Tries to fire the algorithm's event, halts if returns false.
 			if group.algor.add and not group.algor.add(p,group)then return end
 			
@@ -4339,8 +4347,6 @@ function bindG(group)
 			
 			--Doesn't do anything if locked.
 			if group.locked then return end
-			
-			fT.lock()
 			
 			--Tries to fire the algorithm's event, halts if returns something false.
 			if group.algor.remove and not group.algor.remove(p,group)then return end
@@ -4384,11 +4390,10 @@ function unbindG(group)
 	events[hash]=nil
 end
 
-fT={
+return{
 	bindG=bindG,
 	unbindG=unbindG,
-}
-return fT]]></ProtectedString>
+}]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
@@ -9705,6 +9710,85 @@ return{
 return{
 	print=function(...)if d
 	then warn(...)end end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX77198C13C02246768FDA929CECC9FFD8">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">PartEventModule</string>
+					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
+					<ProtectedString name="Source"><![CDATA[local db=require(script.Parent.DebugModule)
+local hist=game.ChangeHistoryService
+local selSer=game.Selection
+local binds,debounce={}
+hist:SetEnabled(true)
+
+local added=game.DescendantAdded
+local remov=game.DescendantRemoving
+
+--Safely calls a binded function.
+function callBind(n,...)
+	return binds[n]and binds[n](...)
+end
+
+--Event that fires when something gets added.
+added:Connect(function(p)
+	if debounce then return
+	end debounce=true
+	
+	debounce=false
+end)
+
+--Event that fires when something gets removed.
+remov:Connect(function(remPart)
+	if debounce then return
+	end debounce=true
+	
+	--The added part we expect.
+	local addPart=added:Wait()
+	
+	--Prevents multiple events from firing at once.
+	local done
+	
+	--Takes care of the event for undoing changes.
+	spawn(function()local rName=hist.OnUndo:
+	Wait()if done then return end done=true
+		db.print'Action undone'
+	end)
+	
+	--Takes care of the event for redoing changes.
+	spawn(function()local rName=hist.OnRedo:
+	Wait()if done then return end done=true
+		db.print'Action redone'
+	end)
+	
+	--Waits for the events to lapse.
+	wait()if done then return end
+	
+	local canUndo,undoName=hist:GetCanUndo()
+	if canUndo then
+		db.print(undoName)
+	end
+		
+	debounce=false
+end)
+
+hist.OnUndo:Connect(function(name)
+	
+end)
+
+--Event for manually changing selection.
+selSer.SelectionChanged:Connect(function()
+	if debounce then return end debounce=true
+	callBind('selChanged',selSer:Get())
+	debounce=false
+end)
+
+return{
+	bind=function(n,f)binds[n]=f end,
+	getBind=function(n)return binds[n]end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
