@@ -39,26 +39,26 @@
 		<Item class="Camera" referent="RBX38A4A41F9469486184BA8CB910B86531">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-18.9302177</X>
-					<Y>32.8702278</Y>
-					<Z>-42.5864792</Z>
-					<R00>0.990381181</R00>
-					<R01>-0.0635657683</R01>
-					<R02>0.122900359</R02>
-					<R10>3.72528985e-09</R10>
-					<R11>0.888227642</R11>
-					<R12>0.459403664</R12>
-					<R20>-0.13836582</R20>
-					<R21>-0.454984754</R21>
-					<R22>0.879683971</R22>
+					<X>-27.2530842</X>
+					<Y>36.6004562</Y>
+					<Z>-46.5220909</Z>
+					<R00>0.997051954</R00>
+					<R01>-0.0427962914</R01>
+					<R02>0.0636873171</R02>
+					<R10>-3.72529074e-09</R10>
+					<R11>0.830011189</R11>
+					<R12>0.557746828</R12>
+					<R20>-0.0767306834</R20>
+					<R21>-0.556102574</R21>
+					<R22>0.82756412</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-19.1760197</X>
-					<Y>31.951416</Y>
-					<Z>-44.3458557</Z>
+					<X>-27.3804588</X>
+					<Y>35.4849625</Y>
+					<Z>-48.1772194</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -1001,13 +1001,13 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX6F0F03BE835141BC9B673C828D3EA746">
+		<Item class="Folder" referent="RBX876BE8D9154541609E040AC6CFA8C844">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBXDF94A83802824082A031992768C822D6">
+		<Item class="Folder" referent="RBX1A99A3CB787E432D95B11DCA4284EB01">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -3696,7 +3696,7 @@ return{
 					<ProtectedString name="Source"><![CDATA[local evtMod=require(script.Parent.PartEventModule)
 local algorSel=require(script.AlgorChooserModule)
 local db=require(script.Parent.DebugModule)
-local stMod=require(script.SelTagModule)
+--local stMod=require(script.SelTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=script.Parent.Active
 local selMappings={}
@@ -3802,19 +3802,26 @@ function addG(a,p,...)
 	
 	g.main.Parent=par
 	selGroups[g.main]=g
-	stMod.bindG(g)
+	--stMod.bindG(g)
 	return g
 end
 
 function removeG(i)
 	if not selGroups[i]then return end
-	local g=selGroups[i]stMod.unbindG(g)
+	local g=selGroups[i]--stMod.unbindG(g)
 	
 	if g.algor.asUnit then
 		removeP(g.main)
 	end
-	g.algor.output(i,selGroups[i].parts)
+	g.algor.output(i,g.parts)
 	selGroups[i]=nil return true
+end
+
+--Conditionally calls the group's respective algorithm function.
+function callGroupFunc(partI,name,...)
+	if not selGroups[partI]then return end
+	local g=selGroups[partI]local f=g.algor[name]
+	if f then return f(partI,g.parts,...)end
 end
 
 --Selects part to a group if one already lists it.
@@ -3919,8 +3926,8 @@ function removeC(p)
 	return r
 end
 
---Replaces the table values.
-function replaceTbl(t)
+--Efficiently replaces table indicies with corresponding values.
+function replaceTblRaw(t)
 	
 	--Returns if locked or nothing in the table.
 	if locked or not next(t)then return end
@@ -3979,6 +3986,10 @@ function shift(p)
 	end
 end
 
+function getStudioSels()
+	return game.Selection:Get()
+end
+
 function setStudioSels(t)
 	studioSels=t or studioSels
 	game.Selection:Set(studioSels)
@@ -3989,9 +4000,8 @@ function selChanged()
 	db.print'SelectionChanged event fired'
 	hb:wait()
 	
-	local logs={}
-	local old=studioSels
-	studioSels=selGet
+	local logs,old={},studioSels
+	studioSels=getStudioSels()
 	
 	--Searches for objects to add.
 	for i,p1 in next,studioSels do
@@ -4112,13 +4122,30 @@ function unlock()db.print'Selection unlocked'locked=false end
 --Binds the refined selection event.
 evtMod.bind('selChanged',selChanged)
 
+--[[
+evtMod.bind('modifyGroup',function(addT,remT)
+		for p,t in next,tagT do
+			bind.modify(p,t,addT,remT)
+		end
+end)
+]]
+
+--Implements bind for the negation of parts.
+evtMod.bind('negateSel',function(addT,remT)
+	
+	--Attempts to send sone event data to each of the groups.
+	for i,g in next,selGroups do callGroupFunc(i,'modify',addT,remT)end
+	
+	--Generates a one-to-one table that will be used to modify the current selection.
+	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
+end)
+
 return{
 	add=addC,get=get,
 	remove=removeC,
 	
-	shift=shift,
-	set=setStudioSels,
-	replaceTbl=replaceTbl,
+	shift=shift,set=setStudioSels,
+	replaceTblRaw=replaceTblRaw,
 	
 	lock=lock,unlock=unlock,
 	bind=function(f)binds[#binds+1]=f end,
@@ -4217,14 +4244,8 @@ return{
 						<string name="ScriptGuid">{D69757DD-6315-40B9-AA7F-0282C8C102C4}</string>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 
---Efficiently 'explodes' all negative parts.
-function unnegate(f)
-	local pT={}
-	for i,p in next,f:children() do
-		if p:isA'NegativeOperation'then
-			pT[#pT+1]=p
-		end
-	end
+--Explodes negative parts.
+function unnegate(pT)
 	
 	--The case with no NegativeParts.
 	if#pT==0 then return end
@@ -4234,10 +4255,17 @@ function unnegate(f)
 	for i,p in next,nT do
 		p.Name='RLVP_Negative'
 	end
+	return true
 end
 
 --Explodes the union and group its parts.
 function separate(u)
+	if u:isA'NegativePart'then
+	u=plugin:Negate(u)end
+	
+	if not u:isA'UnionOperation'
+	then return u,{u}end
+	
 	local f=Instance.new'Folder'
 	local par=u.Parent
 	u.Parent=f
@@ -4245,16 +4273,30 @@ function separate(u)
 	--Separates and sets the parent.
 	local t=plugin:Separate{u}
 	f.Parent=par
-	return f
+	return f,f:children()
 end
 
 --Explodes a union and adds residue into the table.
 function explode(u,t)
-	local f=separate(u)
+	t=t or{}
+	local c=0
+	local prepNegT={}
+	local negIndexT={}
+	local f,t=separate(u)
 	for i,p in next,f:children() do
 		if p:isA'UnionOperation'then
-		explode(p)else t[#t+1]=p end
-	end unnegate(f)return f,t
+			explode(p,t)
+		elseif p:isA'NegativePart'then
+			local i=#t+1
+			c=c+1
+			negIndexT[c]=i
+			prepNegT[c]=p
+			t[i]=p
+		else t[i]=p end
+	end
+	local negT=unnegate(prepNegT)
+	for i=1,c do t[negIndexT[i]]=negT[i]end
+	return f,t
 end
 
 --Efficiently negates tagged parts.
@@ -4283,116 +4325,34 @@ end
 
 return{
 	asUnit=false,
-	input=function(o)
-		return explode(o,{})
-	end,
+	input=--[[function(o)
+		return ]]explode--[[(o,{})
+	end]],
 	get=function(f,t)
 		return t[1]
 	end,
 	output=--[[function(f,t)
 		return ]]implode--[[(f)
 	end]],
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBX3834C3FFBE594C309B7A4E053512792F">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">SelTagModule</string>
-						<string name="ScriptGuid">{63C7A4B9-0351-4559-BAFD-346EF5CE4887}</string>
-						<ProtectedString name="Source"><![CDATA[local db=require(script.Parent.Parent.DebugModule)
-local cs=game.CollectionService
-
-function randomHash()
-	local t={}
-	for i=1,13 do
-		t[i]=string.char(64+math.random(26))
-	end
-	local s=table.concat(t)
-	return s
-end
-
-local binds={}
-local events={}
-function bindG(group)
-	local hash=randomHash()
-	local partT=group.parts
-	binds[hash]=group
-	
-	--Adds each part to the tagging.
-	for i,p in next,partT do
-	cs:AddTag(p,hash)end
-	
-	--Adds events.
-	events[hash]={
+	modify=function(folder,currPT,addT,remT)
 		
-		--The event of adding parts to the tag.
-		cs:GetInstanceAddedSignal(hash):connect(function(p)
-			db.print('Part added to tag',hash,p)
-			
-			--Doesn't do anything if locked.
-			if group.locked then return end
-			
-			--Tries to fire the algorithm's event, halts if returns false.
-			if group.algor.add and not group.algor.add(p,group)then return end
-			
-			--Adds to the group's table.
-			partT[#partT+1]=p
-		end),
-		
-		--The event of removing parts from the tag.
-		cs:GetInstanceRemovedSignal(hash):connect(function(p)
-			db.print('Part removed from tag',hash,p)
-			
-			--Doesn't do anything if locked.
-			if group.locked then return end
-			
-			--Tries to fire the algorithm's event, halts if returns something false.
-			if group.algor.remove and not group.algor.remove(p,group)then return end
-			
-			--Removes all traces if as a unit, it's destroyed.
-			if group.algor.asUnit then unbindG(group)return end
-			
-			--Otherwise, remove the part from the part table.
-			for i=#partT,1,-1 do if partT[i]==p then for I=i
-			,#partT do partT[I]=partT[I+1]end break end end
-		end),
-	}
-end
-
-function unbindG(group)
-	local hash
-	for i,g in next,binds do
-		if g==group then
-			hash=i
-			break
+		--Explodes all newly-added parts, adds the residue in.
+		local newT={}
+		for i,addP in next,addT do
+			if addP:IsDescendantOf(folder) then
+				local t=select(2,explode(addP))
+				for i,expP in next,t do
+					newT[#newT+1]=expP
+				end
+				
+			--Runoff for parts not in the group.
+			else newT[#newT+1]=addP end
 		end
-	end
-	
-	--Prevents errors in the future.
-	if not hash then return end
-	
-	--Disconnects the events.
-	local eT=events[hash]
-	for i,e in next,eT do
-		e:disconnect()
-		eT[i]=nil
-	end
-	
-	--Removes each part from the tagging.
-	for i,p in next,group.parts do
-		cs:RemoveTag(p,hash)
-	end
-	
-	--Removes cache.
-	binds[hash]=nil
-	events[hash]=nil
-end
-
-return{
-	bindG=bindG,
-	unbindG=unbindG,
+		
+		--Clones the contents of newT to addT.
+		local l=math.max(#newT,#addT)
+		for i=1,l do addT[i]=newT[i]end
+	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -4491,6 +4451,7 @@ return{
 					<string name="ScriptGuid">{1FCEB657-1CD6-48F9-8D60-BF8E6CA2F16F}</string>
 					<ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
 local ogMod=require(script.Parent.OriginModule)
+local db=require(script.Parent.DebugModule)
 
 local binds={}
 local bind,tagT
@@ -4513,6 +4474,7 @@ end
 function set(modeT)
 	if tagT then return end
 	local hash=modeHash(modeT)
+	db.print'Tool set.'
 	bind=binds[hash]
 	tagT={}
 	
@@ -4538,8 +4500,7 @@ function set(modeT)
 			repT[p]=nP
 			
 			--If the altered part happened to be an origin.
-			if o==p then for p,t in next,tags
-			do t.origin=nP end o=nP end
+			if o==p then tags.origin=nP o=nP end
 		end
 	end
 	
@@ -4548,11 +4509,12 @@ function set(modeT)
 	tagT[o].isOrigin=true
 	
 	--Procrastinated call for efficient looping.
-	sel.replaceTbl(repT)
+	sel.replaceTblRaw(repT)
 end
 
 function unset()
 	if not tagT then return end
+	db.print'Tool unset.'
 	local repT={}
 	
 	for p,t in next,tagT do
@@ -4570,7 +4532,7 @@ function unset()
 	end
 	
 	--Procrastinated call for efficient looping.
-	sel.replaceTbl(repT)
+	sel.replaceTblRaw(repT)
 	
 	--Variables are reset.
 	tagT,bind=nil,nil
@@ -4632,7 +4594,7 @@ function execC(modeT,...)
 			end
 			
 			--Procrastinated call for efficient looping.
-			sel.replaceTbl(repT)
+			sel.replaceTblRaw(repT)
 			
 		else
 			for i,p in next,t do
@@ -9721,6 +9683,7 @@ return{
 					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
 					<ProtectedString name="Source"><![CDATA[local db=require(script.Parent.DebugModule)
 local hist=game.ChangeHistoryService
+local actv=script.Parent.Active
 local selSer=game.Selection
 local binds,debounce={}
 hist:SetEnabled(true)
@@ -9728,26 +9691,50 @@ hist:SetEnabled(true)
 local added=game.DescendantAdded
 local remov=game.DescendantRemoving
 
+--Prevents permission-level issues for class security checks.
+function check(p)return pcall(function()return p.ClassName end)end
+
 --Safely calls a binded function.
 function callBind(n,...)
 	return binds[n]and binds[n](...)
 end
 
+--Executes an action that relates to the one listed in undo history.
+function wpAction(aT,rT)
+	local canUndo,wp=hist:GetCanUndo()
+	if not canUndo then return end
+	
+	db.print(wp,'added to undo history.')
+	if wp=='NegateSelection'then
+		if#aT==#rT then
+			callBind('negateSel',aT,rT)
+		end
+	end
+end
+
 --Event that fires when something gets added.
 added:Connect(function(p)
-	if debounce then return
-	end debounce=true
 	
-	debounce=false
-end)
-
---Event that fires when something gets removed.
-remov:Connect(function(remPart)
-	if debounce then return
-	end debounce=true
+	--Self-explanitorily prevents unneeded calls and calls that could error out.
+	if not check(p)or not actv.Value or debounce then return end debounce=true
 	
-	--The added part we expect.
-	local addPart=added:Wait()
+	--Aggregate tables for additional modifications.
+	local addParts,remParts={p},{}
+	db.print('Added (first): ',p)
+	
+	--Event for placing added parts in aggreagte table.
+	local addC=added:Connect(function(p)
+		if not check(p)then return end
+		db.print('Added: ',p)
+		addParts[#addParts+1]=p
+	end)
+	
+	--Event for placing removed parts in aggreagte table.
+	local remC=remov:Connect(function(p)
+		if not check(p)then return end
+		db.print('Removed: ',p)
+		remParts[#remParts+1]=p
+	end)
 	
 	--Prevents multiple events from firing at once.
 	local done
@@ -9756,39 +9743,119 @@ remov:Connect(function(remPart)
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
 		db.print'Action undone'
+		addC:Disconnect()
+		remC:Disconnect()
 	end)
 	
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
 		db.print'Action redone'
+		addC:Disconnect()
+		remC:Disconnect()
 	end)
 	
-	--Waits for the events to lapse.
-	wait()if done then return end
+	--Waits for events to lapse.
+	wait()
+	addC:Disconnect()
+	remC:Disconnect()
+	if done then return end
 	
-	local canUndo,undoName=hist:GetCanUndo()
-	if canUndo then
-		db.print(undoName)
-	end
-		
+	wpAction(addParts,remParts)
 	debounce=false
 end)
 
-hist.OnUndo:Connect(function(name)
+--Event that fires when something gets removed.
+remov:Connect(function(p)
 	
+	--Self-explanitorily prevents unneeded calls and calls that could error out.
+	if not check(p)or not actv.Value or debounce then return end debounce=true
+	
+	--Aggregate tables for additional modifications.
+	local addParts,remParts={},{p}
+	db.print('Removed (first): ',p)
+	
+	--Event for placing added parts in aggreagte table.
+	local addC=added:Connect(function(p)
+		if not check(p)then return end
+		db.print('Added: ',p)
+		addParts[#addParts+1]=p
+	end)
+	
+	--Event for placing removed parts in aggreagte table.
+	local remC=remov:Connect(function(p)
+		if not check(p)then return end
+		db.print('Removed: ',p)
+		remParts[#remParts+1]=p
+	end)
+	
+	--Prevents multiple events from firing at once.
+	local done
+	
+	--Takes care of the event for undoing changes.
+	spawn(function()local rName=hist.OnUndo:
+	Wait()if done then return end done=true
+		db.print'Action undone'
+		addC:Disconnect()
+		remC:Disconnect()
+	end)
+	
+	--Takes care of the event for redoing changes.
+	spawn(function()local rName=hist.OnRedo:
+	Wait()if done then return end done=true
+		db.print'Action redone'
+		addC:Disconnect()
+		remC:Disconnect()
+	end)
+	
+	--Waits for events to lapse.
+	wait()
+	addC:Disconnect()
+	remC:Disconnect()
+	if done then return end
+	
+	wpAction(addParts,remParts)
+	debounce=false
 end)
+
+--[[
+hist.OnUndo:Connect(function(name)
+	TODO: cases when the undo event fires first.
+end)
+]]
 
 --Event for manually changing selection.
 selSer.SelectionChanged:Connect(function()
 	if debounce then return end debounce=true
-	callBind('selChanged',selSer:Get())
+	callBind('selChanged')
 	debounce=false
 end)
 
 return{
 	bind=function(n,f)binds[n]=f end,
 	getBind=function(n)return binds[n]end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX94473554DE63472F87C6196D86813185">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">EventOrderModule</string>
+					<string name="ScriptGuid">{87E3086D-528A-4407-A3E2-D2F063EE5C4C}</string>
+					<ProtectedString name="Source"><![CDATA[return{
+	order=function(w,...)
+		local t,done={...}
+		spawn(function()
+			local l=#t
+			for i=1,l do
+				t[i]:Wait()
+			end
+			done=true
+		end)
+		wait(w)
+		return done
+	end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
