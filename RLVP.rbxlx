@@ -1,12 +1,12 @@
 <roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Workspace" referent="RBXB554AE88F5944068A0A7F9EBD1185225">
+	<Item class="Workspace" referent="RBX6F7BDADC44C14D9082259DD806D465B1">
 		<Properties>
 			<bool name="AllowThirdPartySales">false</bool>
 			<token name="AutoJointsMode">0</token>
 			<string name="CollisionGroups">Default^0^1</string>
-			<Ref name="CurrentCamera">RBXC19F6D0AECB84006BE3B321F92A39495</Ref>
+			<Ref name="CurrentCamera">RBXA066C25127644ED591E752D0F7C276A7</Ref>
 			<double name="DistributedGameTime">0</double>
 			<bool name="ExplicitAutoJoints">true</bool>
 			<float name="FallenPartsDestroyHeight">-500</float>
@@ -36,7 +36,7 @@
 			<bool name="TemporaryLegacyPhysicsSolverOverrideStreaming">false</bool>
 			<bool name="TerrainWeldsFixed">true</bool>
 		</Properties>
-		<Item class="Camera" referent="RBXC19F6D0AECB84006BE3B321F92A39495">
+		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
 					<X>-27.2808075</X>
@@ -75,7 +75,7 @@
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Terrain" referent="RBXA336D3A5141E4215ABC71BBD36F654E7">
+		<Item class="Terrain" referent="RBX638D4F314C44484992F0917305FB47D8">
 			<Properties>
 				<bool name="Anchored">true</bool>
 				<float name="BackParamA">-0.5</float>
@@ -161,7 +161,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="NegateOperation" referent="RBXAE8F8B90425542C1B76448288444D697">
+		<Item class="NegateOperation" referent="RBXE1A49830D1B1401086CB4B7580C1706C">
 			<Properties>
 				<bool name="Anchored">true</bool>
 				<Content name="AssetId"><null></null></Content>
@@ -247,7 +247,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX61A519A6FB30471EBE9D128D3A1ECB3F">
+		<Item class="Part" referent="RBXA6407542B65E4C778FC899BC41280837">
 			<Properties>
 				<bool name="Anchored">true</bool>
 				<float name="BackParamA">-0.5</float>
@@ -322,7 +322,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="UnionOperation" referent="RBX7219925E4F8C45D1B0F11D8B3C54895C">
+		<Item class="UnionOperation" referent="RBXF83A664FDEE141C585C7D055FF236BAB">
 			<Properties>
 				<bool name="Anchored">true</bool>
 				<Content name="AssetId"><null></null></Content>
@@ -409,7 +409,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 			</Properties>
 		</Item>
 	</Item>
-	<Item class="SoundService" referent="RBXA0935C5FD7B946C3800D96C6E255C753">
+	<Item class="SoundService" referent="RBXF1AACD91FB2243C59ADB93D92D032DEE">
 		<Properties>
 			<token name="AmbientReverb">0</token>
 			<float name="DistanceFactor">3.32999992</float>
@@ -420,12 +420,12 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="NonReplicatedCSGDictionaryService" referent="RBXA9EAEC3AE46F4583B3D9C762AF17B1D1">
+	<Item class="NonReplicatedCSGDictionaryService" referent="RBXC4CF2A46AAB14DF985D680E28155EADF">
 		<Properties>
 			<string name="Name">NonReplicatedCSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBXD33712770EBC462D83B65D4D3FEE18D2">
+		<Item class="BinaryStringValue" referent="RBX50F8656F6D5541EAA36BE6A50BFF1E2D">
 			<Properties>
 				<string name="Name">ChildData</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -468,7 +468,7 @@ EgAAAAFQUk9QGwAAABkAAAAAAAAA8AoAAAAABAAAAHNpemUOg9AAAIOwAACAAAAAUFJOVA4A
 AAANAAAAAAAAANAAAQAAAAAAAAAAAAABRU5EAAAAAAAJAAAAAAAAADwvcm9ibG94Pg==]]></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="BinaryStringValue" referent="RBX817191A08ACE482089246B90037CBCF1">
+		<Item class="BinaryStringValue" referent="RBX02705724C79641D384AEA3200128E135">
 			<Properties>
 				<string name="Name">ChildData</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -515,12 +515,12 @@ ABUAAAAAAAAANQACAAEAkAIAAAAAAAABAEVORAAAAAAACQAAAAAAAAA8L3JvYmxveD4=]]></BinaryS
 			</Properties>
 		</Item>
 	</Item>
-	<Item class="CSGDictionaryService" referent="RBXD67E21B05D6449059AA0A03AC2020C33">
+	<Item class="CSGDictionaryService" referent="RBXAEB53D2F437D460D9E74131BEE63AA7D">
 		<Properties>
 			<string name="Name">CSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBX44614B82AFCA4061BC356BCD3193F7DF">
+		<Item class="BinaryStringValue" referent="RBX70F0DBDDACBB44A8811D22FD2D85551A">
 			<Properties>
 				<string name="Name">PhysicsData</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -538,7 +538,7 @@ AAAOAAAABgAAAAkAAAAPAAAACQAAAAEAAAAPAAAAAQAAAAcAAAAPAAAABwAAAAkAAAAQAAAA
 AwAAAAkAAAAQAAAACQAAAAcAAAAQAAAABwAAAAMAAAA=]]></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="BinaryStringValue" referent="RBX520375478A7D4CFF8BB88B4D532CE697">
+		<Item class="BinaryStringValue" referent="RBX7F5A06B2BE9747CC8D3FBDE05249DF46">
 			<Properties>
 				<string name="Name">MeshData</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -586,7 +586,7 @@ UisUTyRZalMEekIublg8IDAEJmkMdxkBXgAJYDdpC1IrB0QkWWVZBHpWOW5YMSgwBDRuDHcM
 A14AGmA3aR12KwdP]]></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="BinaryStringValue" referent="RBX87870F8AA8BD49E59C70722C8CD37B68">
+		<Item class="BinaryStringValue" referent="RBX9F48CC26404C41E583D1A9A3755B3BD2">
 			<Properties>
 				<string name="Name">PhysicsData</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -598,7 +598,7 @@ AAAAAAAABAAAAAEAAAABAAAABAAAAAcAAAABAAAABwAAAAUAAAACAAAABQAAAAcAAAACAAAA
 BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="BinaryStringValue" referent="RBXB17F679294E147218BF834E8CC4FF102">
+		<Item class="BinaryStringValue" referent="RBXC650A6E06299418686671BE486D0E231">
 			<Properties>
 				<string name="Name">MeshData</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -708,7 +708,7 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			</Properties>
 		</Item>
 	</Item>
-	<Item class="Chat" referent="RBX27A6C1F85E324039ADCA0D5B909BA692">
+	<Item class="Chat" referent="RBXCA322646EEC14519A1FC4AFB5C34492A">
 		<Properties>
 			<bool name="BubbleChatEnabled">false</bool>
 			<bool name="LoadDefaultChat">true</bool>
@@ -716,13 +716,13 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="TimerService" referent="RBXEDA10874F09F4D05AB4AF62F770D8DDB">
+	<Item class="TimerService" referent="RBX1E584F3F17404AF49919EBE2FF756757">
 		<Properties>
 			<string name="Name">Instance</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="Players" referent="RBX415B09F331CF4E0E934CA8ED24CD76BB">
+	<Item class="Players" referent="RBXA3BD586B0942483CB7B965BFC16172B3">
 		<Properties>
 			<bool name="CharacterAutoLoads">true</bool>
 			<int name="MaxPlayersInternal">12</int>
@@ -732,19 +732,19 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="ReplicatedFirst" referent="RBX87BE04704F364B5EAA8937084DFA7470">
+	<Item class="ReplicatedFirst" referent="RBXCF929EA237E54478A70EA2AF2D5BAD68">
 		<Properties>
 			<string name="Name">ReplicatedFirst</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="TweenService" referent="RBX2F1043E5FFD1493EB744768B5F05C620">
+	<Item class="TweenService" referent="RBXFB01FF5EA1074C878655999F1B0A174C">
 		<Properties>
 			<string name="Name">TweenService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="StarterPlayer" referent="RBXE3D1A2F7879D41B29A94B6567EDEAE8D">
+	<Item class="StarterPlayer" referent="RBX7AD907E9380641E6ABAE2A1CFAB3ABEB">
 		<Properties>
 			<bool name="AllowCustomAnimations">true</bool>
 			<bool name="AutoJumpEnabled">true</bool>
@@ -786,26 +786,26 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<bool name="UserEmotesEnabled">true</bool>
 		</Properties>
-		<Item class="StarterPlayerScripts" referent="RBX0105AD743F374DDA95F25F49FA2FBD76">
+		<Item class="StarterPlayerScripts" referent="RBX618E6CDF46E942DFB7F10AE49018BB99">
 			<Properties>
 				<string name="Name">StarterPlayerScripts</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="StarterCharacterScripts" referent="RBX87FAC8AB07C445FF8641E83622DE47F2">
+		<Item class="StarterCharacterScripts" referent="RBX73C72A2F78E145519B10D2018B49F08F">
 			<Properties>
 				<string name="Name">StarterCharacterScripts</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
 	</Item>
-	<Item class="StarterPack" referent="RBXE6A5994D01E8413091545EA6E2D3A6D0">
+	<Item class="StarterPack" referent="RBXFBADA8744AC442898CD10ED336291E77">
 		<Properties>
 			<string name="Name">StarterPack</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="StarterGui" referent="RBX368024887BFE40B4875CEDED33CD2A3C">
+	<Item class="StarterGui" referent="RBX3535C17B0F9D4E1B9D45178FCDEF7A46">
 		<Properties>
 			<string name="Name">StarterGui</string>
 			<bool name="ResetPlayerGuiOnSpawn">true</bool>
@@ -814,37 +814,37 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="LocalizationService" referent="RBX49BCD03FC2C84667B78107B6A703C84A">
+	<Item class="LocalizationService" referent="RBX82051A25D574462DADC32446BF09A371">
 		<Properties>
 			<string name="Name">LocalizationService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="TeleportService" referent="RBXC38E570398474A1387E69670F1895F1A">
+	<Item class="TeleportService" referent="RBXF4FD356CA2154436AFD6AB113DED4243">
 		<Properties>
 			<string name="Name">Teleport Service</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="CollectionService" referent="RBX96D6050178404CC1B26B4E396332B04A">
+	<Item class="CollectionService" referent="RBXDB0C96CE98454F02B2CBC39A449001F9">
 		<Properties>
 			<string name="Name">CollectionService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="PhysicsService" referent="RBXB18D9C09A7854238A32EB291E2CD2CCA">
+	<Item class="PhysicsService" referent="RBXC2A23D6BC33C4D3E859D3D8977EAD8D7">
 		<Properties>
 			<string name="Name">PhysicsService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="Geometry" referent="RBX59DC7576215D4C0E862DA1534EFEFAC4">
+	<Item class="Geometry" referent="RBX91BE6307DB0A4D639C10C080DD9CD0F2">
 		<Properties>
 			<string name="Name">Geometry</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="InsertService" referent="RBX6B33516EC4374A24941CEE680343D4FE">
+	<Item class="InsertService" referent="RBX978409BB838D414CB21BA5F24AEBD7E4">
 		<Properties>
 			<bool name="AllowClientInsertModels">false</bool>
 			<bool name="AllowInsertFreeModels">false</bool>
@@ -852,93 +852,93 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="GamePassService" referent="RBX75DE7DCE55D14649A52D4B212833CB4C">
+	<Item class="GamePassService" referent="RBXF553FD97621A40A4B609A140BDAC6FA8">
 		<Properties>
 			<string name="Name">GamePassService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="Debris" referent="RBX28A025B43F7C441A87D6437CAFD1485A">
+	<Item class="Debris" referent="RBXDC196CE13BAC444A8634D5AE75DCC8FF">
 		<Properties>
 			<int name="MaxItems">1000</int>
 			<string name="Name">Debris</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="CookiesService" referent="RBX87F9BDF4A3DC4CFF825C8495AAFD4E5A">
+	<Item class="CookiesService" referent="RBXB59EE3D8E8414CD98E0B1765582D22A8">
 		<Properties>
 			<string name="Name">CookiesService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="VRService" referent="RBX9EB3022BC3444FA788E92A8A07303F9A">
+	<Item class="VRService" referent="RBX7781A38C1E1145BC9E403054F49979A9">
 		<Properties>
 			<string name="Name">VRService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="ContextActionService" referent="RBX81BC45B1FDEA4AA78C94D081D2287C85">
+	<Item class="ContextActionService" referent="RBX3682AAC7331F494DB9AD5F06BD67B882">
 		<Properties>
 			<string name="Name">ContextActionService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="ScriptService" referent="RBX23D016C8CD6145D08382026C4AD4618A">
+	<Item class="ScriptService" referent="RBXAE67EAF9BA9D4AA6BDEA5EF87216F9EA">
 		<Properties>
 			<string name="Name">Instance</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="AssetService" referent="RBXED2372C174E64829AB9B10AB6A99D324">
+	<Item class="AssetService" referent="RBXB07A7A2B9DDC4D809B16223EA76DAC3B">
 		<Properties>
 			<string name="Name">AssetService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="TouchInputService" referent="RBX4DD9F162E6DB426A8F874746DAC19CEA">
+	<Item class="TouchInputService" referent="RBX3771A809E0DC472E99DD3FD0A0207192">
 		<Properties>
 			<string name="Name">TouchInputService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="Selection" referent="RBXA5B7C03599A2445984AA6FD6D0BFC2F5">
+	<Item class="Selection" referent="RBX60C220D656CB47D9B72B14D1772F6668">
 		<Properties>
 			<string name="Name">Selection</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="ServerScriptService" referent="RBX2C59799582D54DD4ADB71AF5F0F829CC">
+	<Item class="ServerScriptService" referent="RBXC520CA5253FF432AB8421CF733EBCE4C">
 		<Properties>
 			<bool name="LoadStringEnabled">false</bool>
 			<string name="Name">ServerScriptService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="ServerStorage" referent="RBX3F08F1CC60ED461CA5841507EFEA5F4A">
+	<Item class="ServerStorage" referent="RBX864F4636612043CB9BA22C240B226423">
 		<Properties>
 			<string name="Name">ServerStorage</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="ReplicatedStorage" referent="RBX40BDACEA1F284D97B306EF8758DD9F81">
+	<Item class="ReplicatedStorage" referent="RBXBD7E5CB6415C4E0D822D28906C368EBC">
 		<Properties>
 			<string name="Name">ReplicatedStorage</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="Folder" referent="RBX7B9DDDCB657E4E9ABDC0685CD5ED5174">
+		<Item class="Folder" referent="RBXA3DC1A439A34404D806BA9DE21C706ED">
 			<Properties>
 				<string name="Name">PlayAnims</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
 	</Item>
-	<Item class="LuaWebService" referent="RBX2401280BFB9741D18B7FA8B934FFCE9A">
+	<Item class="LuaWebService" referent="RBXB3FFAD4CD9EF49EBBB33FD025475A8A4">
 		<Properties>
 			<string name="Name">Instance</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="Lighting" referent="RBX408219B8681C4123BB3E915EF34D39DA">
+	<Item class="Lighting" referent="RBX2618CFD65F6C45EC88E7222765A937BE">
 		<Properties>
 			<Color3 name="Ambient">
 				<R>0</R>
@@ -980,14 +980,14 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<string name="TimeOfDay">14:00:00</string>
 		</Properties>
 	</Item>
-	<Item class="HttpService" referent="RBXF18A145DB0894CD292E4040B2D56705C">
+	<Item class="HttpService" referent="RBX7678C9E69104452F93DC6FECECD5DEA8">
 		<Properties>
 			<bool name="HttpEnabled">false</bool>
 			<string name="Name">HttpService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="TestService" referent="RBX6F153846BCD745D49B56DDB896C85860">
+	<Item class="TestService" referent="RBX404EC13B8F684D9D9B96E75CAB2840FE">
 		<Properties>
 			<bool name="AutoRuns">true</bool>
 			<string name="Description"></string>
@@ -1001,37 +1001,13 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBXA95EE3C20BC5455C8C3B0F625518150F">
+		<Item class="Folder" referent="RBX0A2AD728124C434783599EFF02FE81B8">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBX27CEF11CBF44410B81B197BA158129A9">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX6DF446B44AA84199A2D630180B93C837">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXA8F753B037A2405486E67AA144DF3F6A">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXB05C39F94F5C4D51B4E72541F86F78C9">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="LocalScript" referent="RBX5BDC9B58CE844F25887E65F4C8CB76CE">
+		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
 				<Content name="LinkedSource"><null></null></Content>
@@ -1054,14 +1030,14 @@ t.Start(plugin)end
 return t]]></ProtectedString>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
-			<Item class="ObjectValue" referent="RBX9CCE03C88A964F4089AFA93BF2DDCE9C">
+			<Item class="ObjectValue" referent="RBXD75D0694474F45BEA3C20D71E5E2D64F">
 				<Properties>
 					<string name="Name">Plugin</string>
 					<BinaryString name="Tags"></BinaryString>
 					<Ref name="Value">null</Ref>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX057AC513C93449A7814625CEEB2C51C1">
+			<Item class="ModuleScript" referent="RBX90461FDB28994C2AAC4AC163146B96AB">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ButtonModule</string>
@@ -1120,7 +1096,7 @@ deactivate=deactivate}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX4A8C1B3F14D64993AFF0D28CAD6E72FE">
+			<Item class="ModuleScript" referent="RBXD4BD9FD7573C4AC5A2A6271A1FA98AFA">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">FormatModule</string>
@@ -1166,7 +1142,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXFBA2FE96EA934B60A4D8E0E962599544">
+			<Item class="ModuleScript" referent="RBX7FA084F054D1445BA9C370CB7F0957A5">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">GuiElemModule</string>
@@ -1428,7 +1404,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBX1D1557E5277F4E789D1B1952A96707F5">
+				<Item class="ModuleScript" referent="RBXD723FBFD866C4407910419EFF41E140C">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">increment</string>
@@ -1518,7 +1494,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="Frame" referent="RBX14E4A96564FB426C9D08512A73A30BB6">
+					<Item class="Frame" referent="RBX1859C9B51FF84C19886BBDE6138D23F8">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -1568,7 +1544,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBX814B5D9287F94CBA80B8B814E30619BF">
+						<Item class="Frame" referent="RBX25168AA7E5D5472DB0BDE1B30C15D991">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -1619,7 +1595,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="ScrollingFrame" referent="RBXFE43D3D6873546308D9F4C7947C0B630">
+						<Item class="ScrollingFrame" referent="RBXDEC13E8DB53948E98B1338D1E7AB4104">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -1694,7 +1670,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIListLayout" referent="RBX4DCB053A96C64CA5BFD7B5362F39552C">
+							<Item class="UIListLayout" referent="RBX8981188F698043F6B4B6A1F0D35D2F75">
 								<Properties>
 									<token name="FillDirection">1</token>
 									<token name="HorizontalAlignment">1</token>
@@ -1708,7 +1684,7 @@ return{
 									<token name="VerticalAlignment">1</token>
 								</Properties>
 							</Item>
-							<Item class="TextButton" referent="RBXA2BFE30EAE524D4EB41CBC0AD1ED628A">
+							<Item class="TextButton" referent="RBX5E6AA01B363B42F6A976F78CB6BCA0CA">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -1785,7 +1761,7 @@ return{
 							</Item>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX5E4C29411C2B44D0A6E2941BF89B3106">
+					<Item class="TextButton" referent="RBX6EEBC0C04395418C8A532E47CF6EBF4C">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -1860,7 +1836,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="Frame" referent="RBX36D3EC95DC0C4D2795390BD985EC9D62">
+					<Item class="Frame" referent="RBXD9D1EFC62333472A862FEAAE655B054E">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -1910,7 +1886,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBX17F1807472914161AFD3C789A93C44D7">
+						<Item class="Frame" referent="RBXD92A93D3D140468A8393B7B28A2C83B1">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -1961,7 +1937,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="ScrollingFrame" referent="RBX08127B3264394FE285A304DCB82DF9BE">
+						<Item class="ScrollingFrame" referent="RBX4C83BC7DC8AD413381EEF011A707544C">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -2036,7 +2012,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIListLayout" referent="RBX35CE5FD03B9B47BB8FA549249EAB2623">
+							<Item class="UIListLayout" referent="RBX0BCBC7003B1443629AE70C44C39EBFC4">
 								<Properties>
 									<token name="FillDirection">1</token>
 									<token name="HorizontalAlignment">1</token>
@@ -2050,7 +2026,7 @@ return{
 									<token name="VerticalAlignment">2</token>
 								</Properties>
 							</Item>
-							<Item class="TextButton" referent="RBX7298966D1EA347AD995CCA474CA70373">
+							<Item class="TextButton" referent="RBX64D8E80EE5784406BC1D7D3390CC4B01">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -2128,7 +2104,7 @@ return{
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBX6DBFDEA01AE64D99B9AC4A502A2D6224">
+				<Item class="ModuleScript" referent="RBX5032268311D24A65B4981124E053DA01">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">value</string>
@@ -2145,7 +2121,7 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXA130248B283E4CAD98E6C13E9C87129D">
+				<Item class="ModuleScript" referent="RBXA3BD1ECEC6BE4EB4A9F847C9B02682B4">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">tools</string>
@@ -2260,7 +2236,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="TextButton" referent="RBXDA99BDC77ABF48CA85F24A49C462170E">
+					<Item class="TextButton" referent="RBX0EBEB1BF026C41EA812F0E520CEECC09">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2334,7 +2310,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="TextLabel" referent="RBX6FBC6BBEB83542908AFFDF4E32A429EF">
+						<Item class="TextLabel" referent="RBX696F50B1C7D94E1C861008156EE19D9E">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -2407,7 +2383,7 @@ return{
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBXF42F7B1236AF41ACA70010868E4C5A9F">
+				<Item class="ModuleScript" referent="RBX9B43274F05DD4ACDA3BC189E5F9D6F0F">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">preview</string>
@@ -2489,7 +2465,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="MeshPart" referent="RBXB9C33FD8218643F99CAD036985E36A56">
+					<Item class="MeshPart" referent="RBX67EA90E7FBD54A76BA1FF48333998B62">
 						<Properties>
 							<bool name="Anchored">true</bool>
 							<float name="BackParamA">-0.5</float>
@@ -2573,7 +2549,7 @@ return{
 							</Vector3>
 						</Properties>
 					</Item>
-					<Item class="Part" referent="RBX14ED73ADE5B842768228197374A84156">
+					<Item class="Part" referent="RBX710B4FB90B1F4B41846F197D4F018A0D">
 						<Properties>
 							<bool name="Anchored">true</bool>
 							<float name="BackParamA">-0.5</float>
@@ -2649,7 +2625,7 @@ return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="Frame" referent="RBXA9AF41006CE04EC7A67F9C985778DAFF">
+				<Item class="Frame" referent="RBX247325F0B9764EF3BBAE573529D85E1A">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2699,7 +2675,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">-1</int>
 					</Properties>
-					<Item class="ImageButton" referent="RBX65FF0A99B3C74DD9BFB32243AF5538EC">
+					<Item class="ImageButton" referent="RBX8B3DABDFE02E4EA1889161049DD7C40A">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -2788,7 +2764,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="ImageButton" referent="RBXC02CAE4193F845D9B396B14F867D2BF9">
+					<Item class="ImageButton" referent="RBX837F25A19B8F4E3EAE8542B84AE7C526">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2877,7 +2853,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="ImageButton" referent="RBX377D71AA182640D78F717BB1AFBC235C">
+					<Item class="ImageButton" referent="RBXF80DD0FEAFE44B4097E7BE41F7A53EB3">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -2966,7 +2942,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="ImageButton" referent="RBX8B8805CEEF5F4D2FA7BB9AE694A16804">
+					<Item class="ImageButton" referent="RBXFCCD920A0884495B82BC187518506FF4">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -3056,7 +3032,7 @@ return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBXB63805B3165546E3B9D8ED03EC7D4C4D">
+				<Item class="ModuleScript" referent="RBXFA4219AB96DB4B9EAA4199BEE79CE12B">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">PosSettingModule</string>
@@ -3082,7 +3058,7 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX231958200198445A9AFD7F46A7709B42">
+			<Item class="ModuleScript" referent="RBXEFC6EE44EDF045D19BB9DA6D4A30B347">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">HandleModule</string>
@@ -3210,7 +3186,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Handles" referent="RBX8372AE180C764C4C823F34E38E23C659">
+				<Item class="Handles" referent="RBXF135C0FB8E5C4A269F8D457DF64E4FA6">
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<Color3 name="Color3">
@@ -3228,7 +3204,7 @@ return{
 						<bool name="Visible">true</bool>
 					</Properties>
 				</Item>
-				<Item class="Handles" referent="RBX15C18871468C42D9BD3651E9565C3D0B">
+				<Item class="Handles" referent="RBX7DE3831CB1B14E36AD65F110F5072D2D">
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<Color3 name="Color3">
@@ -3246,7 +3222,7 @@ return{
 						<bool name="Visible">true</bool>
 					</Properties>
 				</Item>
-				<Item class="ArcHandles" referent="RBX3D612F2B984A45358CF0E5ADE7CD4D40">
+				<Item class="ArcHandles" referent="RBX35971E1C63FC46B982E1BEE7FA7C7409">
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<Axes name="Axes">
@@ -3264,7 +3240,7 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX3DDF37970AC9473D958CE66CF1C9423D">
+			<Item class="ModuleScript" referent="RBXF5B66A7DC1ED45A1B61F3044A420B28F">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">IncrementModule</string>
@@ -3322,7 +3298,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXB448763B44044976B9CBD13FE506B519">
+			<Item class="ModuleScript" referent="RBXCD7E60D18A9F4821A469A9D9C03BFA52">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ModeModule</string>
@@ -3395,7 +3371,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX914319C380CD46789491E0EF59548AB2">
+			<Item class="ModuleScript" referent="RBXE0950CF80A504482A93EB3DB989C00FD">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">MouseModule</string>
@@ -3446,7 +3422,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX5D6018652B8E4BE197F6DAEB7A103637">
+			<Item class="ModuleScript" referent="RBX55453BE07E174BEEB8B7BA25C0B87213">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">OriginModule</string>
@@ -3590,7 +3566,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Part" referent="RBXCCB32DA3EB164CA79A6E7945ADC53D52">
+				<Item class="Part" referent="RBX614C057C85FF44DE8B28872ACFBEC596">
 					<Properties>
 						<bool name="Anchored">true</bool>
 						<float name="BackParamA">-0.5</float>
@@ -3665,9 +3641,9 @@ return{
 						</Vector3>
 					</Properties>
 				</Item>
-				<Item class="BoxHandleAdornment" referent="RBX1CD4BEE19C5C4ACCA24C3AC5C5DD1E7E">
+				<Item class="BoxHandleAdornment" referent="RBX7A4B8DBFA9E5457A8F5544D32F7A57B9">
 					<Properties>
-						<Ref name="Adornee">RBXCCB32DA3EB164CA79A6E7945ADC53D52</Ref>
+						<Ref name="Adornee">RBX614C057C85FF44DE8B28872ACFBEC596</Ref>
 						<bool name="AlwaysOnTop">true</bool>
 						<CoordinateFrame name="CFrame">
 							<X>0</X>
@@ -3706,7 +3682,7 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX603FE835B5494418BBF614FE7032F15F">
+			<Item class="ModuleScript" referent="RBX0B4D7F4AEB0A4138839262ACFC28EBAE">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelectionModule</string>
@@ -4151,6 +4127,15 @@ end)
 --Implements bind for the negation of parts.
 evtMod.bind('negateSel',function(addT,remT)
 	
+	--Filters out the unneccesary children.
+	for i=#remT,1,-1 do
+		if not remT[i]:isA'BasePart'then
+			for I=i,#remT do
+				remT[I]=remT[I+1]
+			end
+		end
+	end
+	
 	--Attempts to send sone event data to each of the groups; will modify addT and remT.
 	for i,g in next,selGroups do callGroupFunc(i,'modify','negateSel',addT,remT)end
 	
@@ -4172,7 +4157,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX22F97FC35BA047328A21BC119F2CE358">
+			<Item class="ModuleScript" referent="RBXBC384082FE654D78895AEEC7B84001E2">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ShortcutModule</string>
@@ -4258,7 +4243,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXD3C23347AC184396B83C7FADC3C7D398">
+			<Item class="ModuleScript" referent="RBX5FC2F0B42D4F415394BDCEEA45AFB322">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ToolModule</string>
@@ -4432,7 +4417,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXBEACFF025D3C42549BCF531671B0206A">
+				<Item class="ModuleScript" referent="RBXBADD3C92FF7A48629009C7E47E974222">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">MoveModule</string>
@@ -4456,7 +4441,7 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXEB64AE87373F4098A49D5C0EDE95E554">
+				<Item class="ModuleScript" referent="RBXA9F6ED1DD2CF4BCEA3A68A4DC9C5429A">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">ResizeModule</string>
@@ -4510,7 +4495,7 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBX2797B8090A4F49F0892363BFAA5FCCC2">
+				<Item class="ModuleScript" referent="RBX937FC90868A040189436D8E10099A9F3">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">RotateModule</string>
@@ -4536,7 +4521,7 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX9745BA2A44B1490DB225BB16DA5B6441">
+			<Item class="ModuleScript" referent="RBX58C29B0C031142EBA4644A97F9BA22EB">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">TweenModule</string>
@@ -4550,7 +4535,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ScreenGui" referent="RBX3E690AD1333D4A428169867E398556C1">
+			<Item class="ScreenGui" referent="RBX7BFB8CC350BE4E8DA94D23B65170A576">
 				<Properties>
 					<bool name="AutoLocalize">true</bool>
 					<int name="DisplayOrder">0</int>
@@ -4562,12 +4547,12 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 					<token name="ZIndexBehavior">1</token>
 				</Properties>
-				<Item class="Folder" referent="RBX39871B7AD66A40AF80C50B6AD593F1F5">
+				<Item class="Folder" referent="RBX5F53BA9105E24BB487E67FC08D233EC7">
 					<Properties>
 						<string name="Name">Elements</string>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="Frame" referent="RBXBF82AF28AEF64BFD8CD76A57C3611D37">
+					<Item class="Frame" referent="RBXB230B720A8BF4F00A1C3168EF103806C">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -4617,7 +4602,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">2</int>
 						</Properties>
-						<Item class="Frame" referent="RBX3D5D13CBB4AE44018B77BD3093CA668E">
+						<Item class="Frame" referent="RBXDF2A5B26C1284F65BA8759E5F4184CBC">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -4667,7 +4652,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="TextBox" referent="RBXBED29E9AD0814D09B327FE8E97F359EB">
+							<Item class="TextBox" referent="RBX006520870BFE43B1B1B3E40407AAC4A4">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -4748,7 +4733,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="ImageLabel" referent="RBX277EA60C890A4C06AA50DF0B3CF0EF35">
+							<Item class="ImageLabel" referent="RBXC1ACEE8E02464FCDA0FB199338966054">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -4831,7 +4816,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextButton" referent="RBX17888AC312994DB59694B2D3C96C6033">
+							<Item class="TextButton" referent="RBXA67A954A02CB4CA08B7545ED033C4F7B">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -4905,7 +4890,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="ImageLabel" referent="RBXB5452A97D8EA4267AFF3147F9F8419CD">
+								<Item class="ImageLabel" referent="RBX65500026E9814D0FA2D65FEDBD712FC5">
 									<Properties>
 										<bool name="Active">true</bool>
 										<Vector2 name="AnchorPoint">
@@ -4989,7 +4974,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="TextButton" referent="RBX067B6A773B01429EA7173D0D9547AFA7">
+							<Item class="TextButton" referent="RBX7A5EE7A663F5475C8B54E30DFFCBF5A3">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -5064,7 +5049,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextLabel" referent="RBX79B13FC6B0FB47D2949788F74D00EB75">
+							<Item class="TextLabel" referent="RBX52F9ABD878F64B86BFC0DE7099422A2A">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -5136,7 +5121,7 @@ return{
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="Frame" referent="RBX130BA831117C4FBC8D5E7BEAC525EC8E">
+						<Item class="Frame" referent="RBXBE81396109ED4C0AAF3C883797066015">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5187,7 +5172,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBX010635328F5A4C6FBAFE3E79A223FC68">
+						<Item class="TextLabel" referent="RBX89642EA6568C403C87361C90AE485B87">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5258,7 +5243,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBX7D51241B5EA04CEE95A935AF14A95A4D">
+						<Item class="Frame" referent="RBX9677D4AA68344EE68092BA70A4BF74DA">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5309,7 +5294,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBX61EF96448BE64ACB86A45E83D7AA4226">
+						<Item class="Frame" referent="RBXCF98EE598AFB43B59E63F05020AC54BF">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5359,7 +5344,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="TextBox" referent="RBXBF9518D4F51C476F8A9B64C630D00FDE">
+							<Item class="TextBox" referent="RBX4E3B2A0D9847496F97E081010921E3C1">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -5440,7 +5425,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="ImageLabel" referent="RBXD0BC1EDC43DB4E0E8797AE981613D11E">
+							<Item class="ImageLabel" referent="RBX31EA4B722A28407AA08736E5C87B9788">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -5523,7 +5508,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextButton" referent="RBX1D1B40D9AE8D4163830328F7E20F2D1A">
+							<Item class="TextButton" referent="RBXDE6D7E9B3D46426FB14FA630C8E3216E">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -5597,7 +5582,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="ImageLabel" referent="RBXEBE9840E96514F978CCB40C406926D04">
+								<Item class="ImageLabel" referent="RBXB6678001E72F411CAD43D74B7E7AF979">
 									<Properties>
 										<bool name="Active">true</bool>
 										<Vector2 name="AnchorPoint">
@@ -5681,7 +5666,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="TextButton" referent="RBX1623DBC11A9A4962ADF01AA70BC84C40">
+							<Item class="TextButton" referent="RBX74F3323C9BED4A4390C4C6427F8CB466">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -5756,7 +5741,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextLabel" referent="RBX46584F77010342648DB3EA6A5AA3C5A9">
+							<Item class="TextLabel" referent="RBX026AECD8D86845AEA2E1EC0798FAD445">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -5829,7 +5814,7 @@ return{
 							</Item>
 						</Item>
 					</Item>
-					<Item class="Frame" referent="RBXE16DF661B3F24AC180240361EBAA791C">
+					<Item class="Frame" referent="RBX6F023C9D7F45404A979F301C9E5245F5">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5879,7 +5864,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBXF99A7F591035419BBFAD5733EB4BBAC4">
+						<Item class="Frame" referent="RBX4329A64DC9EF498581C575EB9626FF59">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5930,7 +5915,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBXE4DB0208DD5F46A19C9E4EF7BCFF7AAA">
+						<Item class="TextLabel" referent="RBXFEA850D1A27F467AB92B22640A2471F6">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -6001,7 +5986,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBXCF3C8B88B2224A88A6775D924459917A">
+						<Item class="Frame" referent="RBX86B41A8C4F2E4329A719854D45CD4863">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -6052,7 +6037,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBX4F5369BB82FE44D59984CDB03EA8D4CB">
+						<Item class="Frame" referent="RBX2C855A77577747DEAB51C3C40590CFEB">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -6102,7 +6087,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">-1</int>
 							</Properties>
-							<Item class="Frame" referent="RBXD4A30816049241FA89A0710182E33F8E">
+							<Item class="Frame" referent="RBX5E9FEE2AD176464781740CCF8D036F70">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -6153,7 +6138,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="ScrollingFrame" referent="RBX32F42CF1399E4CF68491294EC9C08CC4">
+							<Item class="ScrollingFrame" referent="RBXBAF06AB7F13C47289F372F1B7088036B">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -6228,7 +6213,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="UIGridLayout" referent="RBX14489D1CA58D4FEE8DE3485A8F048796">
+								<Item class="UIGridLayout" referent="RBX1CC20C304661407491429D8A8D09BD4B">
 									<Properties>
 										<UDim2 name="CellPadding">
 											<XS>0</XS>
@@ -6253,7 +6238,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="Frame" referent="RBX4B92806683D44B65896C14B0B2C5868D">
+							<Item class="Frame" referent="RBX8099E2A1760240FFB7D30A67DF411C57">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -6305,7 +6290,7 @@ return{
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="ViewportFrame" referent="RBX609E3025808840AEB4CE84C0AF8A50D1">
+						<Item class="ViewportFrame" referent="RBXE20C5F3801D348C6A2ACBEDE205BF173">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Color3 name="Ambient">
@@ -6390,7 +6375,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Part" referent="RBXEB2C61F2B0A44294943538DF776B83AB">
+							<Item class="Part" referent="RBX4D33E4B52B024005A7852FB6D1F9FA90">
 								<Properties>
 									<bool name="Anchored">true</bool>
 									<float name="BackParamA">-0.5</float>
@@ -6464,7 +6449,7 @@ return{
 										<Z>2</Z>
 									</Vector3>
 								</Properties>
-								<Item class="Decal" referent="RBX629B6BDF3C944E36800C32A4F4C436E5">
+								<Item class="Decal" referent="RBX0C417E9591764F4DACEAF0046D42A28A">
 									<Properties>
 										<Color3 name="Color3">
 											<R>1</R>
@@ -6478,7 +6463,7 @@ return{
 										<float name="Transparency">0.800000012</float>
 									</Properties>
 								</Item>
-								<Item class="Decal" referent="RBX423353AFC4C74ACF97092C3A06137B6D">
+								<Item class="Decal" referent="RBX0D4E0C5D05C24BB487C627D0727B7955">
 									<Properties>
 										<Color3 name="Color3">
 											<R>1</R>
@@ -6493,7 +6478,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="Camera" referent="RBX03C0C5C6D32640D6930A82E03DF92E68">
+							<Item class="Camera" referent="RBXCC5EC06DB09F48A494083E6E08DAD413">
 								<Properties>
 									<CoordinateFrame name="CFrame">
 										<X>59.7601738</X>
@@ -6532,7 +6517,7 @@ return{
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="Part" referent="RBXF5705923F51748DBB1F9043A4C007631">
+							<Item class="Part" referent="RBX8B22B38B766A48FD99634F0E23FCA698">
 								<Properties>
 									<bool name="Anchored">true</bool>
 									<float name="BackParamA">-0.5</float>
@@ -6606,7 +6591,7 @@ return{
 										<Z>0.300000012</Z>
 									</Vector3>
 								</Properties>
-								<Item class="SpecialMesh" referent="RBXE577F4DBFDA94B9981F398FB695A54AA">
+								<Item class="SpecialMesh" referent="RBX054D05C0D2C74EA489E1FC43025EC9F7">
 									<Properties>
 										<token name="LODX">2</token>
 										<token name="LODY">2</token>
@@ -6633,7 +6618,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="Part" referent="RBX933BF4B6CCCA443896E4ABC35A3342B5">
+							<Item class="Part" referent="RBXE18BAD2E85A741F89CFB1F3D4F41EFB9">
 								<Properties>
 									<bool name="Anchored">true</bool>
 									<float name="BackParamA">-0.5</float>
@@ -6707,7 +6692,7 @@ return{
 										<Z>0.300000012</Z>
 									</Vector3>
 								</Properties>
-								<Item class="SpecialMesh" referent="RBX8C49A235F8C140B18EF7BC9FE6E63B5A">
+								<Item class="SpecialMesh" referent="RBX6985CC13FAA94C10A5F6B666D2BAEB7F">
 									<Properties>
 										<token name="LODX">2</token>
 										<token name="LODY">2</token>
@@ -6734,7 +6719,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="Part" referent="RBXD0BE85994FF44586BAE995BB358050C0">
+							<Item class="Part" referent="RBX2B17495ADE254FC1BCA3344848237568">
 								<Properties>
 									<bool name="Anchored">true</bool>
 									<float name="BackParamA">-0.5</float>
@@ -6808,7 +6793,7 @@ return{
 										<Z>0.300000012</Z>
 									</Vector3>
 								</Properties>
-								<Item class="CylinderMesh" referent="RBXA5D2BA9479D74175946E44EB90E6EE3A">
+								<Item class="CylinderMesh" referent="RBXF1C43FA029B147BEA85E1C28C8A0EC14">
 									<Properties>
 										<float name="Bevel">0</float>
 										<float name="Bevel Roundness">0</float>
@@ -6837,7 +6822,7 @@ return{
 							</Item>
 						</Item>
 					</Item>
-					<Item class="Frame" referent="RBX0E991196B4424F59921E6A180266B1AC">
+					<Item class="Frame" referent="RBXA95EB86868ED4FB4A7F9BF5057FBBEAF">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -6887,7 +6872,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBX7CD3FD6E949F4043BF0CBAD955BC0F3B">
+						<Item class="Frame" referent="RBXD3D19693A13549D6A0240AACEF1FD4D2">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -6938,7 +6923,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBX3E7C560A88A5472AA5A92113DF64B5BF">
+						<Item class="TextLabel" referent="RBXDC38ACD4C4904939902AFE0DB23B0D3B">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7009,7 +6994,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBX4F24484694324B469D1BDF29FD7DB2A8">
+						<Item class="Frame" referent="RBXA51B6793C466429287F326AD30AD23D5">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7060,7 +7045,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBXE2388408CB0F441A86F2F2089DC12984">
+						<Item class="Frame" referent="RBXE2A1089C50EE4E56B68A6157AA3884FE">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7110,7 +7095,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIGridLayout" referent="RBX5108E03ABF73423B93AFDEEBD493230D">
+							<Item class="UIGridLayout" referent="RBX29950A531F0A4E37AFAF35695E4DB091">
 								<Properties>
 									<UDim2 name="CellPadding">
 										<XS>0</XS>
@@ -7134,7 +7119,7 @@ return{
 									<token name="VerticalAlignment">1</token>
 								</Properties>
 							</Item>
-							<Item class="ImageButton" referent="RBX94ACF92100304C7F8A6A2926099E22EB">
+							<Item class="ImageButton" referent="RBX63116BE61C044C098DAC53E492E4ED34">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -7222,7 +7207,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="TextLabel" referent="RBX795D4B9ACCD04BE1BDB72F78A8F0E34B">
+								<Item class="TextLabel" referent="RBX7939743B78DF4761AF828147F88C39C4">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -7294,7 +7279,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="ImageButton" referent="RBX9E328C79E04A450387E5E920EACA9006">
+							<Item class="ImageButton" referent="RBX5060ED586C0A42F195EF4DFF77302D0B">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -7382,7 +7367,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="TextLabel" referent="RBXDA0CD999FB7848D095D9DEF559B465DE">
+								<Item class="TextLabel" referent="RBX28BA41E5E49E431FA3BEB8BBA1531B06">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -7454,7 +7439,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="ImageButton" referent="RBXF2EAEC96E6FB4532BCAE43DEC66FA5B3">
+							<Item class="ImageButton" referent="RBX23EBCAF021384518999F4CD53C1B5AD0">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -7542,7 +7527,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="TextLabel" referent="RBX073EB8EF69124AADAA909BE9D22C187A">
+								<Item class="TextLabel" referent="RBX52EA738EA8FD4857A6632F48153C4D70">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -7614,7 +7599,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="ImageButton" referent="RBXD11A81FE68514A7EAB5EBC87BE7B11EA">
+							<Item class="ImageButton" referent="RBXAE89C95BEA7C4A1EA5987EA0164F266B">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -7702,7 +7687,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="TextLabel" referent="RBXE682687F1B164B5E9B9FFEFAA0DC8EBA">
+								<Item class="TextLabel" referent="RBX5214F15E83F74E5582424CA751C4E3D8">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -7774,7 +7759,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="ImageButton" referent="RBXF0E1725695DE4FCAB59CDE71F6E48C7A">
+							<Item class="ImageButton" referent="RBXEDB9FE29821041E694A067A6B9155FDB">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -7862,7 +7847,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="TextLabel" referent="RBXA9C8574243564BFBA09CCDA93596A546">
+								<Item class="TextLabel" referent="RBXE6D05A47AEA14F73ABC61B61E6555CB3">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -7934,7 +7919,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="ImageButton" referent="RBXA9DA7CCB92924E28892FD594B96CB48B">
+							<Item class="ImageButton" referent="RBX0E700E5850D24B4BBC3BDE3B126FE63B">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -8022,7 +8007,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="TextLabel" referent="RBX78020C9C9DDC491B85598D516575CF7A">
+								<Item class="TextLabel" referent="RBX4E9F18E06D774B6183DF63D0775A156E">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -8095,7 +8080,7 @@ return{
 								</Item>
 							</Item>
 						</Item>
-						<Item class="Frame" referent="RBX0E35AF4D8F6F46DC9C238A402B629193">
+						<Item class="Frame" referent="RBX174F3788E79841A6811ADECABF81B93A">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -8145,7 +8130,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">-1</int>
 							</Properties>
-							<Item class="Frame" referent="RBX291530A0F2604134BB3EE0BE22FC419C">
+							<Item class="Frame" referent="RBX49120239BB6F4728A7129A6C0381F813">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -8196,7 +8181,7 @@ return{
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="ScrollingFrame" referent="RBXA1D3023994084997BF8F268AB845CFB7">
+							<Item class="ScrollingFrame" referent="RBXE02C5411FE2E4AE8B4F1D19EA5334713">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -8271,7 +8256,7 @@ return{
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="UIGridLayout" referent="RBX75D66D5802AF47C3A42B809E2C5185A6">
+								<Item class="UIGridLayout" referent="RBXE4BB9DF515754AFD90179CC766506026">
 									<Properties>
 										<UDim2 name="CellPadding">
 											<XS>0</XS>
@@ -8296,7 +8281,7 @@ return{
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="Frame" referent="RBX281533E0D7D64D368386F52C2489A7D3">
+							<Item class="Frame" referent="RBXC59878941B7F495A958FFA5DBFE6EA69">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -8349,7 +8334,7 @@ return{
 							</Item>
 						</Item>
 					</Item>
-					<Item class="Frame" referent="RBX72CD307153A44FD98CC3D56571C748FD">
+					<Item class="Frame" referent="RBX691AAF52A74F41119C0FCCB19AC6FCBB">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -8399,7 +8384,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBXD20BE1A299054C19B56D9F8B8098DADB">
+						<Item class="Frame" referent="RBX2191BE0769914E10874BBD8D31CD14DB">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -8449,7 +8434,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="TextLabel" referent="RBX709BD876385B45EEA2E7A8F010508353">
+							<Item class="TextLabel" referent="RBX717EDF879151445E9F0474D6AD6E080B">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -8521,7 +8506,7 @@ return{
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="Frame" referent="RBX25D5DE4E23184A1DA780347759D1A1CF">
+						<Item class="Frame" referent="RBX646B86288C424E72886B3926620DC502">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -8572,7 +8557,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBXB76FFC5853864DB5AF94FEEF8C939B94">
+						<Item class="TextLabel" referent="RBXC5D053256CB64F79A21B188D58E6821C">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -8643,7 +8628,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBXFDDD0696AE6A42A9A5FCC5214B5AE4AE">
+						<Item class="Frame" referent="RBXAE3FBFA8084C4EE6968EDD776FA414C4">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -8694,7 +8679,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="ModuleScript" referent="RBX23B40228E0ED47F9A23B28D8F9A1905F">
+						<Item class="ModuleScript" referent="RBX398265CAA6614E039E6071CA57192424">
 							<Properties>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">ModuleScript</string>
@@ -8712,7 +8697,7 @@ return{
 					</Item>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX91275617DFF744ADBDF294AF357EE312">
+			<Item class="ModuleScript" referent="RBXCCD0DCEFF5DE42138EC35B514183C463">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelEventModule</string>
@@ -8742,14 +8727,14 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="BoolValue" referent="RBX3EA9214B15734DB4BE5BA34F0B42D4A0">
+			<Item class="BoolValue" referent="RBX57FD765CBDEF4D2DBA6DD324EFA2D871">
 				<Properties>
 					<string name="Name">Active</string>
 					<BinaryString name="Tags"></BinaryString>
 					<bool name="Value">false</bool>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX56ACAB5865E845178B91BF2CF093A3C4">
+			<Item class="ModuleScript" referent="RBX2E0AE5203F0946808320A9A7FE8CCA44">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">DropdownModule</string>
@@ -8843,7 +8828,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Frame" referent="RBXB07A904B5AA840B799D1E17558B75893">
+				<Item class="Frame" referent="RBXA4C8F5DABB6547ECB608C18F4AD6D6EC">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -8893,7 +8878,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextLabel" referent="RBX42FBAD65DA174361BFC49650A0BC6FCB">
+					<Item class="TextLabel" referent="RBXB67AE9BE1C6747449C3F223870CC33A5">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -8964,7 +8949,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBXE10592642E45463F8ED41AD2C4A68AEC">
+					<Item class="TextLabel" referent="RBXB580D6B74F5641BFB73E44CA77347511">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -9035,7 +9020,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextButton" referent="RBX535885C82EEB4FD6AFFD6C6DDD556155">
+					<Item class="TextButton" referent="RBX7C479712787942D5A434E6A9ED2CF6E8">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -9111,7 +9096,7 @@ return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="Frame" referent="RBXE5FEEAE4EA064F54A584F7FEE482714D">
+				<Item class="Frame" referent="RBXA7F8CDBB474942349A200A70CC72E327">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -9161,7 +9146,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">2</int>
 					</Properties>
-					<Item class="Frame" referent="RBXCB87AFE024334BA8B1ABE88B110BA42F">
+					<Item class="Frame" referent="RBX72F1CA0FC941424CA7BA264355824DEF">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -9212,7 +9197,7 @@ return{
 							<int name="ZIndex">0</int>
 						</Properties>
 					</Item>
-					<Item class="Frame" referent="RBX631DC7EFB59C4919832C597D18051DBE">
+					<Item class="Frame" referent="RBX057004A197AF404AB5CB90300DA331FC">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -9263,7 +9248,7 @@ return{
 							<int name="ZIndex">0</int>
 						</Properties>
 					</Item>
-					<Item class="Frame" referent="RBXF720E4225BFC407A9AC67C62DCC4B21F">
+					<Item class="Frame" referent="RBX3E5F06B267B8478AAAD4B08AB9E004D1">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -9313,7 +9298,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIListLayout" referent="RBX59344CE70F12448BA27E675AFA3B4439">
+						<Item class="UIListLayout" referent="RBX6F08285161C74F3D841F21DF8AD754C2">
 							<Properties>
 								<token name="FillDirection">1</token>
 								<token name="HorizontalAlignment">1</token>
@@ -9328,14 +9313,14 @@ return{
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="BindableEvent" referent="RBX5E95BF2596714F83A9EA0424829474FE">
+					<Item class="BindableEvent" referent="RBX2A3885320A3C48E299EF7B77CD0046A9">
 						<Properties>
 							<string name="Name">Event</string>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="Frame" referent="RBX1CE26AC9F46E425B996AD3A9B1D62589">
+				<Item class="Frame" referent="RBXAEAD4665175C4C238B2BB54603473C0E">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -9385,7 +9370,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextLabel" referent="RBX1DDA93C42D8C4B17A704B355F5749A3F">
+					<Item class="TextLabel" referent="RBXBD174A25CD284D3DB633DE2EBF034F24">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -9458,7 +9443,7 @@ return{
 					</Item>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBXBB00F07363D94FD499459A9AA987E2B0">
+			<Item class="ModuleScript" referent="RBXA714850A0E1741DCB47A64EC0105FB75">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ViewportModule</string>
@@ -9476,7 +9461,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXFD2F1F59F097452C96B09912538A2CCC">
+			<Item class="ModuleScript" referent="RBXDC54C95BC35A4375BA01F49010AFAA0A">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">DebugModule</string>
@@ -9490,7 +9475,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX1AF466CDF51A4DAAA64725D58ED38DE1">
+			<Item class="ModuleScript" referent="RBXC22D989F56ED4CF4975E0B1DA614C08D">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">PartEventModule</string>
@@ -9652,7 +9637,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXE23E96A533194A399E8D9D24E115E457">
+			<Item class="ModuleScript" referent="RBX524BF499CB7F4C9B938BEE42E6DFDFF5">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">EventOrderModule</string>
@@ -9674,7 +9659,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXAA30E585CB274949AAE57BAE64D1436E">
+			<Item class="ModuleScript" referent="RBX4DBAB9354D8C4141A5FC5A662E33F7F9">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">PartFilterModule</string>
@@ -9687,7 +9672,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX945E95DA54DB45B7979057244B3A81DC">
+			<Item class="ModuleScript" referent="RBXB03E85F241CE4289BA6D59C5AABA2796">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">AlgorChooserModule</string>
@@ -9705,12 +9690,13 @@ return function(p)
 end]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBX01BB1DCCC5264E0C893FB3BFC07A13C4">
+				<Item class="ModuleScript" referent="RBXB50C67E2844045D4A2FE7898843D7A28">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">CSGModule</string>
 						<string name="ScriptGuid">{D69757DD-6315-40B9-AA7F-0282C8C102C4}</string>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
+local posN,negN='RLVP_Positive','RLVP_Negative'
 
 --Explodes the union and group its parts.
 function separate(u)
@@ -9720,8 +9706,7 @@ function separate(u)
 	if isNeg then u=plugin:Negate{u}[1]end
 	
 	--Generates a name for the new part(s).
-	local name='RLVP_'..(isNeg
-	and'Negative'or'Positive')
+	local name=isNeg and negN or posN
 	
 	--Returns just the part for iterator table if at its most basic.
 	if not u:isA'UnionOperation'then u.Name=name return u,{u}end
@@ -9756,28 +9741,19 @@ function explode(u)
 	return o,t
 end
 
---Efficiently negates tagged parts.
-function negate(f)
-	local pT={}
-	for i,p in next,f:children() do
-		if p.Name=='RLVP_Negative'then
-			pT[#pT+1]=p
+function implode(o)
+	if o:isA'Folder'then
+		local c=o:children()
+		for i,u in next,c do
+			c[i]=implode(u)
 		end
+		
+		--Unions the folder's parts and removes the now-empty folder it came from.
+		local u=plugin:Union(c)u.Parent=o.Parent o:destroy()return u
+	elseif o.Name==negN then
+		return plugin:Negate{o}[1]
 	end
-	
-	--The case with no parts to negate.
-	if#pT==0 then return end
-	
-	--Negates your negative parts.
-	local nT=plugin:Negate(pT)
-end
-
-function implode(f)
-	negate(f)for i,u in next,f:children()do
-	if u:isA'Folder'then implode(u)end end
-	
-	--Unions the folder's parts and removes the now-empty folder it came from.
-	local u=plugin:Union(f:children())u.Parent=f.Parent f:destroy()return u
+	return o
 end
 
 return{
@@ -9793,32 +9769,53 @@ return{
 	end]],
 	modify=function(folder,currPT,mode,addT,remT)
 		
-		--Explodes all newly-added parts, adds the residue in.
-		local newT={}
-		for i,addP in next,addT do
-			if addP:IsDescendantOf(folder)then
-				if mode=='negateSel'then
+		if mode=='negateSel'then
+			for i,addP in next,addT do
+				if addP:IsDescendantOf(folder)then
 					
+					--One-to-one correspondance.
+					local remP=remT[i]
+					
+					--Creates a new part embodying the properties.
+					local n=Instance.new'Part'
+					n.Size=addP.Size
+					n.CFrame=addP.CFrame
+					n.Anchored=true
+					n.Parent=addP.Parent
+					addP:destroy()
+					
+					--Renames the new part appropriately.
+					n.Name=remP.Name==negN and posN or negN 
+					
+					--Adds it.
+					addT[i]=n
 				end
-				
-				local t=select(2,explode(addP))
-				for i,expP in next,t do
-					newT[#newT+1]=expP
-				end
-				
-			--Runoff for parts not in the group.
-			else newT[#newT+1]=addP end
+			end
+		else
+			--Explodes all newly-added parts, adds the residue in.
+			local newT={}
+			for i,addP in next,addT do
+				if addP:IsDescendantOf(folder)then
+					
+					local t=select(2,explode(addP))
+					for i,expP in next,t do
+						newT[#newT+1]=expP
+					end
+					
+				--Runoff for parts not in the group.
+				else newT[#newT+1]=addP end
+			end
+			
+			--Clones the contents of newT to addT.
+			local l=math.max(#newT,#addT)
+			for i=1,l do addT[i]=newT[i]end
 		end
-		
-		--Clones the contents of newT to addT.
-		local l=math.max(#newT,#addT)
-		for i=1,l do addT[i]=newT[i]end
 	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXAE64E35FD0464407BA2E2D2C855EFC32">
+				<Item class="ModuleScript" referent="RBX189F1A2CB2A64E33B285FAD3C3F1B558">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">TestNonUnitModule</string>
@@ -9849,7 +9846,7 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXC5BEB65B01B84C8BAE3F8D559BF14CB0">
+				<Item class="ModuleScript" referent="RBX514021206B7540AAAEE815BCD3828A43">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">TestUnitModule</string>
@@ -9883,7 +9880,7 @@ return{
 			</Item>
 		</Item>
 	</Item>
-	<Item class="VirtualInputManager" referent="RBX73F73A34389B4A6EB0E9AFA52430F4A2">
+	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
 		<Properties>
 			<string name="Name">VirtualInputManager</string>
 			<BinaryString name="Tags"></BinaryString>
