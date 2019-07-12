@@ -205,6 +205,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 					<Y>27</Y>
 					<Z>2</Z>
 				</Vector3>
+				<BinaryString name="LODData"></BinaryString>
 				<float name="LeftParamA">-0.5</float>
 				<float name="LeftParamB">0.5</float>
 				<token name="LeftSurface">0</token>
@@ -366,6 +367,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 					<Y>6.99999809</Y>
 					<Z>9.00000381</Z>
 				</Vector3>
+				<BinaryString name="LODData"></BinaryString>
 				<float name="LeftParamA">-0.5</float>
 				<float name="LeftParamB">0.5</float>
 				<token name="LeftSurface">0</token>
@@ -1001,6 +1003,12 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXFD42A89375DC45DD9265F68B9884461C">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX0A2AD728124C434783599EFF02FE81B8">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -2506,6 +2514,7 @@ return{
 								<Y>2</Y>
 								<Z>2</Z>
 							</Vector3>
+							<BinaryString name="LODData"></BinaryString>
 							<float name="LeftParamA">-0.5</float>
 							<float name="LeftParamB">0.5</float>
 							<token name="LeftSurface">0</token>
@@ -3819,7 +3828,7 @@ function callGroupFunc(partI,name,...)
 end
 
 --Selects part to a group if one already lists it.
-function addPart2Group(p)
+function addGroupP(p)
 	
 	--Evaluates whether the part is already in a group.
 	--If the part to add is in a group, mark it and break the loop. 
@@ -3866,7 +3875,7 @@ function addC(p)
 	end locked=true
 	
 	local b=p and(
-		addPart2Group(p)or
+		addGroupP(p)or
 		createGroup(p)or
 		addP(p))
 	
@@ -3920,7 +3929,7 @@ function removeC(p)
 	return r
 end
 
---Efficiently replaces table indicies with corresponding values.
+--Efficiently replaces table indicies with corresponding values (one-to-one).
 function replaceTblRaw(t)
 	
 	--Returns if locked or nothing in the table.
@@ -3929,9 +3938,10 @@ function replaceTblRaw(t)
 	local grRedirs={}
 	for m,g in next,selGroups do
 		
-		--Redirects the main part of a group.
+		--Redirects the main part of group.
 		grRedirs[m]=t[m]or grRedirs[m]
 		
+		--Modifies the default selection parts.
 		local ds,pt=g.defSel,g.parts
 		if ds and ds~=pt then
 			for i,gp in next,ds do
@@ -3939,6 +3949,7 @@ function replaceTblRaw(t)
 			end
 		end
 		
+		--Modifies the group's part table.
 		for i,gp in next,pt do
 			pt[i]=t[gp]or pt[i]
 		end
@@ -3949,14 +3960,26 @@ function replaceTblRaw(t)
 	selGroups[p2]=selGroups[p1]
 	selGroups[p1]=nil end
 	
-	--Redirects your plugin-level selections.
+	--Redirects plugin-level selections.
 	for i,p in next,sels do
 	sels[i]=t[p]or sels[i]end
 	
-	--Redirects your studio selections.
+	--Creates groups from newly-selected parts.
+	for p1,p2 in next,t do
+		if not grRedirs[p1]then
+			local g=createGroup(p2)
+			if g then
+				grRedirs[p1]=g.main
+			end
+		end
+	end
+	
+	--Redirects studio selections.
 	for i,p in next,studioSels do
-		studioSels[i]=t[p]
-		or studioSels[i]
+		if not grRedirs[p]then
+			studioSels[i]=t[p
+			]or studioSels[i]
+		end
 	end
 	
 	--Redirects your selection mappings.
@@ -3989,27 +4012,7 @@ function setStudioSels(t)
 	game.Selection:Set(studioSels)
 end
 
-function selChanged()
-	if locked or not active.Value then return end
-	db.print'SelectionChanged event fired'
-	hb:wait()
-	
-	local logs,old={},studioSels
-	studioSels=getStudioSels()
-	
-	--Searches for objects to add.
-	for i,p1 in next,studioSels do
-		if selGroups[p1]then
-			local b='add' 
-			for I,p2 in next,old do
-				if p1==p2 then
-					b='keep'
-					break
-				end
-			end
-			logs[p1]=b
-		end
-	end
+function changeSel(changes)
 	
 	--Objects that need to be changed before proceeding.
 	local newSS={},{}
@@ -4017,35 +4020,28 @@ function selChanged()
 	--Redirects newly-selected parts.
 	for m,g in next,selGroups do
 		
-		--If as a unit, instead selects the respective main part.
+		--If as-a-unit, selects the group's main part.
 		if g.asUnit then for i,gp in next,g.parts do
-			if logs[gp]=='add'then
-				logs[gp]=nil
-				logs[m]='add'
+			if changes[gp]=='add'then
+				changes[gp]=nil
+				changes[m]='add'
 				break
 			end
 		end
 		
-		--If not as a unit, makes the main part's selection redirect to defSel.
-		elseif logs[m]then logs[m]=nil for i,gp in next,g.defSel do logs[gp]='add'end end
+		--If not as a unit, makes the main part's selection redirect to default selection table.
+		elseif changes[m]then changes[m]=nil for i,gp in next,g.defSel do changes[gp]='add'end end
 	end
 		
 	--Adds part to the new selection.
-	for p,l in next,logs do
-		if(l=='add'and pfMod.part(p))or l=='keep'then
+	for p,l in next,changes do
+		if l=='keep'then
 			newSS[#newSS+1]=p
 		end
 	end
 	
 	--Sets the redirects in stone.
 	studioSels,newSS=newSS,{}
-	
-	--Searches for objects to remove.
-	for i,p in next,old do
-		if not logs[p]then
-			logs[p]='remove'
-		end
-	end
 	
 	--Part table to efficiently remove from.
 	local remove={}
@@ -4057,31 +4053,31 @@ function selChanged()
 		if u then
 			
 			--Evaluates if at least one part got added/removed.
-			local a,r=logs[m]=='add',logs[m]=='remove'
+			local a,r=changes[m]=='add',changes[m]=='remove'
 			
 			--Removes the entire unit only if a part is being deselected and another one is NOT being selected.
-			if r and not a then removeG(m)logs[m]=nil end
+			if r and not a then removeG(m)changes[m]=nil end
 		else
 			--Evaluates whether all parts already selected within the selection group are being removed.
-			local all=true for i,gp in next,g.parts do if logs[gp]and'remove'~=logs[gp]then all=false break end end
+			local all=true for i,gp in next,g.parts do if changes[gp]and'remove'~=changes[gp]then all=false break end end
 			
 			--Removes the selection group ONLY if none are being added back.
 			if all then
 				for i,gp in next,g.parts do
-					if'remove'==logs[gp]then
+					if'remove'==changes[gp]then
 						removeP(gp)
-						logs[gp]=nil
+						changes[gp]=nil
 					end
 				end
 				removeG(m)
 			else
 				for i,gp in next,g.parts do
-					if'remove'==logs[gp]then
+					if'remove'==changes[gp]then
 						remove[gp]=true
-						logs[gp]=nil
-					elseif'add'==logs[gp]then
+						changes[gp]=nil
+					elseif'add'==changes[gp]then
 						newSS[#newSS+1]=gp
-						logs[gp]=nil
+						changes[gp]=nil
 						addP(gp)
 					end
 				end
@@ -4089,10 +4085,10 @@ function selChanged()
 		end
 	end
 	
-	for p,l in next,logs do
-		if l=='remove' then
+	for p,l in next,changes do
+		if l=='remove'then
 			remove[p]=true
-		elseif l=='add' then
+		elseif l=='add'and pfMod.part(p)then
 			local g=createGroup(p)
 			newSS[#newSS+1]=g and g
 			.main or addP(p)and p
@@ -4107,6 +4103,37 @@ function selChanged()
 	--Sets the redirects in stone.
 	studioSels=newSS
 	locked=false send()
+end
+
+function selChanged()
+	if locked or not active.Value then return end
+	db.print'SelectionChanged event fired'
+	hb:wait()
+	
+	local logs,old={},studioSels
+	studioSels=getStudioSels()
+	
+	--Searches for objects to add.
+	for i,p1 in next,studioSels do
+		local b='add' 
+		for I,p2 in next,old do
+			if p1==p2 then
+				b='keep'
+				break
+			end
+		end
+		logs[p1]=b
+	end
+	
+	--Searches for objects to remove.
+	for i,p in next,old do
+		if not logs[p]then
+			logs[p]='remove'
+		end
+	end
+	
+	--Does the reals.
+	changeSel(logs)
 end
 
 --The selection tags need locky functions; give it to them.
@@ -4149,6 +4176,7 @@ return{
 	
 	shift=shift,set=setStudioSels,
 	replaceTblRaw=replaceTblRaw,
+	changeSel=changeSel,
 	
 	lock=lock,unlock=unlock,
 	bind=function(f)binds[#binds+1]=f end,
