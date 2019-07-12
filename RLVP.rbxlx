@@ -215,8 +215,8 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				<token name="Material">256</token>
 				<BinaryString name="MeshData">Q1NHS2IwMWY2ZDc5YWRiMTlhZWM5NjFlYmUyZTliN2Y0YmIx</BinaryString>
 				<string name="Name">NegativePart</string>
-				<SharedString name="PhysicalConfigData">1B2M2Y8AsgTpgAmY7PhCfg==</SharedString>
-				<BinaryString name="PhysicsData">Q1NHS2JjNjY4ZWYzNzZhYzkzNTNhOTliYmZhZDUxOTY2MzIx</BinaryString>
+				<SharedString name="PhysicalConfigData">SRl+poCPnMErgBH18N4zzw==</SharedString>
+				<BinaryString name="PhysicsData"></BinaryString>
 				<float name="Reflectance">0</float>
 				<token name="RenderFidelity">1</token>
 				<float name="RightParamA">-0.5</float>
@@ -522,24 +522,6 @@ ABUAAAAAAAAANQACAAEAkAIAAAAAAAABAEVORAAAAAAACQAAAAAAAAA8L3JvYmxveD4=]]></BinaryS
 			<string name="Name">CSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBX70F0DBDDACBB44A8811D22FD2D85551A">
-			<Properties>
-				<string name="Name">PhysicsData</string>
-				<BinaryString name="Tags"></BinaryString>
-				<BinaryString name="Value"><![CDATA[Q1NHUEhTAwAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgD8zAAAA
-BAAAADIxjSQAAIC/AACAP8rJU6UAAIC/AACAvwAAgD8AAIC/AAAAAAAAgL8AAIC/MjENJfME
-NT8AAIC/8wQ1v/MENT8AAIC/8wQ1P/MENb8AAIC/8wQ1P/MENb8AAIC/8wQ1vxXvwz4AAIC/
-XoNsvwAAAAAAAIA/AAAAAF6DbD8AAIC/Fe/DvhXvwz4AAIC/XoNsP16DbD8AAIC/Fe/DPhXv
-w74AAIC/XoNsP16DbL8AAIC/Fe/DPhXvw74AAIC/XoNsv16DbL8AAIC/Fe/DvloAAAAAAAAA
-AQAAAAIAAAADAAAAAQAAAAAAAAAEAAAAAgAAAAEAAAAFAAAAAAAAAAIAAAAGAAAAAwAAAAAA
-AAAHAAAAAQAAAAMAAAAIAAAAAQAAAAkAAAAIAAAACQAAAAQAAAAIAAAABAAAAAEAAAAKAAAA
-CQAAAAIAAAAKAAAAAgAAAAQAAAAKAAAABAAAAAkAAAALAAAACQAAAAAAAAALAAAAAAAAAAUA
-AAALAAAABQAAAAkAAAAMAAAAAgAAAAkAAAAMAAAACQAAAAUAAAAMAAAABQAAAAIAAAANAAAA
-AAAAAAkAAAANAAAACQAAAAYAAAANAAAABgAAAAAAAAAOAAAACQAAAAMAAAAOAAAAAwAAAAYA
-AAAOAAAABgAAAAkAAAAPAAAACQAAAAEAAAAPAAAAAQAAAAcAAAAPAAAABwAAAAkAAAAQAAAA
-AwAAAAkAAAAQAAAACQAAAAcAAAAQAAAABwAAAAMAAAA=]]></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="BinaryStringValue" referent="RBX7F5A06B2BE9747CC8D3FBDE05249DF46">
 			<Properties>
 				<string name="Name">MeshData</string>
@@ -586,18 +568,6 @@ MAQ0aQx3DAFeABpgN2k5UisHTyRZZVIEelYsblgxIzAENG0MdwwEXgAaZjdpHVUrB08sWWVT
 DXpWLmRYMSA7BDRpCXcMAVIAGmA0aR1SJgdPJFdlUwR1Vi5uWjEgMBQ0aQx3DAFeERpgN3sd
 UisUTyRZalMEekIublg8IDAEJmkMdxkBXgAJYDdpC1IrB0QkWWVZBHpWOW5YMSgwBDRuDHcM
 A14AGmA3aR12KwdP]]></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="BinaryStringValue" referent="RBX9F48CC26404C41E583D1A9A3755B3BD2">
-			<Properties>
-				<string name="Name">PhysicsData</string>
-				<BinaryString name="Tags"></BinaryString>
-				<BinaryString name="Value"><![CDATA[Q1NHUEhTBQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgD8YAAAA
-BAAAAAAAaEEAAFhBAACAPwAAaEEAAFhBAACAvwAAaMEAAFhBLPN/PwAAaEEAAFjBAACAPwAA
-aEEAAFjBAACAvwAAaMEAAFhBAACAvwAAaMEAAFjBLPN/PwAAaMEAAFjBAACAvyQAAAAAAAAA
-AQAAAAUAAAAAAAAABQAAAAIAAAAAAAAAAgAAAAYAAAAAAAAABgAAAAMAAAAAAAAAAwAAAAQA
-AAAAAAAABAAAAAEAAAABAAAABAAAAAcAAAABAAAABwAAAAUAAAACAAAABQAAAAcAAAACAAAA
-BwAAAAYAAAADAAAABgAAAAcAAAADAAAABwAAAAQAAAA=]]></BinaryString>
 			</Properties>
 		</Item>
 		<Item class="BinaryStringValue" referent="RBXC650A6E06299418686671BE486D0E231">
@@ -1003,6 +973,12 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXBC9CB491CEFC4D2E852ADD99977ABA2C">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXFD42A89375DC45DD9265F68B9884461C">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -2525,8 +2501,8 @@ return{
 							<Content name="MeshID"><url>rbxassetid://433832870</url></Content>
 							<Content name="MeshId"><url>rbxassetid://433832870</url></Content>
 							<string name="Name">move</string>
-							<SharedString name="PhysicalConfigData">1B2M2Y8AsgTpgAmY7PhCfg==</SharedString>
-							<BinaryString name="PhysicsData">Q1NHSzc1ZDBjMjJiMjlhOWExN2Q4NjZkMTNiZTkzMmM5ZTNk</BinaryString>
+							<SharedString name="PhysicalConfigData">BrfrI4nr6bz44Y8AZCyS4w==</SharedString>
+							<BinaryString name="PhysicsData"></BinaryString>
 							<float name="Reflectance">0</float>
 							<token name="RenderFidelity">1</token>
 							<float name="RightParamA">-0.5</float>
@@ -3703,13 +3679,14 @@ local db=require(script.Parent.DebugModule)
 --local stMod=require(script.SelTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=script.Parent.Active
-local selMappings={}
 local studioSels={}
 local selGroups={}
 local locked
 local sels={}
+local binds={}
 
-local binds={}function get()return active.Value and sels or{}end
+--Only returns any selection if the plugin is active.
+function get()return active.Value and sels or{}end
 
 function send()
 	for i,b in next,binds do b(sels)end
@@ -3722,34 +3699,23 @@ end
 
 function addP(p,selP)
 	selP=selP or p
-	selMappings[p]=selP
 	local n=math.max(#sels,#studioSels)
 	for i=1,n do
-		if sels[i]==selP
-		or studioSels[i]==p then
-			return
-		end
+		if studioSels[i]==p or sels
+		[i]==selP then return end
 	end
-	studioSels[#studioSels+1]=p
-	sels[#sels+1]=selP
+	studioSels[n+1]=p
+	sels[n+1]=selP
 	return true
 end
 
 function removeP(p)
-	local selP=selMappings[p]
 	for i=#sels,1,-1 do
-		if sels[i]==selP then
-			for I=i,#sels do
-				sels[I]=sels[I+1]
-			end
+		if sels[i]==p then
 			
-			--Removes the corresponding mapped Studio selections.
-			for i=1,#studioSels do if studioSels[i]==p then
-			for I=i,#studioSels do studioSels[I]=studioSels[I+1]
-			end break end end
-			
-			--Garbage collexion.
-			selMappings[p]=nil
+			--Removes element at critical index.
+			for I=i,#sels do sels[I]=sels[I+1]
+			studioSels[I]=studioSels[I+1]end
 			return true
 		end
 	end
@@ -3758,14 +3724,16 @@ end
 --More efficient version of removeP for associated arrays.
 function removeTbl(t)
 	
-	--Removes mapped parts from the sels table.
-	for i=#sels,1,-1 do local v=sels[i]if t[selMappings[v]]then
-	selMappings[v]=nil for I=i,#sels do sels[I]=sels[I+1]end end end
-	
-	--Removes unmapped parts from the studioSels table.
-	for i=#studioSels,1,-1 do if t[studioSels[i]]then
-	for I=i,#studioSels do studioSels[I]=studioSels[I+1]
-	end end end
+	--Removes parts from the studioSels and sels tables.
+	for i=#studioSels,1,-1 do
+		if t[studioSels[i]]or t[sels[i]]then
+			
+			--Removes element at critical index.
+			for I=i,#sels do sels[I]=sels[I+1]
+			studioSels[I]=studioSels[I+1]end
+			return true
+		end
+	end
 end
 
 --[[
@@ -3827,8 +3795,8 @@ function callGroupFunc(partI,name,...)
 	if f then return f(partI,g.parts,...)end
 end
 
---Selects part to a group if one already lists it.
-function addGroupP(p)
+--Selects part in a group if one already lists it.
+function addGrPart(p)
 	
 	--Evaluates whether the part is already in a group.
 	--If the part to add is in a group, mark it and break the loop. 
@@ -3875,7 +3843,7 @@ function addC(p)
 	end locked=true
 	
 	local b=p and(
-		addGroupP(p)or
+		addGrPart(p)or
 		createGroup(p)or
 		addP(p))
 	
@@ -3935,13 +3903,13 @@ function replaceTblRaw(t)
 	--Returns if locked or nothing in the table.
 	if locked or not next(t)then return end
 	
-	local grRedirs={}
-	for m,g in next,selGroups do
+	--Redirects all saved parts within each group.
+	local grRedirs={}for m,g in next,selGroups do
 		
 		--Redirects the main part of group.
 		grRedirs[m]=t[m]or grRedirs[m]
 		
-		--Modifies the default selection parts.
+		--Redirects default part table.
 		local ds,pt=g.defSel,g.parts
 		if ds and ds~=pt then
 			for i,gp in next,ds do
@@ -3949,7 +3917,7 @@ function replaceTblRaw(t)
 			end
 		end
 		
-		--Modifies the group's part table.
+		--Redirects part table.
 		for i,gp in next,pt do
 			pt[i]=t[gp]or pt[i]
 		end
@@ -3964,27 +3932,29 @@ function replaceTblRaw(t)
 	for i,p in next,sels do
 	sels[i]=t[p]or sels[i]end
 	
-	--Creates groups from newly-selected parts.
+	--Redirects both sleection tables.
+	for i=#sels,1,-1 do sels[i]=t[sels[i]] or sels[i]
+	studioSels[i]=t[studioSels[i]]or studioSels[i]end
+	
+	--Removals from newly-grouped parts.
+	local grRemove={}
+	
+	--Creates new groups from the parts.
 	for p1,p2 in next,t do
 		if not grRedirs[p1]then
 			local g=createGroup(p2)
-			if g then
-				grRedirs[p1]=g.main
-			end
+			grRemove[p2]=true
 		end
 	end
 	
-	--Redirects studio selections.
-	for i,p in next,studioSels do
-		if not grRedirs[p]then
-			studioSels[i]=t[p
-			]or studioSels[i]
-		end
-	end
+	--Removes the parts.
+	removeTbl(grRemove)
 	
+	--[[
 	--Redirects your selection mappings.
 	local nSM={}for p,selP in next,selMappings do
 	nSM[t[p]or p]=t[selP]or selP end selMappings=nSM
+	]]
 	
 	setStudioSels()
 	send()
@@ -4099,6 +4069,10 @@ function changeSel(changes)
 	
 	--Removes all parts counted for removal.
 	removeTbl(remove)
+	
+	for i=1,#sels do
+		print(i,sels[i],studioSels[i])
+	end
 	
 	--Sets the redirects in stone.
 	studioSels=newSS
@@ -9915,7 +9889,26 @@ return{
 		</Properties>
 	</Item>
 	<SharedStrings>
-		<SharedString md5="1B2M2Y8AsgTpgAmY7PhCfg=="></SharedString>
+		<SharedString md5="BrfrI4nr6bz44Y8AZCyS4w==">Q1NHUEhTBgAAAAAAAEEAAAAAAAAAAAAAAADkOA5BAAAAAAAAAADkOA5BAAAAAOQ4DkEQAAAA
+AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/MwAAAAQAAAAyMY0kAACAvwAA
+gD/KyVOlAACAvwAAgL8AAIA/AACAvwAAAAAAAIC/AACAvzIxDSXzBDU/AACAv/MENb/zBDU/
+AACAv/MENT/zBDW/AACAv/MENT/zBDW/AACAv/MENb8V78M+AACAv16DbL8AAAAAAACAPwAA
+AABeg2w/AACAvxXvw74V78M+AACAv16DbD9eg2w/AACAvxXvwz4V78O+AACAv16DbD9eg2y/
+AACAvxXvwz4V78O+AACAv16DbL9eg2y/AACAvxXvw75aAAAAAAAAAAEAAAACAAAAAwAAAAEA
+AAAAAAAABAAAAAIAAAABAAAABQAAAAAAAAACAAAABgAAAAMAAAAAAAAABwAAAAEAAAADAAAA
+CAAAAAEAAAAJAAAACAAAAAkAAAAEAAAACAAAAAQAAAABAAAACgAAAAkAAAACAAAACgAAAAIA
+AAAEAAAACgAAAAQAAAAJAAAACwAAAAkAAAAAAAAACwAAAAAAAAAFAAAACwAAAAUAAAAJAAAA
+DAAAAAIAAAAJAAAADAAAAAkAAAAFAAAADAAAAAUAAAACAAAADQAAAAAAAAAJAAAADQAAAAkA
+AAAGAAAADQAAAAYAAAAAAAAADgAAAAkAAAADAAAADgAAAAMAAAAGAAAADgAAAAYAAAAJAAAA
+DwAAAAkAAAABAAAADwAAAAEAAAAHAAAADwAAAAcAAAAJAAAAEAAAAAMAAAAJAAAAEAAAAAkA
+AAAHAAAAEAAAAAcAAAADAAAA</SharedString>
+		<SharedString md5="SRl+poCPnMErgBH18N4zzw==">Q1NHUEhTBgAAAIy9w0TGBXg5AAAAACU/Tbji0bpHAAAAAKqhvb6HXddHAAAAAL4SSEgQAAAA
+AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/GAAAAAQAAAAAAGhBAABYQQAA
+gD8AAGhBAABYQQAAgL8AAGjBAABYQSzzfz8AAGhBAABYwQAAgD8AAGhBAABYwQAAgL8AAGjB
+AABYQQAAgL8AAGjBAABYwSzzfz8AAGjBAABYwQAAgL8kAAAAAAAAAAEAAAAFAAAAAAAAAAUA
+AAACAAAAAAAAAAIAAAAGAAAAAAAAAAYAAAADAAAAAAAAAAMAAAAEAAAAAAAAAAQAAAABAAAA
+AQAAAAQAAAAHAAAAAQAAAAcAAAAFAAAAAgAAAAUAAAAHAAAAAgAAAAcAAAAGAAAAAwAAAAYA
+AAAHAAAAAwAAAAcAAAAEAAAA</SharedString>
 		<SharedString md5="7aNoHXJkqXsL0wH0cuB+Ng==">Q1NHUEhTBgAAAJfSOEP/dYi8IccTvWD4mryG2QFF5+S2Q+hIK0RR2BFFPO7yw2wI0kQQAAAA
 AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/DAAAAAQAAAAAAPg1CADAP/r/
 D8AAAPg1CADAP/L/j78EAABACADAP/r/D8AEAABACADAP/L/j78MAAAAAAAAAAEAAAADAAAA
