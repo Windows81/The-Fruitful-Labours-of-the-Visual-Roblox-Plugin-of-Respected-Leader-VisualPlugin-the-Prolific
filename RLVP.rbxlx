@@ -973,6 +973,12 @@ UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX99C90F3B9EBD4A909519DD4EBE634A92">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXBC9CB491CEFC4D2E852ADD99977ABA2C">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3692,9 +3698,9 @@ function send()
 	for i,b in next,binds do b(sels)end
 	if locked then return end
 	
-	locked=true
+	lock()
 	setStudioSels()
-	locked=false
+	unlock()
 end
 
 function addP(p,selP)
@@ -3722,7 +3728,7 @@ function removeP(p)
 end
 
 --More efficient version of removeP for associated arrays.
-function removeTbl(t)
+function removeTbl(t)local b
 	
 	--Removes parts from the studioSels and sels tables.
 	for i=#studioSels,1,-1 do
@@ -3731,9 +3737,10 @@ function removeTbl(t)
 			--Removes element at critical index.
 			for I=i,#sels do sels[I]=sels[I+1]
 			studioSels[I]=studioSels[I+1]end
-			return true
+			b=true
 		end
 	end
+	return b
 end
 
 --[[
@@ -3840,14 +3847,14 @@ function addC(p)
 	
 	--Debounce protection.
 	if locked then return
-	end locked=true
+	end lock()
 	
 	local b=p and(
 		addGrPart(p)or
 		createGroup(p)or
 		addP(p))
 	
-	locked=false
+	unlock()
 	if not b then return end
 	send()return true
 end
@@ -3857,7 +3864,7 @@ function removeC(p)
 	
 	--Debounce protection.
 	if locked then return
-	end locked=true
+	end lock()
 	
 	local r
 	for i,g in next,selGroups do
@@ -3891,7 +3898,7 @@ function removeC(p)
 	end
 	
 	if r==nil then r=removeP(p)end
-	locked=false
+	unlock()
 	
 	if r then send()r=true end
 	return r
@@ -4076,7 +4083,7 @@ function changeSel(changes)
 	
 	--Sets the redirects in stone.
 	studioSels=newSS
-	locked=false send()
+	unlock() send()
 end
 
 function selChanged()
@@ -4111,8 +4118,8 @@ function selChanged()
 end
 
 --The selection tags need locky functions; give it to them.
-function lock()db.print'Selection locked'locked=true end
-function unlock()db.print'Selection unlocked'locked=false end
+function lock()db.print'Selection locked'locked=true evtMod.lock()end
+function unlock()db.print'Selection unlocked'locked=false evtMod.unlock()end
 
 --Binds the refined selection event.
 evtMod.bind('selChanged',selChanged)
@@ -4487,12 +4494,12 @@ return{
 		local v2=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v2)p.CFrame=p.CFrame*v1
 		
-	end,input=input,output=output},
+	end},
 	[{'resize','both'}]={drag=function(p,tags,f,d)
 		local v=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v)
 		
-	end,input=input,output=output},
+	end},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -9633,6 +9640,8 @@ selSer.SelectionChanged:Connect(function()
 end)
 
 return{
+	lock=function()debounce=true end,
+	unlock=function()debounce=false end,
 	bind=function(n,f)binds[n]=f end,
 	getBind=function(n)return binds[n]end,
 }]]></ProtectedString>
@@ -9700,12 +9709,45 @@ end]]></ProtectedString>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local posN,negN='RLVP_Positive','RLVP_Negative'
 
+--Explodes negative parts.
+function unnegate(o)
+	
+	--A non-negative part wouldn't need negation at all.
+	if o:isA'NegateOperation'then return o end
+	local p=plugin:Negate{o}[1]
+	
+	--A union wouldn't need additional designs.
+	if not o:isA'UnionOperation'then return o end
+		
+	--Stores important properties.
+	local c,t=p.Color,p.Transparency
+	
+	--Mimics the original NegativePart.
+	p.BottomSurface='Smooth'
+	p.TopSurface='Smooth'
+	p.Material='Plastic'
+	p.CastShadow=false
+	p.Transparency=.41
+	p.Color=Color3.fromRGB(c
+	.r*255,c.g*155,c.b*165)
+	
+	--Stores the original colour.
+	local cv=Instance.new'Color3Value'
+	cv.Name,cv.Value,cv.Parent='Colour',c,p
+	
+	--Stores the transparency.
+	local tv=Instance.new'NumberValue'
+	tv.Name,tv.Value,tv.Parent='Transp',t,p
+	
+	return p
+end
+
 --Explodes the union and group its parts.
 function separate(u)
 	
 	--Un-negates instance if negative.
 	local isNeg=u:isA'NegateOperation'
-	if isNeg then u=plugin:Negate{u}[1]end
+	if isNeg then unnegate(u)end
 	
 	--Generates a name for the new part(s).
 	local name=isNeg and negN or posN
@@ -9724,6 +9766,7 @@ function separate(u)
 	return f,t
 end
 
+--Recursive helper function.
 function expl(u,pT)
 	local o,t,u2=separate(u)
 	for i,p in next,t do
@@ -9736,25 +9779,33 @@ function expl(u,pT)
 	return o,u or u2
 end
 
---Explodes a union and adds residue into the table.
-function explode(u)
-	local t={}
-	local o=expl(u,t)
-	return o,t
+--Explodes a union and adds all the residue into the table.
+function explode(u)local t={}local o=expl(u,t)return o,t end
+
+--Implodes exploded negative part.
+function negate(o)
+	local c=o.Colour.Value
+	local t=o.Transp.Value
+	
+	o:ClearAllChildren()
+	local p=plugin:Negate{o}[1]
+	p.Color,p.Transparency=c,t
+	p.CastShadow=false
 end
 
+--Recursively reverses the explosion.
 function implode(o)
 	if o:isA'Folder'then
-		local c=o:children()
-		for i,u in next,c do
-			c[i]=implode(u)
-		end
+		
+		--Recursive calls that modify table as each child gets imploded.
+		local c=o:children()for i,u in next,c do c[i]=implode(u)end
 		
 		--Unions the folder's parts and removes the now-empty folder it came from.
 		local u=plugin:Union(c)u.Parent=o.Parent o:destroy()return u
-	elseif o.Name==negN then
-		return plugin:Negate{o}[1]
-	end
+		
+	--Negates exploded parts that were NegativeParts.
+	elseif o.Name==negN then return negate(o)end
+	
 	return o
 end
 
