@@ -161,93 +161,6 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="NegateOperation" referent="RBXE1A49830D1B1401086CB4B7580C1706C">
-			<Properties>
-				<bool name="Anchored">true</bool>
-				<Content name="AssetId"><null></null></Content>
-				<float name="BackParamA">-0.5</float>
-				<float name="BackParamB">0.5</float>
-				<token name="BackSurface">0</token>
-				<token name="BackSurfaceInput">0</token>
-				<float name="BottomParamA">-0.5</float>
-				<float name="BottomParamB">0.5</float>
-				<token name="BottomSurface">0</token>
-				<token name="BottomSurfaceInput">0</token>
-				<CoordinateFrame name="CFrame">
-					<X>-12.5</X>
-					<Y>13.5000057</Y>
-					<Z>-80</Z>
-					<R00>1</R00>
-					<R01>0</R01>
-					<R02>0</R02>
-					<R10>0</R10>
-					<R11>1</R11>
-					<R12>0</R12>
-					<R20>0</R20>
-					<R21>0</R21>
-					<R22>1</R22>
-				</CoordinateFrame>
-				<bool name="CanCollide">false</bool>
-				<bool name="CastShadow">true</bool>
-				<BinaryString name="ChildData">Q1NHSzhlOTc5MGI2OGI5MmEwNGViOWNiMTlkMDY0OGQ4ZWRh</BinaryString>
-				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4294967295</Color3uint8>
-				<PhysicalProperties name="CustomPhysicalProperties">
-					<CustomPhysics>false</CustomPhysics>
-				</PhysicalProperties>
-				<token name="FormFactor">3</token>
-				<float name="FrontParamA">-0.5</float>
-				<float name="FrontParamB">0.5</float>
-				<token name="FrontSurface">0</token>
-				<token name="FrontSurfaceInput">0</token>
-				<Vector3 name="InitialSize">
-					<X>29</X>
-					<Y>27</Y>
-					<Z>2</Z>
-				</Vector3>
-				<BinaryString name="LODData"></BinaryString>
-				<float name="LeftParamA">-0.5</float>
-				<float name="LeftParamB">0.5</float>
-				<token name="LeftSurface">0</token>
-				<token name="LeftSurfaceInput">0</token>
-				<bool name="Locked">false</bool>
-				<bool name="Massless">false</bool>
-				<token name="Material">256</token>
-				<BinaryString name="MeshData">Q1NHS2IwMWY2ZDc5YWRiMTlhZWM5NjFlYmUyZTliN2Y0YmIx</BinaryString>
-				<string name="Name">NegativePart</string>
-				<SharedString name="PhysicalConfigData">SRl+poCPnMErgBH18N4zzw==</SharedString>
-				<BinaryString name="PhysicsData"></BinaryString>
-				<float name="Reflectance">0</float>
-				<token name="RenderFidelity">1</token>
-				<float name="RightParamA">-0.5</float>
-				<float name="RightParamB">0.5</float>
-				<token name="RightSurface">0</token>
-				<token name="RightSurfaceInput">0</token>
-				<int name="RootPriority">0</int>
-				<Vector3 name="RotVelocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<BinaryString name="Tags"></BinaryString>
-				<float name="TopParamA">-0.5</float>
-				<float name="TopParamB">0.5</float>
-				<token name="TopSurface">0</token>
-				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0.100000001</float>
-				<bool name="UsePartColor">false</bool>
-				<Vector3 name="Velocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<Vector3 name="size">
-					<X>29</X>
-					<Y>27</Y>
-					<Z>2</Z>
-				</Vector3>
-			</Properties>
-		</Item>
 		<Item class="Part" referent="RBXA6407542B65E4C778FC899BC41280837">
 			<Properties>
 				<bool name="Anchored">true</bool>
@@ -410,6 +323,93 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
+		<Item class="NegateOperation" referent="RBXE1A49830D1B1401086CB4B7580C1706C">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<Content name="AssetId"><null></null></Content>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>-12.5</X>
+					<Y>13.5000057</Y>
+					<Z>-80</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">false</bool>
+				<bool name="CastShadow">true</bool>
+				<BinaryString name="ChildData">Q1NHSzhlOTc5MGI2OGI5MmEwNGViOWNiMTlkMDY0OGQ4ZWRh</BinaryString>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4294967295</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<token name="FormFactor">3</token>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<Vector3 name="InitialSize">
+					<X>29</X>
+					<Y>27</Y>
+					<Z>2</Z>
+				</Vector3>
+				<BinaryString name="LODData"></BinaryString>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<BinaryString name="MeshData">Q1NHS2IwMWY2ZDc5YWRiMTlhZWM5NjFlYmUyZTliN2Y0YmIx</BinaryString>
+				<string name="Name">NegativePart</string>
+				<SharedString name="PhysicalConfigData">SRl+poCPnMErgBH18N4zzw==</SharedString>
+				<BinaryString name="PhysicsData"></BinaryString>
+				<float name="Reflectance">0</float>
+				<token name="RenderFidelity">1</token>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0.100000001</float>
+				<bool name="UsePartColor">false</bool>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<Vector3 name="size">
+					<X>29</X>
+					<Y>27</Y>
+					<Z>2</Z>
+				</Vector3>
+			</Properties>
+		</Item>
 	</Item>
 	<Item class="SoundService" referent="RBXF1AACD91FB2243C59ADB93D92D032DEE">
 		<Properties>
@@ -427,49 +427,6 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 			<string name="Name">NonReplicatedCSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBX50F8656F6D5541EAA36BE6A50BFF1E2D">
-			<Properties>
-				<string name="Name">ChildData</string>
-				<BinaryString name="Tags"></BinaryString>
-				<BinaryString name="Value"><![CDATA[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]]></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="BinaryStringValue" referent="RBX02705724C79641D384AEA3200128E135">
 			<Properties>
 				<string name="Name">ChildData</string>
@@ -516,60 +473,55 @@ AVBST1AeAAAAJQAAAAAAAADwAgAAAAAEAAAAc2l6ZQ6BgUBAEQAHCABQQAAAAABQUk5UEAAA
 ABUAAAAAAAAANQACAAEAkAIAAAAAAAABAEVORAAAAAAACQAAAAAAAAA8L3JvYmxveD4=]]></BinaryString>
 			</Properties>
 		</Item>
+		<Item class="BinaryStringValue" referent="RBX50F8656F6D5541EAA36BE6A50BFF1E2D">
+			<Properties>
+				<string name="Name">ChildData</string>
+				<BinaryString name="Tags"></BinaryString>
+				<BinaryString name="Value"><![CDATA[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]]></BinaryString>
+			</Properties>
+		</Item>
 	</Item>
 	<Item class="CSGDictionaryService" referent="RBXAEB53D2F437D460D9E74131BEE63AA7D">
 		<Properties>
 			<string name="Name">CSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBX7F5A06B2BE9747CC8D3FBDE05249DF46">
-			<Properties>
-				<string name="Name">MeshData</string>
-				<BinaryString name="Tags"></BinaryString>
-				<BinaryString name="Value"><![CDATA[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
-A14AGmA3aR12KwdP]]></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="BinaryStringValue" referent="RBXC650A6E06299418686671BE486D0E231">
 			<Properties>
 				<string name="Name">MeshData</string>
@@ -677,6 +629,54 @@ fgAaYB5pHVI1B08kc2VTBFFWLm50MSAwKTRpDHgMAV4RGmA3TB1SKylPJFlDUwR6Ry5uWB4g
 MAQEaQx3PQFeAChgN2kUUisHfCRZZWcEelYbblgxEDAENEQMdwwQXgAaVjdpHVkrB08GWWVT
 IXpWLklYMSAHBDRpNHcMAW0AGmACaR1SEgdPJF9lUwR/Vi5uYjEgMDU0aQx+DAFeCBpgN1Md
 UisOTyRZSVMEem0ublgbIDAENmkMdwwBXgB2YDdp]]></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="BinaryStringValue" referent="RBX7F5A06B2BE9747CC8D3FBDE05249DF46">
+			<Properties>
+				<string name="Name">MeshData</string>
+				<BinaryString name="Tags"></BinaryString>
+				<BinaryString name="Value"><![CDATA[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
+A14AGmA3aR12KwdP]]></BinaryString>
 			</Properties>
 		</Item>
 	</Item>
@@ -987,6 +987,24 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXABA6D08CDA9E4626A8303948AAC84078">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBXC26A88E05EB545628A467EA9D502F92E">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX3DD7236C3C12468A9DC05BC5869A75A5">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3695,7 +3713,7 @@ end
 
 function addP(p,selP)
 	selP=selP or p
-	local n=math.max(#sels,#studioSels)
+	local n=#studioSels
 	for i=1,n do
 		if studioSels[i]==p or sels
 		[i]==selP then return end
@@ -3706,11 +3724,11 @@ function addP(p,selP)
 end
 
 function removeP(p)
-	for i=#sels,1,-1 do
+	for i=#studioSels,1,-1 do
 		if sels[i]==p then
 			
 			--Removes element at critical index.
-			for I=i,#sels do sels[I]=sels[I+1]
+			for I=i,#studioSels do sels[I]=sels[I+1]
 			studioSels[I]=studioSels[I+1]end
 			return true
 		end
@@ -3725,7 +3743,7 @@ function removeTbl(t)local b
 		if t[studioSels[i]]or t[sels[i]]then
 			
 			--Removes element at critical index.
-			for I=i,#sels do sels[I]=sels[I+1]
+			for I=i,#studioSels do sels[I]=sels[I+1]
 			studioSels[I]=studioSels[I+1]end
 			b=true
 		end
@@ -3930,7 +3948,7 @@ function replaceTblRaw(t)
 	sels[i]=t[p]or sels[i]end
 	
 	--Redirects both sleection tables.
-	for i=#sels,1,-1 do sels[i]=t[sels[i]] or sels[i]
+	for i=#studioSels,1,-1 do sels[i]=t[sels[i]] or sels[i]
 	studioSels[i]=t[studioSels[i]]or studioSels[i]end
 	
 	--Removals from newly-grouped parts.
@@ -3960,12 +3978,17 @@ end
 function shift(p)
 	if sels[1]==p then
 	return true end
-	for i=2,#sels do
+	for i=2,#studioSels do
 		if sels[i]==p then
-			sels[i]=sels[1]
-			sels[1]=p
-			send()
-			return true
+			
+			--Shifts the plugin selections.
+			sels[i]=sels[1]sels[1]=p
+			
+			--Shifts the corresponding studio selections.
+			studioSels[i]=studioSels[1]studioSels[1]=p
+			
+			--Relays the event.
+			send()return true
 		end
 	end
 end
@@ -3981,8 +4004,8 @@ end
 
 function changeSel(changes)
 	
-	--Objects that need to be changed before proceeding.
-	local newSS={},{}
+	--Object that needs to be changed before proceeding.
+	local newSS={}
 	
 	--Redirects newly-selected parts.
 	for m,g in next,selGroups do
@@ -4057,8 +4080,12 @@ function changeSel(changes)
 			remove[p]=true
 		elseif l=='add'and pfMod.part(p)then
 			local g=createGroup(p)
-			newSS[#newSS+1]=g and g
-			.main or addP(p)and p
+			
+			if not g then
+				newSS[#newSS+1]=addP(p)and p
+			elseif g.algor.asUnit then
+				newSS[#newSS+1]=g.main
+			end
 		else
 			newSS[#newSS+1]=p
 		end
@@ -4067,13 +4094,9 @@ function changeSel(changes)
 	--Removes all parts counted for removal.
 	removeTbl(remove)
 	
-	for i=1,#sels do
-		print(i,sels[i],studioSels[i])
-	end
-	
 	--Sets the redirects in stone.
 	studioSels=newSS
-	unlock() send()
+	unlock()send()
 end
 
 function selChanged()
@@ -4125,17 +4148,8 @@ end)
 --Implements bind for the negation of parts.
 evtMod.bind('negateSel',function(addT,remT)
 	
-	--Filters out the unneccesary children.
-	for i=#remT,1,-1 do
-		if not remT[i]:isA'BasePart'then
-			for I=i,#remT do
-				remT[I]=remT[I+1]
-			end
-		end
-	end
-	
 	--Attempts to send sone event data to each of the groups; will modify addT and remT.
-	for i,g in next,selGroups do callGroupFunc(i,'modify','negateSel',addT,remT)end
+	for m,g in next,selGroups do callGroupFunc(m,'modify','negateSel',addT,remT)end
 	
 	--Generates a one-to-one table that will be used to modify the current selection.
 	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
@@ -4453,31 +4467,6 @@ function resize(p,d)
 	p.Size=p.Size+d
 end
 
-function input(p)
-	local tags={}
-	if p:isA'NegateOperation'then
-		tags.negative=true
-		p=plugin:Negate{p}[1]
-		p.Material='Plastic'
-		p.CastShadow=false
-		p.Transparency=.41
-		local c=p.Color
-		tags.colour=c
-		p.Color=Color3.fromRGB(c
-		.r*255,c.g*155,c.b*165)
-	end
-	return p,tags
-end
-
-function output(p,tags)
-	if tags.negative then
-		p.Color=tags.colour
-		p=plugin:Negate{p}[1]
-		p.CastShadow=false
-	end
-	return p
-end
-
 return{
 	[{'resize','face'}]={drag=function(p,tags,f,d)
 		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
@@ -4488,7 +4477,6 @@ return{
 	[{'resize','both'}]={drag=function(p,tags,f,d)
 		local v=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v)
-		
 	end},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -9479,7 +9467,9 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">PartEventModule</string>
 					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
-					<ProtectedString name="Source"><![CDATA[local db=require(script.Parent.DebugModule)
+					<ProtectedString name="Source"><![CDATA[local pfMod=require(script.Parent.PartFilterModule)
+local db=require(script.Parent.DebugModule)
+local rs=game['Run Service'].RenderStepped
 local hist=game.ChangeHistoryService
 local actv=script.Parent.Active
 local selSer=game.Selection
@@ -9489,8 +9479,8 @@ hist:SetEnabled(true)
 local added=game.DescendantAdded
 local remov=game.DescendantRemoving
 
---Prevents permission-level issues for class security checks.
-function check(p)return pcall(function()return p.ClassName end)end
+--Prevents permission-level issues for class security checks and filters out non-parts.
+function check(p)return pcall(function()return p.ClassName end)and pfMod.part(p) end
 
 --Safely calls a binded function.
 function callBind(n,...)
@@ -9554,7 +9544,7 @@ added:Connect(function(p)
 	end)
 	
 	--Waits for events to lapse.
-	wait()
+	rs:wait()
 	addC:Disconnect()
 	remC:Disconnect()
 	if done then return end
@@ -9607,7 +9597,7 @@ remov:Connect(function(p)
 	end)
 	
 	--Waits for events to lapse.
-	wait()
+	rs:wait()
 	addC:Disconnect()
 	remC:Disconnect()
 	if done then return end
@@ -9667,7 +9657,8 @@ return{
 					<string name="ScriptGuid">{9575339F-17DA-47EC-AFD5-B6DCD54ACB67}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	part=function(p)
-		return p:isA'BasePart'and not p:isA'Terrain'
+		return p:IsDescendantOf(game.Workspace)
+		and p:isA'BasePart'and not p:isA'Terrain'
 	end
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -9699,24 +9690,41 @@ end]]></ProtectedString>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local posN,negN='RLVP_Positive','RLVP_Negative'
 
+--Implodes exploded negative part.
+function negate(o)
+	local c=o.Colour.Value
+	local t=o.Transp.Value
+	
+	--Removes the value objects.
+	o:ClearAllChildren()
+	
+	o.Color=c
+	local p=plugin:Negate{o}[1]
+	p.Transparency=t
+	p.CastShadow=false
+	return p
+end
+
 --Explodes negative parts.
 function unnegate(o)
 	
 	--A non-negative part wouldn't need negation at all.
-	if o:isA'NegateOperation'then return o end
-	local p=plugin:Negate{o}[1]
+	if not o:isA'NegateOperation'then return o end
 	
-	--A union wouldn't need additional designs.
-	if not o:isA'UnionOperation'then return o end
+	--Negates and stores the result.
+	local p=plugin:Negate{o}[1]
 		
 	--Stores important properties.
-	local c,t=p.Color,p.Transparency
+	local c,t=p.Color,o.Transparency
+	
+	--A union wouldn't need additional designs.
+	if p:isA'UnionOperation'then return p end
 	
 	--Mimics the original NegativePart.
 	p.BottomSurface='Smooth'
 	p.TopSurface='Smooth'
 	p.Material='Plastic'
-	p.CastShadow=false
+	--p.CastShadow=false
 	p.Transparency=.41
 	p.Color=Color3.fromRGB(c
 	.r*255,c.g*155,c.b*165)
@@ -9772,17 +9780,6 @@ end
 --Explodes a union and adds all the residue into the table.
 function explode(u)local t={}local o=expl(u,t)return o,t end
 
---Implodes exploded negative part.
-function negate(o)
-	local c=o.Colour.Value
-	local t=o.Transp.Value
-	
-	o:ClearAllChildren()
-	local p=plugin:Negate{o}[1]
-	p.Color,p.Transparency=c,t
-	p.CastShadow=false
-end
-
 --Recursively reverses the explosion.
 function implode(o)
 	if o:isA'Folder'then
@@ -9810,14 +9807,17 @@ return{
 	output=--[[function(f,t)
 		return ]]implode--[[(f)
 	end]],
-	modify=function(folder,currPT,mode,addT,remT)
+	modify=function(main,currPT,mode,addT,remT)
 		
 		if mode=='negateSel'then
 			for i,addP in next,addT do
-				if addP:IsDescendantOf(folder)then
-					
-					--One-to-one correspondance.
-					local remP=remT[i]
+				
+				--One-to-one correspondance.
+				local remP=remT[i]
+				
+				--Checks if part is in group or is the main part.
+				if remP==main or addP:IsDescendantOf(main)then
+					print(remP)
 					
 					--Creates a new part embodying the properties.
 					local n=Instance.new'Part'
@@ -9838,7 +9838,7 @@ return{
 			--Explodes all newly-added parts, adds the residue in.
 			local newT={}
 			for i,addP in next,addT do
-				if addP:IsDescendantOf(folder)then
+				if addP:IsDescendantOf(main)then
 					
 					local t=select(2,explode(addP))
 					for i,expP in next,t do
