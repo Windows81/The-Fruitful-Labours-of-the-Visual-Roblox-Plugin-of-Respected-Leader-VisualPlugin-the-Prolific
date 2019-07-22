@@ -987,6 +987,18 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX86FF8BC60A5C4725BB8F049B289B9674">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBXC4E9245FCD234E20A7F8AF7AA17CAE0A">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXABA6D08CDA9E4626A8303948AAC84078">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -1018,7 +1030,7 @@ while not script.Plugin
 .Value do wait(1/2)end
 
 require(script.SelEventModule)
-require(script.ButtonModule)
+require(script.ActiveModule)
 require(script.GuiElemModule)
 require(script.ShortcutModule)
 require(script.HandleModule)
@@ -1038,7 +1050,7 @@ return t]]></ProtectedString>
 			<Item class="ModuleScript" referent="RBX90461FDB28994C2AAC4AC163146B96AB">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">ButtonModule</string>
+					<string name="Name">ActiveModule</string>
 					<string name="ScriptGuid">{325C82F6-F41A-4664-98B6-707BB4B4C15B}</string>
 					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
 local gui=require(script.Parent.GuiElemModule)
@@ -3068,7 +3080,7 @@ local ogMod=require(main.OriginModule)
 local incr=require(main.IncrementModule)
 local sel=require(main.SelectionModule)
 local mouse=require(main.MouseModule)
-local actv=require(main.ButtonModule)
+local actv=require(main.ActiveModule)
 local gui=require(main.GuiElemModule)
 local mode=require(main.ModeModule)
 local cgui=game.CoreGui
@@ -3686,13 +3698,14 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelectionModule</string>
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
-					<ProtectedString name="Source"><![CDATA[local algorSel=require(script.Parent.AlgorChooserModule)
-local evtMod=require(script.Parent.PartEventModule)
-local pfMod=require(script.Parent.PartFilterModule)
-local db=require(script.Parent.DebugModule)
---local stMod=require(script.SelTagModule)
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local algorSel=require(main.AlgorChooserModule)
+local evtMod=require(main.PartEventModule)
+local pfMod=require(main.PartFilterModule)
 local hb=game['Run Service'].Heartbeat
-local active=script.Parent.Active
+local actv=require(main.ActiveModule)
+local db=require(main.DebugModule)
+local active=main.Active
 local studioSels={}
 local selGroups={}
 local locked
@@ -3799,8 +3812,8 @@ function removeG(i)
 	if g.algor.asUnit then
 		removeP(g.main)
 	end
-	g.algor.output(i,g.parts)
-	selGroups[i]=nil return true
+	local p=g.algor.output(i,g.parts)
+	selGroups[i]=nil return p
 end
 
 --Conditionally calls the group's respective algorithm function.
@@ -3919,10 +3932,11 @@ function replaceTblRaw(t)
 	if locked or not next(t)then return end
 	
 	--Redirects all saved parts within each group.
-	local grRedirs={}for m,g in next,selGroups do
+	local grRedirs,inGrT={},{}
+	for m,g in next,selGroups do
 		
 		--Redirects the main part of group.
-		grRedirs[m]=t[m]or grRedirs[m]
+		grRedirs[m]=t[m]
 		
 		--Redirects default part table.
 		local ds,pt=g.defSel,g.parts
@@ -3934,7 +3948,9 @@ function replaceTblRaw(t)
 		
 		--Redirects part table.
 		for i,gp in next,pt do
-			pt[i]=t[gp]or pt[i]
+			
+			--Also stores index of parts that are in groups.
+			local v=t[gp]if v then pt[i]=v inGrT[gp]=v end
 		end
 	end
 	
@@ -3956,7 +3972,8 @@ function replaceTblRaw(t)
 	
 	--Creates new groups from the parts.
 	for p1,p2 in next,t do
-		if not grRedirs[p1]then
+		if not grRedirs[p1]
+		and not inGrT[p1]then
 			local g=createGroup(p2)
 			grRemove[p2]=true
 		end
@@ -3970,10 +3987,10 @@ function replaceTblRaw(t)
 	local nSM={}for p,selP in next,selMappings do
 	nSM[t[p]or p]=t[selP]or selP end selMappings=nSM
 	]]
-	
-	setStudioSels()
-	send()
 end
+
+--Wrapper function for code reference externally.
+function replaceTbl(...)replaceTblRaw(...)send()end
 
 function shift(p)
 	if sels[1]==p then
@@ -4002,6 +4019,7 @@ function setStudioSels(t)
 	game.Selection:Set(studioSels)
 end
 
+--Passes in a table of enum. strings indexed by parts.
 function changeSel(changes)
 	
 	--Object that needs to be changed before proceeding.
@@ -4148,11 +4166,28 @@ end)
 --Implements bind for the negation of parts.
 evtMod.bind('negateSel',function(addT,remT)
 	
-	--Attempts to send sone event data to each of the groups; will modify addT and remT.
-	for m,g in next,selGroups do callGroupFunc(m,'modify','negateSel',addT,remT)end
+	--Table for groups to remove.
+	local remGrT={}
+	
+	--Attempts to send event data to each group; will modify addT and remT.
+	for m,g in next,selGroups do if not callGroupFunc(m,'modify','negateSel',addT,remT)then remGrT[m]=true end end
 	
 	--Generates a one-to-one table that will be used to modify the current selection.
 	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
+	
+	--Removed groups that returned false on the other loop.
+	for m in next,remGrT do addP(removeG(replT[m]or m))end
+	
+	for i=1,l do print(i,addT[i],remT[i])end
+	for i in next,sels do
+		print(i,studioSels[i],sels[i])
+	end
+	
+	for i,g in next,selGroups do
+		print(i,g.main)
+	end
+	
+	send()
 end)
 
 return{
@@ -4160,9 +4195,10 @@ return{
 	remove=removeC,
 	
 	shift=shift,set=setStudioSels,
-	replaceTblRaw=replaceTblRaw,
+	replaceTbl=replaceTbl,
 	changeSel=changeSel,
 	
+	update=send,
 	lock=lock,unlock=unlock,
 	bind=function(f)binds[#binds+1]=f end,
 	selChanged=selChanged,
@@ -4321,7 +4357,7 @@ function set(modeT)
 	tagT[o].isOrigin=true
 	
 	--Procrastinated call for efficient looping.
-	sel.replaceTblRaw(repT)
+	sel.replaceTbl(repT)
 end
 
 function unset()
@@ -4344,7 +4380,7 @@ function unset()
 	end
 	
 	--Procrastinated call for efficient looping.
-	sel.replaceTblRaw(repT)
+	sel.replaceTbl(repT)
 	
 	--Variables are reset.
 	tagT,bind=nil,nil
@@ -4406,7 +4442,7 @@ function execC(modeT,...)
 			end
 			
 			--Procrastinated call for efficient looping.
-			sel.replaceTblRaw(repT)
+			sel.replaceTbl(repT)
 			
 		else
 			for i,p in next,t do
@@ -9724,7 +9760,7 @@ function unnegate(o)
 	p.BottomSurface='Smooth'
 	p.TopSurface='Smooth'
 	p.Material='Plastic'
-	--p.CastShadow=false
+	p.CastShadow=false
 	p.Transparency=.41
 	p.Color=Color3.fromRGB(c
 	.r*255,c.g*155,c.b*165)
@@ -9810,6 +9846,7 @@ return{
 	modify=function(main,currPT,mode,addT,remT)
 		
 		if mode=='negateSel'then
+			local keepGr
 			for i,addP in next,addT do
 				
 				--One-to-one correspondance.
@@ -9817,7 +9854,6 @@ return{
 				
 				--Checks if part is in group or is the main part.
 				if remP==main or addP:IsDescendantOf(main)then
-					print(remP)
 					
 					--Creates a new part embodying the properties.
 					local n=Instance.new'Part'
@@ -9827,13 +9863,22 @@ return{
 					n.Parent=addP.Parent
 					addP:destroy()
 					
+					--Determines if the original part was negative.
+					local isNeg=remP.Name==negN
+					
+					--Modifies the keep-group flag.
+					keepGr=not isNeg or keepGr
+					
 					--Renames the new part appropriately.
-					n.Name=remP.Name==negN and posN or negN 
+					n.Name=isNeg and posN or negN
 					
 					--Adds it.
 					addT[i]=n
 				end
 			end
+			
+			--Would remove group if made false.
+			return keepGr
 		else
 			--Explodes all newly-added parts, adds the residue in.
 			local newT={}
