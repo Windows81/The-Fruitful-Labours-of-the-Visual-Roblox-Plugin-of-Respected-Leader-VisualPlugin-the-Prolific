@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX077EE689666F433FBBC05E63B6C3CE67">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX86FF8BC60A5C4725BB8F049B289B9674">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3715,6 +3721,29 @@ local binds={}
 --Only returns any selection if the plugin is active.
 function get()return active.Value and sels or{}end
 
+--db.prints contents of addT and remT.
+function addRemPr(addT,remT)
+	local l=math.max(#addT,#remT)selPr()
+	db.print()db.warn'Add-remove dump:'
+	for i=1,l do db.print('    ',i,addT[i],remT[i])end
+end
+
+--db.prints selection.
+function selPr()
+	
+	--Dumps the selection data to the output.
+	db.print()db.warn'Selection dump:'
+	for i=1,math.max(#studioSels,#sels) do
+		local ss,sl=studioSels[i],sels[i]
+		if ss==sl then db.print('    ',i,ss)
+		else db.print('    ',i,ss,sl)end
+	end
+	
+	--Dumps the main-parts of each selection group.
+	db.print()db.warn'Selection-group dump:'
+	for m in next,selGroups do db.print('    ',m)end
+end
+
 function send()
 	for i,b in next,binds do b(sels)end
 	if locked then return end
@@ -4119,7 +4148,7 @@ end
 
 function selChanged()
 	if locked or not active.Value then return end
-	db.print'SelectionChanged event fired'
+	db.warn'SelectionChanged event fired'
 	hb:wait()
 	
 	local logs,old={},studioSels
@@ -4149,8 +4178,8 @@ function selChanged()
 end
 
 --The selection tags need locky functions; give it to them.
-function lock()db.print'Selection locked'locked=true evtMod.lock()end
-function unlock()db.print'Selection unlocked'locked=false evtMod.unlock()end
+function lock()db.warn'Selection locked'locked=true evtMod.lock()end
+function unlock()db.warn'Selection unlocked'locked=false evtMod.unlock()end
 
 --Binds the refined selection event.
 evtMod.bind('selChanged',selChanged)
@@ -4178,15 +4207,7 @@ evtMod.bind('negateSel',function(addT,remT)
 	--Removed groups that returned false on the other loop.
 	for m in next,remGrT do addP(removeG(replT[m]or m))end
 	
-	for i=1,l do print(i,addT[i],remT[i])end
-	for i in next,sels do
-		print(i,studioSels[i],sels[i])
-	end
-	
-	for i,g in next,selGroups do
-		print(i,g.main)
-	end
-	
+	addRemPr(addT,remT)
 	send()
 end)
 
@@ -4322,7 +4343,7 @@ end
 function set(modeT)
 	if tagT then return end
 	local hash=modeHash(modeT)
-	db.print'Tool set.'
+	db.warn'Tool set.'
 	bind=binds[hash]
 	tagT={}
 	
@@ -4362,7 +4383,7 @@ end
 
 function unset()
 	if not tagT then return end
-	db.print'Tool unset.'
+	db.warn'Tool unset.'
 	local repT={}
 	
 	for p,t in next,tagT do
@@ -9493,6 +9514,8 @@ return{
 
 return{
 	print=function(...)if d
+	then print(...)end end,
+	warn=function(...)if d
 	then warn(...)end end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -9528,7 +9551,7 @@ function wpAction(aT,rT)
 	local canUndo,wp=hist:GetCanUndo()
 	if not canUndo then return end
 	
-	db.print(wp,'added to undo history.')
+	db.warn(wp,'added to undo history.')
 	if wp=='NegateSelection'then
 		if#aT==#rT then
 			callBind('negateSel',aT,rT)
@@ -9544,19 +9567,19 @@ added:Connect(function(p)
 	
 	--Aggregate tables for additional modifications.
 	local addParts,remParts={p},{}
-	db.print('Added (first): ',p)
+	db.warn('Added (first): ',p)
 	
 	--Event for placing added parts in aggreagte table.
 	local addC=added:Connect(function(p)
 		if not check(p)then return end
-		db.print('Added: ',p)
+		db.warn('Added: ',p)
 		addParts[#addParts+1]=p
 	end)
 	
 	--Event for placing removed parts in aggreagte table.
 	local remC=remov:Connect(function(p)
 		if not check(p)then return end
-		db.print('Removed: ',p)
+		db.warn('Removed: ',p)
 		remParts[#remParts+1]=p
 	end)
 	
@@ -9566,7 +9589,7 @@ added:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		db.print'Action undone'
+		db.warn'Action undone'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9574,7 +9597,7 @@ added:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		db.print'Action redone'
+		db.warn'Action redone'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9597,19 +9620,19 @@ remov:Connect(function(p)
 	
 	--Aggregate tables for additional modifications.
 	local addParts,remParts={},{p}
-	db.print('Removed (first): ',p)
+	db.warn('Removed (first): ',p)
 	
 	--Event for placing added parts in aggreagte table.
 	local addC=added:Connect(function(p)
 		if not check(p)then return end
-		db.print('Added: ',p)
+		db.warn('Added: ',p)
 		addParts[#addParts+1]=p
 	end)
 	
 	--Event for placing removed parts in aggreagte table.
 	local remC=remov:Connect(function(p)
 		if not check(p)then return end
-		db.print('Removed: ',p)
+		db.warn('Removed: ',p)
 		remParts[#remParts+1]=p
 	end)
 	
@@ -9619,7 +9642,7 @@ remov:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		db.print'Action undone'
+		db.warn'Action undone'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9627,7 +9650,7 @@ remov:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		db.print'Action redone'
+		db.warn'Action redone'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9741,20 +9764,11 @@ function negate(o)
 	return p
 end
 
---Explodes negative parts.
-function unnegate(o)
+--Changes NegativePart's appearance.
+function decorNeg(p,old)
 	
-	--A non-negative part wouldn't need negation at all.
-	if not o:isA'NegateOperation'then return o end
-	
-	--Negates and stores the result.
-	local p=plugin:Negate{o}[1]
-		
 	--Stores important properties.
-	local c,t=p.Color,o.Transparency
-	
-	--A union wouldn't need additional designs.
-	if p:isA'UnionOperation'then return p end
+	local c,t=p.Color,old.Transparency
 	
 	--Mimics the original NegativePart.
 	p.BottomSurface='Smooth'
@@ -9774,6 +9788,22 @@ function unnegate(o)
 	tv.Name,tv.Value,tv.Parent='Transp',t,p
 	
 	return p
+end
+
+--Explodes negative parts.
+function unnegate(o)
+	
+	--A non-negative part wouldn't need negation at all.
+	if not o:isA'NegateOperation'then return o end
+	
+	--Negates and stores the result.
+	local p=plugin:Negate{o}[1]
+	
+	--A union wouldn't need additional designs.
+	if p:isA'UnionOperation'then return p end
+	
+	--Self-explanitory.
+	return decorNeg(p,o)
 end
 
 --Explodes the union and group its parts.
@@ -9864,13 +9894,19 @@ return{
 					addP:destroy()
 					
 					--Determines if the original part was negative.
-					local isNeg=remP.Name==negN
+					local wasNeg=remP.Name==negN
+					
+					--Decorates the new part if it is negated.
+					if not wasNeg then decorNeg(n,remP)
+					
+					--Otherwise, reverse the aforementioned code.
+					else n.Color=remP.Colour.Value end
 					
 					--Modifies the keep-group flag.
-					keepGr=not isNeg or keepGr
+					keepGr=not wasNeg or remP~=main or keepGr
 					
 					--Renames the new part appropriately.
-					n.Name=isNeg and posN or negN
+					n.Name=wasNeg and posN or negN
 					
 					--Adds it.
 					addT[i]=n
