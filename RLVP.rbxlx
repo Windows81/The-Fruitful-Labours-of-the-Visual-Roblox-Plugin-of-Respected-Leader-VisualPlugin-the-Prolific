@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXBCBF7A7BC8D84522B21FD583FD1C4983">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX077EE689666F433FBBC05E63B6C3CE67">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -9849,12 +9855,36 @@ function explode(u)local t={}local o=expl(u,t)return o,t end
 --Recursively reverses the explosion.
 function implode(o)
 	if o:isA'Folder'then
+		local allNeg=true
 		
 		--Recursive calls that modify table as each child gets imploded.
-		local c=o:children()for i,u in next,c do c[i]=implode(u)end
+		local c=o:children()
+		for i,u in next,c do
+			allNeg=allNeg
+			and u.Name==negN
+		end
 		
-		--Unions the folder's parts and removes the now-empty folder it came from.
-		local u=plugin:Union(c)u.Parent=o.Parent o:destroy()return u
+		
+		if allNeg then
+			for i,u in next,c do
+				u.Name=posN
+				u=implode(u)
+				u.Name=negN
+				c[i]=u
+			end
+		else
+			for i,u in next,c do
+				c[i]=implode(u)
+			end
+		end
+		
+		--Unions the parts and removes its now-empty folder.
+		local u=plugin:Union(c)u.Parent=o.Parent o:destroy()u.Name=o.Name
+		
+		if allNeg then
+			u.Name=negN
+		end
+		return u
 		
 	--Negates exploded parts that were NegativeParts.
 	elseif o.Name==negN then return negate(o)end
