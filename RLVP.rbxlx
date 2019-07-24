@@ -4038,9 +4038,11 @@ end
 function replaceTbl(...)replaceTblRaw(...)send()end
 
 function shift(p)
-	if pluginSels[1]==p then
-	return true end
-	for i=2,#studioSels do
+	
+	--Ensures the algorithm wouldn't do anything if it doesn't have to.
+	if pluginSels[1]==p or studioSels[1]==p then return true end
+	
+	for i=2,#pluginSels do
 		if pluginSels[i]==p then
 			
 			--Shifts the plugin selections.
