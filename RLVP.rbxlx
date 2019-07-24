@@ -3785,7 +3785,8 @@ function removeP(p)
 		if pluginSels[i]==p or studioSels[i]==p then
 			
 			--Removes element at critical index.
-			for I=i,#pluginSels do pluginSels[I]=pluginSels[I+1]
+			for I=i,#pluginSels do
+			pluginSels[I]=pluginSels[I+1]
 			studioSels[I]=studioSels[I+1]end
 			return true
 		end
@@ -3800,7 +3801,8 @@ function removeTbl(t)local b
 		if t[studioSels[i]]or t[pluginSels[i]]then
 			
 			--Removes element at critical index.
-			for I=i,#studioSels do pluginSels[I]=pluginSels[I+1]
+			for I=i,#studioSels do 
+			pluginSels[I]=pluginSels[I+1]
 			studioSels[I]=studioSels[I+1]end
 			b=true
 		end
@@ -4037,6 +4039,7 @@ end
 --Wrapper function for code reference externally.
 function replaceTbl(...)replaceTblRaw(...)send()end
 
+--Shifts to the front.
 function shift(p)
 	
 	--Ensures the algorithm wouldn't do anything if it doesn't have to.
@@ -4057,10 +4060,12 @@ function shift(p)
 	end
 end
 
+--Self-explanitory.
 function getStudioSels()
 	return game.Selection:Get()
 end
 
+--Again, self-explanitory.
 function setStudioSels(t)
 	studioSels=t or studioSels
 	game.Selection:Set(studioSels)
@@ -4101,8 +4106,8 @@ function changeSel(changes)
 	--Part table to efficiently remove from.
 	local remove={}
 	
-	for m,g in next,selGroups do
-		local u=g.algor.asUnit
+	--Does special modifications on groups and their parts.
+	for m,g in next,selGroups do local u=g.algor.asUnit
 		
 		--If grouped as a unit.
 		if u then
@@ -4125,11 +4130,12 @@ function changeSel(changes)
 					end
 				end
 				removeG(m)
-			else
-				for i,gp in next,g.parts do
-					if'remove'==changes[gp]then
-						remove[gp]=true
-						changes[gp]=nil
+				
+			--Otherwise, add and remove necessary parts.
+			else for i,gp in next,g.parts do
+					
+					--Remove function is omitted to be used all at once later.
+					if'remove'==changes[gp]then remove[gp]=true changes[gp]=nil
 					elseif'add'==changes[gp]then
 						newSS[#newSS+1]=gp
 						changes[gp]=nil
@@ -4166,7 +4172,8 @@ function changeSel(changes)
 	removeTbl(remove)
 	
 	--Sets the redirects in stone.
-	studioSels=newSS send()
+	--studioSels=newSS
+	send()
 end
 
 function selChanged()
