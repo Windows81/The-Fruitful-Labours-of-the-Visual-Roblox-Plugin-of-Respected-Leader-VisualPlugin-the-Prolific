@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXCFD5D962A3D34CAB93232783C985A9ED">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXBCBF7A7BC8D84522B21FD583FD1C4983">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3772,12 +3778,25 @@ function addP(p,selP)
 end
 
 function removeP(p)
-	for i=#studioSels,1,-1 do
+	for i=#sels,1,-1 do
 		if sels[i]==p then
 			
-			--Removes element at critical index.
-			for I=i,#studioSels do sels[I]=sels[I+1]
-			studioSels[I]=studioSels[I+1]end
+			--Determines the length of the critical region.
+			local n=0 repeat n=n+1 until sels[i+n]~=p
+			
+			--Removes element at critical indicies.
+			for I=i,#studioSels do sels[I]=sels[I+n]
+			studioSels[I]=studioSels[I+n]end
+			return true
+			
+		elseif studioSels[i]==p then
+			
+			--Determines the length of the critical region.
+			local n=0 repeat n=n+1 until studioSels[i+n]~=p
+			
+			--Removes element at critical indicies.
+			for I=i,#studioSels do sels[I]=sels[I+n]
+			studioSels[I]=studioSels[I+n]end
 			return true
 		end
 	end
@@ -4138,6 +4157,12 @@ function changeSel(changes)
 				newSS[#newSS+1]=addP(p)and p
 			elseif g.algor.asUnit then
 				newSS[#newSS+1]=g.main
+			else
+				
+				--Adds the 
+				for i,gp in next,g.defSel do
+					newSS[#newSS+1]=gp
+				end
 			end
 		else
 			newSS[#newSS+1]=p
@@ -4148,8 +4173,7 @@ function changeSel(changes)
 	removeTbl(remove)
 	
 	--Sets the redirects in stone.
-	studioSels=newSS
-	unlock()send()
+	studioSels=newSS send()
 end
 
 function selChanged()
