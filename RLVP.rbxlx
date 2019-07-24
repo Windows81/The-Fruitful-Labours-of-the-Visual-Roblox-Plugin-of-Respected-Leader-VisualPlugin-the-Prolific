@@ -3724,14 +3724,15 @@ local hb=game['Run Service'].Heartbeat
 local actv=require(main.ActiveModule)
 local db=require(main.DebugModule)
 local active=main.Active
-local studioSels={}
 local selGroups={}
 local locked
-local sels={}
 local binds={}
 
+--One-to-one mapping to each other by numerical index.
+local studioSels,pluginSels={},{}
+
 --Only returns any selection if the plugin is active.
-function get()return active.Value and sels or{}end
+function get()return active.Value and pluginSels or{}end
 
 --db.prints contents of addT and remT.
 function addRemPr(addT,remT)
@@ -3745,8 +3746,8 @@ function selPr()
 	
 	--Dumps the selection data to the output.
 	db.print()db.warn'Selection dump:'
-	for i=1,math.max(#studioSels,#sels) do
-		local ss,sl=studioSels[i],sels[i]
+	for i=1,math.max(#studioSels,#pluginSels) do
+		local ss,sl=studioSels[i],pluginSels[i]
 		if ss==sl then db.print('    ',i,ss)
 		else db.print('    ',i,ss,sl)end
 	end
@@ -3757,7 +3758,7 @@ function selPr()
 end
 
 function send()
-	for i,b in next,binds do b(sels)end
+	for i,b in next,binds do b(pluginSels)end
 	if locked then return end
 	
 	lock()
@@ -3769,34 +3770,23 @@ function addP(p,selP)
 	selP=selP or p
 	local n=#studioSels
 	for i=1,n do
-		if studioSels[i]==p or sels
+		if studioSels[i]==p or pluginSels
 		[i]==selP then return end
 	end
 	studioSels[n+1]=p
-	sels[n+1]=selP
+	pluginSels[n+1]=selP
 	return true
 end
 
 function removeP(p)
-	for i=#sels,1,-1 do
-		if sels[i]==p then
+	for i=#pluginSels,1,-1 do
+		
+		--Case when part is included in selection.
+		if pluginSels[i]==p or studioSels[i]==p then
 			
-			--Determines the length of the critical region.
-			local n=0 repeat n=n+1 until sels[i+n]~=p
-			
-			--Removes element at critical indicies.
-			for I=i,#studioSels do sels[I]=sels[I+n]
-			studioSels[I]=studioSels[I+n]end
-			return true
-			
-		elseif studioSels[i]==p then
-			
-			--Determines the length of the critical region.
-			local n=0 repeat n=n+1 until studioSels[i+n]~=p
-			
-			--Removes element at critical indicies.
-			for I=i,#studioSels do sels[I]=sels[I+n]
-			studioSels[I]=studioSels[I+n]end
+			--Removes element at critical index.
+			for I=i,#pluginSels do pluginSels[I]=pluginSels[I+1]
+			studioSels[I]=studioSels[I+1]end
 			return true
 		end
 	end
@@ -3805,12 +3795,12 @@ end
 --More efficient version of removeP for associated arrays.
 function removeTbl(t)local b
 	
-	--Removes parts from the studioSels and sels tables.
+	--Removes parts from the studioSels and pluginSels tables.
 	for i=#studioSels,1,-1 do
-		if t[studioSels[i]]or t[sels[i]]then
+		if t[studioSels[i]]or t[pluginSels[i]]then
 			
 			--Removes element at critical index.
-			for I=i,#studioSels do sels[I]=sels[I+1]
+			for I=i,#studioSels do pluginSels[I]=pluginSels[I+1]
 			studioSels[I]=studioSels[I+1]end
 			b=true
 		end
@@ -4014,11 +4004,12 @@ function replaceTblRaw(t)
 	selGroups[p1]=nil end
 	
 	--Redirects plugin-level selections.
-	for i,p in next,sels do
-	sels[i]=t[p]or sels[i]end
+	for i,p in next,pluginSels do
+	pluginSels[i]=t[p]or pluginSels[i]end
 	
 	--Redirects both sleection tables.
-	for i=#studioSels,1,-1 do sels[i]=t[sels[i]] or sels[i]
+	for i=#studioSels,1,-1 do
+	pluginSels[i]=t[pluginSels[i]]or pluginSels[i]
 	studioSels[i]=t[studioSels[i]]or studioSels[i]end
 	
 	--Removals from newly-grouped parts.
@@ -4047,13 +4038,13 @@ end
 function replaceTbl(...)replaceTblRaw(...)send()end
 
 function shift(p)
-	if sels[1]==p then
+	if pluginSels[1]==p then
 	return true end
 	for i=2,#studioSels do
-		if sels[i]==p then
+		if pluginSels[i]==p then
 			
 			--Shifts the plugin selections.
-			sels[i]=sels[1]sels[1]=p
+			pluginSels[i]=pluginSels[1]pluginSels[1]=p
 			
 			--Shifts the corresponding studio selections.
 			studioSels[i]=studioSels[1]studioSels[1]=p
