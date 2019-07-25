@@ -39,26 +39,26 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-27.2808075</X>
-					<Y>36.7024879</Y>
-					<Z>-46.5936508</Z>
-					<R00>0.998025894</R00>
-					<R01>-0.0382328629</R01>
-					<R02>0.0498257466</R02>
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
 					<R10>-0</R10>
-					<R11>0.79335171</R11>
-					<R12>0.608763695</R12>
-					<R20>-0.0628041103</R20>
-					<R21>-0.607561946</R21>
-					<R22>0.791785538</R22>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>-0</R20>
+					<R21>-0</R21>
+					<R22>1</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-27.3804588</X>
-					<Y>35.4849625</Y>
-					<Z>-48.1772194</Z>
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -968,7 +968,7 @@ end]]></ProtectedString>
 	</Item>
 	<Item class="HttpService" referent="RBX7678C9E69104452F93DC6FECECD5DEA8">
 		<Properties>
-			<bool name="HttpEnabled">false</bool>
+			<bool name="HttpEnabled">true</bool>
 			<string name="Name">HttpService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
@@ -987,60 +987,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX81D1D27E3212441B9D737E807C1E9238">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXCFD5D962A3D34CAB93232783C985A9ED">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXBCBF7A7BC8D84522B21FD583FD1C4983">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX077EE689666F433FBBC05E63B6C3CE67">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX86FF8BC60A5C4725BB8F049B289B9674">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXC4E9245FCD234E20A7F8AF7AA17CAE0A">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXABA6D08CDA9E4626A8303948AAC84078">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXC26A88E05EB545628A467EA9D502F92E">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX3DD7236C3C12468A9DC05BC5869A75A5">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -4262,6 +4208,64 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
+				<Item class="ModuleScript" referent="RBXE4B5C4CF35BC47F59F0B3EFFAA5AB922">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">GroupTagModule</string>
+						<string name="ScriptGuid">{B661EABF-AA5C-4A40-B5BE-C65970F00AED}</string>
+						<ProtectedString name="Source"><![CDATA[local collS=game:service'CollectionService'
+local tagNameT=collS:WaitForChild('RLVP_Tags',4)
+local mpSuffix='-main'
+
+--Mechanism for storing the names of saved tags.
+local tF function tagFolder()
+	
+	--Returns value if cached.
+	if tF then return tF end
+	
+	
+end
+
+--Mechanism for generating tag names.
+local hashT={}function hash(...)
+	
+	--Generates random string.
+	local sT={}for i=1,10 do
+	local r=math.random(65,90)
+	sT[i]=string.char(r)end
+	local h=table.concat(sT)
+	
+	--Until a unique tag is produced.
+	if hashT[h]then hash(...)end
+	
+	--Caches and returns.
+	hashT[h]=true return h
+end
+
+
+
+return{
+	tagGroup=function(group)
+		local h=hash(group)
+		
+		--Adds all of the group's parts to that hashed tag.
+		for i,gp in next,group.parts do collS:AddTag(gp,h)end
+		
+		--Special tag name for the main part.
+		collS:AddTag(group.main,h..mpSuffix)
+		
+		--Saves in group object.
+		group.tag=h
+		
+		--Saves in the Studio
+	end,
+	removeTagged=function(group)
+		
+	end
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBXBC384082FE654D78895AEEC7B84001E2">
 				<Properties>
@@ -9589,9 +9593,7 @@ function wpAction(aT,rT)
 	
 	db.warn(wp,'added to undo history.')
 	if wp=='NegateSelection'then
-		if#aT==#rT then
-			callBind('negateSel',aT,rT)
-		end
+		callBind('negateSel',aT,rT)
 	end
 end
 
@@ -9678,7 +9680,7 @@ remov:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		db.warn'Action undone'
+		db.warn'Action undone.'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9686,7 +9688,7 @@ remov:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		db.warn'Action redone'
+		db.warn'Action redone.'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9785,6 +9787,19 @@ end]]></ProtectedString>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local posN,negN='RLVP_Positive','RLVP_Negative'
 
+local negParams={
+	'Color',
+	'BackSurface',
+	'BottomSurface',
+	'FrontSurface',
+	'LeftSurface',
+	'RightSurface',
+	'TopSurface',
+	'Transparency',
+	'Reflectance',
+	
+}
+
 --Implodes exploded negative part.
 function negate(o)
 	local c=o.Colour.Value
@@ -9798,6 +9813,11 @@ function negate(o)
 	p.Transparency=t
 	p.CastShadow=false
 	return p
+end
+
+function decorPos(p,old)
+	p.Color=old.Colour.Value
+	print(p.Color)
 end
 
 --Changes NegativePart's appearance.
@@ -9960,7 +9980,7 @@ return{
 					if not wasNeg then decorNeg(n,remP)
 					
 					--Otherwise, reverse the aforementioned code.
-					else n.Color=remP.Colour.Value end
+					else decorPos(n,remP) end
 					
 					--Modifies the keep-group flag.
 					keepGr=not wasNeg or remP~=main or keepGr
@@ -10062,12 +10082,6 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-		</Item>
-		<Item class="Folder" referent="RBXD603141F32EB44E29EAFA3708A9E0433">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
 		</Item>
 	</Item>
 	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
