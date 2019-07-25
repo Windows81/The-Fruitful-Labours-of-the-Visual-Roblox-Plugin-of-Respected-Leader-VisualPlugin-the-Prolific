@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX81D1D27E3212441B9D737E807C1E9238">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXCFD5D962A3D34CAB93232783C985A9ED">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -4089,8 +4095,8 @@ function changeSel(changes)
 			end
 		end
 		
-		--If not as a unit, makes the main part's selection redirect to default selection table.
-		elseif changes[m]then changes[m]=nil for i,gp in next,g.defSel do changes[gp]='add'end end
+		--If not as a unit, and main part is being added to selection, redirect to the default parts.
+		elseif changes[m]=='add'then changes[m]=nil for i,gp in next,g.defSel do changes[gp]='add'end end
 	end
 		
 	--Adds part to the new selection.
