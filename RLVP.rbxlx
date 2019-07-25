@@ -4233,20 +4233,16 @@ local hashT={}function hash(...)
 	local sT={}for i=1,10 do
 	local r=math.random(65,90)
 	sT[i]=string.char(r)end
-	local h=table.concat(sT)
-	
-	--Until a unique tag is produced.
-	if hashT[h]then hash(...)end
-	
-	--Caches and returns.
-	hashT[h]=true return h
+	return table.concat(sT)
 end
 
 
 
 return{
 	tagGroup=function(group)
-		local h=hash(group)
+		
+		--Repeats until a unique tag is produced, then caches it.
+		local h repeat h=hash(group)until not hashT[h]hashT[h]=true
 		
 		--Adds all of the group's parts to that hashed tag.
 		for i,gp in next,group.parts do collS:AddTag(gp,h)end
@@ -4257,10 +4253,16 @@ return{
 		--Saves in group object.
 		group.tag=h
 		
-		--Saves in the Studio
+		--Saves in the Studio hierarchy.
+		local o=Instance.new'Configuration'
+		o.Name,o.Parent=h,tagFolder()
 	end,
 	removeTagged=function(group)
+		local h=group.hash
 		
+		--Removed cached object.
+		local o=tagFolder():findFirstChild(h)
+		o:destroy()
 	end
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
