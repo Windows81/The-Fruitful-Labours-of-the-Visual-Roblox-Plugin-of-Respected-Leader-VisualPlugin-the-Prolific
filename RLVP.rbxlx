@@ -3897,7 +3897,7 @@ function addC(p)
 	
 	unlock()
 	if not b then return end
-	send()return true
+	send()return p
 end
 
 --Remove part (command)
@@ -4074,7 +4074,7 @@ function changeSel(changes)
 	end
 	
 	--Sets the redirects in stone.
-	studioSels,newSS=newSS,{}
+	studioSels=newSS
 	
 	--Part table to efficiently remove from.
 	local remove={}
@@ -4130,20 +4130,9 @@ function changeSel(changes)
 			--Tries creating a new group.
 			local g=createGroup(p)
 			
-			if not g then
-				newSS[#newSS+1]=addP(p)and p
-			elseif g.algor.asUnit then
-				newSS[#newSS+1]=g.main
-			else
-				
-				--Adds the 
-				for i,gp in next,g.defSel do
-					newSS[#newSS+1]=gp
-				end
-			end
-			
-		--Stages to be only in studio selection.
-		else newSS[#newSS+1]=p end
+			--Adds single part if not groupable.
+			if not g then addP(p)end
+		end
 	end
 	
 	--Removes all parts counted for removal.
