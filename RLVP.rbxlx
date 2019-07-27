@@ -39,26 +39,26 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-					<R00>1</R00>
-					<R01>0</R01>
-					<R02>0</R02>
-					<R10>-0</R10>
-					<R11>1</R11>
-					<R12>0</R12>
-					<R20>-0</R20>
-					<R21>-0</R21>
-					<R22>1</R22>
+					<X>-15.2439032</X>
+					<Y>29.3814487</Y>
+					<Z>-46.016037</Z>
+					<R00>0.973578334</R00>
+					<R01>-0.0862847194</R01>
+					<R02>0.211424306</R02>
+					<R10>-7.4505806e-09</R10>
+					<R11>0.925864398</R11>
+					<R12>0.377856076</R12>
+					<R20>-0.228353426</R20>
+					<R21>-0.367872477</R21>
+					<R22>0.90140146</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
+					<X>-15.6667509</X>
+					<Y>28.6257381</Y>
+					<Z>-47.8188362</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -987,6 +987,18 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX1C722C48010C4A24899C07408FA3E5F2">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX785EC791B0B54FAAADCA3BBE8F4E640E">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3672,6 +3684,7 @@ return{
 local algorSel=require(main.AlgorChooserModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
+local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local actv=require(main.ActiveModule)
 local db=require(main.DebugModule)
@@ -3803,15 +3816,21 @@ function addG(a,p,...)
 	return g
 end
 
-function removeG(i)
-	if not selGroups[i]then return end
-	local g=selGroups[i]--stMod.unbindG(g)
+function removeGroup(main)
+	if not selGroups[main]then return end
+	local g=selGroups[main]--stMod.unbindG(g)
 	
-	if g.algor.asUnit then
-		removeP(g.main)
+	--Removes just the main part if as a unit.
+	if g.algor.asUnit then removeP(g.main)
+	else
+		
+		--Removes all parts of the group otherwise.
+		local parts={}for i,p in next,g.parts
+		do parts[p]=true end removeTbl(parts)
 	end
-	local p=g.algor.output(i,g.parts)
-	selGroups[i]=nil return p
+	
+	local p=g.algor.output(main,g.parts)
+	selGroups[main]=nil return p
 end
 
 --Conditionally calls the group's respective algorithm function.
@@ -3850,6 +3869,9 @@ function createGroup(p)
 		
 		--Adds a group in the group table.
 		local g=addG(algor,p)
+		
+		--Tags them using CollectionService for when place gets open after being saved.
+		grTag.tagGroup(g)
 		
 		--Adds the group's main part along with a plugin-level cast onto the selection.
 		if algor.asUnit then addP(g.main,g.algor.get(g.main,g.parts))
@@ -3893,12 +3915,11 @@ function removeC(p)
 		for i,gp in next,g.parts do if gp==p then has=true end end
 		if has then
 			
-			--Removes just the main part and the group.
-			if u then removeP(g.main)removeG(i)r=true
+			--Removes the group.
+			if u then removeGroup(i)r=true
 			
 			--If not as a unit, removes part.
-			else
-				if removeP(p)then
+			else if removeP(p)then
 					
 					--Evaluates whether there are other parts in the group.
 					for i,sp in next,studioSels do
@@ -3908,7 +3929,7 @@ function removeC(p)
 					end
 					
 					--If there are no parts left in the group.
-					if not r then r=removeG(i)end
+					if not r then r=removeGroup(i)end
 					
 				else r=false end
 			end
@@ -4068,7 +4089,7 @@ function changeSel(changes)
 			local a,r=changes[m]=='add',changes[m]=='remove'
 			
 			--Removes the entire unit only if a part is being deselected and another one is NOT being selected.
-			if r and not a then removeG(m)changes[m]=nil end
+			if r and not a then removeGroup(m)changes[m]=nil end
 		else
 			--Evaluates whether all parts already selected within the selection group are being removed.
 			local all=true for i,gp in next,g.parts do if changes[gp]and'remove'~=changes[gp]then all=false break end end
@@ -4077,11 +4098,10 @@ function changeSel(changes)
 			if all then
 				for i,gp in next,g.parts do
 					if'remove'==changes[gp]then
-						removeP(gp)
 						changes[gp]=nil
 					end
 				end
-				removeG(m)
+				removeGroup(m)
 				
 			--Otherwise, add and remove necessary parts.
 			else for i,gp in next,g.parts do
@@ -4098,10 +4118,16 @@ function changeSel(changes)
 		end
 	end
 	
+	--Iterates through remaining changes.
 	for p,l in next,changes do
-		if l=='remove'then
-			remove[p]=true
+		
+		--Stages those parts for removal.
+		if l=='remove'then remove[p]=true
+		
+		--Case for adding new part to selection.
 		elseif l=='add'and pfMod.part(p)then
+			
+			--Tries creating a new group.
 			local g=createGroup(p)
 			
 			if not g then
@@ -4115,9 +4141,9 @@ function changeSel(changes)
 					newSS[#newSS+1]=gp
 				end
 			end
-		else
-			newSS[#newSS+1]=p
-		end
+			
+		--Stages to be only in studio selection.
+		else newSS[#newSS+1]=p end
 	end
 	
 	--Removes all parts counted for removal.
@@ -4186,8 +4212,8 @@ evtMod.bind('negateSel',function(addT,remT)
 	--Generates a one-to-one table that will be used to modify the current selection.
 	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
 	
-	--Removed groups that returned false on the other loop.
-	for m in next,remGrT do addP(removeG(replT[m]or m))end
+	--Removes groups that returned false on the other loop.
+	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
 	
 	addRemPr(addT,remT)
 	send()
@@ -4214,7 +4240,7 @@ return{
 						<string name="Name">GroupTagModule</string>
 						<string name="ScriptGuid">{B661EABF-AA5C-4A40-B5BE-C65970F00AED}</string>
 						<ProtectedString name="Source"><![CDATA[local collS=game:service'CollectionService'
-local tagNameT=collS:WaitForChild('RLVP_Tags',4)
+local tagFName='RLVP_Tags'
 local mpSuffix='-main'
 
 --Mechanism for storing the names of saved tags.
@@ -4223,7 +4249,12 @@ local tF function tagFolder()
 	--Returns value if cached.
 	if tF then return tF end
 	
+	--Checks if a storage folder has been palced before the game opened.
+	local wF=collS:WaitForChild(tagFName,1/2)if wF then return wF end
 	
+	local f=Instance.new'Folder'
+	f.Name,f.Parent=tagFName,collS
+	return f
 end
 
 --Mechanism for generating tag names.
@@ -4235,8 +4266,6 @@ local hashT={}function hash(...)
 	sT[i]=string.char(r)end
 	return table.concat(sT)
 end
-
-
 
 return{
 	tagGroup=function(group)
@@ -4260,10 +4289,10 @@ return{
 	removeTagged=function(group)
 		local h=group.hash
 		
-		--Removed cached object.
+		--Removes cached object.
 		local o=tagFolder():findFirstChild(h)
 		o:destroy()
-	end
+	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
