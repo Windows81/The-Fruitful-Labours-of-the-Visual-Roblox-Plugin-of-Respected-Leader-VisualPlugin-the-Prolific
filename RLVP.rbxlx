@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX823C8CB8CA8B46C5A9E5CEFB0C27A5A2">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX1C722C48010C4A24899C07408FA3E5F2">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3722,9 +3728,9 @@ function selPr()
 	for m in next,selGroups do db.print('    ',m)end
 end
 
-function send()
+function send(bypass)
 	for i,b in next,binds do b(pluginSels)end
-	if locked then return end
+	if locked or bypass then return end
 	
 	lock()
 	setStudioSels()
@@ -4027,8 +4033,8 @@ function shift(p)
 			--Shifts the corresponding studio selections.
 			studioSels[i]=studioSels[1]studioSels[1]=p
 			
-			--Relays the event.
-			send()return true
+			--Relays the event, bypassing selection changes.
+			send(true)return true
 		end
 	end
 end
@@ -4232,14 +4238,17 @@ return{
 local tagFName='RLVP_Tags'
 local mpSuffix='-main'
 
+--Prepares the storage folder before anything else could be done.
+local wF spawn(function()wF=collS:WaitForChild(tagFName,1/2)end)
+
 --Mechanism for storing the names of saved tags.
 local tF function tagFolder()
 	
 	--Returns value if cached.
 	if tF then return tF end
 	
-	--Checks if a storage folder has been palced before the game opened.
-	local wF=collS:WaitForChild(tagFName,1/2)if wF then return wF end
+	--Checks the storage folder.
+	if wF then return wF end
 	
 	local f=Instance.new'Folder'
 	f.Name,f.Parent=tagFName,collS
