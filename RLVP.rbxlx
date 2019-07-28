@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-15.2439032</X>
-					<Y>29.3814487</Y>
-					<Z>-46.016037</Z>
-					<R00>0.973578334</R00>
-					<R01>-0.0862847194</R01>
-					<R02>0.211424306</R02>
-					<R10>-7.4505806e-09</R10>
-					<R11>0.925864398</R11>
-					<R12>0.377856076</R12>
-					<R20>-0.228353426</R20>
-					<R21>-0.367872477</R21>
-					<R22>0.90140146</R22>
+					<X>-15.3739557</X>
+					<Y>29.4296627</Y>
+					<Z>-46.0110855</Z>
+					<R00>0.987135947</R00>
+					<R01>-0.0642670617</R01>
+					<R02>0.146397859</R02>
+					<R10>3.72528985e-09</R10>
+					<R11>0.915655971</R11>
+					<R12>0.401962996</R12>
+					<R20>-0.159883037</R20>
+					<R21>-0.396792114</R21>
+					<R22>0.90387696</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX6E98C1D582AF4B2FBB396BECD3781FCF">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX823C8CB8CA8B46C5A9E5CEFB0C27A5A2">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3145,7 +3151,7 @@ function setHMode(argM,tempM)
 	
 	binds[1]=h.MouseDrag:connect(drag)end
 	binds[2]=h.MouseButton1Down:connect(dn)
-	binds[3]=h.MouseButton1Up:connect(tool.unset)
+	binds[3]=h.MouseButton1Up:connect(function(...)print(...)tool.unset(...)end)
 	--binds[4]=h.MouseEnter:connect(lockM)
 	--binds[5]=h.MouseLeave:connect(unlockM)
 	
@@ -3478,6 +3484,7 @@ return{
 	get=function()return currO end,
 	update=function(o)currO=o end,
 	process=function(mode,ovrd)
+		
 		local parts=sel.get()
 		currM=mode if not mode
 		then currO=parts[1]else
@@ -4034,7 +4041,7 @@ function shift(p)
 			studioSels[i]=studioSels[1]studioSels[1]=p
 			
 			--Relays the event, bypassing selection changes.
-			send(true)return true
+			send(true)return p
 		end
 	end
 end
