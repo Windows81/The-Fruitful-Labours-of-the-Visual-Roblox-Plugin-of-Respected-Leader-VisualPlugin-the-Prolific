@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.52615166</X>
-					<Y>31.7312832</Y>
-					<Z>-50.3818016</Z>
-					<R00>0.919133008</R00>
-					<R01>-0.193395659</R01>
-					<R02>0.343209356</R02>
-					<R10>-0</R10>
-					<R11>0.871206045</R11>
-					<R12>0.490917474</R12>
-					<R20>-0.393947393</R20>
-					<R21>-0.451218456</R21>
-					<R22>0.800754249</R22>
+					<X>-9.60803509</X>
+					<Y>31.6853333</Y>
+					<Z>-50.3223877</Z>
+					<R00>0.939691067</R00>
+					<R01>-0.160047591</R01>
+					<R02>0.302267194</R02>
+					<R10>1.49011594e-08</R10>
+					<R11>0.88375926</R11>
+					<R12>0.467941999</R12>
+					<R20>-0.342024386</R20>
+					<R21>-0.439720929</R21>
+					<R22>0.830460668</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -987,54 +987,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX2C8AAD2ED07C4C60810EAA10732796F2">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX1468F5D878D5412EA21735373697EFBF">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX4DA2735668E34626A44DC2E68AE7E592">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX85CB69DAA0E3487C88F8E262A7A57A29">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX6E98C1D582AF4B2FBB396BECD3781FCF">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX823C8CB8CA8B46C5A9E5CEFB0C27A5A2">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX1C722C48010C4A24899C07408FA3E5F2">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX785EC791B0B54FAAADCA3BBE8F4E640E">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3843,50 +3795,26 @@ function removeTbl(t)local b
 	return b
 end
 
---[[
---Binds the group's parts to events.
-local gBinds={}
-function bindG(g)
-	if g.algor.asUnit then
-		for i,p in next,g.parts do
-			
-			--The event for when its parent gets set to nil.
-			gBinds[p]=p.AncestryChanged:connect(function(p,par)
-				if locked or par then return end
-				
-				--Prevents other events from being called and destroy other parts.
-				unbindG(g)removeG(g)for i,p in next,g.parts do p:destroy()end
-			end)
-		end
-	end
-end
-
---Disconnects the group's parts' events.
-function unbindG(g)
-	if g.algor.asUnit then
-		for i,p in next,g.parts do
-			if gBinds[p]then
-				gBinds[p]:disconnect()
-				gBinds[p]=nil
-			end
-		end
-	end
-end
-]]
-
 function addG(a,p,...)
 	local par,g=p.Parent,{algor=a}
 	g.main,g.parts,g.defSel=a.input(p,...)
 	
 	g.main.Parent=par
 	selGroups[g.main]=g
-	--stMod.bindG(g)
 	return g
 end
 
+--#Method for removing group from its main part.
 function removeGroup(main)
+	
+	--Returns if there is none linked to it.
 	if not selGroups[main]then return end
-	local g=selGroups[main]--stMod.unbindG(g)
+	
+	--Declares variable for the group.
+	local g=selGroups[main]
+	
+	--Removes the group from persistence.
+	grTag.removeTagged(g)
 	
 	--Removes just the main part if as a unit.
 	if g.algor.asUnit then removeP(g.main)
@@ -4314,7 +4242,7 @@ local tF function tagFolder()
 	
 	local f=Instance.new'Folder'
 	f.Name,f.Parent=tagFName,collS
-	return f
+	tF=f return tF
 end
 
 --Mechanism for generating tag names.
@@ -4347,11 +4275,15 @@ return{
 		o.Name,o.Parent=h,tagFolder()
 	end,
 	removeTagged=function(group)
-		local h=group.hash
+		local h=group.tag
 		
 		--Removes cached object.
 		local o=tagFolder():findFirstChild(h)
 		o:destroy()
+		
+		--Removes all traces of that tag from the parts.
+		local t=game.CollectionService:GetTagged(h)
+		for i,gp in next,t do collS:RemoveTag(gp,h)end
 	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
