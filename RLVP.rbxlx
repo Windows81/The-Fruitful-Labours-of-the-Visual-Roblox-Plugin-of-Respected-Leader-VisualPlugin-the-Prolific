@@ -39,26 +39,26 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-27.2808075</X>
-					<Y>36.7024879</Y>
-					<Z>-46.5936508</Z>
-					<R00>0.998025894</R00>
-					<R01>-0.0382328629</R01>
-					<R02>0.0498257466</R02>
+					<X>-9.52615166</X>
+					<Y>31.7312832</Y>
+					<Z>-50.3818016</Z>
+					<R00>0.919133008</R00>
+					<R01>-0.193395659</R01>
+					<R02>0.343209356</R02>
 					<R10>-0</R10>
-					<R11>0.79335171</R11>
-					<R12>0.608763695</R12>
-					<R20>-0.0628041103</R20>
-					<R21>-0.607561946</R21>
-					<R22>0.791785538</R22>
+					<R11>0.871206045</R11>
+					<R12>0.490917474</R12>
+					<R20>-0.393947393</R20>
+					<R21>-0.451218456</R21>
+					<R22>0.800754249</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-27.3804588</X>
-					<Y>35.4849625</Y>
-					<Z>-48.1772194</Z>
+					<X>-10.2125673</X>
+					<Y>30.7494526</Y>
+					<Z>-51.9833031</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -968,7 +968,7 @@ end]]></ProtectedString>
 	</Item>
 	<Item class="HttpService" referent="RBX7678C9E69104452F93DC6FECECD5DEA8">
 		<Properties>
-			<bool name="HttpEnabled">false</bool>
+			<bool name="HttpEnabled">true</bool>
 			<string name="Name">HttpService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
@@ -987,55 +987,49 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX81D1D27E3212441B9D737E807C1E9238">
+		<Item class="Folder" referent="RBX2C8AAD2ED07C4C60810EAA10732796F2">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBXCFD5D962A3D34CAB93232783C985A9ED">
+		<Item class="Folder" referent="RBX1468F5D878D5412EA21735373697EFBF">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBXBCBF7A7BC8D84522B21FD583FD1C4983">
+		<Item class="Folder" referent="RBX4DA2735668E34626A44DC2E68AE7E592">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBX077EE689666F433FBBC05E63B6C3CE67">
+		<Item class="Folder" referent="RBX85CB69DAA0E3487C88F8E262A7A57A29">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBX86FF8BC60A5C4725BB8F049B289B9674">
+		<Item class="Folder" referent="RBX6E98C1D582AF4B2FBB396BECD3781FCF">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBXC4E9245FCD234E20A7F8AF7AA17CAE0A">
+		<Item class="Folder" referent="RBX823C8CB8CA8B46C5A9E5CEFB0C27A5A2">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBXABA6D08CDA9E4626A8303948AAC84078">
+		<Item class="Folder" referent="RBX1C722C48010C4A24899C07408FA3E5F2">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Folder" referent="RBXC26A88E05EB545628A467EA9D502F92E">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX3DD7236C3C12468A9DC05BC5869A75A5">
+		<Item class="Folder" referent="RBX785EC791B0B54FAAADCA3BBE8F4E640E">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -3112,7 +3106,7 @@ local currH,currP,currN
 local cMode,mBind
 local binds={}
 local adornee
-local origin
+local specOrig
 local isPrev
 
 local incrT={
@@ -3121,15 +3115,22 @@ local incrT={
 	rotate='rot',
 }
 
-local deb
 local magn=0
+local locked
 local parts={}
 
 function dn()magn=0
-	if deb then return end
-	deb=true parts=sel.get()
+	if locked then return end
+	locked=true parts=sel.get()
 	tool.set(cMode)
-	deb=false
+	locked=false
+end
+
+function up()
+	if locked then return end
+	locked=true
+	tool.unset()
+	locked=false
 end
 
 function drag(which,m)
@@ -3146,7 +3147,7 @@ function unlockM()return mouse.unbind(127)end
 function setHMode(argM,tempM)
 	
 	--Ensures tool is deactivated.
-	tool.unset()
+	up()
 	
 	--Hides the old handle.
 	if currH then
@@ -3173,44 +3174,65 @@ function setHMode(argM,tempM)
 	currH=h if not h then return end
 	currN=h.Name
 	
-	if not isPrev and not tempM then
-	origin=ogMod.process(mBind.origin)end
-	
 	if not tempM then magn=0
-	adorn(origin)h.Parent=cgui
+		
+		--Processes the selection's origin for the given mode.
+		if not isPrev then specOrig=ogMod.process(currP,mBind.origin)end
+		
+		adorn(specOrig or currP)
+		h.Parent=cgui
+		
+		--Connects functions to each handle event.
+		binds[1]=h.MouseDrag:connect(drag)
+		binds[2]=h.MouseButton1Down:connect(dn)
+		binds[3]=h.MouseButton1Up:connect(up)
+		--binds[4]=h.MouseEnter:connect(lockM)
+		--binds[5]=h.MouseLeave:connect(unlockM)
+	end
 	
-	binds[1]=h.MouseDrag:connect(drag)end
-	binds[2]=h.MouseButton1Down:connect(dn)
-	binds[3]=h.MouseButton1Up:connect(tool.unset)
-	--binds[4]=h.MouseEnter:connect(lockM)
-	--binds[5]=h.MouseLeave:connect(unlockM)
-	
-	--Stores for next function.
+	--Stores for next pass.
 	isPrev=not not tempM
 end
 
+--Binds to mode being changed.
 mode.setBind('handle',setHMode)
+
+--Binds to selection change.
 sel.bind(function(parts)
-setPart(parts[1])end)
-
-function adorn(a)
-	adornee,currH.Adornee=a,a
-	ogMod.update(adornee)
-end
-
-function setPart(p)
-	currP=p
-	if not cMode then setHMode(mode.get())end
-	if not actv.isActive()then return end
-	if p then origin=ogMod.process(mBind.origin)end
-	if currH then adorn(p and origin or nil)end
-end
-
-actv.bind(function(a)
-	if currH then
-		adorn(a and currP or nil)
-	end
+	
+	--Sets the adornee if processing event.
+	if locked then setPart(parts[1])
+	
+	--Otherwise, prevents memory leaks.
+	else up()setPart(parts[1])end
 end)
+
+--Change handles' adornee.
+function adorn(a)
+	
+	--Sets adornee to argument.
+	adornee,currH.Adornee=a,a
+end
+
+--Wrapper-function for adorning parts.
+function setPart(p)currP=p
+	
+	--Supresses the function call if deactivated.
+	if not actv.isActive()then return end
+	
+	--Sets handle mode if not yet configured.
+	if not cMode then setHMode(mode.get())
+	
+	--Otherwise, manually processes the origin from its config.
+	elseif currH then specOrig=ogMod.process(currP,mBind.origin)
+		
+		--Adorns the new origin or the selected part.
+		adorn(specOrig or p)
+	end
+end
+
+--Automatically shows when plugin is activated and hides when deactivated.
+actv.bind(function(a)if currH then adorn(a and currP or nil)end end)
 
 return{
 	setHandleMode=setHMode,
@@ -3512,14 +3534,18 @@ end
 
 return{
 	get=function()return currO end,
-	update=function(o)currO=o end,
-	process=function(mode,ovrd)
+	rawStore=function(v)currO=v end,
+	process=function(currP,mode,ovrd)
+		
 		local parts=sel.get()
-		currM=mode if not mode
-		then currO=parts[1]else
+		currM=mode if not mode then 
+		currO=currP return currP else
 			
 			--Determines whether user input is allowed.
-			ovrd,currO=currM~=mode or ovrd,origin
+			ovrd=currM~=mode or ovrd
+			
+			--Hard-to-explain.
+			currO=origin
 			
 			if mode=='axisO'then
 				local p=parts[1]if not p then return
@@ -3726,6 +3752,7 @@ return{
 local algorSel=require(main.AlgorChooserModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
+local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local actv=require(main.ActiveModule)
 local db=require(main.DebugModule)
@@ -3763,9 +3790,9 @@ function selPr()
 	for m in next,selGroups do db.print('    ',m)end
 end
 
-function send()
+function send(bypass)
 	for i,b in next,binds do b(pluginSels)end
-	if locked then return end
+	if locked or bypass then return end
 	
 	lock()
 	setStudioSels()
@@ -3857,15 +3884,21 @@ function addG(a,p,...)
 	return g
 end
 
-function removeG(i)
-	if not selGroups[i]then return end
-	local g=selGroups[i]--stMod.unbindG(g)
+function removeGroup(main)
+	if not selGroups[main]then return end
+	local g=selGroups[main]--stMod.unbindG(g)
 	
-	if g.algor.asUnit then
-		removeP(g.main)
+	--Removes just the main part if as a unit.
+	if g.algor.asUnit then removeP(g.main)
+	else
+		
+		--Removes all parts of the group otherwise.
+		local parts={}for i,p in next,g.parts
+		do parts[p]=true end removeTbl(parts)
 	end
-	local p=g.algor.output(i,g.parts)
-	selGroups[i]=nil return p
+	
+	local p=g.algor.output(main,g.parts)
+	selGroups[main]=nil return p
 end
 
 --Conditionally calls the group's respective algorithm function.
@@ -3905,6 +3938,9 @@ function createGroup(p)
 		--Adds a group in the group table.
 		local g=addG(algor,p)
 		
+		--Tags them using CollectionService for when place gets open after being saved.
+		grTag.tagGroup(g)
+		
 		--Adds the group's main part along with a plugin-level cast onto the selection.
 		if algor.asUnit then addP(g.main,g.algor.get(g.main,g.parts))
 		
@@ -3929,7 +3965,7 @@ function addC(p)
 	
 	unlock()
 	if not b then return end
-	send()return true
+	send()return p
 end
 
 --Remove part (command)
@@ -3947,12 +3983,11 @@ function removeC(p)
 		for i,gp in next,g.parts do if gp==p then has=true end end
 		if has then
 			
-			--Removes just the main part and the group.
-			if u then removeP(g.main)removeG(i)r=true
+			--Removes the group.
+			if u then removeGroup(i)r=true
 			
 			--If not as a unit, removes part.
-			else
-				if removeP(p)then
+			else if removeP(p)then
 					
 					--Evaluates whether there are other parts in the group.
 					for i,sp in next,studioSels do
@@ -3962,7 +3997,7 @@ function removeC(p)
 					end
 					
 					--If there are no parts left in the group.
-					if not r then r=removeG(i)end
+					if not r then r=removeGroup(i)end
 					
 				else r=false end
 			end
@@ -4060,8 +4095,8 @@ function shift(p)
 			--Shifts the corresponding studio selections.
 			studioSels[i]=studioSels[1]studioSels[1]=p
 			
-			--Relays the event.
-			send()return true
+			--Relays the event, bypassing selection changes.
+			send(true)return p
 		end
 	end
 end
@@ -4107,7 +4142,7 @@ function changeSel(changes)
 	end
 	
 	--Sets the redirects in stone.
-	studioSels,newSS=newSS,{}
+	studioSels=newSS
 	
 	--Part table to efficiently remove from.
 	local remove={}
@@ -4122,7 +4157,7 @@ function changeSel(changes)
 			local a,r=changes[m]=='add',changes[m]=='remove'
 			
 			--Removes the entire unit only if a part is being deselected and another one is NOT being selected.
-			if r and not a then removeG(m)changes[m]=nil end
+			if r and not a then removeGroup(m)changes[m]=nil end
 		else
 			--Evaluates whether all parts already selected within the selection group are being removed.
 			local all=true for i,gp in next,g.parts do if changes[gp]and'remove'~=changes[gp]then all=false break end end
@@ -4131,11 +4166,10 @@ function changeSel(changes)
 			if all then
 				for i,gp in next,g.parts do
 					if'remove'==changes[gp]then
-						removeP(gp)
 						changes[gp]=nil
 					end
 				end
-				removeG(m)
+				removeGroup(m)
 				
 			--Otherwise, add and remove necessary parts.
 			else for i,gp in next,g.parts do
@@ -4152,25 +4186,20 @@ function changeSel(changes)
 		end
 	end
 	
+	--Iterates through remaining changes.
 	for p,l in next,changes do
-		if l=='remove'then
-			remove[p]=true
+		
+		--Stages those parts for removal.
+		if l=='remove'then remove[p]=true
+		
+		--Case for adding new part to selection.
 		elseif l=='add'and pfMod.part(p)then
+			
+			--Tries creating a new group.
 			local g=createGroup(p)
 			
-			if not g then
-				newSS[#newSS+1]=addP(p)and p
-			elseif g.algor.asUnit then
-				newSS[#newSS+1]=g.main
-			else
-				
-				--Adds the 
-				for i,gp in next,g.defSel do
-					newSS[#newSS+1]=gp
-				end
-			end
-		else
-			newSS[#newSS+1]=p
+			--Adds single part if not groupable.
+			if not g then addP(p)end
 		end
 	end
 	
@@ -4240,8 +4269,8 @@ evtMod.bind('negateSel',function(addT,remT)
 	--Generates a one-to-one table that will be used to modify the current selection.
 	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
 	
-	--Removed groups that returned false on the other loop.
-	for m in next,remGrT do addP(removeG(replT[m]or m))end
+	--Removes groups that returned false on the other loop.
+	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
 	
 	addRemPr(addT,remT)
 	send()
@@ -4262,6 +4291,72 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
+				<Item class="ModuleScript" referent="RBXE4B5C4CF35BC47F59F0B3EFFAA5AB922">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">GroupTagModule</string>
+						<string name="ScriptGuid">{B661EABF-AA5C-4A40-B5BE-C65970F00AED}</string>
+						<ProtectedString name="Source"><![CDATA[local collS=game:service'CollectionService'
+local tagFName='RLVP_Tags'
+local mpSuffix='-main'
+
+--Prepares the storage folder before anything else could be done.
+local wF spawn(function()wF=collS:WaitForChild(tagFName,1/2)end)
+
+--Mechanism for storing the names of saved tags.
+local tF function tagFolder()
+	
+	--Returns value if cached.
+	if tF then return tF end
+	
+	--Checks the storage folder.
+	if wF then return wF end
+	
+	local f=Instance.new'Folder'
+	f.Name,f.Parent=tagFName,collS
+	return f
+end
+
+--Mechanism for generating tag names.
+local hashT={}function hash(...)
+	
+	--Generates random string.
+	local sT={}for i=1,10 do
+	local r=math.random(65,90)
+	sT[i]=string.char(r)end
+	return table.concat(sT)
+end
+
+return{
+	tagGroup=function(group)
+		
+		--Repeats until a unique tag is produced, then caches it.
+		local h repeat h=hash(group)until not hashT[h]hashT[h]=true
+		
+		--Adds all of the group's parts to that hashed tag.
+		for i,gp in next,group.parts do collS:AddTag(gp,h)end
+		
+		--Special tag name for the main part.
+		collS:AddTag(group.main,h..mpSuffix)
+		
+		--Saves in group object.
+		group.tag=h
+		
+		--Saves in the Studio hierarchy.
+		local o=Instance.new'Configuration'
+		o.Name,o.Parent=h,tagFolder()
+	end,
+	removeTagged=function(group)
+		local h=group.hash
+		
+		--Removes cached object.
+		local o=tagFolder():findFirstChild(h)
+		o:destroy()
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBXBC384082FE654D78895AEEC7B84001E2">
 				<Properties>
@@ -9589,9 +9684,7 @@ function wpAction(aT,rT)
 	
 	db.warn(wp,'added to undo history.')
 	if wp=='NegateSelection'then
-		if#aT==#rT then
-			callBind('negateSel',aT,rT)
-		end
+		callBind('negateSel',aT,rT)
 	end
 end
 
@@ -9678,7 +9771,7 @@ remov:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		db.warn'Action undone'
+		db.warn'Action undone.'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9686,7 +9779,7 @@ remov:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		db.warn'Action redone'
+		db.warn'Action redone.'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9785,6 +9878,19 @@ end]]></ProtectedString>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local posN,negN='RLVP_Positive','RLVP_Negative'
 
+local negParams={
+	'Color',
+	'BackSurface',
+	'BottomSurface',
+	'FrontSurface',
+	'LeftSurface',
+	'RightSurface',
+	'TopSurface',
+	'Transparency',
+	'Reflectance',
+	
+}
+
 --Implodes exploded negative part.
 function negate(o)
 	local c=o.Colour.Value
@@ -9798,6 +9904,11 @@ function negate(o)
 	p.Transparency=t
 	p.CastShadow=false
 	return p
+end
+
+function decorPos(p,old)
+	p.Color=old.Colour.Value
+	print(p.Color)
 end
 
 --Changes NegativePart's appearance.
@@ -9960,7 +10071,7 @@ return{
 					if not wasNeg then decorNeg(n,remP)
 					
 					--Otherwise, reverse the aforementioned code.
-					else n.Color=remP.Colour.Value end
+					else decorPos(n,remP) end
 					
 					--Modifies the keep-group flag.
 					keepGr=not wasNeg or remP~=main or keepGr
@@ -10062,12 +10173,6 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-		</Item>
-		<Item class="Folder" referent="RBXD603141F32EB44E29EAFA3708A9E0433">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
 		</Item>
 	</Item>
 	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
