@@ -39,26 +39,26 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-15.3739557</X>
-					<Y>29.4296627</Y>
-					<Z>-46.0110855</Z>
-					<R00>0.987135947</R00>
-					<R01>-0.0642670617</R01>
-					<R02>0.146397859</R02>
-					<R10>3.72528985e-09</R10>
-					<R11>0.915655971</R11>
-					<R12>0.401962996</R12>
-					<R20>-0.159883037</R20>
-					<R21>-0.396792114</R21>
-					<R22>0.90387696</R22>
+					<X>-9.52615166</X>
+					<Y>31.7312832</Y>
+					<Z>-50.3818016</Z>
+					<R00>0.919133008</R00>
+					<R01>-0.193395659</R01>
+					<R02>0.343209356</R02>
+					<R10>-0</R10>
+					<R11>0.871206045</R11>
+					<R12>0.490917474</R12>
+					<R20>-0.393947393</R20>
+					<R21>-0.451218456</R21>
+					<R22>0.800754249</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-15.6667509</X>
-					<Y>28.6257381</Y>
-					<Z>-47.8188362</Z>
+					<X>-10.2125673</X>
+					<Y>30.7494526</Y>
+					<Z>-51.9833031</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -987,6 +987,24 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX1468F5D878D5412EA21735373697EFBF">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX4DA2735668E34626A44DC2E68AE7E592">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX85CB69DAA0E3487C88F8E262A7A57A29">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX6E98C1D582AF4B2FBB396BECD3781FCF">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3091,15 +3109,22 @@ local incrT={
 	rotate='rot',
 }
 
-local deb
 local magn=0
+local locked
 local parts={}
 
 function dn()magn=0
-	if deb then return end
-	deb=true parts=sel.get()
+	if locked then return end
+	locked=true parts=sel.get()
 	tool.set(cMode)
-	deb=false
+	locked=false
+end
+
+function up()
+	if locked then return end
+	locked=true
+	tool.unset()
+	locked=false
 end
 
 function drag(which,m)
@@ -3116,7 +3141,7 @@ function unlockM()return mouse.unbind(127)end
 function setHMode(argM,tempM)
 	
 	--Ensures tool is deactivated.
-	tool.unset()
+	up()
 	
 	--Hides the old handle.
 	if currH then
@@ -3144,14 +3169,14 @@ function setHMode(argM,tempM)
 	currN=h.Name
 	
 	if not isPrev and not tempM then
-	origin=ogMod.process(mBind.origin)end
+	origin=ogMod.process(adornee,mBind.origin)end
 	
 	if not tempM then magn=0
 	adorn(origin)h.Parent=cgui
 	
 	binds[1]=h.MouseDrag:connect(drag)end
 	binds[2]=h.MouseButton1Down:connect(dn)
-	binds[3]=h.MouseButton1Up:connect(function(...)print(...)tool.unset(...)end)
+	binds[3]=h.MouseButton1Up:connect(up)
 	--binds[4]=h.MouseEnter:connect(lockM)
 	--binds[5]=h.MouseLeave:connect(unlockM)
 	
@@ -3159,28 +3184,41 @@ function setHMode(argM,tempM)
 	isPrev=not not tempM
 end
 
+--Binds to mode being changed.
 mode.setBind('handle',setHMode)
-sel.bind(function(parts)
-setPart(parts[1])end)
 
+--Binds to selection change.
+sel.bind(function(parts)
+	
+	--Sets the adornee if processing event.
+	if locked then setPart(parts[1])
+	
+	--Otherwise, prevent memory leaks.
+	else up()setPart(parts[1])end
+end)
+
+--Change handles' adornee.
 function adorn(a)
+	
+	--sets adornee to argument.
 	adornee,currH.Adornee=a,a
-	ogMod.update(adornee)
 end
 
-function setPart(p)
-	currP=p
-	if not cMode then setHMode(mode.get())end
+--Wrapper function for adorning parts.
+function setPart(p)currP=p
+	
+	--Supresses the function call if deactivated.
 	if not actv.isActive()then return end
-	if p then origin=ogMod.process(mBind.origin)end
+	
+	--Sets handle mode if they aren't configured yet.
+	if not cMode then setHMode(mode.get())end
+	
+	--Adorns the part itself or the desired origin.
 	if currH then adorn(p and origin or nil)end
 end
 
-actv.bind(function(a)
-	if currH then
-		adorn(a and currP or nil)
-	end
-end)
+--Automatically shows when plugin is activated and hides when deactivated.
+actv.bind(function(a)if currH then adorn(a and currP or nil)end end)
 
 return{
 	setHandleMode=setHMode,
@@ -3482,9 +3520,9 @@ end
 
 return{
 	get=function()return currO end,
-	update=function(o)currO=o end,
-	process=function(mode,ovrd)
+	process=function(o,mode,ovrd)
 		
+		currO=o
 		local parts=sel.get()
 		currM=mode if not mode
 		then currO=parts[1]else
