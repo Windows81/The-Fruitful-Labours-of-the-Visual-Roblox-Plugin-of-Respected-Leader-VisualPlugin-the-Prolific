@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX2C8AAD2ED07C4C60810EAA10732796F2">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX1468F5D878D5412EA21735373697EFBF">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3100,7 +3106,7 @@ local currH,currP,currN
 local cMode,mBind
 local binds={}
 local adornee
-local origin
+local specOrig
 local isPrev
 
 local incrT={
@@ -3168,19 +3174,23 @@ function setHMode(argM,tempM)
 	currH=h if not h then return end
 	currN=h.Name
 	
-	if not isPrev and not tempM then
-	origin=ogMod.process(adornee,mBind.origin)end
-	
 	if not tempM then magn=0
-	adorn(origin)h.Parent=cgui
+		
+		--Processes the selection's origin for the given mode.
+		if not isPrev then specOrig=ogMod.process(currP,mBind.origin)end
+		
+		adorn(specOrig or currP)
+		h.Parent=cgui
+		
+		--Connects functions to each handle event.
+		binds[1]=h.MouseDrag:connect(drag)
+		binds[2]=h.MouseButton1Down:connect(dn)
+		binds[3]=h.MouseButton1Up:connect(up)
+		--binds[4]=h.MouseEnter:connect(lockM)
+		--binds[5]=h.MouseLeave:connect(unlockM)
+	end
 	
-	binds[1]=h.MouseDrag:connect(drag)end
-	binds[2]=h.MouseButton1Down:connect(dn)
-	binds[3]=h.MouseButton1Up:connect(up)
-	--binds[4]=h.MouseEnter:connect(lockM)
-	--binds[5]=h.MouseLeave:connect(unlockM)
-	
-	--Stores for next function.
+	--Stores for next pass.
 	isPrev=not not tempM
 end
 
@@ -3193,28 +3203,32 @@ sel.bind(function(parts)
 	--Sets the adornee if processing event.
 	if locked then setPart(parts[1])
 	
-	--Otherwise, prevent memory leaks.
+	--Otherwise, prevents memory leaks.
 	else up()setPart(parts[1])end
 end)
 
 --Change handles' adornee.
 function adorn(a)
 	
-	--sets adornee to argument.
+	--Sets adornee to argument.
 	adornee,currH.Adornee=a,a
 end
 
---Wrapper function for adorning parts.
+--Wrapper-function for adorning parts.
 function setPart(p)currP=p
 	
 	--Supresses the function call if deactivated.
 	if not actv.isActive()then return end
 	
-	--Sets handle mode if they aren't configured yet.
-	if not cMode then setHMode(mode.get())end
+	--Sets handle mode if not yet configured.
+	if not cMode then setHMode(mode.get())
 	
-	--Adorns the part itself or the desired origin.
-	if currH then adorn(p and origin or nil)end
+	--Otherwise, manually processes the origin from its config.
+	elseif currH then specOrig=ogMod.process(currP,mBind.origin)
+		
+		--Adorns the new origin or the selected part.
+		adorn(specOrig or p)
+	end
 end
 
 --Automatically shows when plugin is activated and hides when deactivated.
@@ -3520,15 +3534,18 @@ end
 
 return{
 	get=function()return currO end,
-	process=function(o,mode,ovrd)
+	rawStore=function(v)currO=v end,
+	process=function(currP,mode,ovrd)
 		
-		currO=o
 		local parts=sel.get()
-		currM=mode if not mode
-		then currO=parts[1]else
+		currM=mode if not mode then 
+		currO=currP return currP else
 			
 			--Determines whether user input is allowed.
-			ovrd,currO=currM~=mode or ovrd,origin
+			ovrd=currM~=mode or ovrd
+			
+			--Hard-to-explain.
+			currO=origin
 			
 			if mode=='axisO'then
 				local p=parts[1]if not p then return
