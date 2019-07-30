@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.60803509</X>
-					<Y>31.6853333</Y>
-					<Z>-50.3223877</Z>
-					<R00>0.939691067</R00>
-					<R01>-0.160047591</R01>
-					<R02>0.302267194</R02>
-					<R10>1.49011594e-08</R10>
-					<R11>0.88375926</R11>
-					<R12>0.467941999</R12>
-					<R20>-0.342024386</R20>
-					<R21>-0.439720929</R21>
-					<R22>0.830460668</R22>
+					<X>-9.64295387</X>
+					<Y>31.7494774</Y>
+					<Z>-50.3476143</Z>
+					<R00>0.944375277</R00>
+					<R01>-0.164439321</R01>
+					<R02>0.284807205</R02>
+					<R10>-0</R10>
+					<R11>0.866017818</R11>
+					<R12>0.500013232</R12>
+					<R20>-0.328869939</R20>
+					<R21>-0.472200125</R21>
+					<R22>0.817845762</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXCB4BCBBA541A48A3A5F1994B02D6BA10">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -3742,13 +3748,13 @@ function selPr()
 	for m in next,selGroups do db.print('    ',m)end
 end
 
+--Fires events, overrides studio selections.
 function send(bypass)
 	for i,b in next,binds do b(pluginSels)end
 	if locked or bypass then return end
 	
-	lock()
-	setStudioSels()
-	unlock()
+	--
+	lock()setStudioSels()unlock()
 end
 
 function addP(p,selP)
@@ -3804,7 +3810,7 @@ function addG(a,p,...)
 	return g
 end
 
---#Method for removing group from its main part.
+--Method for removing group from its main part.
 function removeGroup(main)
 	
 	--Returns if there is none linked to it.
@@ -3817,8 +3823,7 @@ function removeGroup(main)
 	grTag.removeTagged(g)
 	
 	--Removes just the main part if as a unit.
-	if g.algor.asUnit then removeP(g.main)
-	else
+	if g.algor.asUnit then removeP(g.main)else
 		
 		--Removes all parts of the group otherwise.
 		local parts={}for i,p in next,g.parts
@@ -9809,63 +9814,14 @@ end]]></ProtectedString>
 						<string name="ScriptGuid">{D69757DD-6315-40B9-AA7F-0282C8C102C4}</string>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local posN,negN='RLVP_Positive','RLVP_Negative'
-
-local negParams={
-	'Color',
-	'BackSurface',
-	'BottomSurface',
-	'FrontSurface',
-	'LeftSurface',
-	'RightSurface',
-	'TopSurface',
-	'Transparency',
-	'Reflectance',
-	
-}
+local propS=require(script.PropStorModule)
 
 --Implodes exploded negative part.
 function negate(o)
-	local c=o.Colour.Value
-	local t=o.Transp.Value
-	
-	--Removes the value objects.
-	o:ClearAllChildren()
-	
-	o.Color=c
 	local p=plugin:Negate{o}[1]
-	p.Transparency=t
-	p.CastShadow=false
-	return p
-end
-
-function decorPos(p,old)
-	p.Color=old.Colour.Value
-	print(p.Color)
-end
-
---Changes NegativePart's appearance.
-function decorNeg(p,old)
 	
-	--Stores important properties.
-	local c,t=p.Color,old.Transparency
-	
-	--Mimics the original NegativePart.
-	p.BottomSurface='Smooth'
-	p.TopSurface='Smooth'
-	p.Material='Plastic'
-	p.CastShadow=false
-	p.Transparency=.41
-	p.Color=Color3.fromRGB(c
-	.r*255,c.g*155,c.b*165)
-	
-	--Stores the original colour.
-	local cv=Instance.new'Color3Value'
-	cv.Name,cv.Value,cv.Parent='Colour',c,p
-	
-	--Stores the transparency.
-	local tv=Instance.new'NumberValue'
-	tv.Name,tv.Value,tv.Parent='Transp',t,p
-	
+	--Restores old values.
+	propS.toPos(p,o)
 	return p
 end
 
@@ -9882,7 +9838,7 @@ function unnegate(o)
 	if p:isA'UnionOperation'then return p end
 	
 	--Self-explanitory.
-	return decorNeg(p,o)
+	return propS.toNeg(p,o)
 end
 
 --Explodes the union and group its parts.
@@ -10000,10 +9956,10 @@ return{
 					local wasNeg=remP.Name==negN
 					
 					--Decorates the new part if it is negated.
-					if not wasNeg then decorNeg(n,remP)
+					if not wasNeg then propS.toNeg(n,remP)
 					
 					--Otherwise, reverse the aforementioned code.
-					else decorPos(n,remP) end
+					else propS.toPos(n,remP) end
 					
 					--Modifies the keep-group flag.
 					keepGr=not wasNeg or remP~=main or keepGr
@@ -10041,6 +9997,86 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
+					<Item class="ModuleScript" referent="RBX099F53F2AFB44CF7A48FBA885C8B914F">
+						<Properties>
+							<Content name="LinkedSource"><null></null></Content>
+							<string name="Name">PropStorModule</string>
+							<string name="ScriptGuid">{B4930A64-D1D3-4388-9088-A4E9BD65AED6}</string>
+							<ProtectedString name="Source"><![CDATA[local props={
+	'Color',
+	'Material',
+	'BackSurface',
+	'BottomSurface',
+	'FrontSurface',
+	'LeftSurface',
+	'RightSurface',
+	'TopSurface',
+	'Transparency',
+	'Reflectance',
+	'CastShadow',	
+}
+
+--Parts for property storage.
+local cache={}
+
+return{
+	toPos=function(pos,neg)
+		--[[
+		pos.Color=neg.Colour.Value
+		pos.Transparency=neg.Transp.Value
+		pos.CastShadow=false
+		print(pos.Color)
+		
+		--Clears the objects for memory.
+		neg:ClearAllChildren()
+		]]
+		
+		local cPart=cache[neg]
+		print(cPart)
+		for i,pr in next,props do
+			pos[pr]=cPart[pr]
+		end
+		cPart:destroy()
+		
+		return pos
+	end,
+	
+	toNeg=function(neg,pos)
+		
+		--[[
+		--Stores important properties.
+		local c,t=neg.Color,pos.Transparency
+		]]
+		
+		--[[
+		--Stores the original colour.
+		local cv=Instance.new'Color3Value'
+		cv.Name,cv.Value,cv.Parent='Colour',c,neg
+		
+		--Stores the transparency.
+		local tv=Instance.new'NumberValue'
+		tv.Name,tv.Value,tv.Parent='Transp',t,neg
+		]]
+		
+		local cl=pos:clone()
+		local c=pos.Color
+		cache[neg]=cl
+		
+		--Mimics the original NegativePart.
+		neg.BottomSurface='Smooth'
+		neg.TopSurface='Smooth'
+		neg.Material='Plastic'
+		neg.CastShadow=false
+		neg.Transparency=.41
+		neg.Color=Color3.fromRGB(c
+		.r*255,c.g*155,c.b*165)
+		
+		return neg
+	end
+}]]></ProtectedString>
+							<BinaryString name="Tags"></BinaryString>
+						</Properties>
+					</Item>
 				</Item>
 				<Item class="ModuleScript" referent="RBX189F1A2CB2A64E33B285FAD3C3F1B558">
 					<Properties>
