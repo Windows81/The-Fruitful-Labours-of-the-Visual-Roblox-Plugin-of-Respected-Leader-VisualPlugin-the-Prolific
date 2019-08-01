@@ -39,18 +39,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.64295387</X>
-					<Y>31.7494774</Y>
-					<Z>-50.3476143</Z>
-					<R00>0.944375277</R00>
-					<R01>-0.164439321</R01>
-					<R02>0.284807205</R02>
-					<R10>-0</R10>
-					<R11>0.866017818</R11>
-					<R12>0.500013232</R12>
-					<R20>-0.328869939</R20>
-					<R21>-0.472200125</R21>
-					<R22>0.817845762</R22>
+					<X>-9.64642811</X>
+					<Y>31.7675571</Y>
+					<Z>-50.3575783</Z>
+					<R00>0.944376051</R00>
+					<R01>-0.167410195</R01>
+					<R02>0.283068508</R02>
+					<R10>1.49011612e-08</R10>
+					<R11>0.860736847</R11>
+					<R12>0.50905025</R12>
+					<R20>-0.328867704</R20>
+					<R21>-0.480734855</R21>
+					<R22>0.812859178</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -987,6 +987,18 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX03DD18DD226E4982B8532490141F69DB">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX27B7A842DD514C1E9EE428C40640B3FE">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXCB4BCBBA541A48A3A5F1994B02D6BA10">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -3281,9 +3293,9 @@ return{
 		local incrT=incrs[gr]
 		if not incrT then return end
 		for i=#incrT,1,-1 do if incrT[i]==v then
-		for I=i,#incrT do incrT[I]=incrT[I+1]end
-		if#incrT==0 then incrs[gr]={}initIncrs(gr)end
-		plugin:SetSetting('increments',incrs)end
+			for I=i,#incrT do incrT[I]=incrT[I+1]end
+			if#incrT==0 then incrs[gr]={}initIncrs(gr)end
+			plugin:SetSetting('increments',incrs)end
 		end
 	end,
 	set=function(gr,v)
@@ -3713,11 +3725,13 @@ local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local actv=require(main.ActiveModule)
-local db=require(main.DebugModule)
 local active=main.Active
 local selGroups={}
 local locked
 local binds={}
+
+--Modifies global environment.
+require(main.DebugModule)()
 
 --One-to-one mapping to each other by numerical index.
 local studioSels,pluginSels={},{}
@@ -3725,27 +3739,27 @@ local studioSels,pluginSels={},{}
 --Only returns any selection if the plugin is active.
 function get()return active.Value and pluginSels or{}end
 
---db.prints contents of addT and remT.
+--Prints contents of addT and remT.
 function addRemPr(addT,remT)
 	local l=math.max(#addT,#remT)selPr()
-	db.print()db.warn'Add-remove dump:'
-	for i=1,l do db.print('    ',i,addT[i],remT[i])end
+	print()warn'Add-remove dump:'
+	for i=1,l do print('    ',i,addT[i],remT[i])end
 end
 
---db.prints selection.
+--Prints selection.
 function selPr()
 	
 	--Dumps the selection data to the output.
-	db.print()db.warn'Selection dump:'
+	print()warn'Selection dump:'
 	for i=1,math.max(#studioSels,#pluginSels) do
 		local ss,sl=studioSels[i],pluginSels[i]
-		if ss==sl then db.print('    ',i,ss)
-		else db.print('    ',i,ss,sl)end
+		if ss==sl then print('    ',i,ss)
+		else print('    ',i,ss,sl)end
 	end
 	
 	--Dumps the main-parts of each selection group.
-	db.print()db.warn'Selection-group dump:'
-	for m in next,selGroups do db.print('    ',m)end
+	print()warn'Selection-group dump:'
+	for m in next,selGroups do print('    ',m)end
 end
 
 --Fires events, overrides studio selections.
@@ -3753,7 +3767,7 @@ function send(bypass)
 	for i,b in next,binds do b(pluginSels)end
 	if locked or bypass then return end
 	
-	--
+	--Sets the actual selection on Studio.
 	lock()setStudioSels()unlock()
 end
 
@@ -4002,16 +4016,11 @@ function replaceTblRaw(t)
 	
 	--Removes the parts.
 	removeTbl(grRemove)
-	
-	--[[
-	--Redirects your selection mappings.
-	local nSM={}for p,selP in next,selMappings do
-	nSM[t[p]or p]=t[selP]or selP end selMappings=nSM
-	]]
+	return true
 end
 
---Wrapper function for code reference externally.
-function replaceTbl(...)replaceTblRaw(...)send()end
+--Wrapper function for code reference to be executed externally.
+function replaceTbl(...)if replaceTblRaw(...)then send()end end
 
 --Shifts to the front.
 function shift(p)
@@ -4146,7 +4155,7 @@ end
 
 function selChanged()
 	if locked or not active.Value then return end
-	db.warn'SelectionChanged event fired'
+	warn'SelectionChanged event fired'
 	hb:wait()
 	
 	local logs,old={},studioSels
@@ -4175,9 +4184,9 @@ function selChanged()
 	changeSel(logs)
 end
 
---The selection tags need locky functions; give it to them.
-function lock()db.warn'Selection locked'locked=true evtMod.lock()end
-function unlock()db.warn'Selection unlocked'locked=false evtMod.unlock()end
+--Lock functions for the selection module.
+function lock()locked=true evtMod.lock()end
+function unlock()locked=false evtMod.unlock()end
 
 --Binds the refined selection event.
 evtMod.bind('selChanged',selChanged)
@@ -4388,7 +4397,9 @@ return{
 					<string name="ScriptGuid">{1FCEB657-1CD6-48F9-8D60-BF8E6CA2F16F}</string>
 					<ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
 local ogMod=require(script.Parent.OriginModule)
-local db=require(script.Parent.DebugModule)
+
+--Modifies global environment.
+require(script.Parent.DebugModule)()
 
 local binds={}
 local bind,tagT
@@ -4411,7 +4422,7 @@ end
 function set(modeT)
 	if tagT then return end
 	local hash=modeHash(modeT)
-	db.warn'Tool set.'
+	warn'Tool set.'
 	bind=binds[hash]
 	tagT={}
 	
@@ -4451,7 +4462,7 @@ end
 
 function unset()
 	if not tagT then return end
-	db.warn'Tool unset.'
+	warn'Tool unset.'
 	local repT={}
 	
 	for p,t in next,tagT do
@@ -9578,14 +9589,18 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">DebugModule</string>
 					<string name="ScriptGuid">{ABE5DA32-11B5-4AC6-9B5F-8A54B8BD25E8}</string>
-					<ProtectedString name="Source"><![CDATA[local d=true
+					<ProtectedString name="Source"><![CDATA[local config=require(script.Parent.ConfigModule)
+local empty=function()end
 
-return{
-	print=function(...)if d
-	then print(...)end end,
-	warn=function(...)if d
-	then warn(...)end end,
-}]]></ProtectedString>
+return function(...)
+	--Can be between 0 and 3 inclusive.
+	local d=config.get'debugLevel'
+	
+	--Debug level corresponds with filtering global debug functions.
+	if d>2 then return end local env=getfenv()env.print=empty
+	if d>1 then return end env.warn=empty
+	if d>0 then return end env.error=empty
+end]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
@@ -9595,13 +9610,16 @@ return{
 					<string name="Name">PartEventModule</string>
 					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
 					<ProtectedString name="Source"><![CDATA[local pfMod=require(script.Parent.PartFilterModule)
-local db=require(script.Parent.DebugModule)
 local rs=game['Run Service'].RenderStepped
 local hist=game.ChangeHistoryService
 local actv=script.Parent.Active
+local addParts,remParts={},{}
 local selSer=game.Selection
 local binds,debounce={}
 hist:SetEnabled(true)
+
+--Modifies global environment.
+require(script.Parent.DebugModule)()
 
 local added=game.DescendantAdded
 local remov=game.DescendantRemoving
@@ -9619,10 +9637,14 @@ function wpAction(aT,rT)
 	local canUndo,wp=hist:GetCanUndo()
 	if not canUndo then return end
 	
-	db.warn(wp,'added to undo history.')
+	warn(wp,'added to undo history.')
 	if wp=='NegateSelection'then
 		callBind('negateSel',aT,rT)
 	end
+	
+	--Clears tables for event reset.
+	for i=#aT,1,-1 do aT[i]=nil end
+	for i=#rT,1,-1 do rT[i]=nil end
 end
 
 --Event that fires when something gets added.
@@ -9632,20 +9654,19 @@ added:Connect(function(p)
 	if not check(p)or not actv.Value or debounce then return end debounce=true
 	
 	--Aggregate tables for additional modifications.
-	local addParts,remParts={p},{}
-	db.warn('Added (first): ',p)
+	warn('Added (first): ',p)addParts[1]=p
 	
 	--Event for placing added parts in aggreagte table.
 	local addC=added:Connect(function(p)
 		if not check(p)then return end
-		db.warn('Added: ',p)
+		warn('Added: ',p)
 		addParts[#addParts+1]=p
 	end)
 	
 	--Event for placing removed parts in aggreagte table.
 	local remC=remov:Connect(function(p)
 		if not check(p)then return end
-		db.warn('Removed: ',p)
+		warn('Removed: ',p)
 		remParts[#remParts+1]=p
 	end)
 	
@@ -9655,7 +9676,7 @@ added:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		db.warn'Action undone'
+		warn'Action undone'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9663,7 +9684,7 @@ added:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		db.warn'Action redone'
+		warn'Action redone'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9685,20 +9706,19 @@ remov:Connect(function(p)
 	if not check(p)or not actv.Value or debounce then return end debounce=true
 	
 	--Aggregate tables for additional modifications.
-	local addParts,remParts={},{p}
-	db.warn('Removed (first): ',p)
+	warn('Removed (first): ',p)remParts[1]=p
 	
 	--Event for placing added parts in aggreagte table.
 	local addC=added:Connect(function(p)
 		if not check(p)then return end
-		db.warn('Added: ',p)
+		warn('Added: ',p)
 		addParts[#addParts+1]=p
 	end)
 	
 	--Event for placing removed parts in aggreagte table.
 	local remC=remov:Connect(function(p)
 		if not check(p)then return end
-		db.warn('Removed: ',p)
+		warn('Removed: ',p)
 		remParts[#remParts+1]=p
 	end)
 	
@@ -9708,7 +9728,7 @@ remov:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		db.warn'Action undone.'
+		warn'Action undone.'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9716,7 +9736,7 @@ remov:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		db.warn'Action redone.'
+		warn'Action redone.'
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9740,7 +9760,18 @@ end)
 --Event for manually changing selection.
 selSer.SelectionChanged:Connect(function()
 	if debounce then return end debounce=true
-	callBind('selChanged')
+	
+	--Stores all removed parts on a table.
+	local t,d={}local e=remov:Connect(function(p)
+	if check(p)and p.Parent then
+	t[#t+1],d=p,true end end)
+	rs:wait()e:Disconnect()
+	
+	if d then
+		callBind('destroy',t)
+	else
+		callBind'selChanged'
+	end
 	debounce=false
 end)
 
@@ -10032,7 +10063,6 @@ return{
 		]]
 		
 		local cPart=cache[neg]
-		print(cPart)
 		for i,pr in next,props do
 			pos[pr]=cPart[pr]
 		end
@@ -10046,9 +10076,7 @@ return{
 		--[[
 		--Stores important properties.
 		local c,t=neg.Color,pos.Transparency
-		]]
 		
-		--[[
 		--Stores the original colour.
 		local cv=Instance.new'Color3Value'
 		cv.Name,cv.Value,cv.Parent='Colour',c,neg
@@ -10140,6 +10168,55 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
+			</Item>
+			<Item class="ModuleScript" referent="RBXA06B57F69FEF4D3280426A2A36B481EF">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ConfigModule</string>
+					<string name="ScriptGuid">{923F3F61-243E-4DFB-9928-87D6C9CC8A1E}</string>
+					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
+
+local defaults={
+	debugLevel={
+		'Debug Level',2,
+		function(v)
+			return type(v)=='number'and v%1==0 and v>=0 and v<=3
+		end,
+	}
+}
+
+function loadSett(i)
+	return plugin:GetSetting(i)
+	or defaults[i][2]
+	
+	--[[
+	local s=plugin:GetSetting(i)
+	if not s then return default[i][2]end
+	plugin:SetSetting(i,s)	
+	permCache[i]=s
+	return s
+	]]
+end
+
+local tempCache={}
+local permCache={}
+
+return{
+	setPerm=function(i,v)
+		tempCache[i]=nil
+		permCache[i]=v
+		plugin:SetSetting(i,v)
+	end,
+	setTemp=function(i,v)
+		tempCache[i]=v
+	end,
+	get=function(i)
+		return permCache[i]or
+		tempCache[i]or loadSett(i)
+	end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
 			</Item>
 		</Item>
 	</Item>
