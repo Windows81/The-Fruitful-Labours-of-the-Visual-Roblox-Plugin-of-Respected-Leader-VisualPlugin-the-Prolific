@@ -987,24 +987,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX03DD18DD226E4982B8532490141F69DB">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX27B7A842DD514C1E9EE428C40640B3FE">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXCB4BCBBA541A48A3A5F1994B02D6BA10">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -1148,7 +1130,6 @@ return{
 					<ProtectedString name="Source"><![CDATA[local tween=require(script.Parent.TweenModule)
 local psm=require(script.PosSettingModule)
 local plugin=script.Parent.Plugin.Value
-local active=script.Parent.Active
 local switchPos=script.SwitchPos
 local gui=script.Parent.RLVPGUI
 
@@ -1317,7 +1298,6 @@ function reposition(card,v2)
 end
 
 function showAll()
-	active.Value=true
 	gui.Parent=game.CoreGui
 	for i,card in next,cards do
 		if not card.shown and not card.busy then
@@ -1354,7 +1334,6 @@ function hideAll()
 		end
 	end
 	
-	active.Value=false
 	delay(tween.wTime,function()
 		gui.Parent=script
 		for i,card in next,cards do
@@ -3403,7 +3382,7 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">MouseModule</string>
 					<string name="ScriptGuid">{91B7B033-6671-4D02-AA84-B04A70926650}</string>
-					<ProtectedString name="Source"><![CDATA[local activ=script.Parent.Active
+					<ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
 local mouse=script.Parent.Plugin.Value:GetMouse()
 local binds={}
 local prK
@@ -3423,7 +3402,7 @@ end
 --Calls only the binds with the highest priority.
 mouse.Button1Down:connect(function()
 	local t=binds[prK]
-	if activ.Value and
+	if activ.isActive()and
 		t and'function'==
 		typeof(t[1])then
 		t[1](mouse)
@@ -3431,7 +3410,7 @@ mouse.Button1Down:connect(function()
 end)
 mouse.Button2Down:connect(function()
 	local t=binds[prK]
-	if activ.Value and
+	if activ.isActive()and
 		t and'function'==
 		typeof(t[2])then
 		t[2](mouse)
@@ -3724,8 +3703,7 @@ local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
-local actv=require(main.ActiveModule)
-local active=main.Active
+local active=require(main.ActiveModule)
 local selGroups={}
 local locked
 local binds={}
@@ -3737,7 +3715,7 @@ require(main.DebugModule)()
 local studioSels,pluginSels={},{}
 
 --Only returns any selection if the plugin is active.
-function get()return active.Value and pluginSels or{}end
+function get()return active.isActive()and pluginSels or{}end
 
 --Prints contents of addT and remT.
 function addRemPr(addT,remT)
@@ -4154,7 +4132,7 @@ function changeSel(changes)
 end
 
 function selChanged()
-	if locked or not active.Value then return end
+	if locked or not active.isActive() then return end
 	warn'SelectionChanged event fired'
 	hb:wait()
 	
@@ -8850,11 +8828,60 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="BoolValue" referent="RBX57FD765CBDEF4D2DBA6DD324EFA2D871">
+			<Item class="ModuleScript" referent="RBXA06B57F69FEF4D3280426A2A36B481EF">
 				<Properties>
-					<string name="Name">Active</string>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ConfigModule</string>
+					<string name="ScriptGuid">{923F3F61-243E-4DFB-9928-87D6C9CC8A1E}</string>
+					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
+
+local defaults={
+	debugLevel={
+		'Debug Level',2,
+		function(v)
+			return type(v)=='number'and v%1==0 and v>=0 and v<=3
+		end,
+	}
+}
+
+function loadKey(i)
+	return plugin:GetSetting(i)
+	or defaults[i][2]
+	
+	--[[
+	local s=plugin:GetSetting(i)
+	if not s then return default[i][2]end
+	plugin:SetSetting(i,s)	
+	permCache[i]=s
+	return s
+	]]
+end
+
+local tempCache={}
+local permCache={}
+local binds={}
+
+return{
+	setPerm=function(i,v)
+		tempCache[i]=nil
+		permCache[i]=v
+		plugin:SetSetting(i,v)
+		
+		local f=binds[i]
+		if f then f(v)end
+	end,
+	setTemp=function(i,v)
+		tempCache[i]=v
+	end,
+	get=function(i)
+		return permCache[i]or
+		tempCache[i]or loadKey(i)
+	end,
+	
+	--Binds setting change to a function.
+	bind=function(i,f)binds[i]=f end,
+}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
-					<bool name="Value">false</bool>
 				</Properties>
 			</Item>
 			<Item class="ModuleScript" referent="RBX2E0AE5203F0946808320A9A7FE8CCA44">
@@ -9591,15 +9618,28 @@ return{
 					<string name="ScriptGuid">{ABE5DA32-11B5-4AC6-9B5F-8A54B8BD25E8}</string>
 					<ProtectedString name="Source"><![CDATA[local config=require(script.Parent.ConfigModule)
 local empty=function()end
+local envs={}
+
+--Debug level corresponds with filtering global debug functions.
+function set(env,d)
+	env.print=d>2 and print or empty
+	env.warn=d>1 and warn or empty
+	env.error=d>0 and error or empty
+end
+
+--Fires when the debug setting changes.
+config.bind('debugLevel',function(d)
+	for i=1,#envs do set(envs[i],d)end
+end)
 
 return function(...)
 	--Can be between 0 and 3 inclusive.
 	local d=config.get'debugLevel'
 	
-	--Debug level corresponds with filtering global debug functions.
-	if d>2 then return end local env=getfenv()env.print=empty
-	if d>1 then return end env.warn=empty
-	if d>0 then return end env.error=empty
+	--Gets current environment and stores it.
+	local env=getfenv()envs[#envs+1]=env
+	
+	set(env,d)
 end]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -9610,9 +9650,9 @@ end]]></ProtectedString>
 					<string name="Name">PartEventModule</string>
 					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
 					<ProtectedString name="Source"><![CDATA[local pfMod=require(script.Parent.PartFilterModule)
+local active=require(script.Parent.ActiveModule)
 local rs=game['Run Service'].RenderStepped
 local hist=game.ChangeHistoryService
-local actv=script.Parent.Active
 local addParts,remParts={},{}
 local selSer=game.Selection
 local binds,debounce={}
@@ -9651,7 +9691,7 @@ end
 added:Connect(function(p)
 	
 	--Self-explanitorily prevents unneeded calls and calls that could error out.
-	if not check(p)or not actv.Value or debounce then return end debounce=true
+	if not check(p)or not active.isActive()or debounce then return end debounce=true
 	
 	--Aggregate tables for additional modifications.
 	warn('Added (first): ',p)addParts[1]=p
@@ -9703,7 +9743,7 @@ end)
 remov:Connect(function(p)
 	
 	--Self-explanitorily prevents unneeded calls and calls that could error out.
-	if not check(p)or not actv.Value or debounce then return end debounce=true
+	if not check(p)or not active.isActive()or debounce then return end debounce=true
 	
 	--Aggregate tables for additional modifications.
 	warn('Removed (first): ',p)remParts[1]=p
@@ -10168,55 +10208,6 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-			</Item>
-			<Item class="ModuleScript" referent="RBXA06B57F69FEF4D3280426A2A36B481EF">
-				<Properties>
-					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">ConfigModule</string>
-					<string name="ScriptGuid">{923F3F61-243E-4DFB-9928-87D6C9CC8A1E}</string>
-					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
-
-local defaults={
-	debugLevel={
-		'Debug Level',2,
-		function(v)
-			return type(v)=='number'and v%1==0 and v>=0 and v<=3
-		end,
-	}
-}
-
-function loadSett(i)
-	return plugin:GetSetting(i)
-	or defaults[i][2]
-	
-	--[[
-	local s=plugin:GetSetting(i)
-	if not s then return default[i][2]end
-	plugin:SetSetting(i,s)	
-	permCache[i]=s
-	return s
-	]]
-end
-
-local tempCache={}
-local permCache={}
-
-return{
-	setPerm=function(i,v)
-		tempCache[i]=nil
-		permCache[i]=v
-		plugin:SetSetting(i,v)
-	end,
-	setTemp=function(i,v)
-		tempCache[i]=v
-	end,
-	get=function(i)
-		return permCache[i]or
-		tempCache[i]or loadSett(i)
-	end,
-}]]></ProtectedString>
-					<BinaryString name="Tags"></BinaryString>
-				</Properties>
 			</Item>
 		</Item>
 	</Item>
