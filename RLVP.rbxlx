@@ -987,6 +987,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX30DF0E8AB8BC480597FA10B8CBEBE910">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -999,6 +1005,7 @@ script.Plugin.Value=plugin
 while not script.Plugin
 .Value do wait(1/2)end
 
+require(script.StartupModule)()
 require(script.SelEventModule)
 require(script.ActiveModule)
 require(script.GuiElemModule)
@@ -9656,7 +9663,6 @@ local hist=game.ChangeHistoryService
 local addParts,remParts={},{}
 local selSer=game.Selection
 local binds,debounce={}
-hist:SetEnabled(true)
 
 --Modifies global environment.
 require(script.Parent.DebugModule)()
@@ -9810,6 +9816,7 @@ selSer.SelectionChanged:Connect(function()
 	if d then
 		callBind('destroy',t)
 	else
+		print(555)
 		callBind'selChanged'
 	end
 	debounce=false
@@ -10208,6 +10215,19 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
+			</Item>
+			<Item class="ModuleScript" referent="RBX2263EFC3FC034EFF999C30E06A153FAF">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">StartupModule</string>
+					<string name="ScriptGuid">{D1E18C21-BBD1-4C00-B0B4-14172FA5D728}</string>
+					<ProtectedString name="Source"><![CDATA[local settngs=settings().Studio
+return function()
+	settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Hybrid
+	game.ChangeHistoryService:SetEnabled(true)
+end]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
 			</Item>
 		</Item>
 	</Item>
