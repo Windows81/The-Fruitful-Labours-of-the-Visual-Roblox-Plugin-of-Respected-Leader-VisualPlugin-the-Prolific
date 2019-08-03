@@ -987,6 +987,18 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXEB22156E648D4D5C8A34037C26F7BF10">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX1176D3E9F580443585D8709593964971">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX30DF0E8AB8BC480597FA10B8CBEBE910">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -4183,6 +4195,32 @@ evtMod.bind('modifyGroup',function(addT,remT)
 	end
 end)
 ]]
+
+evtMod.bind('destroy',function(t)
+	for m,g in next,selGroups do
+		local all=true
+		for i,gp in next,g.parts do
+			if not t[gp]then
+			all=false break end
+		end
+		if all then
+			
+			--Removes the group from persistence.
+			grTag.removeTagged(g)
+			
+			--Removes just the main part if as a unit.
+			if g.algor.asUnit then removeP(g.main)else
+				
+				--Removes all parts of the group otherwise.
+				local parts={}for i,p in next,g.parts
+				do parts[p]=true end removeTbl(parts)
+			end
+			
+			--Removes reference.
+			selGroups[m]=nil
+		end
+	end
+end)
 
 --Implements bind for the negation of parts.
 evtMod.bind('negateSel',function(addT,remT)
@@ -9678,12 +9716,27 @@ function callBind(n,...)
 	return binds[n]and binds[n](...)
 end
 
+function chooseWp(aT,rT,wp)
+	if wp then return wp end
+	local aL,rL=#aT,#rT
+	if aL==rL then
+		
+		--Determines if there is evidence for NegateSelection.
+		local isNeg8=true for i=1,aL do
+			local aN=aT[i]:isA'NegativePart'
+			local rN=rT[i]:isA'NegativePart'
+			if aN==rN then isNeg8=false break end
+		end if isNeg8 then return'NegateSelection'end
+		
+	end
+end
+
 --Executes an action that relates to the one listed in undo history.
-function wpAction(aT,rT)
-	local canUndo,wp=hist:GetCanUndo()
-	if not canUndo then return end
+function wpAction(aT,rT,wp)
 	
-	warn(wp,'added to undo history.')
+	if wp then warn(wp,'added to undo history.')
+	else wp=chooseWp(aT,rT,wp)end
+	
 	if wp=='NegateSelection'then
 		callBind('negateSel',aT,rT)
 	end
@@ -9722,7 +9775,7 @@ added:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		warn'Action undone'
+		warn('Action undone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9730,7 +9783,7 @@ added:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		warn'Action redone'
+		warn('Action redone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9741,7 +9794,8 @@ added:Connect(function(p)
 	remC:Disconnect()
 	if done then return end
 	
-	wpAction(addParts,remParts)
+	local canUndo,wp=hist:GetCanUndo()
+	wpAction(addParts,remParts,wp)
 	debounce=false
 end)
 
@@ -9774,7 +9828,7 @@ remov:Connect(function(p)
 	--Takes care of the event for undoing changes.
 	spawn(function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
-		warn'Action undone.'
+		warn('Action undone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9782,7 +9836,7 @@ remov:Connect(function(p)
 	--Takes care of the event for redoing changes.
 	spawn(function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
-		warn'Action redone.'
+		warn('Action redone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
 	end)
@@ -9793,8 +9847,8 @@ remov:Connect(function(p)
 	remC:Disconnect()
 	if done then return end
 	
-	wpAction(addParts,remParts)
-	debounce=false
+	local canUndo,wp=hist:GetCanUndo()
+	wpAction(addParts,remParts,wp)
 end)
 
 --[[
@@ -9810,13 +9864,12 @@ selSer.SelectionChanged:Connect(function()
 	--Stores all removed parts on a table.
 	local t,d={}local e=remov:Connect(function(p)
 	if check(p)and p.Parent then
-	t[#t+1],d=p,true end end)
+	t[p],d=true,true end end)
 	rs:wait()e:Disconnect()
 	
 	if d then
 		callBind('destroy',t)
 	else
-		print(555)
 		callBind'selChanged'
 	end
 	debounce=false
@@ -9860,8 +9913,7 @@ return{
 					<string name="ScriptGuid">{9575339F-17DA-47EC-AFD5-B6DCD54ACB67}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	part=function(p)
-		return p:IsDescendantOf(game.Workspace)
-		and p:isA'BasePart'and not p:isA'Terrain'
+		return(not p.Parent or p:IsDescendantOf(game.Workspace))and p:isA'BasePart'and not p:isA'Terrain'
 	end
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -9896,10 +9948,10 @@ local propS=require(script.PropStorModule)
 
 --Implodes exploded negative part.
 function negate(o)
-	local p=plugin:Negate{o}[1]
 	
 	--Restores old values.
-	propS.toPos(p,o)
+	propS.toPos(o)
+	local p=plugin:Negate{o}[1]
 	return p
 end
 
@@ -10098,41 +10150,17 @@ return{
 local cache={}
 
 return{
-	toPos=function(pos,neg)
-		--[[
-		pos.Color=neg.Colour.Value
-		pos.Transparency=neg.Transp.Value
-		pos.CastShadow=false
-		print(pos.Color)
-		
-		--Clears the objects for memory.
-		neg:ClearAllChildren()
-		]]
-		
+	toPos=function(neg)
 		local cPart=cache[neg]
 		for i,pr in next,props do
-			pos[pr]=cPart[pr]
+			neg[pr]=cPart[pr]
 		end
 		cPart:destroy()
 		
-		return pos
+		return neg
 	end,
 	
 	toNeg=function(neg,pos)
-		
-		--[[
-		--Stores important properties.
-		local c,t=neg.Color,pos.Transparency
-		
-		--Stores the original colour.
-		local cv=Instance.new'Color3Value'
-		cv.Name,cv.Value,cv.Parent='Colour',c,neg
-		
-		--Stores the transparency.
-		local tv=Instance.new'NumberValue'
-		tv.Name,tv.Value,tv.Parent='Transp',t,neg
-		]]
-		
 		local cl=pos:clone()
 		local c=pos.Color
 		cache[neg]=cl
