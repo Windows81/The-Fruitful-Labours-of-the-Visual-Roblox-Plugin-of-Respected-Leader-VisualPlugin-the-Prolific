@@ -4,7 +4,6 @@
 	<Item class="Workspace" referent="RBX6F7BDADC44C14D9082259DD806D465B1">
 		<Properties>
 			<bool name="AllowThirdPartySales">false</bool>
-			<token name="AutoJointsMode">0</token>
 			<string name="CollisionGroups">Default^0^1</string>
 			<Ref name="CurrentCamera">RBXA066C25127644ED591E752D0F7C276A7</Ref>
 			<double name="DistributedGameTime">0</double>
@@ -39,18 +38,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.64642811</X>
-					<Y>31.7675571</Y>
-					<Z>-50.3575783</Z>
-					<R00>0.944376051</R00>
-					<R01>-0.167410195</R01>
-					<R02>0.283068508</R02>
-					<R10>1.49011612e-08</R10>
-					<R11>0.860736847</R11>
-					<R12>0.50905025</R12>
-					<R20>-0.328867704</R20>
-					<R21>-0.480734855</R21>
-					<R22>0.812859178</R22>
+					<X>-9.60699368</X>
+					<Y>31.7944679</Y>
+					<Z>-50.3891754</Z>
+					<R00>0.934821486</R00>
+					<R01>-0.18555142</R01>
+					<R02>0.302786112</R02>
+					<R10>1.49011594e-08</R10>
+					<R11>0.852635384</R11>
+					<R12>0.522506416</R12>
+					<R20>-0.355117947</R20>
+					<R21>-0.488450229</R21>
+					<R22>0.79706192</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -987,24 +986,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBXEB22156E648D4D5C8A34037C26F7BF10">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX1176D3E9F580443585D8709593964971">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX30DF0E8AB8BC480597FA10B8CBEBE910">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -4220,6 +4201,10 @@ evtMod.bind('destroy',function(t)
 			selGroups[m]=nil
 		end
 	end
+	
+	--Clears selection tables.
+	studioSels,pluginSels={},{}
+	send(true)
 end)
 
 --Implements bind for the negation of parts.
@@ -9773,22 +9758,25 @@ added:Connect(function(p)
 	local done
 	
 	--Takes care of the event for undoing changes.
-	spawn(function()local rName=hist.OnUndo:
+	coroutine.resume(coroutine.create(
+	function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
 		warn('Action undone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
-	end)
+	end))
 	
 	--Takes care of the event for redoing changes.
-	spawn(function()local rName=hist.OnRedo:
+	coroutine.resume(coroutine.create(function()
+	print(tick(),5)local rName=hist.OnRedo:
 	Wait()if done then return end done=true
 		warn('Action redone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
-	end)
+	end))
 	
 	--Waits for events to lapse.
+	print(tick(),6)
 	rs:wait()
 	addC:Disconnect()
 	remC:Disconnect()
@@ -9826,20 +9814,22 @@ remov:Connect(function(p)
 	local done
 	
 	--Takes care of the event for undoing changes.
-	spawn(function()local rName=hist.OnUndo:
+	coroutine.resume(coroutine.create(
+	function()local rName=hist.OnUndo:
 	Wait()if done then return end done=true
 		warn('Action undone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
-	end)
+	end))
 	
 	--Takes care of the event for redoing changes.
-	spawn(function()local rName=hist.OnRedo:
+	coroutine.resume(coroutine.create(
+	function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
 		warn('Action redone:',rName)
 		addC:Disconnect()
 		remC:Disconnect()
-	end)
+	end))
 	
 	--Waits for events to lapse.
 	rs:wait()
@@ -9863,13 +9853,20 @@ selSer.SelectionChanged:Connect(function()
 	
 	--Stores all removed parts on a table.
 	local t,d={}local e=remov:Connect(function(p)
-	if check(p)and p.Parent then
-	t[p],d=true,true end end)
+		if check(p)and p.Parent then
+			warn('Destroyed:',p)
+			t[p],d=true,true
+		end
+	end)
+	
+	--Maintains event for a short time.
 	rs:wait()e:Disconnect()
 	
 	if d then
+		warn'Parts destroyed.'
 		callBind('destroy',t)
 	else
+		warn'Studio selection changed.'
 		callBind'selChanged'
 	end
 	debounce=false
