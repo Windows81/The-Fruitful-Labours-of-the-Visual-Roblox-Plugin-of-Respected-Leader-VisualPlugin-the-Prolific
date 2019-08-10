@@ -986,6 +986,18 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX77307F082C734B809B11CEEEAAC0C5DB">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBXD58D015565534319893EC2BFA9A6DFE0">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXB2B10BA9A8684141B500D4FA76A1C7DE">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -4240,20 +4252,6 @@ evtMod.bind('restore',function(wp)
 			then selGroups[m]=nil removeP(gp)nulled=true end
 		end
 	end
-	
-	--[[
-	--Nested for-loop to determine parts Studio picked up.
-	for i1,p1 in next,newSS do for i2,p2 in next,newPS do
-		
-		--Prevents redundant checks.
-		if i1==i2 then break
-		
-		--Adds part to index table if there is a match.
-		elseif p1==p2 then selIndexT[p1]=true print(p1)end
-		
-	end
-	end
-	]]
 	
 	for p in next,algorIndexT do
 		createGroup(p)
