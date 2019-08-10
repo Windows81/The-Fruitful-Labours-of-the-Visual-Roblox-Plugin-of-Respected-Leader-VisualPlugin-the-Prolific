@@ -986,6 +986,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXB2B10BA9A8684141B500D4FA76A1C7DE">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBXF3C2CB55DD434AE99C6A6875F892BBFB">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
@@ -4214,23 +4220,46 @@ evtMod.bind('destroy',function(t)
 end)
 
 evtMod.bind('restore',function(wp)
-	selPr()
-	local newSS=getStudioSels()
+	warn'Adjusting selection.'
+	local tempSS=getStudioSels()
 	local selIndexT={}
+	local algorIndexT={}
 	
+	for i,p in next,tempSS do
+		if algorSel(p)then
+			algorIndexT[p]=true
+		end
+	end
+	
+	for m,g in next,selGroups do
+		for i,gp in next,g.parts do
+			local nulled
+			
+			--If parts have been deleted, removes from group.
+			if nulled then removeP(gp)elseif not gp.Parent
+			then selGroups[m]=nil removeP(gp)nulled=true end
+		end
+	end
+	
+	--[[
 	--Nested for-loop to determine parts Studio picked up.
-	for i1,p1 in next,newSS do for i2,p2 in next,pluginSels do
+	for i1,p1 in next,newSS do for i2,p2 in next,newPS do
 		
 		--Prevents redundant checks.
 		if i1==i2 then break
 		
 		--Adds part to index table if there is a match.
-		elseif p1==p2 then selIndexT[p1]=true end
+		elseif p1==p2 then selIndexT[p1]=true print(p1)end
 		
 	end
 	end
+	]]
 	
+	for p in next,algorIndexT do
+		createGroup(p)
+	end
 	
+	send()
 end)
 
 --Implements bind for the negation of parts.
@@ -9798,20 +9827,20 @@ added:Connect(function(p)
 	
 	--Takes care of the event for undoing changes.
 	coroutine.resume(coroutine.create(
-	function()local rName=hist.OnUndo:
-	Wait()if done then return end done=true
-		warn('Action undone:',rName)
-		addC:Disconnect()
-		remC:Disconnect()
+	function()local wp=hist.OnUndo:
+	Wait()if done then return end
+		done=true warn('Action undone:',wp)
+		addC:Disconnect()remC:Disconnect()
+		wpAction(wp,addParts,remParts)
 	end))
 	
 	--Takes care of the event for redoing changes.
 	coroutine.resume(coroutine.create(
-	function()local rName=hist.OnRedo:
-	Wait()if done then return end done=true
-		warn('Action redone:',rName)
-		addC:Disconnect()
-		remC:Disconnect()
+	function()local wp=hist.OnRedo:
+	Wait()if done then return end
+		done=true warn('Action redone:',wp)
+		addC:Disconnect()remC:Disconnect()
+		wpAction(wp,addParts,remParts)
 	end))
 	
 	--Waits for events to lapse.
@@ -9855,20 +9884,20 @@ remov:Connect(function(p)
 	
 	--Takes care of the event for undoing changes.
 	coroutine.resume(coroutine.create(
-	function()local rName=hist.OnUndo:
-	Wait()if done then return end done=true
-		warn('Action undone:',rName)
-		addC:Disconnect()
-		remC:Disconnect()
+	function()local wp=hist.OnUndo:
+	Wait()if done then return end
+		done=true warn('Action undone:',wp)
+		addC:Disconnect()remC:Disconnect()
+		wpAction(wp,addParts,remParts)
 	end))
 	
 	--Takes care of the event for redoing changes.
 	coroutine.resume(coroutine.create(
-	function()local rName=hist.OnRedo:
-	Wait()if done then return end done=true
-		warn('Action redone:',rName)
-		addC:Disconnect()
-		remC:Disconnect()
+	function()local wp=hist.OnRedo:
+	Wait()if done then return end
+		done=true warn('Action redone:',wp)
+		addC:Disconnect()remC:Disconnect()
+		wpAction(wp,addParts,remParts)
 	end))
 	
 	--Waits for events to lapse.
