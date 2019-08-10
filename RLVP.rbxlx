@@ -38,18 +38,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.60699368</X>
-					<Y>31.7944679</Y>
-					<Z>-50.3891754</Z>
-					<R00>0.934821486</R00>
-					<R01>-0.18555142</R01>
-					<R02>0.302786112</R02>
-					<R10>1.49011594e-08</R10>
-					<R11>0.852635384</R11>
-					<R12>0.522506416</R12>
-					<R20>-0.355117947</R20>
-					<R21>-0.488450229</R21>
-					<R22>0.79706192</R22>
+					<X>-9.80894184</X>
+					<Y>31.8069534</Y>
+					<Z>-50.3344231</Z>
+					<R00>0.971322119</R00>
+					<R01>-0.125719339</R01>
+					<R02>0.201812074</R02>
+					<R10>7.45058149e-09</R10>
+					<R11>0.848778486</R11>
+					<R12>0.528748631</R12>
+					<R20>-0.237767696</R20>
+					<R21>-0.513585269</R21>
+					<R22>0.824437261</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -986,6 +986,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBXF3C2CB55DD434AE99C6A6875F892BBFB">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -998,7 +1004,7 @@ script.Plugin.Value=plugin
 while not script.Plugin
 .Value do wait(1/2)end
 
-require(script.StartupModule)()
+require(script.SetupModule)
 require(script.SelEventModule)
 require(script.ActiveModule)
 require(script.GuiElemModule)
@@ -3718,10 +3724,10 @@ local studioSels,pluginSels={},{}
 function get()return active.isActive()and pluginSels or{}end
 
 --Prints contents of addT and remT.
-function addRemPr(addT,remT)
-	local l=math.max(#addT,#remT)selPr()
-	print()warn'Add-remove dump:'
-	for i=1,l do print('    ',i,addT[i],remT[i])end
+function tblPrint(t1,t2)
+	local l=math.max(#t1,#t2)
+	print()warn'Two-table dump:'
+	for i=1,l do print('    ',i,t1[i],t2[i])end
 end
 
 --Prints selection.
@@ -3890,7 +3896,7 @@ function addC(p)
 	
 	unlock()
 	if not b then return end
-	send()return p
+	send()selPr()return p
 end
 
 --Remove part (command)
@@ -4207,6 +4213,26 @@ evtMod.bind('destroy',function(t)
 	send(true)
 end)
 
+evtMod.bind('restore',function(wp)
+	selPr()
+	local newSS=getStudioSels()
+	local selIndexT={}
+	
+	--Nested for-loop to determine parts Studio picked up.
+	for i1,p1 in next,newSS do for i2,p2 in next,pluginSels do
+		
+		--Prevents redundant checks.
+		if i1==i2 then break
+		
+		--Adds part to index table if there is a match.
+		elseif p1==p2 then selIndexT[p1]=true end
+		
+	end
+	end
+	
+	
+end)
+
 --Implements bind for the negation of parts.
 evtMod.bind('negateSel',function(addT,remT)
 	
@@ -4222,8 +4248,8 @@ evtMod.bind('negateSel',function(addT,remT)
 	--Removes groups that returned false on the other loop.
 	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
 	
-	addRemPr(addT,remT)
-	send()
+	tblPrint(addT,remT)
+	selPr()send()
 end)
 
 return{
@@ -4490,6 +4516,13 @@ function unset()
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
 	
+	--Adds modification to the undo chain.
+	if bind.waypoint then
+		game.ChangeHistoryService
+		:SetWaypoint('RLVP_Tool_'
+		..bind.waypoint)
+	end
+	
 	--Variables are reset.
 	tagT,bind=nil,nil
 end
@@ -4592,8 +4625,8 @@ function move(p,tags,face,d)
 end
 
 return{
-	[{'move','axis'}]={drag=move,origin='axisG'},
-	[{'move','first'}]={drag=move},
+	[{'move','axis'}]={drag=move,origin='axisG',waypoint='Move'},
+	[{'move','first'}]={drag=move,waypoint='Move'},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -4616,12 +4649,12 @@ return{
 		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
 		local v2=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v2)p.CFrame=p.CFrame*v1
-		
-	end},
+	end,waypoint='Resize'},
+	
 	[{'resize','both'}]={drag=function(p,tags,f,d)
 		local v=Vector3.FromNormalId(f.Value%3)*d
 		resize(p,v)
-	end},
+	end,waypoint='Resize'},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -4644,9 +4677,9 @@ function rot8Main(p,tags,axis,angle,...)
 end
 
 return{
-	[{'rotate','axis'}]={drag=rot8Main,origin='axisO'},
-	[{'rotate','group'}]={drag=rot8Main,origin='axisG'},
-	[{'rotate','first'}]={drag=rot8Main},
+	[{'rotate','axis'}]={drag=rot8Main,origin='axisO',waypoint='Rotate'},
+	[{'rotate','group'}]={drag=rot8Main,origin='axisG',waypoint='Rotate'},
+	[{'rotate','first'}]={drag=rot8Main,waypoint='Rotate'},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -9701,8 +9734,10 @@ function callBind(n,...)
 	return binds[n]and binds[n](...)
 end
 
-function chooseWp(aT,rT,wp)
+function chooseWp(wp,...)
 	if wp then return wp end
+	
+	local aT,rT=...
 	local aL,rL=#aT,#rT
 	if aL==rL then
 		
@@ -9717,18 +9752,22 @@ function chooseWp(aT,rT,wp)
 end
 
 --Executes an action that relates to the one listed in undo history.
-function wpAction(aT,rT,wp)
+function wpAction(wp,...)
 	
+	--Prints given waypoint to the console.
 	if wp then warn(wp,'added to undo history.')
-	else wp=chooseWp(aT,rT,wp)end
 	
-	if wp=='NegateSelection'then
-		callBind('negateSel',aT,rT)
+	--Determines waypoint if one is not given.
+	else wp=chooseWp(wp,...)end
+	
+	--Mappings for Studio-based waypoints for CSG .
+	if wp=='NegateSelection'then callBind('negateSel',...)
+	elseif wp=='SeparateSelection'then callBind('separateSel',...)
+	elseif wp=='UnionSelection'then callBind('unionSel',...)
+	
+	else--if wp:sub(10)=='RLVP_Tool_'then
+		callBind('restore',wp)
 	end
-	
-	--Clears tables for event reset.
-	for i=#aT,1,-1 do aT[i]=nil end
-	for i=#rT,1,-1 do rT[i]=nil end
 end
 
 --Event that fires when something gets added.
@@ -9767,8 +9806,8 @@ added:Connect(function(p)
 	end))
 	
 	--Takes care of the event for redoing changes.
-	coroutine.resume(coroutine.create(function()
-	print(tick(),5)local rName=hist.OnRedo:
+	coroutine.resume(coroutine.create(
+	function()local rName=hist.OnRedo:
 	Wait()if done then return end done=true
 		warn('Action redone:',rName)
 		addC:Disconnect()
@@ -9776,14 +9815,15 @@ added:Connect(function(p)
 	end))
 	
 	--Waits for events to lapse.
-	print(tick(),6)
 	rs:wait()
 	addC:Disconnect()
 	remC:Disconnect()
 	if done then return end
 	
 	local canUndo,wp=hist:GetCanUndo()
-	wpAction(addParts,remParts,wp)
+	wpAction(wp,addParts,remParts)
+	for i=#addParts,1,-1 do addParts[i]=nil end
+	for i=#remParts,1,-1 do remParts[i]=nil end
 	debounce=false
 end)
 
@@ -9838,14 +9878,18 @@ remov:Connect(function(p)
 	if done then return end
 	
 	local canUndo,wp=hist:GetCanUndo()
-	wpAction(addParts,remParts,wp)
+	wpAction(wp,addParts,remParts)
+	for i=#addParts,1,-1 do addParts[i]=nil end
+	for i=#remParts,1,-1 do remParts[i]=nil end
 end)
 
---[[
+--TODO: cases when the undo event fires first.
 hist.OnUndo:Connect(function(name)
-	TODO: cases when the undo event fires first.
+	if name:sub(1,10)=='RLVP_Tool_'then
+		--local wp=name:sub(6)
+		wpAction(name)
+	end
 end)
-]]
 
 --Event for manually changing selection.
 selSer.SelectionChanged:Connect(function()
@@ -10244,13 +10288,13 @@ return{
 			<Item class="ModuleScript" referent="RBX2263EFC3FC034EFF999C30E06A153FAF">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">StartupModule</string>
+					<string name="Name">SetupModule</string>
 					<string name="ScriptGuid">{D1E18C21-BBD1-4C00-B0B4-14172FA5D728}</string>
 					<ProtectedString name="Source"><![CDATA[local settngs=settings().Studio
-return function()
-	settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Hybrid
-	game.ChangeHistoryService:SetEnabled(true)
-end]]></ProtectedString>
+settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Hybrid
+game.ChangeHistoryService:SetEnabled(true)
+
+return nil]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
