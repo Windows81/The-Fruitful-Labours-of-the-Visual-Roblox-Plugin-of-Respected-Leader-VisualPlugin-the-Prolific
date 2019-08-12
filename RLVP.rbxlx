@@ -38,18 +38,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.80894184</X>
-					<Y>31.8069534</Y>
-					<Z>-50.3344231</Z>
-					<R00>0.971322119</R00>
-					<R01>-0.125719339</R01>
-					<R02>0.201812074</R02>
-					<R10>7.45058149e-09</R10>
-					<R11>0.848778486</R11>
-					<R12>0.528748631</R12>
-					<R20>-0.237767696</R20>
-					<R21>-0.513585269</R21>
-					<R22>0.824437261</R22>
+					<X>-9.57932091</X>
+					<Y>31.7891159</Y>
+					<Z>-50.3964348</Z>
+					<R00>0.928779364</R00>
+					<R01>-0.192665681</R01>
+					<R02>0.316621184</R02>
+					<R10>-0</R10>
+					<R11>0.854270816</R11>
+					<R12>0.51982832</R12>
+					<R20>-0.370633304</R20>
+					<R21>-0.482805818</R21>
+					<R22>0.793429017</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -986,7 +986,31 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX77307F082C734B809B11CEEEAAC0C5DB">
+		<Item class="Folder" referent="RBX09340CAB8C524DAF9F5734656523E204">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX43E0DEB2F3224E5D912F5C3CCE580332">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX03A15E442BFF4C749465B5950FABD5B4">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBXBB17BBCC58D844A4ABBB7DFC2C287D39">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBX7547619DABB34C91AE4DEE3B869A2B39">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
@@ -4258,6 +4282,8 @@ evtMod.bind('restore',function(wp)
 	end
 	
 	send()
+	wait(3)
+	game.ChangeHistoryService:SetWaypoint'RLVP_Marker'
 end)
 
 --Implements bind for the negation of parts.
@@ -4517,6 +4543,15 @@ function set(modeT)
 	origin=o,tagged=false}
 	tagT[o].isOrigin=true
 	
+	--[[
+	--Adds modification to the undo chain.
+	if bind.waypoint then
+		game.ChangeHistoryService
+		:SetWaypoint('RLVP_Tool_'
+		..bind.waypoint)
+	end
+	]]
+	
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
 end
@@ -4548,6 +4583,7 @@ function unset()
 		game.ChangeHistoryService
 		:SetWaypoint('RLVP_Tool_'
 		..bind.waypoint)
+		sel.set()
 	end
 	
 	--Variables are reset.
@@ -9756,10 +9792,8 @@ local remov=game.DescendantRemoving
 --Prevents permission-level issues for class security checks and filters out non-parts.
 function check(p)return pcall(function()return p.ClassName end)and pfMod.part(p) end
 
---Safely calls a binded function.
-function callBind(n,...)
-	return binds[n]and binds[n](...)
-end
+--Safely calls a binded function; doesn't if function is nil.
+function callBind(n,...)return binds[n]and binds[n](...)end
 
 function chooseWp(wp,...)
 	if wp then return wp end
@@ -9779,7 +9813,7 @@ function chooseWp(wp,...)
 end
 
 --Executes an action that relates to the one listed in undo history.
-function wpAction(wp,...)
+function wpAction(wp,undo,...)
 	
 	--Prints given waypoint to the console.
 	if wp then warn(wp,'added to undo history.')
@@ -9789,8 +9823,8 @@ function wpAction(wp,...)
 	
 	--Mappings for Studio-based waypoints for CSG .
 	if wp=='NegateSelection'then callBind('negateSel',...)
-	elseif wp=='SeparateSelection'then callBind('separateSel',...)
-	elseif wp=='UnionSelection'then callBind('unionSel',...)
+	elseif wp=='SeparateSelection'then callBind(undo and'separSel'or'unionSel',...)
+	elseif wp=='UnionSelection'then callBind(undo and'unionSel'or'separSel',...)
 	
 	else--if wp:sub(10)=='RLVP_Tool_'then
 		callBind('restore',wp)
@@ -9829,7 +9863,7 @@ added:Connect(function(p)
 	Wait()if done then return end
 		done=true warn('Action undone:',wp)
 		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,addParts,remParts)
+		wpAction(wp,true,addParts,remParts)
 	end))
 	
 	--Takes care of the event for redoing changes.
@@ -9838,7 +9872,7 @@ added:Connect(function(p)
 	Wait()if done then return end
 		done=true warn('Action redone:',wp)
 		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,addParts,remParts)
+		wpAction(wp,false,addParts,remParts)
 	end))
 	
 	--Waits for events to lapse.
@@ -9848,7 +9882,7 @@ added:Connect(function(p)
 	if done then return end
 	
 	local canUndo,wp=hist:GetCanUndo()
-	wpAction(wp,addParts,remParts)
+	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
 	debounce=false
@@ -9886,7 +9920,7 @@ remov:Connect(function(p)
 	Wait()if done then return end
 		done=true warn('Action undone:',wp)
 		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,addParts,remParts)
+		wpAction(wp,true,addParts,remParts)
 	end))
 	
 	--Takes care of the event for redoing changes.
@@ -9895,7 +9929,7 @@ remov:Connect(function(p)
 	Wait()if done then return end
 		done=true warn('Action redone:',wp)
 		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,addParts,remParts)
+		wpAction(wp,false,addParts,remParts)
 	end))
 	
 	--Waits for events to lapse.
@@ -9905,7 +9939,7 @@ remov:Connect(function(p)
 	if done then return end
 	
 	local canUndo,wp=hist:GetCanUndo()
-	wpAction(wp,addParts,remParts)
+	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
 end)
@@ -10039,7 +10073,7 @@ function unnegate(o)
 	return propS.toNeg(p,o)
 end
 
---Explodes the union and group its parts.
+--Explodes the union and groups its parts.
 function separate(u)
 	
 	--Un-negates instance if negative.
@@ -10318,8 +10352,16 @@ return{
 					<string name="Name">SetupModule</string>
 					<string name="ScriptGuid">{D1E18C21-BBD1-4C00-B0B4-14172FA5D728}</string>
 					<ProtectedString name="Source"><![CDATA[local settngs=settings().Studio
-settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Hybrid
+
+--Enables waypoint history persistence.
 game.ChangeHistoryService:SetEnabled(true)
+
+if settngs.RuntimeUndoBehavior~=Enum.RuntimeUndoBehavior.Snapshot then
+	settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Snapshot
+	warn('Respected Leader VisualPlugin advises that it is not compatible with your'
+	..'current \'RuntimeUndoBehavior\' option; it has been modified to \'Snapshot\'.')
+	print()
+end
 
 return nil]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
