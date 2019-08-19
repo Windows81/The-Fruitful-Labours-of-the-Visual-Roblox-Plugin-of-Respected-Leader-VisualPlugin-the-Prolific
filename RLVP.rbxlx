@@ -10123,13 +10123,13 @@ function explodeNeg(o)
 	if not o:isA'NegateOperation'then return o end
 	
 	--Negates and stores the result.
-	local p=plugin:Negate{o}[1]
+	local p=plugin:Separate{o}[1]
 	
 	--A union wouldn't need additional designs.
 	if p:isA'UnionOperation'then return p end
 	
 	--Makes it plugin-compatible.
-	return propS.explode(o,p)
+	return propS.explode(p)
 end
 
 --Explodes the union and groups its parts.
@@ -10238,10 +10238,10 @@ return{
 					local negating=remP.Name~=negN
 					
 					--Decorates the new part if it is negated.
-					if negating then propS.explode(remP,n)
+					if negating then propS.explode(n,remP)
 					
 					--Otherwise, reverse the aforementioned code.
-					else propS.implode(remP,n)end
+					else propS.implode(n,remP)end
 					
 					--Modifies the keep-group flag.
 					keepGr=negating or remP~=main or keepGr
@@ -10305,11 +10305,14 @@ return{
 local cache={}return{
 	
 	--Used for union explosion.
-	explode=function(old,new)
+	explode=function(new,old)
 		print'Object exploding.'
 		
 		--Clones the original part for caching upon implosion.
-		local cl,c=old:clone(),new.Color;cl.Color,cache[new]=c,cl
+		local cl,c=new:clone(),new.Color;cache[new]=cl
+		
+		--Decorates the cache part according to the old one's appearance.
+		if old then for i,pr in next,props do cl[pr]=old[pr]end end
 		
 		--Mimicks the original NegativePart.
 		new.BottomSurface='Smooth'
@@ -10324,7 +10327,7 @@ local cache={}return{
 	end,
 	
 	--Used for union implosion.
-	implode=function(old,new)
+	implode=function(new,old)
 		print'Object imploding.'
 		
 		--Reverts all properties.
