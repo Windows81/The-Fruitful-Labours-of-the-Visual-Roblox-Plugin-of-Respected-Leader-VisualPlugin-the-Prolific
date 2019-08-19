@@ -235,93 +235,6 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="UnionOperation" referent="RBXF83A664FDEE141C585C7D055FF236BAB">
-			<Properties>
-				<bool name="Anchored">true</bool>
-				<Content name="AssetId"><null></null></Content>
-				<float name="BackParamA">-0.5</float>
-				<float name="BackParamB">0.5</float>
-				<token name="BackSurface">0</token>
-				<token name="BackSurfaceInput">0</token>
-				<float name="BottomParamA">-0.5</float>
-				<float name="BottomParamB">0.5</float>
-				<token name="BottomSurface">0</token>
-				<token name="BottomSurfaceInput">0</token>
-				<CoordinateFrame name="CFrame">
-					<X>-14</X>
-					<Y>14.499999</Y>
-					<Z>-65</Z>
-					<R00>1</R00>
-					<R01>0</R01>
-					<R02>0</R02>
-					<R10>0</R10>
-					<R11>1</R11>
-					<R12>0</R12>
-					<R20>0</R20>
-					<R21>0</R21>
-					<R22>1</R22>
-				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
-				<bool name="CastShadow">true</bool>
-				<BinaryString name="ChildData">Q1NHS2ZjYzZiZWM4Njg2MmEzNTljMDI2MzA3MzNiNTM2Yzc5</BinaryString>
-				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
-				<PhysicalProperties name="CustomPhysicalProperties">
-					<CustomPhysics>false</CustomPhysics>
-				</PhysicalProperties>
-				<token name="FormFactor">3</token>
-				<float name="FrontParamA">-0.5</float>
-				<float name="FrontParamB">0.5</float>
-				<token name="FrontSurface">0</token>
-				<token name="FrontSurfaceInput">0</token>
-				<Vector3 name="InitialSize">
-					<X>7.99999619</X>
-					<Y>6.99999809</Y>
-					<Z>9.00000381</Z>
-				</Vector3>
-				<BinaryString name="LODData"></BinaryString>
-				<float name="LeftParamA">-0.5</float>
-				<float name="LeftParamB">0.5</float>
-				<token name="LeftSurface">0</token>
-				<token name="LeftSurfaceInput">0</token>
-				<bool name="Locked">false</bool>
-				<bool name="Massless">false</bool>
-				<token name="Material">256</token>
-				<BinaryString name="MeshData">Q1NHS2I2YTM3MDUzYWNiMjU5OWZiNGQwNzNkZGI0OTc4YmJi</BinaryString>
-				<string name="Name">Union</string>
-				<SharedString name="PhysicalConfigData">7aNoHXJkqXsL0wH0cuB+Ng==</SharedString>
-				<BinaryString name="PhysicsData"></BinaryString>
-				<float name="Reflectance">0</float>
-				<token name="RenderFidelity">1</token>
-				<float name="RightParamA">-0.5</float>
-				<float name="RightParamB">0.5</float>
-				<token name="RightSurface">0</token>
-				<token name="RightSurfaceInput">0</token>
-				<int name="RootPriority">0</int>
-				<Vector3 name="RotVelocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<BinaryString name="Tags"></BinaryString>
-				<float name="TopParamA">-0.5</float>
-				<float name="TopParamB">0.5</float>
-				<token name="TopSurface">0</token>
-				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0</float>
-				<bool name="UsePartColor">false</bool>
-				<Vector3 name="Velocity">
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Vector3>
-				<Vector3 name="size">
-					<X>7.99999619</X>
-					<Y>6.99999809</Y>
-					<Z>9.00000381</Z>
-				</Vector3>
-			</Properties>
-		</Item>
 		<Item class="NegateOperation" referent="RBXE1A49830D1B1401086CB4B7580C1706C">
 			<Properties>
 				<bool name="Anchored">true</bool>
@@ -409,6 +322,93 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
+		<Item class="UnionOperation" referent="RBX3BA4E2BD05B349CFB48FC16EE3AC83A2">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<Content name="AssetId"><null></null></Content>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>-13.9999981</X>
+					<Y>14.499999</Y>
+					<Z>-65</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">true</bool>
+				<bool name="CastShadow">true</bool>
+				<BinaryString name="ChildData">Q1NHSzcxNmJhNzJkOWViNDM1Yzg3M2Y3ZjhjODk0Yzc5NmQx</BinaryString>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<token name="FormFactor">3</token>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<Vector3 name="InitialSize">
+					<X>7.99999905</X>
+					<Y>6.99999809</Y>
+					<Z>9.00000381</Z>
+				</Vector3>
+				<BinaryString name="LODData"></BinaryString>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<BinaryString name="MeshData">Q1NHS2Q1ZDg0M2YyMmRjZWI5ZmFkODZiYjIzOTBiZTIyNmUx</BinaryString>
+				<string name="Name">Union</string>
+				<SharedString name="PhysicalConfigData">EX0o/Yrmr11oCFB9WgSMCw==</SharedString>
+				<BinaryString name="PhysicsData"></BinaryString>
+				<float name="Reflectance">0</float>
+				<token name="RenderFidelity">1</token>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0</float>
+				<bool name="UsePartColor">false</bool>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<Vector3 name="size">
+					<X>7.99999905</X>
+					<Y>6.99999809</Y>
+					<Z>9.00000381</Z>
+				</Vector3>
+			</Properties>
+		</Item>
 	</Item>
 	<Item class="SoundService" referent="RBXF1AACD91FB2243C59ADB93D92D032DEE">
 		<Properties>
@@ -426,52 +426,6 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 			<string name="Name">NonReplicatedCSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBX02705724C79641D384AEA3200128E135">
-			<Properties>
-				<string name="Name">ChildData</string>
-				<BinaryString name="Tags"></BinaryString>
-				<BinaryString name="Value"><![CDATA[PHJvYmxveCGJ/w0KGgoAAAEAAAACAAAAAAAAAAAAAABJTlNUGwAAABkAAAAAAAAA8AoAAAAA
-BAAAAFBhcnQAAgAAAAAAAAAAAAACUFJPUBUAAAATAAAAAAAAAPAEAAAAAAgAAABBbmNob3Jl
-ZAIBAVBST1AdAAAAGwAAAAAAAADwDAAAAAAKAAAAQmFja1BhcmFtQQR+fgAAAAABAVBST1Ad
-AAAAGwAAAAAAAADwDAAAAAAKAAAAQmFja1BhcmFtQgR+fgAAAAAAAFBST1AeAAAAHAAAAAAA
-AADwDQAAAAALAAAAQmFja1N1cmZhY2USAAAAAAAAAABQUk9QIwAAACEAAAAAAAAA8BIAAAAA
-EAAAAEJhY2tTdXJmYWNlSW5wdXQSAAAAAAAAAABQUk9QHwAAAB0AAAAAAAAA8A4AAAAADAAA
-AEJvdHRvbVBhcmFtQQR+fgAAAAABAVBST1AfAAAAHQAAAAAAAADwDgAAAAAMAAAAQm90dG9t
-UGFyYW1CBH5+AAAAAAAAUFJPUCAAAAAeAAAAAAAAAPAPAAAAAA0AAABCb3R0b21TdXJmYWNl
-EgAAAAAAAAAAUFJPUCUAAAAjAAAAAAAAAPAUAAAAABIAAABCb3R0b21TdXJmYWNlSW5wdXQS
-AAAAAAAAAABQUk9QKwAAACkAAAAAAAAA8BoAAAAABgAAAENGcmFtZRACAn9/gIAAAAEAf34A
-/wD/EOGAgAAAAAAAAVBST1AXAAAAFQAAAAAAAADwBgAAAAAKAAAAQ2FuQ29sbGlkZQIBAVBS
-T1AXAAAAFQAAAAAAAADwBgAAAAAKAAAAQ2FzdFNoYWRvdwIBAVBST1AjAAAAIQAAAAAAAADw
-EgAAAAAQAAAAQ29sbGlzaW9uR3JvdXBJZAMAAAAAAAAAAFBST1AcAAAAGgAAAAAAAADwCwAA
-AAALAAAAQ29sb3IzdWludDgao6OioqWlUFJPUCUAAAAjAAAAAAAAAPAUAAAAABgAAABDdXN0
-b21QaHlzaWNhbFByb3BlcnRpZXMZAABQUk9QHgAAABwAAAAAAAAA8A0AAAAACwAAAEZyb250
-UGFyYW1BBH5+AAAAAAEBUFJPUB4AAAAcAAAAAAAAAPANAAAAAAsAAABGcm9udFBhcmFtQgR+
-fgAAAAAAAFBST1AfAAAAHQAAAAAAAADwDgAAAAAMAAAARnJvbnRTdXJmYWNlEgAAAAAAAAAA
-UFJPUCQAAAAiAAAAAAAAAPATAAAAABEAAABGcm9udFN1cmZhY2VJbnB1dBIAAAAAAAAAAFBS
-T1AdAAAAGwAAAAAAAADwDAAAAAAKAAAATGVmdFBhcmFtQQR+fgAAAAABAVBST1AdAAAAGwAA
-AAAAAADwDAAAAAAKAAAATGVmdFBhcmFtQgR+fgAAAAAAAFBST1AeAAAAHAAAAAAAAADwDQAA
-AAALAAAATGVmdFN1cmZhY2USAAAAAAAAAABQUk9QIwAAACEAAAAAAAAA8BIAAAAAEAAAAExl
-ZnRTdXJmYWNlSW5wdXQSAAAAAAAAAABQUk9QEwAAABEAAAAAAAAA8AIAAAAABgAAAExvY2tl
-ZAIAAFBST1AVAAAAEwAAAAAAAADwBAAAAAAIAAAATWFzc2xlc3MCAABQUk9QGwAAABkAAAAA
-AAAA8AoAAAAACAAAAE1hdGVyaWFsEgAAAAABAQAAUFJPUB0AAAAdAAAAAAAAANAAAAAABAAA
-AE5hbWUBCQDAUGFydAQAAABQYXJ0UFJPUB4AAAAcAAAAAAAAAPANAAAAAAsAAABSZWZsZWN0
-YW5jZQQAAAAAAAAAAFBST1AeAAAAHAAAAAAAAADwDQAAAAALAAAAUmlnaHRQYXJhbUEEfn4A
-AAAAAQFQUk9QHgAAABwAAAAAAAAA8A0AAAAACwAAAFJpZ2h0UGFyYW1CBH5+AAAAAAAAUFJP
-UB8AAAAdAAAAAAAAAPAOAAAAAAwAAABSaWdodFN1cmZhY2USAAAAAAAAAABQUk9QJAAAACIA
-AAAAAAAA8BMAAAAAEQAAAFJpZ2h0U3VyZmFjZUlucHV0EgAAAAAAAAAAUFJPUB8AAAAdAAAA
-AAAAAPAOAAAAAAwAAABSb290UHJpb3JpdHkDAAAAAAAAAABQUk9QIQAAACwAAAAAAAAA8AUA
-AAAACwAAAFJvdFZlbG9jaXR5DhQACwIAUAAAAAAAUFJPUBcAAAAVAAAAAAAAAPAGAAAAAAQA
-AABUYWdzAQAAAAAAAAAAUFJPUBwAAAAaAAAAAAAAAPALAAAAAAkAAABUb3BQYXJhbUEEfn4A
-AAAAAQFQUk9QHAAAABoAAAAAAAAA8AsAAAAACQAAAFRvcFBhcmFtQgR+fgAAAAAAAFBST1Ad
-AAAAGwAAAAAAAADwDAAAAAAKAAAAVG9wU3VyZmFjZRIAAAAAAAAAAFBST1AiAAAAIAAAAAAA
-AADwEQAAAAAPAAAAVG9wU3VyZmFjZUlucHV0EgAAAAAAAAAAUFJPUB8AAAAdAAAAAAAAAPAO
-AAAAAAwAAABUcmFuc3BhcmVuY3kEAAAAAAAAAABQUk9QHgAAACkAAAAAAAAA8AIAAAAACAAA
-AFZlbG9jaXR5DhEACwIAUAAAAAAAUFJPUCAAAAAeAAAAAAAAAPAPAAAAAA0AAABmb3JtRmFj
-dG9yUmF3EgAAAAAAAAEBUFJPUBgAAAAWAAAAAAAAAPAHAAAAAAUAAABzaGFwZRIAAAAAAAAB
-AVBST1AeAAAAJQAAAAAAAADwAgAAAAAEAAAAc2l6ZQ6BgUBAEQAHCABQQAAAAABQUk5UEAAA
-ABUAAAAAAAAANQACAAEAkAIAAAAAAAABAEVORAAAAAAACQAAAAAAAAA8L3JvYmxveD4=]]></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="BinaryStringValue" referent="RBX50F8656F6D5541EAA36BE6A50BFF1E2D">
 			<Properties>
 				<string name="Name">ChildData</string>
@@ -515,121 +469,58 @@ EgAAAAFQUk9QGwAAABkAAAAAAAAA8AoAAAAABAAAAHNpemUOg9AAAIOwAACAAAAAUFJOVA4A
 AAANAAAAAAAAANAAAQAAAAAAAAAAAAABRU5EAAAAAAAJAAAAAAAAADwvcm9ibG94Pg==]]></BinaryString>
 			</Properties>
 		</Item>
+		<Item class="BinaryStringValue" referent="RBX0B78EA1E52FF443F9CC11706DE328DD9">
+			<Properties>
+				<string name="Name">ChildData</string>
+				<BinaryString name="Tags"></BinaryString>
+				<BinaryString name="Value"><![CDATA[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]]></BinaryString>
+			</Properties>
+		</Item>
 	</Item>
 	<Item class="CSGDictionaryService" referent="RBXAEB53D2F437D460D9E74131BEE63AA7D">
 		<Properties>
 			<string name="Name">CSGDictionaryService</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="BinaryStringValue" referent="RBXC650A6E06299418686671BE486D0E231">
-			<Properties>
-				<string name="Name">MeshData</string>
-				<BinaryString name="Tags"></BinaryString>
-				<BinaryString name="Value"><![CDATA[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]]></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="BinaryStringValue" referent="RBX7F5A06B2BE9747CC8D3FBDE05249DF46">
 			<Properties>
 				<string name="Name">MeshData</string>
@@ -676,6 +567,115 @@ MAQ0aQx3DAFeABpgN2k5UisHTyRZZVIEelYsblgxIzAENG0MdwwEXgAaZjdpHVUrB08sWWVT
 DXpWLmRYMSA7BDRpCXcMAVIAGmA0aR1SJgdPJFdlUwR1Vi5uWjEgMBQ0aQx3DAFeERpgN3sd
 UisUTyRZalMEekIublg8IDAEJmkMdxkBXgAJYDdpC1IrB0QkWWVZBHpWOW5YMSgwBDRuDHcM
 A14AGmA3aR12KwdP]]></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="BinaryStringValue" referent="RBXCFF775A0819E4F44AAD82A419141B47E">
+			<Properties>
+				<string name="Name">MeshData</string>
+				<BinaryString name="Tags"></BinaryString>
+				<BinaryString name="Value"><![CDATA[FX0pFXVsNAQ0aT1CNTk/Zn9ZUVouYx1jfhG05SEANjPT2eyUO0+HLo3pSwwBXlQaYDdpHdLr
++7B7GWVTlDpWLu7nMSAwBDRpDHevo/v/HmA3aXU0ccaH6JWlUwR6Vi5uWDEgMAQ0aQx3DAFe
+ABpgN2kdUiuHcCRZZVMEelYublgxIDAENGkMd4zBov9FIDdpHe0rB8+bWWVTBHpWLm77k4XP
+ADRpDEM/lJ/I1qz3aR1SKwdPJFllUwR6Vi5uWDEgMAQ0aQx3DAHePxpgN2kdUisHTyRZZVME
+elYubtjx2M+7i2EM50wBXoClYDdpHVIrB0+H+8CsAHpWLgo+a+EAN4fWDHcMAV4AGmA3aR1S
+KwdPJFllUwR6Vi5uWDGgDwQ0aQx3DAFeABpgN2kdUisHT6SZmaxbOlYubucxIDAENGmMSAwB
+XgC5wpKWH1IrB7Hb5iVnN+8XLm5YMSAwBDRpDHcMAV4AGmA36aJSKwdPJFllUwR6Vi5uWDEg
+MAQ0aQx3DAFeAJqgy5ZCEisH32RZZVMEelauUVgxIDCnlszzdQwBXv7l33cBewhqB08kWWVT
+BHpWLm5YMSAwBDRpjMgMAV4AGmA3aR1SKwdPJFllUwR6Vi5uWDHAz3sLlfMoTAlekFpgN2kd
+UiuHcCRZZVOn2PPRbFgxIDgEtFZoEVZAXgAaYDdpHVIrB08kWWVTBHpWrtFYMSAwBDRpDHcM
+AV4AGmA3aR1SKwdPJFllU4S6qtExGDEgoEQ0aQx3DAFeABpgt1a+8I74TCRZZa37xZbmopTx
+IDAENGkMdwwBXgAaYDdpHVIrh3AkWWVTBHpWLm5YMSAwBDRpDHcMAV4AGmA3aZ2S0/jwm1Fl
+w0R6Vi5uWDEgMAQ06TPUrqShAxpgN5fi7es3fJfmZVMEelYublgxIDAENGkMdwwB3j8aYDdp
+HVIrB08kWWVTBHpWLm5YMSAwBDSJ8wgz/aFfWmg3+V1SKwdPJFllUwR61hHN+pTfMwQ0aQR3
+jL6WzNagN2kdUisHTyRZZVMEelYublgxoA8ENGkMdwwBXgAaYDdpHVIrB08kWWVTBHpWLu6Y
+yd+PuzRpDMgMAV4AGmA3aR1Sq7jshvyaVQR6VtCR53EQA7eLaQx3DAFeABpgN2kdUisHTyRZ
+5ewEelYublgxIDAENGkMdwwBXgAaYDdpHVIrB8/kpZoMRHpWLtFYMSAwBDRpDHcMgeGjuMXI
+bx1SK/mwmxmtn8i6Vi5uWDEgMAQ0aQx3DAFeABpgt9YdUisHTyRZZVMEelYublgxIDAENGkM
+dwwRXoClaDepIlIrB/AkWWVTBHpWLm5YsZ+TppGWCncMAVoAWiD7pZGSKwdPJFllUwR6Vi5u
+WDEgMAQ06bN3DAFeABpgN2kdUisHTyRZZVMEelYublgxILDEzJazyAwBXr8aYLfWHVIrB08k
+WWXwpt+pKm5YMRQDkfVZP8SzAV4AGmA3aR1SKwdPJFllUwR6Vi5uWDEgMAS0Vgx3DAFeABpg
+N2kdUisHTySJmiw7iqmR0VgxsHAENGkMdwwBXgAa4AjKv/fUBE8kWXVThMVuHd3nMSAwBDRp
+DHcMAV4AGmA3aR1SqzhPJFllUwR6Vi5uWDEgMAQ0aQx3DAFeABqwyBYiotS48CRZ9RMEelYu
+blixnzAENGmv1an+WwAaYCdpne1DYRVlWWVTBHpWLm5YMSAwBDRpDHcMgWEAGmA3aR1SKwdP
+JFllUwR6Vi5uWDEgMAQ0aYy39P7hvxJgpykdUisHTyTZ2lMEelaNzP3OJTAENJfzyMxlOFpb
+YDdpHVIrB08kWWVTBHpWLm5YsR8wBDRpDHcMAV4AGmA3aR1SKwdPJFllUwRqVq7RoM6fj4Q0
+aTN3DAFeABrgiGkdUiuk7YGmYFMEelIuLpgBE71FNGkMdwwBXgAaYDdpHVIrB08k2VpTBHpW
+Lm5YMSAwBDRpDHcMAV4AGmA3aR2y1Hhw2KY6Ewx6xm5uWLEfMAQ0aQx3DAH9or+fNmkdUk9h
+FWWRqZ/EelYublgxIDAENGkMdwwBXgAaYDdpHVIrB0+k5mVTBHpWLm5YMSAwBDRpDHfc/iE/
+EmD3Vh1SKzhPJNlaUwR6Vi5uWDGDkqHLaAx3DDVtjVus++XdUisHTyRZZVMEelYublgxIDAE
+NGkMdwwBXgCa3zdpHVIrB08kWWVTBHpWLm64zl8P+Ms2THcMAeEAGuAIaR1SKwdPJFnG8aGF
+Vy5uWAUTpUX8pcC3DAFeABpgN2kdUisHTyRZZVMEelYublgxIDCEi2kMdwwBXgAaYDdpHVIr
+B0/0phps9IXpkW5YoWAwBLRWDHcMAV4AGmCUy7itKgdPJDEDCUVCZZ3RWDEgMAQ0aQx3DAFe
+ABpgN2kdUisHTyRZZVOExVYublgxIDAENGkMdwwBXgDKn0hWFVLrOE8kWdpTBHpWLm7YDiAw
+BDTKrtLzA14AGnA36SJmGJIOJFllUwR6Vi5uWDEgMAQ0aQx3jL5eABpgN2kdUisHTyRZZVME
+elYublgxIDAUNOmzfwzBYfDl7/dpHVIrB0+kZmVTBHr1jMunMyAwBDBpTDc8MutBGmA3aR1S
+KwdPJFllUwR6Vi5u2I4gMAQ0aQx3DAFeABpgN2kdUisHTyRZZVMUetaRZljxHzAENNYMdwwB
+XgCaXzdpHVKIperbW2VTBH5Wbi5sArVxBDRpDHcMAV4AGmA3aR1SKwdPpOZlUwR6Vi5uWDEg
+MAQ0aQx3DAFeABpgN2nlrVRHRySZWlME6pYublgxIDCEC2kMdwyi/KXlYjdpHarU+PAQatAS
+BHpWLm5YMSAwBDRpDHcMAV4Amt83aR1SKwdPJFllUwR6Vi5uWDEgMAQ0aQyn835hCBqgCGkd
+UpQHT6RmZVMEelYubliSgpX7NWkMdzgyy0HWrLupHVIrB08kWWVTBHpWLm5YMSAwBDRpDHcM
+AV6ApWA3aR1SKwdPJFllUwR6Vi6+p04fOAT0Vgx3DD5eABpgN2mdbSsHTyT6x/b7eFYubkgx
+oA8wB+RNdwwBXgAaYDdpHVIrB08kWWVThMVWLm5YMSAwBDRpDHcMAV4AGmA3aR1SKwe32yYl
+WwS6aS5uWA4gMAQ0aQz3MwFeABrDlcziUCsHT9ymmuwwSdtvblgxIDAENGkMdwwBXgAaYDdp
+ne0rB08kWWVTBHpWLm5YMSAwBDRpDHcMAV745R93YR2SFAdPJGZlUwR6Vi5uWDEgsDuXy6mI
+DwFeAOKfyFbRnqfHTyRZZVMEelYublgxIDAENGkM9zMBXgAaYDdpHVIrB08kWWVTBHpWLm5Y
+MSDg+0tWBHfMPl4AGl83aR1SKwdPJFll0zvZ9IuRWzEgMBQ06bO7wI2eABpgN2kdUisHTyRZ
+ZVMEelYu7mcxIDAENGkMdwwBXgAaYDdpHVIrB08kWWWD+wVp3pHnjiAwBAtpDHcMAV4AGmA3
+6SLxiaKwJ1llUxR61pFWa4KfMAQ0aQx3DAFeABpgN2kdUisHzxtZZVMEelYublgxIDAENGkM
+dwwBXgAaYDeR4i1rD0/kZmVTlLpWLu5nMSAwBDRpDHevo/v/G2A3aSlhnkaD6NWlUwR6Vi5u
+WDEgMAQ0aQx3DAFeABpgN2kdUiuH8CRZZVMEelYublgxIDAENGn0iHNBVgDaXzdpHW0rB88b
+WWVTBHpWLm77k4XPBTRpDEM/jB/M1uz3aR1SKwdPJFllUwR6Vi5uWDEgMAQ0aQx3DAHevxpg
+N2kdUisHTyRZZVMEelbSkSdx3M9b9Jnz+MwBXoAlYDdpHVIrB0+H+8CsBXpWLl5rhGGQnS1W
+DHcMAV4AGmA3aR1SKwdPJFllUwR6Vi5uWDGgjwQ0aQx3DAFeABpgN2kdUivXsFtmbVPERVYu
+bucxIDAENGkMdwwB3r+5wpKWG1IrB18k2VqfyPaWLm5YMSAwBDRpDHcMAV4AGmA36aJSKwdP
+JFllUwR6Vi5uWDEgMAQ0aQx3DAG+/2Vfy5ZCEisHT5tZZVMEelYublgxoI+nlszzcQwBXgga
+4Aih0Z7rB08kWWVTBHpWLm5YMSAwBDRpjMgMAV4AGmA3aR1SKwdPJFllUwR6Vi5uWDEwMISL
+YQy3MwFeAKVgN+miUisHTyRZZVOn2PPRalgxIAQ3oajAu4DBXgAaYDdpHVIrB08kWWVTBHpW
+Lm5YMSAwBDTpM3cMAV4AGmA3aR1SKwdPJFl1U4TFXi6uZ8Hfv8Q0aYzIDAFeABpgN2m+8I74
+SyRZZWM3z5fiotTxIDAENGkMdwwBXgAaYDdpHVIrB08kWWVTBHrWEW5YMSAwBDRpDHcMAV4A
+GmAnaZ3t0/jwm1llU7t6Vq7RWDEgMAQ0aQzUrqShBBpgN10ux+o3fJfmZVMEelYublgxIDAE
+NGkMdwwBXgAaYDdpHVKrOE8kWWVTBHpWLm5YMSAwBDS58wgz8aG/pWA3aSJSK4dwJFllUwR6
+Vi7N+pTfMQQ0aThEgUBmM6nfN2kdUisHTyRZZVMEelYublgxIDAENGkMdwyB4QAaYDdpHVIr
+B08kWWVTBHq20RFnzd9vRDRpDMgMAV4AGmC3Vh1SKwfshvyaUQR6ViZu2A4UA5F1aQx3DAFe
+ABpgN2kdUisHTyRZ5ewEelYublgxIDAENGkMdwwBXgAaYDdpHVLT+DBkUWWTO3pWvq5YMSAw
+BDRpDHcMgeGjuMXIbx1SK/+w2+apn4i6Vi5uWDEgMAQ0aQx3DAFeABpgt9YdUisHTyRZZVME
+elYublgxIDAENGkMdwz9oX9anMg23aLUiI8kWWVTBHpWLm5YsZ+TppGWCncMAV4AGqCX8ARt
+KwdPJFllUwR6Vi5uWDEgMAQ06bN3DAFeABpgN2kdUisHTyRZZVMEelYublghILC7PGnMSPz+
+0cAaYDdpHVIrB08k2drwpt+pKG5YMSQwRHSlwPvMAV4AGmA3aR1SKwdPJFllUwR61pFuWDEg
+MAQ0aQx3DAFeABpgN2kdUisHTySlmixEhqlxrqjOr/AENGkMdwyB4QAaYDfKv/fUAk8kWWVT
+BDpmHdsZMSAwBDRpDHcMAV4AGmA3aR1SqzhPJFllUwR6Vi5uWDEgMAQ0aQx3DAFeABqcyBZd
+rtRYj6RZZWwEelYublixnzAENGmv1an+WwAaYDdpHRIbNMJlWWVTBHpWLm5YMSAwBDRpDHcM
+gWEAGmA3aR1SKwdPJFllUwR6Vi5uWDEgMAQkaYzI8P4BwOqfuKkdUisHTyTZ2lMEelaNzP3O
+JTAENG0MN8wxbbVbYDdpHVIrB08kWWVTBHpWLm5YsR8wBDRpDHcMAV4AGmA3aR1SKwdPJFll
+UwSGqVEupM5/8IQ0aTN3DIFhABpgN2kdUiuk7YGmZFMEemYd4xmRuSk7NGkMdwwBXgAaYDdp
+HVIrB08kWWVTBHpWLm7YjiAwBDRpDHcMAV4AGmA3aR2u1HgP2KY6k4R6VhFuWDEgMAQ0aQx3
+jD79or+fNGkdUisHT2T5/Eo7elYublgxIDAENGkMdwwBXgAa4AhpHVIrB08kWWVTBHpWLm5Y
+MSAwBDRpDHccAd6/5p9oqZ1SKzhPJFllUwR6Vi5u2A6DkqHLagx3DAVeQNrArnAiUisHTyRZ
+ZVMEelYublgxIDAEtFYMdwwBXgAaYDdpHVIrB08kWWVTBHpWLm6Izl8P9MvWs3cMAWEAGmA3
+aR3SlAdPJFnG8aGFUy5uWCEgsLsAWoE2DAFeABpgN2kdUisHTyRZZVME+mkublgxIDAENGkM
+dwwBXgAaYDdpHVIrB080WeXs/IXpke5YMR8wBDRpDHcMAV4Aml+Uy7itKAdPJF1lE8RKZZ3R
+WDEgMAQ0aQx3DAFeABpgN2kd0hQHTyRZZVMEelYublgxIDAENGkMdwwBXgAKYLfW4a10x88k
+WVpTBPrpLm5YMSAwBDTKrtLzBV4AGlAE5Nzysh5wJFllUwR6Vi5uWDEgMAQ0aQx3DAFeABpg
+N2mdbSsHTyRZZVMEelYublgxIDAUNOmzj/O+4YAaYAhpHdKUB08kWWVTBHr1jMunNSAwBARa
+gbY8Mu2/GmA3aR1SKwdPJFllUwR6Vi5uWDEgMAQ0aQz3MwFeABpgN2kdUisHTyRZZVMEetbu
+lqeOnzAENNYMdwwBXgCa3zdpHVKIperbXGVTBISpka5sArVxBDRpDHcMAV4AGmA3aR1SKwdP
+pGZlUwR6Vi5uWDEgMAQ0aQx3DAFeABpgN2kNUqu4t9vm2lMEeukublgxIDCEi2kMdwyi/KXl
+ZTdpHVYrR48QavASBHpWLm5YMSAwBDRpDHcMAV4Aml83aR1SKwdPJFllUwR6Vi5uWDEgMAQ0
+aQxnDIHh/OU/95ni3esHTyRZZVMEelYu7ueSgpX7MmkMdwgBHkC6+S5WHVIrB08kWWVTBHpW
+Lm5YMSAwhItpDHcMAV4AGmA3aR1SKwdPJFllUwR6Vi5+WLGfzPtrqfyIg8FeAJrfN2kdUisH
+TyT6x/b7flYubmgClfGkrXAzdwwBXgAaYDdpHVIrB08kWWVTBHpWLm5YMSCwOzRpDHcMAV4A
+GmA3aR1SKwdfJNnar/sllq5uWA4gMAQ0aQz3swFeABrDlcziVysHTyBZJZM0SdtvblgxIDAE
+NGkMdwwBXgAaYDdpnW0rB08kWWVTBHpWLm5YMSAwBDRpDHcMAV4QGuCIkeLtlAdPJOZlUwR6
+Vi5uWDEgsLuXy6mICgFeAB5gdyktYZi4TyRZZVMEelYublgxIDAENGkM97MBXgAaYDdpHVIr
+B08kWWVTBHpWLm5YMSBcBDRpDHcMAV8AGmA1aR1SKAdPJF1lUwR/Vi5uXjEgMAM0aQx/DAFe
+CRpgN2MdUisMTyRZZFMEeloublgzIDAEM2kMdwEBXgASYDdpE1IrB0AkWWVDBHpWP25YMTIw
+BDR6DHcME14AGnE3aR1GKwdPMVllUxJ6Vi55WDEgJgQ0aRl3DAFGABpgJWkdUjIHTyRKZVME
+b1YubkIxIDAfNGkMawwBXh0aYDd3HVIrGE8kWUVTBHp3Lm5YKiAwBCxpDHcZAV4AOGA3aRZS
+KwdsJFlldwR6VgtuWDEGMAQ0ewx3DBVeABpHN2kdVysHTwxZZVMHelYuZFgxIBMENGkHdwwB
+dwAaYB1pHVIAB08kdWVTBFdWLm52MSAwKzRpDFYMAV4gGmA3WR1SKxtPJFl7UwR6Zi5uWC8g
+MAQFaQx3HAFeAChgN2kTUisHUSRZZWAEelYfblgxFDAENFwMdwwnXgAacDdpHWQrB08TWWVT
+MnpWLn5YMSA/BDRpNHcMAXUAGmAdaR1SDgdPJGBlUwRcVi5uYjEgMCo0aQxaDAFeORpgN10d
+UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			</Properties>
 		</Item>
 	</Item>
@@ -986,54 +986,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX09340CAB8C524DAF9F5734656523E204">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX43E0DEB2F3224E5D912F5C3CCE580332">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX03A15E442BFF4C749465B5950FABD5B4">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXBB17BBCC58D844A4ABBB7DFC2C287D39">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX7547619DABB34C91AE4DEE3B869A2B39">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXD58D015565534319893EC2BFA9A6DFE0">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXB2B10BA9A8684141B500D4FA76A1C7DE">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBXF3C2CB55DD434AE99C6A6875F892BBFB">
-			<Properties>
-				<string name="Name">LocalPlugins</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -1086,20 +1038,29 @@ end
 
 local active=false
 function activate()
-	if locked then return end
+	
+	--Debounce to prevent duplicate calls.
+	if locked then return end locked=true
+	
 	gui.show()active=true
 	button:SetActive(true)
 	plugin:Activate(true)
 	for i,b in next,binds
 	do b(true)end
+	locked=false
 end
 
+--Fires when deactivated.
 function deactivate()
-	if locked then return end
+	
+	--Debounce to prevent duplicate calls.
+	if locked then return end locked=true
+	
 	gui.hide()active=false
 	button:SetActive(false)
 	for i,b in next,binds
 	do b(false)end
+	locked=false
 end
 
 function lock()locked=true end
@@ -1538,6 +1499,7 @@ return{
 								<G>0.866666734</G>
 								<B>0.866666734</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -1588,6 +1550,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -1639,6 +1602,7 @@ return{
 									<G>0.866666734</G>
 									<B>0.866666734</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<Content name="BottomImage"><null></null></Content>
 								<Vector2 name="CanvasPosition">
@@ -1729,6 +1693,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -1806,6 +1771,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -1880,6 +1846,7 @@ return{
 								<G>0.866666734</G>
 								<B>0.866666734</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -1930,6 +1897,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -1981,6 +1949,7 @@ return{
 									<G>0.866666734</G>
 									<B>0.866666734</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<Content name="BottomImage"><null></null></Content>
 								<Vector2 name="CanvasPosition">
@@ -2071,6 +2040,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -2281,6 +2251,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -2354,6 +2325,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -2670,6 +2642,7 @@ return{
 							<G>0.164705887</G>
 							<B>0.207843155</B>
 						</Color3>
+						<token name="BorderMode">0</token>
 						<int name="BorderSizePixel">0</int>
 						<bool name="ClipsDescendants">false</bool>
 						<bool name="Draggable">false</bool>
@@ -2721,6 +2694,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -2810,6 +2784,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -2899,6 +2874,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -2988,6 +2964,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -4076,6 +4053,7 @@ end
 
 --Again, self-explanitory.
 function setStudioSels(t)
+	print'Selection set.'
 	studioSels=t or studioSels
 	game.Selection:Set(studioSels)
 end
@@ -4255,6 +4233,25 @@ evtMod.bind('destroy',function(t)
 	send(true)
 end)
 
+--Implements bind for the negation of parts.
+evtMod.bind('negateSel',function(addT,remT)
+	
+	--Table for groups to remove.
+	local remGrT={}
+	
+	--Attempts to send event data to each group; will modify addT and remT.
+	for m,g in next,selGroups do if not callGroupFunc(m,'modify','negateSel',addT,remT)then remGrT[m]=true end end
+	
+	--Generates a one-to-one table that will be used to modify the current selection.
+	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
+	
+	--Removes groups that returned false on the other loop.
+	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
+	
+	tblPrint(addT,remT)
+	selPr()send()
+end)
+
 evtMod.bind('restore',function(wp)
 	warn'Adjusting selection.'
 	local tempSS=getStudioSels()
@@ -4277,32 +4274,28 @@ evtMod.bind('restore',function(wp)
 		end
 	end
 	
+	--Create groupss
 	for p in next,algorIndexT do
-		createGroup(p)
-	end
-	
-	send()
-	wait(3)
-	game.ChangeHistoryService:SetWaypoint'RLVP_Marker'
+	createGroup(p)end send()
 end)
 
---Implements bind for the negation of parts.
-evtMod.bind('negateSel',function(addT,remT)
-	
-	--Table for groups to remove.
-	local remGrT={}
-	
-	--Attempts to send event data to each group; will modify addT and remT.
-	for m,g in next,selGroups do if not callGroupFunc(m,'modify','negateSel',addT,remT)then remGrT[m]=true end end
-	
-	--Generates a one-to-one table that will be used to modify the current selection.
-	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
-	
-	--Removes groups that returned false on the other loop.
-	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
-	
-	tblPrint(addT,remT)
-	selPr()send()
+active.bind(function(a)
+	if a then
+		studioSels={}
+		for i,p in next,getStudioSels()do
+			local r=createGroup(p)
+			if not r then addP(p)end
+		end
+	else
+		--Reverts all selection-groups for streamlined use.
+		for m,g in next,selGroups do addP(removeGroup(m))end
+		
+		--Sends without calling binds.
+		lock()setStudioSels()unlock()
+		
+		--Disposes the now-useless table.
+		pluginSels={}
+	end
 end)
 
 return{
@@ -4798,6 +4791,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -4848,6 +4842,7 @@ return{
 									<G>0.866666734</G>
 									<B>0.866666734</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -4898,6 +4893,7 @@ return{
 										<G>0.890196145</G>
 										<B>0.890196145</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClearTextOnFocus">true</bool>
 									<bool name="ClipsDescendants">true</bool>
@@ -4979,6 +4975,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5063,6 +5060,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5136,6 +5134,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -5221,6 +5220,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5295,6 +5295,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5367,6 +5368,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -5418,6 +5420,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -5489,6 +5492,7 @@ return{
 									<G>0</G>
 									<B>0</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -5540,6 +5544,7 @@ return{
 									<G>0.866666734</G>
 									<B>0.866666734</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -5590,6 +5595,7 @@ return{
 										<G>0.890196145</G>
 										<B>0.890196145</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClearTextOnFocus">true</bool>
 									<bool name="ClipsDescendants">true</bool>
@@ -5671,6 +5677,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5755,6 +5762,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5828,6 +5836,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -5913,6 +5922,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -5987,6 +5997,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -6060,6 +6071,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -6110,6 +6122,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -6161,6 +6174,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -6232,6 +6246,7 @@ return{
 									<G>0</G>
 									<B>0</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -6283,6 +6298,7 @@ return{
 									<G>0.549019635</G>
 									<B>0.501960814</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -6333,6 +6349,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -6384,6 +6401,7 @@ return{
 										<G>0.639215708</G>
 										<B>0.58431375</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<Content name="BottomImage"><null></null></Content>
 									<Vector2 name="CanvasPosition">
@@ -6484,6 +6502,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -6541,6 +6560,7 @@ return{
 									<G>0.894117713</G>
 									<B>0.874509871</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<CoordinateFrame name="CameraCFrame">
 									<X>59.7601738</X>
@@ -7068,6 +7088,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -7118,6 +7139,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -7169,6 +7191,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -7240,6 +7263,7 @@ return{
 									<G>0</G>
 									<B>0</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -7291,6 +7315,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -7366,6 +7391,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -7453,6 +7479,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -7526,6 +7553,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -7613,6 +7641,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -7686,6 +7715,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -7773,6 +7803,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -7846,6 +7877,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -7933,6 +7965,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -8006,6 +8039,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -8093,6 +8127,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -8166,6 +8201,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -8253,6 +8289,7 @@ return{
 											<G>0.164705887</G>
 											<B>0.207843155</B>
 										</Color3>
+										<token name="BorderMode">0</token>
 										<int name="BorderSizePixel">1</int>
 										<bool name="ClipsDescendants">false</bool>
 										<bool name="Draggable">false</bool>
@@ -8326,6 +8363,7 @@ return{
 									<G>0.549019635</G>
 									<B>0.501960814</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -8376,6 +8414,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -8427,6 +8466,7 @@ return{
 										<G>0.639215708</G>
 										<B>0.58431375</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<Content name="BottomImage"><null></null></Content>
 									<Vector2 name="CanvasPosition">
@@ -8527,6 +8567,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">0</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -8580,6 +8621,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -8630,6 +8672,7 @@ return{
 									<G>0.866666734</G>
 									<B>0.866666734</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -8680,6 +8723,7 @@ return{
 										<G>0.164705887</G>
 										<B>0.207843155</B>
 									</Color3>
+									<token name="BorderMode">0</token>
 									<int name="BorderSizePixel">1</int>
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
@@ -8752,6 +8796,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -8803,6 +8848,7 @@ return{
 									<G>0.164705887</G>
 									<B>0.207843155</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">1</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -8874,6 +8920,7 @@ return{
 									<G>0</G>
 									<B>0</B>
 								</Color3>
+								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
 								<bool name="ClipsDescendants">false</bool>
 								<bool name="Draggable">false</bool>
@@ -9123,6 +9170,7 @@ return{
 							<G>0.164705887</G>
 							<B>0.207843155</B>
 						</Color3>
+						<token name="BorderMode">0</token>
 						<int name="BorderSizePixel">0</int>
 						<bool name="ClipsDescendants">false</bool>
 						<bool name="Draggable">false</bool>
@@ -9173,6 +9221,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -9244,6 +9293,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -9316,6 +9366,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -9391,6 +9442,7 @@ return{
 							<G>0.164705887</G>
 							<B>0.207843155</B>
 						</Color3>
+						<token name="BorderMode">0</token>
 						<int name="BorderSizePixel">0</int>
 						<bool name="ClipsDescendants">false</bool>
 						<bool name="Draggable">false</bool>
@@ -9441,6 +9493,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -9492,6 +9545,7 @@ return{
 								<G>0</G>
 								<B>0</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -9543,6 +9597,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">1</int>
 							<bool name="ClipsDescendants">true</bool>
 							<bool name="Draggable">false</bool>
@@ -9615,6 +9670,7 @@ return{
 							<G>0.164705887</G>
 							<B>0.207843155</B>
 						</Color3>
+						<token name="BorderMode">0</token>
 						<int name="BorderSizePixel">0</int>
 						<bool name="ClipsDescendants">false</bool>
 						<bool name="Draggable">false</bool>
@@ -9665,6 +9721,7 @@ return{
 								<G>0.164705887</G>
 								<B>0.207843155</B>
 							</Color3>
+							<token name="BorderMode">0</token>
 							<int name="BorderSizePixel">0</int>
 							<bool name="ClipsDescendants">false</bool>
 							<bool name="Draggable">false</bool>
@@ -9804,8 +9861,8 @@ function chooseWp(wp,...)
 		
 		--Determines if there is evidence for NegateSelection.
 		local isNeg8=true for i=1,aL do
-			local aN=aT[i]:isA'NegativePart'
-			local rN=rT[i]:isA'NegativePart'
+			local aN=aT[i]:isA'NegateOperation'
+			local rN=rT[i]:isA'NegateOperation'
 			if aN==rN then isNeg8=false break end
 		end if isNeg8 then return'NegateSelection'end
 		
@@ -9942,6 +9999,7 @@ remov:Connect(function(p)
 	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
+	debounce=false
 end)
 
 --TODO: cases when the undo event fires first.
@@ -10049,28 +10107,29 @@ local posN,negN='RLVP_Positive','RLVP_Negative'
 local propS=require(script.PropStorModule)
 
 --Implodes exploded negative part.
-function negate(o)
+function implodeNeg(o)
 	
 	--Restores old values.
-	propS.toPos(o)
+	propS.implode(o,o)
 	local p=plugin:Negate{o}[1]
+	
 	return p
 end
 
 --Explodes negative parts.
-function unnegate(o)
+function explodeNeg(o)
 	
 	--A non-negative part wouldn't need negation at all.
 	if not o:isA'NegateOperation'then return o end
 	
 	--Negates and stores the result.
-	local p=plugin:Negate{o}[1]
+	local p=plugin:Separate{o}[1]
 	
 	--A union wouldn't need additional designs.
 	if p:isA'UnionOperation'then return p end
 	
-	--Self-explanitory.
-	return propS.toNeg(p,o)
+	--Makes it plugin-compatible.
+	return propS.explode(p)
 end
 
 --Explodes the union and groups its parts.
@@ -10078,7 +10137,7 @@ function separate(u)
 	
 	--Un-negates instance if negative.
 	local isNeg=u:isA'NegateOperation'
-	u=unnegate(u)
+	u=explodeNeg(u)
 	
 	--Generates a name for the new part(s).
 	local name=isNeg and negN or posN
@@ -10118,14 +10177,10 @@ function implode(o)
 	if o:isA'Folder'then
 		local allNeg=true
 		
-		--Recursive calls that modify table as each child gets imploded.
-		local c=o:children()
-		for i,u in next,c do
-			allNeg=allNeg
-			and u.Name==negN
-		end
+		--Determines whether all children are negative; will affect later code.
+		local c=o:children()for i,u in next,c do allNeg=allNeg and u.Name==negN end
 		
-		
+		--Recursively implodes.
 		if allNeg then
 			for i,u in next,c do
 				u.Name=posN
@@ -10142,28 +10197,24 @@ function implode(o)
 		--Unions the parts and removes its now-empty folder.
 		local u=plugin:Union(c)u.Parent=o.Parent o:destroy()u.Name=o.Name
 		
-		if allNeg then
-			u.Name=negN
-		end
+		--Essentially negates the final union.
+		if allNeg then u.Name=negN end
+		
+		--Returns.
 		return u
 		
 	--Negates exploded parts that were NegativeParts.
-	elseif o.Name==negN then return negate(o)end
+	elseif o.Name==negN then return implodeNeg(o)end
 	
 	return o
 end
 
 return{
 	asUnit=false,
-	input=--[[function(o)
-		return ]]explode--[[(o,{})
-	end]],
+	input=explode,
 	get=function(f,t)
-		return t[1]
-	end,
-	output=--[[function(f,t)
-		return ]]implode--[[(f)
-	end]],
+	return t[1]end,
+	output=implode,
 	modify=function(main,currPT,mode,addT,remT)
 		
 		if mode=='negateSel'then
@@ -10182,24 +10233,26 @@ return{
 					n.CFrame=addP.CFrame
 					n.Anchored=true
 					n.Parent=addP.Parent
-					addP:destroy()
 					
 					--Determines if the original part was negative.
-					local wasNeg=remP.Name==negN
+					local negating=remP.Name~=negN
 					
 					--Decorates the new part if it is negated.
-					if not wasNeg then propS.toNeg(n,remP)
+					if negating then propS.explode(n,remP)
 					
 					--Otherwise, reverse the aforementioned code.
-					else propS.toPos(n,remP) end
+					else propS.implode(n,remP)end
 					
 					--Modifies the keep-group flag.
-					keepGr=not wasNeg or remP~=main or keepGr
+					keepGr=negating or remP~=main or keepGr
 					
 					--Renames the new part appropriately.
-					n.Name=wasNeg and posN or negN
+					n.Name=not negating and posN or negN
 					
-					--Adds it.
+					--Destroys useless part.
+					addP:destroy()
+					
+					--Adds new clone.
 					addT[i]=n
 				end
 			end
@@ -10249,35 +10302,42 @@ return{
 }
 
 --Parts for property storage.
-local cache={}
-
-return{
-	toPos=function(neg)
-		local cPart=cache[neg]
-		for i,pr in next,props do
-			neg[pr]=cPart[pr]
-		end
-		cPart:destroy()
-		
-		return neg
-	end,
+local cache={}return{
 	
-	toNeg=function(neg,pos)
-		local cl=pos:clone()
-		local c=pos.Color
-		cache[neg]=cl
+	--Used for union explosion.
+	explode=function(new,old)
+		print'Object exploding.'
 		
-		--Mimics the original NegativePart.
-		neg.BottomSurface='Smooth'
-		neg.TopSurface='Smooth'
-		neg.Material='Plastic'
-		neg.CastShadow=false
-		neg.Transparency=.41
-		neg.Color=Color3.fromRGB(c
+		--Clones the original part for caching upon implosion.
+		local cl,c=new:clone(),new.Color;cache[new]=cl
+		
+		--Decorates the cache part according to the old one's appearance.
+		if old then for i,pr in next,props do cl[pr]=old[pr]end end
+		
+		--Mimicks the original NegativePart.
+		new.BottomSurface='Smooth'
+		new.TopSurface='Smooth'
+		new.Material='Plastic'
+		new.CastShadow=false
+		new.Transparency=.41
+		new.Color=Color3.fromRGB(c
 		.r*255,c.g*155,c.b*165)
 		
-		return neg
-	end
+		return new
+	end,
+	
+	--Used for union implosion.
+	implode=function(new,old)
+		print'Object imploding.'
+		
+		--Reverts all properties.
+		local cPart=cache[old]
+		for i,pr in next,props
+		do new[pr]=cPart[pr]end
+		cPart:destroy()
+		
+		return new
+	end,
 }]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
@@ -10353,15 +10413,16 @@ return{
 					<string name="ScriptGuid">{D1E18C21-BBD1-4C00-B0B4-14172FA5D728}</string>
 					<ProtectedString name="Source"><![CDATA[local settngs=settings().Studio
 
---Enables waypoint history persistence.
-game.ChangeHistoryService:SetEnabled(true)
-
-if settngs.RuntimeUndoBehavior~=Enum.RuntimeUndoBehavior.Snapshot then
-	settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Snapshot
+if settngs.RuntimeUndoBehavior~=Enum.RuntimeUndoBehavior.Aggregate then
+	settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Aggregate
 	warn('Respected Leader VisualPlugin advises that it is not compatible with your'
-	..'current \'RuntimeUndoBehavior\' option; it has been modified to \'Snapshot\'.')
+	..'current \'RuntimeUndoBehavior\' option; it has been modified to \'Aggregate\'.')
 	print()
 end
+wait()
+
+--Enables waypoint history persistence.
+game.ChangeHistoryService:SetEnabled(true)
 
 return nil]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -10389,6 +10450,147 @@ DAAAAAIAAAAJAAAADAAAAAkAAAAFAAAADAAAAAUAAAACAAAADQAAAAAAAAAJAAAADQAAAAkA
 AAAGAAAADQAAAAYAAAAAAAAADgAAAAkAAAADAAAADgAAAAMAAAAGAAAADgAAAAYAAAAJAAAA
 DwAAAAkAAAABAAAADwAAAAEAAAAHAAAADwAAAAcAAAAJAAAAEAAAAAMAAAAJAAAAEAAAAAkA
 AAAHAAAAEAAAAAcAAAADAAAA</SharedString>
+		<SharedString md5="EX0o/Yrmr11oCFB9WgSMCw==">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
+EEA2AAAAAAAAAAEAAAAEAAAAAAAAAAQAAAACAAAAAAAAAAIAAAADAAAAAAAAAAMAAAAJAAAA
+AAAAAAkAAAAFAAAAAAAAAAUAAAABAAAAAQAAAAUAAAAKAAAAAQAAAAoAAAAGAAAAAQAAAAYA
+AAAEAAAAAgAAAAQAAAAHAAAAAgAAAAcAAAAKAAAAAgAAAAoAAAAIAAAAAgAAAAgAAAADAAAA
+AwAAAAgAAAAKAAAAAwAAAAoAAAAJAAAABAAAAAYAAAAKAAAABAAAAAoAAAAHAAAABQAAAAkA
+AAAKAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAPxIAAAAEAAAA
+dvl/P/z/3z8AAAA24P9/P/z/X0AAAAA2dvl/P/z/3z8MABBAAAAAtfz/X0AAAAA24P9/P/z/
+X0AMABBAAAAAtfz/X0AMABBAGAAAAAAAAAABAAAABAAAAAAAAAAEAAAAAgAAAAAAAAACAAAA
+BQAAAAAAAAAFAAAAAwAAAAAAAAADAAAAAQAAAAEAAAADAAAABQAAAAEAAAAFAAAABAAAAAIA
+AAAEAAAABQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgD8eAAAA
+BAAAAPT/fz/8/19AAAAANo75/z8IAMA/AAAANvj//z8IAMA/KLkqvvT/fz/8/19A5gMAvwDA
+TDn8/19AAAAANvT/fz8IAMA/AAAANo75/z8IAMA/9P+PvwAAALX8/19A5gMAvwAAALUIAMA/
+5gMAvwAAALUIAMA/9P+PvzAAAAAAAAAAAQAAAAIAAAAAAAAAAgAAAAMAAAAAAAAAAwAAAAcA
+AAAAAAAABwAAAAQAAAAAAAAABAAAAAUAAAAAAAAABQAAAAEAAAABAAAABQAAAAgAAAABAAAA
+CAAAAAkAAAABAAAACQAAAAYAAAABAAAABgAAAAIAAAACAAAABgAAAAMAAAADAAAABgAAAAkA
+AAADAAAACQAAAAcAAAAEAAAABwAAAAgAAAAEAAAACAAAAAUAAAAHAAAACQAAAAgAAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/HgAAAAQAAAABAADAXgbAvwAA
+ADYDAIC//P9fwAAAADYBAADAXgbAvxQAkD8AAAC19P+/vyYEAD8DAIC/XgbAvwAAADYDAIC/
+/P9fwCYEAD8AAAC1/P9fwAAAADb6lSS/XgbAvxQAkD8AAAC19P+/vxQAkD8AAAC1/P9fwCYE
+AD8wAAAAAAAAAAEAAAAFAAAAAAAAAAUAAAACAAAAAAAAAAIAAAAIAAAAAAAAAAgAAAADAAAA
+AAAAAAMAAAAEAAAAAAAAAAQAAAAGAAAAAAAAAAYAAAABAAAAAQAAAAYAAAAJAAAAAQAAAAkA
+AAAFAAAAAgAAAAcAAAAIAAAAAgAAAAUAAAAJAAAAAgAAAAkAAAAHAAAAAwAAAAYAAAAEAAAA
+AwAAAAgAAAAJAAAAAwAAAAkAAAAGAAAABwAAAAkAAAAIAAAAEAAAAAAAAAAAAAAAAAAAAAAA
+AAAQAAAAAAAAAAAAAAAAAAAAAACAPxsAAAAEAAAAAAAAtfT/v78IABBAa/l/PyT7v78IABBA
+AAAAtfT/v789AyBAAAAAtST7v79o/I9AAEDMOADgGbkEAJBAa/l/PwDgGbkIABBA1f9/PwAA
+ADRo/I9Aa/l/PyT7v79o/I9A2qiZPgDgGbkEAJBAKgAAAAAAAAABAAAABwAAAAAAAAAHAAAA
+AgAAAAAAAAACAAAAAwAAAAAAAAADAAAABAAAAAAAAAAEAAAABQAAAAAAAAAFAAAAAQAAAAEA
+AAAFAAAABgAAAAEAAAAGAAAABwAAAAIAAAAHAAAAAwAAAAMAAAAHAAAACAAAAAMAAAAIAAAA
+BAAAAAQAAAAIAAAABgAAAAQAAAAGAAAABQAAAAYAAAAIAAAABwAAABAAAAAAAAAAAAAAAAAA
+AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgD8VAAAABAAAABAAgL8AAAAAJf6PwAAAALUAAAAA
+Jf6PwBAAgL8AAAAAigMQwBAAgL8IAMA/Jf6PwAAAALUIAMA/8/+PwAAAALUIAMA/igMQwBAA
+gL8IAMA/igMQwB4AAAAAAAAAAQAAAAIAAAAAAAAAAgAAAAYAAAAAAAAABgAAAAMAAAAAAAAA
+AwAAAAQAAAAAAAAABAAAAAEAAAABAAAABAAAAAUAAAABAAAABQAAAAIAAAACAAAABQAAAAYA
+AAADAAAABgAAAAUAAAADAAAABQAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA
+AAAAAAAAAAAAAIA/GAAAAAQAAAD4//8//P9fwAAAADb4//8//P9fwIAAAD/4//8/AAAAAJb6
+/z6S+X9AAKCzuQAAADb8/39A/P9fwAAAADb8/39A/P9fwIAAAD+S+X9AAAAAAJb6/z6S+X9A
+AAAAANij4z0kAAAAAAAAAAEAAAACAAAAAAAAAAIAAAADAAAAAAAAAAMAAAAEAAAAAAAAAAQA
+AAAFAAAAAAAAAAUAAAABAAAAAQAAAAUAAAAGAAAAAQAAAAYAAAACAAAAAgAAAAYAAAAHAAAA
+AgAAAAcAAAADAAAAAwAAAAcAAAAEAAAABAAAAAcAAAAGAAAABAAAAAYAAAAFAAAAEAAAAAAA
+AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAPxUAAAAEAAAAAACAwAAAAAAAAAC/
+AACAwAAAAAAAAAA2AACAwPz/X0AAAAC/AAAAwAAAAAAAAAC/AAAAwPz/X0AAAAA2AACAwPz/
+X0AAAAA2AAAAwPz/X0AAAAC/HgAAAAAAAAABAAAABQAAAAAAAAAFAAAAAgAAAAAAAAACAAAA
+BgAAAAAAAAAGAAAAAwAAAAAAAAADAAAAAQAAAAEAAAADAAAABAAAAAEAAAAEAAAABQAAAAIA
+AAAFAAAABAAAAAIAAAAEAAAABgAAAAMAAAAGAAAABAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA
+EAAAAAAAAAAAAAAAAAAAAAAAgD8eAAAABAAAAPb/fz8s97+/AAAAPwAAALXE9N+/OgsAP/b/
+fz8AAAAAAAAAP/r//z+aAQC/AAAAP/r//z/+/9+/OgsAPwAAALUs97+/OgsAPwAAALUs97+/
+CAAQQPb/fz8AAAAACAAQQPr//z8AAAAAAAAAP/b/fz8s97+/CAAQQDAAAAAAAAAAAQAAAAUA
+AAAAAAAABQAAAAIAAAAAAAAAAgAAAAgAAAAAAAAACAAAAAMAAAAAAAAAAwAAAAQAAAAAAAAA
+BAAAAAEAAAABAAAABAAAAAYAAAABAAAABgAAAAUAAAACAAAABQAAAAYAAAACAAAABgAAAAcA
+AAACAAAABwAAAAgAAAADAAAACAAAAAQAAAAEAAAACAAAAAcAAAAEAAAABwAAAAkAAAAEAAAA
+CQAAAAYAAAAGAAAACQAAAAcAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA
+AAAAAIA/GAAAAAQAAAAAAAC1/P/fPwAAAL8AAAC1yPy/PwAAAL8AAAC1yPy/P+//D8AAAADA
+/P/fPwAAAL8CAIC/AAAAAAAAAL8CAIC/yPy/P+//D8ACAIC/AAAAAO//D8AAAADAAAAAAAAA
+AL8kAAAAAAAAAAEAAAACAAAAAAAAAAIAAAAFAAAAAAAAAAUAAAADAAAAAAAAAAMAAAAHAAAA
+AAAAAAcAAAAEAAAAAAAAAAQAAAABAAAAAQAAAAQAAAAGAAAAAQAAAAYAAAACAAAAAgAAAAYA
+AAAFAAAAAwAAAAUAAAAGAAAAAwAAAAYAAAAHAAAABAAAAAcAAAAGAAAAEAAAAAAAAAAAAAAA
+AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAPxUAAAAEAAAA+P9/QAAAAAAAAAA2ZAYAQAgA
+wD8AAAA2+P9/QAAAAAD8/w/A+P9/QLgoCT/8/w/AxPx/QAgAwD8AAAA2ZAYAQAgAwD/8/w/A
+xPx/QAgAwD/8/w/AHgAAAAAAAAABAAAABQAAAAAAAAAFAAAAAgAAAAAAAAACAAAAAwAAAAAA
+AAADAAAABAAAAAAAAAAEAAAAAQAAAAEAAAAEAAAABgAAAAEAAAAGAAAABQAAAAIAAAAFAAAA
+BgAAAAIAAAAGAAAAAwAAAAMAAAAGAAAABAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA
+AAAAAAAAAAAAAAAAgD8YAAAABAAAAAAAAMBZ9r+/DAAQQJ0FFMD4/7+/DAAQQAAAAMD4/7+/
+sKnqPwAAAMD4/7+/AAAANgAAgMAAAIAzAAAANgAAgMAAAIAzDAAQQAAAgMD4/7+/DAAQQAAA
+gMD4/7+/AAAANiQAAAAAAAAAAQAAAAIAAAAAAAAAAgAAAAMAAAAAAAAAAwAAAAQAAAAAAAAA
+BAAAAAUAAAAAAAAABQAAAAYAAAAAAAAABgAAAAEAAAABAAAABgAAAAcAAAABAAAABwAAAAMA
+AAABAAAAAwAAAAIAAAADAAAABwAAAAQAAAAEAAAABwAAAAYAAAAEAAAABgAAAAUAAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/IQAAAAQAAADg/38//P9fQAgA
+kEAAQMw4/P9fQDr+j0AAQMw4MP8fQAgAkEB2+X8/AKCzOTr+j0B2+X8/AAAAAN4GIEDg/38/
+/P9fQAwAEEAAAAC1/P9fQK9gZkAAQMw4AAAAADr+j0AMnJk+AAAAADr+j0B2+X8/AAAAAAwA
+EEAAAAC1/P9fQAwAEEA2AAAAAAAAAAEAAAACAAAAAAAAAAIAAAADAAAAAAAAAAMAAAAEAAAA
+AAAAAAQAAAAJAAAAAAAAAAkAAAAFAAAAAAAAAAUAAAAKAAAAAAAAAAoAAAAGAAAAAAAAAAYA
+AAABAAAAAQAAAAYAAAACAAAAAgAAAAcAAAAIAAAAAgAAAAgAAAADAAAAAgAAAAYAAAAHAAAA
+AwAAAAgAAAAEAAAABAAAAAgAAAAHAAAABAAAAAcAAAAJAAAABQAAAAkAAAAKAAAABgAAAAoA
+AAAHAAAABwAAAAoAAAAJAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA
+AACAPxUAAAAEAAAAEACAvwAAAADs/w/AEACAvwAAAADw/4/AEACAv/z/X8Ds/w/AAFDOuPz/
+X8Ds/w/AAAAAtQAAAADw/4/AEACAv/z/X8Dw/4/AAAAAtfz/X8Dw/4/AHgAAAAAAAAABAAAA
+BQAAAAAAAAAFAAAAAgAAAAAAAAACAAAAAwAAAAAAAAADAAAABAAAAAAAAAAEAAAAAQAAAAEA
+AAAEAAAABgAAAAEAAAAGAAAABQAAAAIAAAAFAAAABgAAAAIAAAAGAAAAAwAAAAMAAAAGAAAA
+BAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgD8eAAAABAAAAAUA
+gL8BCMC/AAAANgUAgL8AAAAADwsAvwIAAMABCMC/AAAANgAAQLX8/1/AAAAANgIAAMAAAAAA
+DwsAvwUAgL8AAAAA7P8PwAIAAMABCMC/DwsAvwUAgL/8/1/AAAAANgAAQLX8/1/A7P8PwAUA
+gL/8/1/A7P8PwDAAAAAAAAAAAQAAAAQAAAAAAAAABAAAAAIAAAAAAAAAAgAAAAcAAAAAAAAA
+BwAAAAMAAAAAAAAAAwAAAAEAAAABAAAAAwAAAAgAAAABAAAACAAAAAUAAAABAAAABQAAAAQA
+AAACAAAABAAAAAYAAAACAAAABgAAAAkAAAACAAAACQAAAAcAAAADAAAABwAAAAkAAAADAAAA
+CQAAAAgAAAAEAAAABQAAAAkAAAAEAAAACQAAAAYAAAAFAAAACAAAAAkAAAAQAAAAAAAAAAAA
+AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/GAAAAAQAAACP+X9ACADAPwAAkMAAAAC1
+AAAAADL+j8AAAAC1CADAPzL+j8CP+X9ACADAP/z/D8D5/39AuCgJP/z/D8D5/39AAAAAADL+
+j8D5/39AAAAAAPz/D8AAAAC1CADAP/z/D8AkAAAAAAAAAAEAAAACAAAAAAAAAAIAAAAHAAAA
+AAAAAAcAAAADAAAAAAAAAAMAAAAEAAAAAAAAAAQAAAAFAAAAAAAAAAUAAAABAAAAAQAAAAUA
+AAAGAAAAAQAAAAYAAAAHAAAAAQAAAAcAAAACAAAAAwAAAAcAAAAGAAAAAwAAAAYAAAAEAAAA
+BAAAAAYAAAAFAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAPxsA
+AAAEAAAAAACAwPj/v78MABBAAACAwAAAgDMMABBANP8TwPj/v78MABBAAACAwPj/v78IAJBA
+AACAwAAAgDM6/o9AAAAAtQAAgDM6/o9AAAAAtVn2v78MABBAAAAAtVn2v786/o9AAQAgwAAA
+gDMIAJBAKgAAAAAAAAABAAAABgAAAAAAAAAGAAAAAgAAAAAAAAACAAAAAwAAAAAAAAADAAAA
+BAAAAAAAAAAEAAAAAQAAAAEAAAAEAAAACAAAAAEAAAAIAAAABQAAAAEAAAAFAAAABgAAAAIA
+AAAGAAAABwAAAAIAAAAHAAAAAwAAAAMAAAAHAAAACAAAAAMAAAAIAAAABAAAAAUAAAAHAAAA
+BgAAAAUAAAAIAAAABwAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA
+gD8YAAAABAAAAPz/f0D8/1/AAAAANpL5f0AAAAAAAAAANgAAQLX8/1/AAAAANvz/f0D8/1/A
+xPiPwJL5f0AAAAAA+/+PwADwzDkAAAAAxPiPwAAAQLX8/1/AWvpfwADwzDn8/1/AxPiPwCQA
+AAAAAAAAAQAAAAIAAAAAAAAAAgAAAAYAAAAAAAAABgAAAAcAAAAAAAAABwAAAAMAAAAAAAAA
+AwAAAAQAAAAAAAAABAAAAAEAAAABAAAABAAAAAUAAAABAAAABQAAAAIAAAACAAAABQAAAAYA
+AAADAAAABwAAAAQAAAAEAAAABwAAAAUAAAAFAAAABwAAAAYAAAAQAAAAAAAAAAAAAAAAAAAA
+AAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/GwAAAAQAAAAAQM25MP8fQAgAkEAAACDAAAAAAAgA
+kEAASE26AAAAAGz8j0AASE26/P9fQAAAADYAQM25/P9fQGz8j0AAAIDA/P9fQGz8j0AAAIDA
+AAAAAGz8j0AAAIDAAAAAAAAAADYAAIDA/P9fQAAAADYqAAAAAAAAAAEAAAACAAAAAAAAAAIA
+AAADAAAAAAAAAAMAAAAEAAAAAAAAAAQAAAAFAAAAAAAAAAUAAAABAAAAAQAAAAUAAAAGAAAA
+AQAAAAYAAAAHAAAAAQAAAAcAAAACAAAAAgAAAAcAAAADAAAAAwAAAAcAAAAIAAAAAwAAAAgA
+AAAFAAAAAwAAAAUAAAAEAAAABQAAAAgAAAAHAAAABQAAAAcAAAAGAAAA</SharedString>
 		<SharedString md5="SRl+poCPnMErgBH18N4zzw==">Q1NHUEhTBgAAAIy9w0TGBXg5AAAAACU/Tbji0bpHAAAAAKqhvb6HXddHAAAAAL4SSEgQAAAA
 AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/GAAAAAQAAAAAAGhBAABYQQAA
 gD8AAGhBAABYQQAAgL8AAGjBAABYQSzzfz8AAGhBAABYwQAAgD8AAGhBAABYwQAAgL8AAGjB
@@ -10396,146 +10598,5 @@ AABYQQAAgL8AAGjBAABYwSzzfz8AAGjBAABYwQAAgL8kAAAAAAAAAAEAAAAFAAAAAAAAAAUA
 AAACAAAAAAAAAAIAAAAGAAAAAAAAAAYAAAADAAAAAAAAAAMAAAAEAAAAAAAAAAQAAAABAAAA
 AQAAAAQAAAAHAAAAAQAAAAcAAAAFAAAAAgAAAAUAAAAHAAAAAgAAAAcAAAAGAAAAAwAAAAYA
 AAAHAAAAAwAAAAcAAAAEAAAA</SharedString>
-		<SharedString md5="7aNoHXJkqXsL0wH0cuB+Ng==">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
-AAAFAAAAAAAAAAUAAAABAAAAAQAAAAUAAAAGAAAAAQAAAAYAAAAHAAAAAQAAAAcAAAAEAAAA
-AgAAAAQAAAAIAAAAAgAAAAgAAAALAAAAAgAAAAsAAAAJAAAAAgAAAAkAAAADAAAAAwAAAAkA
-AAALAAAAAwAAAAsAAAAKAAAABAAAAAcAAAAGAAAABAAAAAYAAAAIAAAABQAAAAoAAAALAAAA
-BQAAAAsAAAAGAAAABgAAAAsAAAAIAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA
-AAAAAAAAAACAPxIAAAAEAAAAlvl/P/z/3z8AAAA2AACAP/z/X0AAAAA2lvl/P/z/3z8MABBA
-AAAANvz/X0AAAAA2AACAP/z/X0AMABBAAFDROPz/X0AMABBAGAAAAAAAAAABAAAABAAAAAAA
-AAAEAAAAAgAAAAAAAAACAAAAAwAAAAAAAAADAAAAAQAAAAEAAAADAAAABQAAAAEAAAAFAAAA
-BAAAAAIAAAAEAAAABQAAAAIAAAAFAAAAAwAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA
-AAAAAAAAAAAAAAAAgD8nAAAABAAAAOn//79aBsC/AAAANtn/f7/8/1/AAAAANun//79aBsC/
-KLoqPtn/f7/w/7+/AAAANtn/f7/8/1/AJgQAPwAAADb8/1/AAAAANn75/79aBsC/FACQP9n/
-f7/w/7+/JgQAPwAAADbw/7+/JgQAPwBQS7n8/1/AJgQAPwAAADbw/7+/FACQP4P9u79aBsC/
-FACQPxADML/w/7+/FACQP0IAAAAAAAAAAQAAAAQAAAAAAAAABAAAAAIAAAAAAAAAAgAAAAcA
-AAAAAAAABwAAAAMAAAAAAAAAAwAAAAUAAAAAAAAABQAAAAEAAAABAAAABQAAAAkAAAABAAAA
-CQAAAAQAAAACAAAABAAAAAYAAAACAAAABgAAAAcAAAADAAAABwAAAAwAAAADAAAADAAAAAoA
-AAADAAAACgAAAAgAAAADAAAACAAAAAUAAAAEAAAACQAAAAsAAAAEAAAACwAAAAYAAAAFAAAA
-CAAAAAoAAAAFAAAACgAAAAkAAAAGAAAACwAAAAoAAAAGAAAACgAAAAwAAAAGAAAADAAAAAcA
-AAAJAAAACgAAAAsAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/
-HgAAAAQAAAAMAIA//P9fQAAAADYEAABACADAPwAAADYMAIA//P9fQOQDAL8AQE85/P9fQAAA
-ADYEAABACADAP/L/j78MAIA/CADAPwAAADYAAPg1/P9fQOQDAL8AAPg1/P9fQLDGY70AAPg1
-CADAP+QDAL8AAPg1CADAP/L/j78wAAAAAAAAAAEAAAAEAAAAAAAAAAQAAAACAAAAAAAAAAIA
-AAAGAAAAAAAAAAYAAAAHAAAAAAAAAAcAAAADAAAAAAAAAAMAAAAFAAAAAAAAAAUAAAABAAAA
-AQAAAAUAAAAIAAAAAQAAAAgAAAAJAAAAAQAAAAkAAAAEAAAAAgAAAAQAAAAJAAAAAgAAAAkA
-AAAGAAAAAwAAAAcAAAAIAAAAAwAAAAgAAAAFAAAABgAAAAkAAAAIAAAABgAAAAgAAAAHAAAA
-EAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAPxsAAAAEAAAAAAD4NfL/
-v78CAJBA0/9/PwAAAAACAJBAaiszPwAAAAACAJBAAAD4NQAAAABm/I9AAAD4NWEGAL9m/I9A
-ADhPOSL7v78GABBA/vJ/PyL7v78GABBA/vJ/PyL7v79m/I9A/vJ/PwAAAAAGABBAKgAAAAAA
-AAABAAAAAgAAAAAAAAACAAAAAwAAAAAAAAADAAAABAAAAAAAAAAEAAAABQAAAAAAAAAFAAAA
-BgAAAAAAAAAGAAAABwAAAAAAAAAHAAAAAQAAAAEAAAAHAAAABgAAAAEAAAAGAAAACAAAAAEA
-AAAIAAAAAwAAAAEAAAADAAAAAgAAAAMAAAAIAAAABQAAAAMAAAAFAAAABAAAAAUAAAAIAAAA
-BgAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgD8VAAAABAAAAAAA
-gL8AAAAAMv6PwABAybgAAAAAMv6PwAAAgL8AAAAA/P8PwAAAgL8IAMA/AACQwAAAADYIAMA/
-Mv6PwAAAADYIAMA//P8PwAAAgL8IAMA//P8PwB4AAAAAAAAAAQAAAAIAAAAAAAAAAgAAAAYA
-AAAAAAAABgAAAAMAAAAAAAAAAwAAAAEAAAABAAAAAwAAAAQAAAABAAAABAAAAAUAAAABAAAA
-BQAAAAIAAAACAAAABQAAAAYAAAADAAAABgAAAAUAAAADAAAABQAAAAQAAAAQAAAAAAAAAAAA
-AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/HgAAAAQAAAC7/H/AAAAAANgxs767/H/A
-AAAAAAAAADa7/H/AAKCzOQAAAL+PBSDAAAAAAAAAAL9dBgDAAAAAAAAAAL8oAwDA/P9fQAAA
-ADa7/H/A/P9fQAAAADa7/H/A/P9fQAAAAL8oAwDA+qMKQAAAAL8oAwDA/P9fQAAAAL8wAAAA
-AAAAAAEAAAAGAAAAAAAAAAYAAAAHAAAAAAAAAAcAAAACAAAAAAAAAAIAAAADAAAAAAAAAAMA
-AAAEAAAAAAAAAAQAAAABAAAAAQAAAAQAAAAFAAAAAQAAAAUAAAAGAAAAAgAAAAcAAAAJAAAA
-AgAAAAkAAAAIAAAAAgAAAAgAAAAEAAAAAgAAAAQAAAADAAAABAAAAAgAAAAFAAAABQAAAAkA
-AAAHAAAABQAAAAcAAAAGAAAABQAAAAgAAAAJAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA
-AAAAAAAAAAAAAAAAAACAPxUAAAAEAAAABAAAQPz/X8AAAAA2BAAAQPz/X8BAAAA/BAAAQAAA
-AAAW+v8+AACAQAAAAAAAAAA2AACAQPz/X8AAAAA2AACAQPz/X8BAAAA/AACAQAAAAABAAAA/
-HgAAAAAAAAABAAAAAgAAAAAAAAACAAAAAwAAAAAAAAADAAAABAAAAAAAAAAEAAAABQAAAAAA
-AAAFAAAAAQAAAAEAAAAFAAAABgAAAAEAAAAGAAAAAgAAAAIAAAAGAAAAAwAAAAMAAAAGAAAA
-BQAAAAMAAAAFAAAABAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA
-gD8bAAAABAAAAAAABDb8/98//v//vgAABDbI/L8//v//vgAABDbI/L8//P8PwH75/7/8/98/
-/v//vtj/f78AAAAA/v//vtj/f7/I/L8//P8PwNj/f78AAAAA/P8PwOj//7/3938//v//vuj/
-/78AAAAA/v//vioAAAAAAAAAAQAAAAIAAAAAAAAAAgAAAAUAAAAAAAAABQAAAAMAAAAAAAAA
-AwAAAAcAAAAAAAAABwAAAAgAAAAAAAAACAAAAAQAAAAAAAAABAAAAAEAAAABAAAABAAAAAYA
-AAABAAAABgAAAAIAAAACAAAABgAAAAUAAAADAAAABQAAAAcAAAAEAAAACAAAAAYAAAAFAAAA
-BgAAAAgAAAAFAAAACAAAAAcAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA
-AAAAAIA/GwAAAAQAAAAAAPg1yPy/vwAAAD8AAPg1/P/fvzkLAD8AAPg1yPy/vwYAEEAMAIA/
-AAAAAAAAAD8MAIA/yPy/vwAAAD8EAABA/P/fvzkLAD8MAIA/yPy/vwYAEEAMAIA/AAAAAAYA
-EEAEAABAAAAAADkLAD8qAAAAAAAAAAEAAAACAAAAAAAAAAIAAAAHAAAAAAAAAAcAAAADAAAA
-AAAAAAMAAAAEAAAAAAAAAAQAAAAFAAAAAAAAAAUAAAABAAAAAQAAAAUAAAAGAAAAAQAAAAYA
-AAACAAAAAgAAAAYAAAAHAAAAAwAAAAcAAAAIAAAAAwAAAAgAAAAFAAAAAwAAAAUAAAAEAAAA
-BQAAAAgAAAAHAAAABQAAAAcAAAAGAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA
-AAAAAAAAAACAPxsAAAAEAAAA6P//v1j2v7+wqeo/8P9/wPj/v78MABBA6P//v1j2v79niaM/
-8P9/wAAAgDSNyKw/8P9/wADYmbkMABBAKQMAwFj2v78MABBA8P9/wPj/v78AAAA2KQMAwFj2
-v78AAAA28P9/wADYmbkAAAA2KgAAAAAAAAABAAAABgAAAAAAAAAGAAAAAgAAAAAAAAACAAAA
-AwAAAAAAAAADAAAABAAAAAAAAAAEAAAABQAAAAAAAAAFAAAAAQAAAAEAAAAFAAAABAAAAAEA
-AAAEAAAAAwAAAAEAAAADAAAACAAAAAEAAAAIAAAABgAAAAIAAAAGAAAABwAAAAIAAAAHAAAA
-AwAAAAMAAAAHAAAACAAAAAYAAAAIAAAABwAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA
-AAAAAAAAAAAAAAAAgD8SAAAABAAAAAAAgEAIAMA/AAAANgAAgEAAAAC0AAAANgAAgEAIAMA/
-+v8PwAQAAEAIAMA/AAAANgQAAEAIAMA/+v8PwAAAgEAA4Bk5+v8PwBgAAAAAAAAAAQAAAAUA
-AAAAAAAABQAAAAIAAAAAAAAAAgAAAAQAAAAAAAAABAAAAAMAAAAAAAAAAwAAAAEAAAABAAAA
-AwAAAAQAAAABAAAABAAAAAUAAAACAAAABQAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAA
-AAAAAAAAAAAAAAAAAAAAAIA/FQAAAAQAAACW+X8//P9fQAgAkEAAQNE4/P9fQDr+j0AAAAA2
-AAAAADr+j0CW+X8/AAAAADr+j0CW+X8//P9fQAwAEEAAQNE4/P9fQAwAEECW+X8/AAAAAAwA
-EEAeAAAAAAAAAAEAAAACAAAAAAAAAAIAAAADAAAAAAAAAAMAAAAGAAAAAAAAAAYAAAAEAAAA
-AAAAAAQAAAAFAAAAAAAAAAUAAAABAAAAAQAAAAUAAAACAAAAAgAAAAYAAAADAAAAAgAAAAUA
-AAAGAAAABAAAAAYAAAAFAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA
-AACAPxsAAAAEAAAAAACAvwAAAAD6/w/AAEDJuAAAAABi/I/AAACAvwAAAAD+/4/AAACAv/z/
-X8D6/w/AAEDJuPz/X8D6/w/AAAAANvz/X8D6/V/AAAAANvz/X8Bi/I/AdyszvwAAAAD+/4/A
-AACAv/z/X8Bi/I/AKgAAAAAAAAABAAAABwAAAAAAAAAHAAAAAgAAAAAAAAACAAAACAAAAAAA
-AAAIAAAAAwAAAAAAAAADAAAABAAAAAAAAAAEAAAAAQAAAAEAAAAEAAAABQAAAAEAAAAFAAAA
-BgAAAAEAAAAGAAAABwAAAAIAAAAHAAAABgAAAAIAAAAGAAAACAAAAAMAAAAIAAAABgAAAAMA
-AAAGAAAABQAAAAMAAAAFAAAABAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA
-AAAAAAAAgD8eAAAABAAAAG/5f78BCMC/AAAANm/5f78AAAAAixkAv375/78BCMC/AAAANgBg
-S7n8/1/AAAAANn75/78AAAAAixkAvwAA8DX8/1/A+v8PwG/5f78AAAAA+v8PwH75/78BCMC/
-ixkAv2/5f7/8/1/AAAAANm/5f7/8/1/A+v8PwDAAAAAAAAAAAQAAAAQAAAAAAAAABAAAAAIA
-AAAAAAAAAgAAAAgAAAAAAAAACAAAAAMAAAAAAAAAAwAAAAEAAAABAAAAAwAAAAUAAAABAAAA
-BQAAAAYAAAABAAAABgAAAAQAAAACAAAABAAAAAcAAAACAAAABwAAAAkAAAACAAAACQAAAAgA
-AAADAAAACAAAAAkAAAADAAAACQAAAAUAAAAEAAAABgAAAAkAAAAEAAAACQAAAAcAAAAFAAAA
-CQAAAAYAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIA/FQAAAAQA
-AADw/3/A+P+/vwwAEEDw/3/AAAAANAwAEEAAAAg2KPu/vwwAEEDw/3/A+P+/vwgAkEDw/3/A
-AOAZuTr+j0AAAAg2AOAZuTr+j0AAAAg2KPu/vzr+j0AeAAAAAAAAAAEAAAACAAAAAAAAAAIA
-AAAGAAAAAAAAAAYAAAADAAAAAAAAAAMAAAAEAAAAAAAAAAQAAAABAAAAAQAAAAQAAAAFAAAA
-AQAAAAUAAAACAAAAAgAAAAUAAAAGAAAAAwAAAAYAAAAFAAAAAwAAAAUAAAAEAAAAEAAAAAAA
-AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAPxgAAAAEAAAAAADwNQ8QAD/+/4/A
-AADwNQgAwD/+/4/AAACAQAAAAABi/I/AAADwNQAAAABi/I/AAADwNQgAwD/6/w/AAACAQAgA
-wD9i/I/AAACAQAAAAAD6/w/AAACAQAgAwD/6/w/AJAAAAAAAAAABAAAABQAAAAAAAAAFAAAA
-AgAAAAAAAAACAAAAAwAAAAAAAAADAAAABAAAAAAAAAAEAAAAAQAAAAEAAAAEAAAABwAAAAEA
-AAAHAAAABQAAAAIAAAAFAAAABwAAAAIAAAAHAAAABgAAAAIAAAAGAAAAAwAAAAMAAAAGAAAA
-BAAAAAQAAAAGAAAABwAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA
-gD8bAAAABAAAAAAAgEAAoLO5AAAANgAAgED8/1/AAAAANgAAgEAAAAAAKvs/wAAA8DUAAAAA
-/f+PwAAA8DX8/1/AAAAANgAAgED8/1/AYvyPwAAAgEAAAAAAYvyPwBwAAD8AAAAA/f+PwAAA
-8DX8/1/AYvyPwCoAAAAAAAAAAQAAAAUAAAAAAAAABQAAAAYAAAAAAAAABgAAAAIAAAAAAAAA
-AgAAAAMAAAAAAAAAAwAAAAQAAAAAAAAABAAAAAEAAAABAAAABAAAAAgAAAABAAAACAAAAAUA
-AAACAAAABgAAAAcAAAACAAAABwAAAAMAAAADAAAABwAAAAUAAAADAAAABQAAAAgAAAADAAAA
-CAAAAAQAAAAFAAAABwAAAAYAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA
-AAAAAIA/GAAAAAQAAAAAABA2/P9fQKo2AD8AMMy5/P9fQAAAADYAMMy5/P9fQAYAkEAAMMy5
-AAAAAM74j0Dw/3/AAAAAAAAAADbw/3/A/P9fQAAAADbw/3/AAAAAAAYAkEDw/3/A/P9fQM74
-j0AkAAAAAAAAAAEAAAAFAAAAAAAAAAUAAAAHAAAAAAAAAAcAAAACAAAAAAAAAAIAAAADAAAA
-AAAAAAMAAAABAAAAAQAAAAMAAAAEAAAAAQAAAAQAAAAFAAAAAgAAAAYAAAADAAAAAgAAAAcA
-AAAGAAAAAwAAAAYAAAAEAAAABAAAAAYAAAAHAAAABAAAAAcAAAAFAAAA</SharedString>
 	</SharedStrings>
 </roblox>
