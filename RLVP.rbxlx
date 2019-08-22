@@ -3736,6 +3736,7 @@ return{
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local algorSel=require(main.AlgorChooserModule)
+local wpm=require(script.Parent.WaypointModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
@@ -3859,6 +3860,10 @@ function removeGroup(main)
 		do parts[p]=true end removeTbl(parts)
 	end
 	
+	--Clears all waypoints to resolve undo bugs.
+	if g.algor.clearUndo then wpm.reset()
+	wpm.set'RLVP_Undo_Marker'end
+	
 	local p=g.algor.output(main,g.parts)
 	selGroups[main]=nil return p
 end
@@ -3908,6 +3913,9 @@ function createGroup(p)
 		
 		--If not as a unit, ensure there are default selected parts and select them.
 		else g.defSel=g.defSel or g.parts for i,gp in next,g.defSel do addP(gp)end end
+		
+		--Clears all waypoints to resolve undo bugs.
+		if algor.clearUndo then wpm.reset()end
 		
 		return g
 	end
@@ -4561,11 +4569,6 @@ function set(modeT)
 	origin=o,tagged=false}
 	tagT[o].isOrigin=true
 	
-	--Anulls all redo waypoints.
-	if bind.waypoint and sel.hasGroups()then
-		wpm.set('RLVP_Tool_'..bind.waypoint)
-	end
-	
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
 end
@@ -4592,8 +4595,8 @@ function unset()
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
 	
-	--Adds non-group modifications to the undo chain.
-	if bind.waypoint and not sel.hasGroups()then
+	--Adds modifications to the undo chain.
+	if bind.waypoint then
 		wpm.set('RLVP_Tool_'..bind.waypoint)
 		sel.set()
 	end
@@ -10229,6 +10232,7 @@ function implode(o)
 end
 
 return{
+	clearUndo=true,
 	asUnit=false,
 	input=explode,
 	get=function(f,t)
