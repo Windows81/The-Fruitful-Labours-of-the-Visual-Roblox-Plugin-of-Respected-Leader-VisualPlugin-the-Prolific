@@ -986,6 +986,18 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX073211B5893C4D8C90B7EBA61C4DD5F7">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBXE6B9F35EBDE14A5BB029AC3E5BFAB10A">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -4090,6 +4102,9 @@ function changeSel(changes)
 	--Sets the redirects in stone.
 	studioSels=newSS
 	
+	--Group edition flags.
+	local grAdded,grRemvd
+	
 	--Part table to efficiently remove from.
 	local remove={}
 	
@@ -4103,7 +4118,7 @@ function changeSel(changes)
 			local a,r=changes[m]=='add',changes[m]=='remove'
 			
 			--Removes the entire unit only if a part is being deselected and another one is NOT being selected.
-			if r and not a then removeGroup(m)changes[m]=nil end
+			if r and not a then grRemvd=true removeGroup(m)changes[m]=nil end
 		else
 			--Evaluates whether all parts already selected within the selection group are being removed.
 			local all=true for i,gp in next,g.parts do if changes[gp]and'remove'~=changes[gp]then all=false break end end
@@ -4115,6 +4130,7 @@ function changeSel(changes)
 						changes[gp]=nil
 					end
 				end
+				grRemvd=true
 				removeGroup(m)
 				
 			--Otherwise, add and remove necessary parts.
@@ -4141,11 +4157,14 @@ function changeSel(changes)
 		--Case for adding new part to selection.
 		elseif l=='add'and pfMod.part(p)then
 			
-			--Tries creating a new group.
+			--Attempts to create a new group.
 			local g=createGroup(p)
 			
-			--Adds single part if not groupable.
-			if not g then addP(p)end
+			--Modifies the flag if groupable.
+			if g then grAdded=true
+			
+			--Adds single part otherwise.
+			else addP(p)end
 		end
 	end
 	
@@ -4184,7 +4203,7 @@ function selChanged()
 		end
 	end
 	
-	--Does the reals.
+	--Main method.
 	changeSel(logs)
 end
 
@@ -4279,16 +4298,18 @@ evtMod.bind('restore',function(wp)
 	createGroup(p)end send()
 end)
 
+--Sets bind for (de)activation.
 active.bind(function(a)
-	if a then
-		studioSels={}
-		for i,p in next,getStudioSels()do
-			local r=createGroup(p)
-			if not r then addP(p)end
-		end
-	else
-		--Reverts all selection-groups for streamlined use.
-		for m,g in next,selGroups do addP(removeGroup(m))end
+	
+	--If active, makes table blank.
+	if a then studioSels={}
+		
+		--Re-establishes the selection by iterating part-by-part.
+		for i,p in next,getStudioSels()do if pfMod.part(p)then
+		local r=createGroup(p)if not r then addP(p)end end end
+		
+	--Otherwise, reverts all selection-groups for streamlined use.
+	else for m,g in next,selGroups do addP(removeGroup(m))end
 		
 		--Sends without calling binds.
 		lock()setStudioSels()unlock()
@@ -4301,6 +4322,9 @@ end)
 return{
 	add=addC,get=get,
 	remove=removeC,
+	
+	--Determines if there are non-single objects selected.
+	hasGroups=function()return next(selGroups)~=nil end,
 	
 	shift=shift,set=setStudioSels,
 	replaceTbl=replaceTbl,
@@ -4477,6 +4501,7 @@ return{
 					<string name="ScriptGuid">{1FCEB657-1CD6-48F9-8D60-BF8E6CA2F16F}</string>
 					<ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
 local ogMod=require(script.Parent.OriginModule)
+local wpm=require(script.Parent.WaypointModule)
 
 --Modifies global environment.
 require(script.Parent.DebugModule)()
@@ -4536,14 +4561,10 @@ function set(modeT)
 	origin=o,tagged=false}
 	tagT[o].isOrigin=true
 	
-	--[[
-	--Adds modification to the undo chain.
-	if bind.waypoint then
-		game.ChangeHistoryService
-		:SetWaypoint('RLVP_Tool_'
-		..bind.waypoint)
+	--Anulls all redo waypoints.
+	if bind.waypoint and sel.hasGroups()then
+		wpm.set('RLVP_Tool_'..bind.waypoint)
 	end
-	]]
 	
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
@@ -4571,11 +4592,9 @@ function unset()
 	--Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
 	
-	--Adds modification to the undo chain.
-	if bind.waypoint then
-		game.ChangeHistoryService
-		:SetWaypoint('RLVP_Tool_'
-		..bind.waypoint)
+	--Adds non-group modifications to the undo chain.
+	if bind.waypoint and not sel.hasGroups()then
+		wpm.set('RLVP_Tool_'..bind.waypoint)
 		sel.set()
 	end
 	
@@ -9815,9 +9834,9 @@ config.bind('debugLevel',function(d)
 	for i=1,#envs do set(envs[i],d)end
 end)
 
-return function(...)
+return function(d)
 	--Can be between 0 and 3 inclusive.
-	local d=config.get'debugLevel'
+	local d=d or config.get'debugLevel'
 	
 	--Gets current environment and stores it.
 	local env=getfenv()envs[#envs+1]=env
@@ -9834,8 +9853,8 @@ end]]></ProtectedString>
 					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
 					<ProtectedString name="Source"><![CDATA[local pfMod=require(script.Parent.PartFilterModule)
 local active=require(script.Parent.ActiveModule)
+local wpm=require(script.Parent.WaypointModule)
 local rs=game['Run Service'].RenderStepped
-local hist=game.ChangeHistoryService
 local addParts,remParts={},{}
 local selSer=game.Selection
 local binds,debounce={}
@@ -9916,7 +9935,7 @@ added:Connect(function(p)
 	
 	--Takes care of the event for undoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=hist.OnUndo:
+	function()local wp=wpm.onUndo:
 	Wait()if done then return end
 		done=true warn('Action undone:',wp)
 		addC:Disconnect()remC:Disconnect()
@@ -9925,7 +9944,7 @@ added:Connect(function(p)
 	
 	--Takes care of the event for redoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=hist.OnRedo:
+	function()local wp=wpm.onRedo:
 	Wait()if done then return end
 		done=true warn('Action redone:',wp)
 		addC:Disconnect()remC:Disconnect()
@@ -9938,7 +9957,7 @@ added:Connect(function(p)
 	remC:Disconnect()
 	if done then return end
 	
-	local canUndo,wp=hist:GetCanUndo()
+	local canUndo,wp=wpm.prevWp()
 	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
@@ -9973,7 +9992,7 @@ remov:Connect(function(p)
 	
 	--Takes care of the event for undoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=hist.OnUndo:
+	function()local wp=wpm.onUndo:
 	Wait()if done then return end
 		done=true warn('Action undone:',wp)
 		addC:Disconnect()remC:Disconnect()
@@ -9982,7 +10001,7 @@ remov:Connect(function(p)
 	
 	--Takes care of the event for redoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=hist.OnRedo:
+	function()local wp=wpm.onRedo:
 	Wait()if done then return end
 		done=true warn('Action redone:',wp)
 		addC:Disconnect()remC:Disconnect()
@@ -9995,7 +10014,7 @@ remov:Connect(function(p)
 	remC:Disconnect()
 	if done then return end
 	
-	local canUndo,wp=hist:GetCanUndo()
+	local canUndo,wp=wpm.prevWp()
 	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
@@ -10003,7 +10022,7 @@ remov:Connect(function(p)
 end)
 
 --TODO: cases when the undo event fires first.
-hist.OnUndo:Connect(function(name)
+wpm.onUndo:Connect(function(name)
 	if name:sub(1,10)=='RLVP_Tool_'then
 		--local wp=name:sub(6)
 		wpAction(name)
@@ -10411,12 +10430,12 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SetupModule</string>
 					<string name="ScriptGuid">{D1E18C21-BBD1-4C00-B0B4-14172FA5D728}</string>
-					<ProtectedString name="Source"><![CDATA[local settngs=settings().Studio
+					<ProtectedString name="Source"><![CDATA[local settings=settings().Studio
 
-if settngs.RuntimeUndoBehavior~=Enum.RuntimeUndoBehavior.Aggregate then
-	settngs.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Aggregate
+if settings.RuntimeUndoBehavior~=Enum.RuntimeUndoBehavior.Hybrid then
 	warn('Respected Leader VisualPlugin advises that it is not compatible with your'
-	..'current \'RuntimeUndoBehavior\' option; it has been modified to \'Aggregate\'.')
+	..'current \'RuntimeUndoBehavior\' option; it has been modified to \'Hybrid\'.')
+	settings.RuntimeUndoBehavior=Enum.RuntimeUndoBehavior.Hybrid
 	print()
 end
 wait()
@@ -10425,6 +10444,30 @@ wait()
 game.ChangeHistoryService:SetEnabled(true)
 
 return nil]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX1A6CC124A11A4F81B3BBB53AD1DB7C05">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">WaypointModule</string>
+					<string name="ScriptGuid">{18C9B3A7-4A8E-4E7D-B501-2C00B6718D39}</string>
+					<ProtectedString name="Source"><![CDATA[require(script.Parent.DebugModule)()
+local chs=game.ChangeHistoryService
+return{
+	set=function(...)
+		chs:SetWaypoint(...)
+		warn('Waypoint set:',...)
+	end,
+	reset=function()
+		chs:ResetWaypoints()
+		warn('Waypoint reset.')
+	end,
+	onUndo=chs.OnUndo,
+	onRedo=chs.OnRedo,
+	nextWp=function(...)chs:GetCanRedo()end,
+	prevWp=function(...)chs:GetCanUndo()end,
+}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
