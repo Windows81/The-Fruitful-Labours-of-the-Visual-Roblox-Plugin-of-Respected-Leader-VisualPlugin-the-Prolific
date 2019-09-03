@@ -38,26 +38,26 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-9.57932091</X>
-					<Y>31.7891159</Y>
-					<Z>-50.3964348</Z>
-					<R00>0.928779364</R00>
-					<R01>-0.192665681</R01>
-					<R02>0.316621184</R02>
-					<R10>-0</R10>
-					<R11>0.854270816</R11>
-					<R12>0.51982832</R12>
-					<R20>-0.370633304</R20>
-					<R21>-0.482805818</R21>
-					<R22>0.793429017</R22>
+					<X>-14.0391769</X>
+					<Y>26.367857</Y>
+					<Z>-47.3959961</Z>
+					<R00>0.958546817</R00>
+					<R01>-0.0956820399</R01>
+					<R02>0.268389851</R02>
+					<R10>-7.4505806e-09</R10>
+					<R11>0.941932559</R11>
+					<R12>0.335802644</R12>
+					<R20>-0.284935355</R20>
+					<R21>-0.321882546</R21>
+					<R22>0.902886271</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-10.2125673</X>
-					<Y>30.7494526</Y>
-					<Z>-51.9833031</Z>
+					<X>-14.5759573</X>
+					<Y>25.6962509</Y>
+					<Z>-49.2017708</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -1119,7 +1119,7 @@ return{
 		if s==nil then return''end
 		local r=''
 		for i in string.gmatch(s,'.') do
-			if #r>0 then r=r..' ,'end
+			if#r>0 then r=r..' ,'end
 			local c=string.byte(i)
 			if c>=65 and c<=90 then
 				r=r..utf8.char(0x2191)
@@ -3723,7 +3723,8 @@ return{
 					<string name="Name">SelectionModule</string>
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local algorSel=require(main.AlgorChooserModule)
+local algorSel=require(main.AlgorChooserModule).choose
+local algorConf=require(script.AlgorConfigModule)
 local wpm=require(script.Parent.WaypointModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
@@ -3891,6 +3892,9 @@ function createGroup(p)
 	local algor=algorSel(p)
 	if algor then
 		
+		--If algorithm is disabled, returns dummy value.
+		if not algorConf(algor)then return 0 end
+		
 		--Adds a group in the group table.
 		local g=addG(algor,p)
 		
@@ -4021,7 +4025,7 @@ function replaceTblRaw(t)
 	for p1,p2 in next,t do
 		if not grRedirs[p1]
 		and not inGrT[p1]then
-			local g=createGroup(p2)
+			createGroup(p2)
 			grRemove[p2]=true
 		end
 	end
@@ -4268,6 +4272,44 @@ evtMod.bind('negateSel',function(addT,remT)
 	selPr()send()
 end)
 
+--Implements bind for separated parts.
+evtMod.bind('unionSel',function(addT,remT)
+	
+	--Table for groups to remove.
+	local remGrT={}
+	
+	--Attempts to send event data to each group; will modify addT and remT.
+	for m,g in next,selGroups do if not callGroupFunc(m,'modify','unionSel',addT,remT)then remGrT[m]=true end end
+	
+	--Generates a one-to-one table that will be used to modify the current selection.
+	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
+	
+	--Removes groups that returned false on the other loop.
+	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
+	
+	tblPrint(addT,remT)
+	selPr()send()
+end)
+
+--Implements bind for separated parts.
+evtMod.bind('separSel',function(addT,remT)
+	
+	--Table for groups to remove.
+	local remGrT={}
+	
+	--Attempts to send event data to each group; will modify addT and remT.
+	for m,g in next,selGroups do if not callGroupFunc(m,'modify','separSel',addT,remT)then remGrT[m]=true end end
+	
+	--Generates a one-to-one table that will be used to modify the current selection.
+	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
+	
+	--Removes groups that returned false on the other loop.
+	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
+	
+	tblPrint(addT,remT)
+	selPr()send()
+end)
+
 evtMod.bind('restore',function(wp)
 	warn'Adjusting selection.'
 	local tempSS=getStudioSels()
@@ -4401,6 +4443,32 @@ return{
 		for i,gp in next,t do collS:RemoveTag(gp,h)end
 	end,
 }]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXC4AA31A386C144D6976663CBA9FC9754">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">AlgorConfigModule</string>
+						<string name="ScriptGuid">{C093938D-964E-4C6F-9A35-084AFC69C8C5}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local config=require(main.ConfigModule)
+local drpd=require(main.DropdownModule)
+
+return function(algor)
+	if algor.clearUndo then
+		local _,v=drpd.show({
+			'Yes; don\'t show again.',
+			'Yes; remind me next time.',
+			'No; don\'t show again.',
+			'No; remind me next time.',
+		},'Selecting this object will clear your undo history.  Proceed?',200)
+		local save,optn=v%2==1,v<3
+		return config.get(algor.name)
+	else
+		return config.get(algor.name)
+	end
+end]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
@@ -9017,7 +9085,8 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ConfigModule</string>
 					<string name="ScriptGuid">{923F3F61-243E-4DFB-9928-87D6C9CC8A1E}</string>
-					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local plugin=main.Plugin.Value
 
 local defaults={
 	debugLevel={
@@ -9027,6 +9096,13 @@ local defaults={
 		end,
 	}
 }
+
+--Convenient boolean type-limiter function.
+function isBool(b)return'bool'==type(b)end
+
+--Searches for selection algorithms to store.
+for i,algor in next,require(main.AlgorChooserModule)
+.choices do defaults[i]={algor.name,true,isBool}end
 
 function loadKey(i)
 	return plugin:GetSetting(i)
@@ -9074,6 +9150,7 @@ return{
 					<string name="Name">DropdownModule</string>
 					<string name="ScriptGuid">{93C6D89B-892D-4C60-9F95-888C7BAB484F}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local hb=game['Run Service'].Heartbeat
 local srts=require(main.ShortcutModule)
 local mouse=require(main.MouseModule)
 local vp=require(main.ViewportModule)
@@ -9083,28 +9160,23 @@ local dd=script.Dropdown
 local el=script.Element
 local pr=script.Prompt
 
-local items={}
+local items,yS={},10
 local currList,currPrompt
-function show(list,prompt)
+function show(list,prompt,width)
 	
 	--Prevents multiple from showing.
 	if currList then return end
 	
 	--Positions then tweens the GUI.
-	local pos,size=mouse
-	.position(),vp.size()
-	local ap=Vector2.new(pos.x/size
-	.x,math.floor(pos.y/size.y+.5))
-	dd.Position=UDim2.
-	new(0,pos.x,0,pos.y)
-	local nPos=pos+(Vector2
-	.new(.5,.5)-ap)*20
-	tween.tween(dd,{
-	Position=UDim2.new(
-	0,nPos.x,0,nPos.y)})
+	local pos,size=mouse.position(),vp.size()
+	local ap=Vector2.new(pos.x/size.x,math.floor(pos.y/size.y+.5))
+	dd.Position=UDim2.new(0,pos.x,0,pos.y)
+	local nPos=pos+(Vector2.new(.5,.5)-ap)*20
+	tween.tween(dd,{Position=UDim2.new(0,nPos.x,0,nPos.y)})
+	
 	dd.AnchorPoint=ap
-	dd.Parent=gui
-	local yS=10
+	dd.Size=UDim2.new(0,width,0,yS)
+	hb:wait()yS,dd.Parent=10,gui
 	
 	currList=list
 	for i,s in next,list do
@@ -9126,13 +9198,12 @@ function show(list,prompt)
 		tl.Text=prompt
 		local y=game.TextService:GetTextSize(prompt,tl.TextSize,tl.
 		Font,Vector2.new(dd.AbsoluteSize.X+tl.Size.X.Offset,666)).Y
-		print(y)
 		pr.Size=UDim2.new(1,0,0,y+5)
 		pr.Parent=dd.Items
 		yS=yS+y
 	end
 	
-	dd.Size=UDim2.new(0,110,0,yS)
+	dd.Size=UDim2.new(0,width,0,yS)
 	return dd.Event.Event:Wait()
 end
 
@@ -9142,12 +9213,14 @@ function exec(s)
 	--Only allows active dropdowns and valid values.
 	if not currList or not items[s]then return end
 	
+	--Replays the result to the 'show' method.
+	dd.Event:Fire(s,items[s].LayoutOrder)
+	
 	--Removes the added items.
 	for i,e in next,items do
 	items[i]=nil e:destroy()end
 	pr.Parent=script
 	
-	dd.Event:Fire(s)
 	dd.Parent=script
 	currPrompt=nil
 	currList=nil
@@ -9877,6 +9950,9 @@ function chooseWp(wp,...)
 			if aN==rN then isNeg8=false break end
 		end if isNeg8 then return'NegateSelection'end
 		
+		--Determines if there is evidence of either a union or a separation.
+		elseif aL==1 and aT[1]:isA'UnionOperation'then return'UnionSelection'
+		elseif rL==1 and rT[1]:isA'UnionOperation'then return'SeparateSelection'
 	end
 end
 
@@ -9888,8 +9964,8 @@ function wpAction(wp,undo,...)
 	
 	--Mappings for Studio-based waypoints for CSG .
 	if wp=='NegateSelection'then callBind('negateSel',...)
-	elseif wp=='SeparateSelection'then callBind(undo and'separSel'or'unionSel',...)
-	elseif wp=='UnionSelection'then callBind(undo and'unionSel'or'separSel',...)
+	elseif wp=='UnionSelection'then callBind(undo and'separSel'or'unionSel',...)
+	elseif wp=='SeparateSelection'then callBind(undo and'unionSel'or'separSel',...)
 	
 	else--if wp:sub(10)=='RLVP_Tool_'then
 		callBind('restore',wp)
@@ -9947,7 +10023,9 @@ added:Connect(function(p)
 	if done then return end
 	
 	local canUndo,wp=wpm.prevWp()
-	warn(wp,'added to undo history.')
+	warn(wp or'Undefined waypoint'
+	,'added to undo history.')
+	
 	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
@@ -10005,7 +10083,9 @@ remov:Connect(function(p)
 	if done then return end
 	
 	local canUndo,wp=wpm.prevWp()
-	warn(wp,'added to undo history.')
+	warn(wp or'Undefined waypoint'
+	,'added to undo history.')
+	
 	wpAction(wp,false,addParts,remParts)
 	for i=#addParts,1,-1 do addParts[i]=nil end
 	for i=#remParts,1,-1 do remParts[i]=nil end
@@ -10102,11 +10182,17 @@ return{
 	csg=require(script.CSGModule),
 }
 
-return function(p)
-	if p:isA'PartOperation'then
-		return selAlgors.csg
-	end
-end]]></ProtectedString>
+--Adds the index name to each algorithm table.
+for n,algor in next,selAlgors do algor.index=n end
+
+return{
+	choices=selAlgors,
+	choose=function(p)
+		if p:isA'PartOperation'then
+			return selAlgors.csg
+		end
+	end,
+}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 				<Item class="ModuleScript" referent="RBXB50C67E2844045D4A2FE7898843D7A28">
@@ -10222,6 +10308,7 @@ function implode(o)
 end
 
 return{
+	name='CSGExplosion™',
 	clearUndo=true,
 	asUnit=false,
 	input=explode,
@@ -10272,6 +10359,21 @@ return{
 			
 			--Would remove group if made false.
 			return keepGr
+		
+		elseif mode=='unionSel'then
+			local u=addT[1]
+			local par=u.Parent
+			if#par:children()==1 then
+				u.Parent=par.Parent
+				par:destroy()
+			end
+			
+			--Re-separates the union.
+			local f,t=explode(u)
+			
+			--Overwrites the add table for selection interop.
+			for i,p in next,t do addT[i]=p end return true
+			
 		else
 			--Explodes all newly-added parts, adds the residue in.
 			local newT={}
