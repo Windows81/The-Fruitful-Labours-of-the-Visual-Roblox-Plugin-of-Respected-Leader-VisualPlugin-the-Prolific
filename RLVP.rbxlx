@@ -4456,17 +4456,21 @@ local config=require(main.ConfigModule)
 local drpd=require(main.DropdownModule)
 
 return function(algor)
-	if algor.clearUndo then
+	local mC,pC=algor.index,algor.index..'_prompt'
+	if algor.clearUndo and config.get(pC)then
+		
 		local _,v=drpd.show({
 			'Yes; don\'t show again.',
 			'Yes; remind me next time.',
 			'No; don\'t show again.',
 			'No; remind me next time.',
 		},'Selecting this object will clear your undo history.  Proceed?',200)
-		local save,optn=v%2==1,v<3
-		return config.get(algor.name)
+		
+		config.setPerm(mC,v<3)
+		config.setPerm(pC,v%2<1)
+		return v<3
 	else
-		return config.get(algor.name)
+		return config.get(algor.index)
 	end
 end]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -9090,23 +9094,23 @@ local plugin=main.Plugin.Value
 
 local defaults={
 	debugLevel={
-		'Debug Level',2,
+		2,
 		function(v)
 			return type(v)=='number'and v%1==0 and v>=0 and v<=3
 		end,
 	}
 }
 
---Convenient boolean type-limiter function.
-function isBool(b)return'bool'==type(b)end
+--Convenient boolean type-limiting function.
+function isBool(b)return'boolean'==type(b)end
 
---Searches for selection algorithms to store.
-for i,algor in next,require(main.AlgorChooserModule)
-.choices do defaults[i]={algor.name,true,isBool}end
+--Iterates over selection algorithms to store enabled states.
+for i,algor in next,require(main.AlgorChooserModule).choices
+do defaults[i],defaults[i..'_prompt']={true,isBool},{true,isBool}end
 
 function loadKey(i)
 	return plugin:GetSetting(i)
-	or defaults[i][2]
+	or defaults[i][1]
 	
 	--[[
 	local s=plugin:GetSetting(i)
@@ -9123,6 +9127,9 @@ local binds={}
 
 return{
 	setPerm=function(i,v)
+		if defaults[i][2](v)
+		then else return end
+		
 		tempCache[i]=nil
 		permCache[i]=v
 		plugin:SetSetting(i,v)
@@ -9131,11 +9138,20 @@ return{
 		if f then f(v)end
 	end,
 	setTemp=function(i,v)
+		if defaults[i][2](v)
+		then else return end
+		
 		tempCache[i]=v
+		return true
 	end,
-	get=function(i)
-		return permCache[i]or
-		tempCache[i]or loadKey(i)
+	get=function(i)print(i,tempCache[i])
+		if tempCache[i]~=nil then return tempCache[i]
+		elseif permCache[i]~=nil then return permCache[i]
+		else return loadKey(i)end
+	end,
+	isTemp=function(i)
+		return not not
+		tempCache[i]
 	end,
 	
 	--Binds setting change to a function.
