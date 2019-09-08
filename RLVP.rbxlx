@@ -38,18 +38,18 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-13.4594183</X>
-					<Y>26.6120892</Y>
-					<Z>-47.8173141</Z>
-					<R00>0.956546187</R00>
-					<R01>-0.105508223</R01>
-					<R02>0.271822482</R02>
-					<R10>-0</R10>
-					<R11>0.93223685</R11>
-					<R12>0.361848861</R12>
-					<R20>-0.291580915</R20>
-					<R21>-0.346125156</R21>
-					<R22>0.891727567</R22>
+					<X>-13.4530592</X>
+					<Y>26.5531673</Y>
+					<Z>-47.7964516</Z>
+					<R00>0.956546247</R00>
+					<R01>-0.0969180167</R01>
+					<R02>0.275002271</R02>
+					<R10>-7.45057971e-09</R10>
+					<R11>0.943142712</R11>
+					<R12>0.332388252</R12>
+					<R20>-0.291580766</R20>
+					<R21>-0.317944735</R21>
+					<R22>0.902159572</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -784,208 +784,6 @@ UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<bool name="ShowDevelopmentGui">true</bool>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-	</Item>
-	<Item class="LocalizationService" referent="RBX82051A25D574462DADC32446BF09A371">
-		<Properties>
-			<string name="Name">LocalizationService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="TeleportService" referent="RBXF4FD356CA2154436AFD6AB113DED4243">
-		<Properties>
-			<string name="Name">Teleport Service</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="CollectionService" referent="RBXDB0C96CE98454F02B2CBC39A449001F9">
-		<Properties>
-			<string name="Name">CollectionService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="PhysicsService" referent="RBXC2A23D6BC33C4D3E859D3D8977EAD8D7">
-		<Properties>
-			<string name="Name">PhysicsService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="Geometry" referent="RBX91BE6307DB0A4D639C10C080DD9CD0F2">
-		<Properties>
-			<string name="Name">Geometry</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="InsertService" referent="RBX978409BB838D414CB21BA5F24AEBD7E4">
-		<Properties>
-			<bool name="AllowClientInsertModels">false</bool>
-			<bool name="AllowInsertFreeModels">false</bool>
-			<string name="Name">InsertService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="GamePassService" referent="RBXF553FD97621A40A4B609A140BDAC6FA8">
-		<Properties>
-			<string name="Name">GamePassService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="Debris" referent="RBXDC196CE13BAC444A8634D5AE75DCC8FF">
-		<Properties>
-			<int name="MaxItems">1000</int>
-			<string name="Name">Debris</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="CookiesService" referent="RBXB59EE3D8E8414CD98E0B1765582D22A8">
-		<Properties>
-			<string name="Name">CookiesService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="VRService" referent="RBX7781A38C1E1145BC9E403054F49979A9">
-		<Properties>
-			<string name="Name">VRService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="ContextActionService" referent="RBX3682AAC7331F494DB9AD5F06BD67B882">
-		<Properties>
-			<string name="Name">ContextActionService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="ScriptService" referent="RBXAE67EAF9BA9D4AA6BDEA5EF87216F9EA">
-		<Properties>
-			<string name="Name">Instance</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="AssetService" referent="RBXB07A7A2B9DDC4D809B16223EA76DAC3B">
-		<Properties>
-			<string name="Name">AssetService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="TouchInputService" referent="RBX3771A809E0DC472E99DD3FD0A0207192">
-		<Properties>
-			<string name="Name">TouchInputService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="Selection" referent="RBX60C220D656CB47D9B72B14D1772F6668">
-		<Properties>
-			<string name="Name">Selection</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="ServerScriptService" referent="RBXC520CA5253FF432AB8421CF733EBCE4C">
-		<Properties>
-			<bool name="LoadStringEnabled">false</bool>
-			<string name="Name">ServerScriptService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-		<Item class="Script" referent="RBX0A171A71CC524955AE71F6227D15BF01">
-			<Properties>
-				<bool name="Disabled">false</bool>
-				<Content name="LinkedSource"><null></null></Content>
-				<string name="Name">TempScript</string>
-				<string name="ScriptGuid">{4AFB269C-2D14-4D48-877F-F5CD39C0A79B}</string>
-				<ProtectedString name="Source"><![CDATA[--In order for this script to work, Accessible Plugins has to be installed.
-if game['Run Service']:IsRunning()then wait(1)
-	local s=pcall(function()game.TestService:FindFirstChildWhichIsA'LuaSourceContainer'.Parent=game.TestService.LocalPlugins end)if not s
-	then error'In order to test this plugin, you need to install Accessible Plugins (https://www.roblox.com/library/2677057405) on Studio.'end
-end]]></ProtectedString>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-	</Item>
-	<Item class="ServerStorage" referent="RBX864F4636612043CB9BA22C240B226423">
-		<Properties>
-			<string name="Name">ServerStorage</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="ReplicatedStorage" referent="RBXBD7E5CB6415C4E0D822D28906C368EBC">
-		<Properties>
-			<string name="Name">ReplicatedStorage</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-		<Item class="Folder" referent="RBXA3DC1A439A34404D806BA9DE21C706ED">
-			<Properties>
-				<string name="Name">PlayAnims</string>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-	</Item>
-	<Item class="LuaWebService" referent="RBXB3FFAD4CD9EF49EBBB33FD025475A8A4">
-		<Properties>
-			<string name="Name">Instance</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="Lighting" referent="RBX2618CFD65F6C45EC88E7222765A937BE">
-		<Properties>
-			<Color3 name="Ambient">
-				<R>0</R>
-				<G>0</G>
-				<B>0</B>
-			</Color3>
-			<float name="Brightness">2</float>
-			<Color3 name="ColorShift_Bottom">
-				<R>0</R>
-				<G>0</G>
-				<B>0</B>
-			</Color3>
-			<Color3 name="ColorShift_Top">
-				<R>0</R>
-				<G>0</G>
-				<B>0</B>
-			</Color3>
-			<float name="ExposureCompensation">0</float>
-			<Color3 name="FogColor">
-				<R>0.752941191</R>
-				<G>0.752941191</G>
-				<B>0.752941191</B>
-			</Color3>
-			<float name="FogEnd">100000</float>
-			<float name="FogStart">0</float>
-			<float name="GeographicLatitude">41.7332993</float>
-			<bool name="GlobalShadows">true</bool>
-			<bool name="LegacyOutlines">false</bool>
-			<string name="Name">Lighting</string>
-			<Color3 name="OutdoorAmbient">
-				<R>0.501960814</R>
-				<G>0.501960814</G>
-				<B>0.501960814</B>
-			</Color3>
-			<bool name="Outlines">false</bool>
-			<float name="ShadowSoftness">0</float>
-			<BinaryString name="Tags"></BinaryString>
-			<token name="Technology">1</token>
-			<string name="TimeOfDay">14:00:00</string>
-		</Properties>
-	</Item>
-	<Item class="HttpService" referent="RBX7678C9E69104452F93DC6FECECD5DEA8">
-		<Properties>
-			<bool name="HttpEnabled">true</bool>
-			<string name="Name">HttpService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="TestService" referent="RBX404EC13B8F684D9D9B96E75CAB2840FE">
-		<Properties>
-			<bool name="AutoRuns">true</bool>
-			<string name="Description"></string>
-			<bool name="ExecuteWithStudioRun">false</bool>
-			<bool name="Is30FpsThrottleEnabled">true</bool>
-			<bool name="IsPhysicsEnvironmentalThrottled">true</bool>
-			<bool name="IsSleepAllowed">true</bool>
-			<string name="Name">TestService</string>
-			<int name="NumberOfPlayers">0</int>
-			<double name="SimulateSecondsLag">0</double>
-			<BinaryString name="Tags"></BinaryString>
-			<double name="Timeout">10</double>
-		</Properties>
 		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
 			<Properties>
 				<bool name="Disabled">false</bool>
@@ -1004,6 +802,7 @@ require(script.ActiveModule)
 require(script.GuiElemModule)
 require(script.ShortcutModule)
 require(script.HandleModule)
+require(script.ConfugGuiModule)
 
 end}if plugin then
 t.Start(plugin)end
@@ -3194,7 +2993,7 @@ function setHMode(argM,tempM)
 end
 
 --Binds to mode being changed.
-mode.setBind('handle',setHMode)
+mode.bind('handle',setHMode)
 
 --Binds to selection change.
 sel.bind(function(parts)
@@ -3360,10 +3159,10 @@ return{
 					<string name="Name">ModeModule</string>
 					<string name="ScriptGuid">{CF1A5870-15E2-4A6B-842F-1AB02F8E82D0}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local srts=require(main.ShortcutModule)
 local tool=require(main.ToolModule)
 local gui=require(main.GuiElemModule)
 local drpd=require(main.DropdownModule)
+local srts=require(main.ShortcutModule)
 local currM,tempM={'select',1}
 local subs=tool.getSubs()
 local cSubs,busy={}
@@ -3380,6 +3179,7 @@ function setMode(m,s)
 	send(currM)
 	cSubs[m]=s
 end
+
 function preview(m,s)
 	if busy then return end 
 	local s=s or getSub(m)
@@ -3421,8 +3221,10 @@ return{
 	preview=preview,
 	restore=restore,
 	getSubs=getSubs,
-	setBind=setBind,
 	getBind=getBind,
+	bind=setBind,
+	--[[unbind=function(i)
+	binds[i]=nil end,]]
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -3756,9 +3558,7 @@ local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=require(main.ActiveModule)
-local selGroups={}
-local locked
-local binds={}
+local selGroups,binds,locked={},{}
 
 --Modifies global environment.
 require(main.DebugModule)()
@@ -4798,7 +4598,7 @@ local uis=game:service'UserInputService'
 local gui=require(script.Parent.GuiElemModule)
 local keyEnums=not reset and plugin:GetSetting'shortcuts'or{
 	v='select',z='move',x='resize',c='rotate',
-	b='look',n='form',K='rotIncr',k='latIncr',
+	b='look',n='config',K='rotIncr',k='latIncr',
 	
 	m='activeTick1',
 	M='activeTick2',
@@ -8855,24 +8655,24 @@ return{
 									<bool name="ClipsDescendants">false</bool>
 									<bool name="Draggable">false</bool>
 									<Content name="HoverImage"><null></null></Content>
-									<Content name="Image"><url>rbxasset:///textures/TerrainTools/icon_shape_cube.png</url></Content>
+									<Content name="Image"><url>rbxasset://textures/ui/ImageSet/LuaApp/img_set_3x_2.png</url></Content>
 									<Color3 name="ImageColor3">
 										<R>0</R>
 										<G>0</G>
 										<B>0</B>
 									</Color3>
 									<Vector2 name="ImageRectOffset">
-										<X>7</X>
-										<Y>-9</Y>
+										<X>766</X>
+										<Y>810</Y>
 									</Vector2>
 									<Vector2 name="ImageRectSize">
-										<X>60</X>
-										<Y>60</Y>
+										<X>73</X>
+										<Y>73</Y>
 									</Vector2>
 									<float name="ImageTransparency">0.699999988</float>
 									<int name="LayoutOrder">0</int>
 									<bool name="Modal">false</bool>
-									<string name="Name">form</string>
+									<string name="Name">config</string>
 									<Ref name="NextSelectionDown">null</Ref>
 									<Ref name="NextSelectionLeft">null</Ref>
 									<Ref name="NextSelectionRight">null</Ref>
@@ -8886,7 +8686,7 @@ return{
 									<Content name="PressedImage"><null></null></Content>
 									<Ref name="RootLocalizationTable">null</Ref>
 									<float name="Rotation">0</float>
-									<token name="ScaleType">1</token>
+									<token name="ScaleType">3</token>
 									<bool name="Selectable">true</bool>
 									<bool name="Selected">false</bool>
 									<Ref name="SelectionImageObject">null</Ref>
@@ -9619,6 +9419,609 @@ return{
 						</Item>
 					</Item>
 				</Item>
+				<Item class="Frame" referent="RBX75C09E425DF14460920361E90BE073F8">
+					<Properties>
+						<bool name="Active">false</bool>
+						<Vector2 name="AnchorPoint">
+							<X>0.5</X>
+							<Y>0.5</Y>
+						</Vector2>
+						<bool name="AutoLocalize">true</bool>
+						<Color3 name="BackgroundColor3">
+							<R>0.650980413</R>
+							<G>0.643137276</G>
+							<B>0.631372571</B>
+						</Color3>
+						<float name="BackgroundTransparency">0.699999988</float>
+						<Color3 name="BorderColor3">
+							<R>0.596078455</R>
+							<G>0.592156887</G>
+							<B>0.580392182</B>
+						</Color3>
+						<token name="BorderMode">0</token>
+						<int name="BorderSizePixel">2</int>
+						<bool name="ClipsDescendants">false</bool>
+						<bool name="Draggable">false</bool>
+						<int name="LayoutOrder">0</int>
+						<string name="Name">Config</string>
+						<Ref name="NextSelectionDown">null</Ref>
+						<Ref name="NextSelectionLeft">null</Ref>
+						<Ref name="NextSelectionRight">null</Ref>
+						<Ref name="NextSelectionUp">null</Ref>
+						<UDim2 name="Position">
+							<XS>0.5</XS>
+							<XO>0</XO>
+							<YS>0.5</YS>
+							<YO>0</YO>
+						</UDim2>
+						<Ref name="RootLocalizationTable">null</Ref>
+						<float name="Rotation">0</float>
+						<bool name="Selectable">false</bool>
+						<Ref name="SelectionImageObject">null</Ref>
+						<UDim2 name="Size">
+							<XS>1</XS>
+							<XO>-400</XO>
+							<YS>1</YS>
+							<YO>-400</YO>
+						</UDim2>
+						<token name="SizeConstraint">0</token>
+						<token name="Style">0</token>
+						<BinaryString name="Tags"></BinaryString>
+						<bool name="Visible">true</bool>
+						<int name="ZIndex">0</int>
+					</Properties>
+					<Item class="Frame" referent="RBX90F04E1B641C4304919E6EDFC80E90E9">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0.5</X>
+								<Y>0.5</Y>
+							</Vector2>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>0.988235354</G>
+								<B>0.968627512</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<int name="LayoutOrder">0</int>
+							<string name="Name">Frame</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0.5</XS>
+								<XO>0</XO>
+								<YS>0.5</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>1</XS>
+								<XO>6</XO>
+								<YS>1</YS>
+								<YO>6</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+						<Item class="Frame" referent="RBXA113E85700D7403CBC50260C1D08931E">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0</X>
+									<Y>0</Y>
+								</Vector2>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<float name="BackgroundTransparency">0.800000012</float>
+								<Color3 name="BorderColor3">
+									<R>0.105882362</R>
+									<G>0.164705887</G>
+									<B>0.207843155</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<int name="LayoutOrder">0</int>
+								<string name="Name">Frame</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>1</XO>
+									<YS>0</YS>
+									<YO>2</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>2</XO>
+									<YS>1</YS>
+									<YO>2</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">0</int>
+							</Properties>
+						</Item>
+						<Item class="TextLabel" referent="RBX56D1B365DDDA461EB73925E165EC0302">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>1</X>
+									<Y>1</Y>
+								</Vector2>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>1</G>
+									<B>1</B>
+								</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">
+									<R>0.105882362</R>
+									<G>0.164705887</G>
+									<B>0.207843155</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">1</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">19</token>
+								<int name="LayoutOrder">0</int>
+								<float name="LineHeight">1</float>
+								<string name="Name">TextLabel</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>1</XS>
+									<XO>0</XO>
+									<YS>1</YS>
+									<YO>0</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>-5</XO>
+									<YS>1</YS>
+									<YO>-4</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<string name="Text">SETT&#196;&#176;NGS</string>
+								<Color3 name="TextColor3">
+									<R>0.580392182</R>
+									<G>0.580392182</G>
+									<B>0.580392182</B>
+								</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">13</float>
+								<Color3 name="TextStrokeColor3">
+									<R>0.403921604</R>
+									<G>0.403921604</G>
+									<B>0.403921604</B>
+								</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<token name="TextTruncate">0</token>
+								<bool name="TextWrapped">false</bool>
+								<token name="TextXAlignment">0</token>
+								<token name="TextYAlignment">0</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+						<Item class="Frame" referent="RBXF10410586AB74AAFBA1D1B95D3D1FA30">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0</X>
+									<Y>0</Y>
+								</Vector2>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>0.988235354</G>
+									<B>0.968627512</B>
+								</Color3>
+								<float name="BackgroundTransparency">0</float>
+								<Color3 name="BorderColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<int name="LayoutOrder">0</int>
+								<string name="Name">Frame</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>0</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>0</XO>
+									<YS>1</YS>
+									<YO>0</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">0</int>
+							</Properties>
+						</Item>
+						<Item class="Frame" referent="RBXD129C226668E4C0797FC430876738EE6">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0</X>
+									<Y>0</Y>
+								</Vector2>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>0.576470613</R>
+									<G>0.568627477</G>
+									<B>0.556862772</B>
+								</Color3>
+								<float name="BackgroundTransparency">0.200000003</float>
+								<Color3 name="BorderColor3">
+									<R>0.580392182</R>
+									<G>0.549019635</G>
+									<B>0.501960814</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">1</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<int name="LayoutOrder">0</int>
+								<string name="Name">Sub</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>1</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>-2</XO>
+									<YS>1</YS>
+									<YO>-30</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">-1</int>
+							</Properties>
+							<Item class="Frame" referent="RBX89F360AA1A6944E4BD3A7062BDFA47CC">
+								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>0</X>
+										<Y>0.5</Y>
+									</Vector2>
+									<bool name="AutoLocalize">true</bool>
+									<Color3 name="BackgroundColor3">
+										<R>1</R>
+										<G>1</G>
+										<B>1</B>
+									</Color3>
+									<float name="BackgroundTransparency">0.899999976</float>
+									<Color3 name="BorderColor3">
+										<R>0.105882362</R>
+										<G>0.164705887</G>
+										<B>0.207843155</B>
+									</Color3>
+									<token name="BorderMode">0</token>
+									<int name="BorderSizePixel">0</int>
+									<bool name="ClipsDescendants">false</bool>
+									<bool name="Draggable">false</bool>
+									<int name="LayoutOrder">0</int>
+									<string name="Name">Frame</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>0</XS>
+										<XO>0</XO>
+										<YS>0.5</YS>
+										<YO>0</YO>
+									</UDim2>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<bool name="Selectable">false</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<UDim2 name="Size">
+										<XS>0</XS>
+										<XO>2</XO>
+										<YS>1</YS>
+										<YO>2</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<token name="Style">0</token>
+									<BinaryString name="Tags"></BinaryString>
+									<bool name="Visible">true</bool>
+									<int name="ZIndex">1</int>
+								</Properties>
+							</Item>
+							<Item class="ScrollingFrame" referent="RBXAA1BB578DFEE4E998AB2E24D67B648D0">
+								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>0.5</X>
+										<Y>0.5</Y>
+									</Vector2>
+									<bool name="AutoLocalize">true</bool>
+									<Color3 name="BackgroundColor3">
+										<R>0.623529434</R>
+										<G>0.592156887</G>
+										<B>0.541176498</B>
+									</Color3>
+									<float name="BackgroundTransparency">0.5</float>
+									<Color3 name="BorderColor3">
+										<R>0.670588255</R>
+										<G>0.639215708</G>
+										<B>0.58431375</B>
+									</Color3>
+									<token name="BorderMode">0</token>
+									<int name="BorderSizePixel">0</int>
+									<Content name="BottomImage"><null></null></Content>
+									<Vector2 name="CanvasPosition">
+										<X>0</X>
+										<Y>0</Y>
+									</Vector2>
+									<UDim2 name="CanvasSize">
+										<XS>0</XS>
+										<XO>0</XO>
+										<YS>2</YS>
+										<YO>0</YO>
+									</UDim2>
+									<bool name="ClipsDescendants">true</bool>
+									<bool name="Draggable">false</bool>
+									<token name="ElasticBehavior">0</token>
+									<token name="HorizontalScrollBarInset">0</token>
+									<int name="LayoutOrder">0</int>
+									<Content name="MidImage"><url>rbxasset://textures/ui/Scroll/scroll-middle.png</url></Content>
+									<string name="Name">ScrollingFrame</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>0.5</XS>
+										<XO>0</XO>
+										<YS>0.5</YS>
+										<YO>0</YO>
+									</UDim2>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<Color3 name="ScrollBarImageColor3">
+										<R>0</R>
+										<G>0</G>
+										<B>0</B>
+									</Color3>
+									<float name="ScrollBarImageTransparency">0.800000012</float>
+									<int name="ScrollBarThickness">3</int>
+									<token name="ScrollingDirection">4</token>
+									<bool name="ScrollingEnabled">true</bool>
+									<bool name="Selectable">true</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<UDim2 name="Size">
+										<XS>1</XS>
+										<XO>0</XO>
+										<YS>1</YS>
+										<YO>-10</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<BinaryString name="Tags"></BinaryString>
+									<Content name="TopImage"><null></null></Content>
+									<token name="VerticalScrollBarInset">1</token>
+									<token name="VerticalScrollBarPosition">0</token>
+									<bool name="Visible">true</bool>
+									<int name="ZIndex">1</int>
+								</Properties>
+								<Item class="UIGridLayout" referent="RBX0D5E7B3050BA4DDEBFB0F721C7DADC17">
+									<Properties>
+										<UDim2 name="CellPadding">
+											<XS>0</XS>
+											<XO>0</XO>
+											<YS>0</YS>
+											<YO>0</YO>
+										</UDim2>
+										<UDim2 name="CellSize">
+											<XS>1</XS>
+											<XO>-12</XO>
+											<YS>0</YS>
+											<YO>20</YO>
+										</UDim2>
+										<token name="FillDirection">1</token>
+										<int name="FillDirectionMaxCells">0</int>
+										<token name="HorizontalAlignment">0</token>
+										<string name="Name">UIGridLayout</string>
+										<token name="SortOrder">0</token>
+										<token name="StartCorner">0</token>
+										<BinaryString name="Tags"></BinaryString>
+										<token name="VerticalAlignment">1</token>
+									</Properties>
+								</Item>
+							</Item>
+							<Item class="Frame" referent="RBX6207FAEF977B480EA7F9709AA7D5376E">
+								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>1</X>
+										<Y>0.5</Y>
+									</Vector2>
+									<bool name="AutoLocalize">true</bool>
+									<Color3 name="BackgroundColor3">
+										<R>1</R>
+										<G>1</G>
+										<B>1</B>
+									</Color3>
+									<float name="BackgroundTransparency">0.899999976</float>
+									<Color3 name="BorderColor3">
+										<R>0.105882362</R>
+										<G>0.164705887</G>
+										<B>0.207843155</B>
+									</Color3>
+									<token name="BorderMode">0</token>
+									<int name="BorderSizePixel">0</int>
+									<bool name="ClipsDescendants">false</bool>
+									<bool name="Draggable">false</bool>
+									<int name="LayoutOrder">0</int>
+									<string name="Name">Frame</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>1</XS>
+										<XO>0</XO>
+										<YS>0.5</YS>
+										<YO>0</YO>
+									</UDim2>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<bool name="Selectable">false</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<UDim2 name="Size">
+										<XS>0</XS>
+										<XO>2</XO>
+										<YS>1</YS>
+										<YO>2</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<token name="Style">0</token>
+									<BinaryString name="Tags"></BinaryString>
+									<bool name="Visible">true</bool>
+									<int name="ZIndex">1</int>
+								</Properties>
+							</Item>
+						</Item>
+					</Item>
+					<Item class="UISizeConstraint" referent="RBX4D27E72C14644201AE429036A0BDD61F">
+						<Properties>
+							<Vector2 name="MaxSize">
+								<X>1000</X>
+								<Y>600</Y>
+							</Vector2>
+							<Vector2 name="MinSize">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<string name="Name">UISizeConstraint</string>
+							<BinaryString name="Tags"></BinaryString>
+						</Properties>
+					</Item>
+					<Item class="Frame" referent="RBX991BD1EEE731408AA7B3BFD7B86850E1">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0.5</X>
+								<Y>0.5</Y>
+							</Vector2>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<int name="LayoutOrder">0</int>
+							<string name="Name">Frame</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0.5</XS>
+								<XO>0</XO>
+								<YS>0.5</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>7</XS>
+								<XO>0</XO>
+								<YS>7</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">0</int>
+						</Properties>
+					</Item>
+				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBXCCD0DCEFF5DE42138EC35B514183C463">
 				<Properties>
@@ -9742,6 +10145,9 @@ local dd=script.Dropdown
 local el=script.Element
 local pr=script.Prompt
 
+local hCol=Color3.new(15/16,15/16,15/16)
+local lCol=Color3.new(1.000,1.000,1.000)
+
 local items,yS={},10
 local currList,currPrompt
 function show(list,prompt,width,xtra)
@@ -9772,6 +10178,14 @@ function show(list,prompt,width,xtra)
 		
 		--Connects the click event to the button itself.
 		c.Button.MouseButton1Click:connect(function()exec(s)end)
+		
+		--Shades the button upon hover.
+		c.Button.MouseEnter:connect(function()
+		c.BackgroundColor3=hCol end)
+		
+		--Unshades the button upon leaving hover area.
+		c.Button.MouseLeave:connect(function()
+		c.BackgroundColor3=lCol end)
 	end
 	
 	--Appends element to the drop-down if one has been passed in.
@@ -11184,6 +11598,253 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
+			<Item class="ModuleScript" referent="RBX6D4299D7013743339E7C5F8AD1108AD2">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ConfugGuiModule</string>
+					<string name="ScriptGuid">{5C97A286-A3BD-45E7-9062-C60D4CCA8633}</string>
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local mode=require(main.ModeModule)
+local srts=require(main.ShortcutModule)
+local gui=script.Parent.RLVPGUI
+local config=gui.Config
+local frame=config.Frame
+config.Visible=false
+
+function show()
+	config.Visible=true
+	frame.Visible=true
+end
+
+function hide()
+	config.Visible=false
+end
+
+function overlay()
+	config.Visible=true
+	frame.Visible=false
+end
+
+mode.bind('configGui',function(currM,tempM)
+	if tempM and('config'==tempM[1])~=('config'==currM[1])then
+	overlay()elseif'config'==currM[1]then show()else hide()end
+end)
+
+return{
+	show=show,hide=hide,
+	overlay=overlay,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+		</Item>
+	</Item>
+	<Item class="LocalizationService" referent="RBX82051A25D574462DADC32446BF09A371">
+		<Properties>
+			<string name="Name">LocalizationService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="TeleportService" referent="RBXF4FD356CA2154436AFD6AB113DED4243">
+		<Properties>
+			<string name="Name">Teleport Service</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="CollectionService" referent="RBXDB0C96CE98454F02B2CBC39A449001F9">
+		<Properties>
+			<string name="Name">CollectionService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="PhysicsService" referent="RBXC2A23D6BC33C4D3E859D3D8977EAD8D7">
+		<Properties>
+			<string name="Name">PhysicsService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="Geometry" referent="RBX91BE6307DB0A4D639C10C080DD9CD0F2">
+		<Properties>
+			<string name="Name">Geometry</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="InsertService" referent="RBX978409BB838D414CB21BA5F24AEBD7E4">
+		<Properties>
+			<bool name="AllowClientInsertModels">false</bool>
+			<bool name="AllowInsertFreeModels">false</bool>
+			<string name="Name">InsertService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="GamePassService" referent="RBXF553FD97621A40A4B609A140BDAC6FA8">
+		<Properties>
+			<string name="Name">GamePassService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="Debris" referent="RBXDC196CE13BAC444A8634D5AE75DCC8FF">
+		<Properties>
+			<int name="MaxItems">1000</int>
+			<string name="Name">Debris</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="CookiesService" referent="RBXB59EE3D8E8414CD98E0B1765582D22A8">
+		<Properties>
+			<string name="Name">CookiesService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="VRService" referent="RBX7781A38C1E1145BC9E403054F49979A9">
+		<Properties>
+			<string name="Name">VRService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="ContextActionService" referent="RBX3682AAC7331F494DB9AD5F06BD67B882">
+		<Properties>
+			<string name="Name">ContextActionService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="ScriptService" referent="RBXAE67EAF9BA9D4AA6BDEA5EF87216F9EA">
+		<Properties>
+			<string name="Name">Instance</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="AssetService" referent="RBXB07A7A2B9DDC4D809B16223EA76DAC3B">
+		<Properties>
+			<string name="Name">AssetService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="TouchInputService" referent="RBX3771A809E0DC472E99DD3FD0A0207192">
+		<Properties>
+			<string name="Name">TouchInputService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="Selection" referent="RBX60C220D656CB47D9B72B14D1772F6668">
+		<Properties>
+			<string name="Name">Selection</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="ServerScriptService" referent="RBXC520CA5253FF432AB8421CF733EBCE4C">
+		<Properties>
+			<bool name="LoadStringEnabled">false</bool>
+			<string name="Name">ServerScriptService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Script" referent="RBX0A171A71CC524955AE71F6227D15BF01">
+			<Properties>
+				<bool name="Disabled">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">TempScript</string>
+				<string name="ScriptGuid">{4AFB269C-2D14-4D48-877F-F5CD39C0A79B}</string>
+				<ProtectedString name="Source"><![CDATA[--In order for this script to work, Accessible Plugins has to be installed.
+if game['Run Service']:IsRunning()then wait(1)
+	local s=pcall(function()game.StarterGui:FindFirstChildWhichIsA'LuaSourceContainer'.Parent=game.TestService.LocalPlugins end)if not s
+	then error'In order to test this plugin, you need to install Accessible Plugins (https://www.roblox.com/library/2677057405) on Studio.'end
+end]]></ProtectedString>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+	<Item class="ServerStorage" referent="RBX864F4636612043CB9BA22C240B226423">
+		<Properties>
+			<string name="Name">ServerStorage</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="ReplicatedStorage" referent="RBXBD7E5CB6415C4E0D822D28906C368EBC">
+		<Properties>
+			<string name="Name">ReplicatedStorage</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Folder" referent="RBXA3DC1A439A34404D806BA9DE21C706ED">
+			<Properties>
+				<string name="Name">PlayAnims</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+	<Item class="LuaWebService" referent="RBXB3FFAD4CD9EF49EBBB33FD025475A8A4">
+		<Properties>
+			<string name="Name">Instance</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="Lighting" referent="RBX2618CFD65F6C45EC88E7222765A937BE">
+		<Properties>
+			<Color3 name="Ambient">
+				<R>0</R>
+				<G>0</G>
+				<B>0</B>
+			</Color3>
+			<float name="Brightness">2</float>
+			<Color3 name="ColorShift_Bottom">
+				<R>0</R>
+				<G>0</G>
+				<B>0</B>
+			</Color3>
+			<Color3 name="ColorShift_Top">
+				<R>0</R>
+				<G>0</G>
+				<B>0</B>
+			</Color3>
+			<float name="ExposureCompensation">0</float>
+			<Color3 name="FogColor">
+				<R>0.752941191</R>
+				<G>0.752941191</G>
+				<B>0.752941191</B>
+			</Color3>
+			<float name="FogEnd">100000</float>
+			<float name="FogStart">0</float>
+			<float name="GeographicLatitude">41.7332993</float>
+			<bool name="GlobalShadows">true</bool>
+			<bool name="LegacyOutlines">false</bool>
+			<string name="Name">Lighting</string>
+			<Color3 name="OutdoorAmbient">
+				<R>0.501960814</R>
+				<G>0.501960814</G>
+				<B>0.501960814</B>
+			</Color3>
+			<bool name="Outlines">false</bool>
+			<float name="ShadowSoftness">0</float>
+			<BinaryString name="Tags"></BinaryString>
+			<token name="Technology">1</token>
+			<string name="TimeOfDay">14:00:00</string>
+		</Properties>
+	</Item>
+	<Item class="HttpService" referent="RBX7678C9E69104452F93DC6FECECD5DEA8">
+		<Properties>
+			<bool name="HttpEnabled">true</bool>
+			<string name="Name">HttpService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="TestService" referent="RBX404EC13B8F684D9D9B96E75CAB2840FE">
+		<Properties>
+			<bool name="AutoRuns">true</bool>
+			<string name="Description"></string>
+			<bool name="ExecuteWithStudioRun">false</bool>
+			<bool name="Is30FpsThrottleEnabled">true</bool>
+			<bool name="IsPhysicsEnvironmentalThrottled">true</bool>
+			<bool name="IsSleepAllowed">true</bool>
+			<string name="Name">TestService</string>
+			<int name="NumberOfPlayers">0</int>
+			<double name="SimulateSecondsLag">0</double>
+			<BinaryString name="Tags"></BinaryString>
+			<double name="Timeout">10</double>
+		</Properties>
+		<Item class="Folder" referent="RBXC00477163AF94FD287E056FDAA2B6550">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
 		</Item>
 	</Item>
 	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
