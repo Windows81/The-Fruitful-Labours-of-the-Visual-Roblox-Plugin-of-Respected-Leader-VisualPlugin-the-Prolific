@@ -3158,22 +3158,26 @@ return{
 					<string name="Name">ModeModule</string>
 					<string name="ScriptGuid">{CF1A5870-15E2-4A6B-842F-1AB02F8E82D0}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local tool=require(main.ToolModule)
 local gui=require(main.GuiElemModule)
-local drpd=require(main.DropdownModule)
 local srts=require(main.ShortcutModule)
 local cGui=require(main.ConfigGuiModule)
+local subMM=require(main.SubmodeModule)
 local cSubs,binds,busy={},{}
-local subs=tool.getSubs()
+local subs=subMM.getSubs()
 local dfltM={'select',1}
 local currM,tempM=dfltM
 
 function setBind(i,f)binds[i]=f end
 function getBind(i)return binds[i]end
 
+--Locking mechanism.
+local locked function lock()locked=true
+end function unlock()locked=false end
+
 function setMode(m,s)
-	if busy then return end
-	local m=m or dfltM[1]
+	if busy or locked
+	then return end
+	local m=m or currM[1]
 	local s=s or getSub(m)
 	local oM,oS=unpack(currM)
 	currM,tempM={m,s},nil
@@ -3198,23 +3202,15 @@ function getTemp()return tempM or currM end
 function getSubs(m)return subs[m]or{}end
 function getMode()return currM end
 
+--Functional hooks to the main GUI.
 gui.callback('tools','set',setMode)
 gui.callback('tools','getTemp',getTemp)
 gui.callback('tools','preview',preview)
 gui.callback('tools','restore',restore)
 gui.callback('tools','getSubs',getSubs)
-cGui.callback('setMode',setMode)
 
---Binds to numbered shortcuts.
-function srt(v)local n=0+v
-	
-	--Overrides the keybind in the event a dropdown is showing.
-	local ddT=drpd.get()if ddT then if ddT[n] then drpd.exec(ddT[n])end
-	
-	--Sets the mode with the respective submode that was last used.
-	else local m=currM[1] setMode(m,(subs[m]or{})[n])end
-end
-for i=0,9 do srts.bind(''..i,srt)end
+--Functional hook to the config window.
+cGui.callback('setMode',setMode)
 
 return{
 	set=setMode,
@@ -3224,7 +3220,9 @@ return{
 	restore=restore,
 	getSubs=getSubs,
 	getBind=getBind,
+	unlock=unlock,
 	bind=setBind,
+	lock=lock,
 	--[[unbind=function(i)
 	binds[i]=nil end,]]
 }]]></ProtectedString>
@@ -3238,8 +3236,7 @@ return{
 					<string name="ScriptGuid">{91B7B033-6671-4D02-AA84-B04A70926650}</string>
 					<ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
 local mouse=script.Parent.Plugin.Value:GetMouse()
-local binds={}
-local prK
+local binds,locked,prK={}
 
 function bind(pr,...)
 	if not prK or pr>prK then
@@ -3256,25 +3253,23 @@ end
 --Calls only the binds with the highest priority.
 mouse.Button1Down:connect(function()
 	local t=binds[prK]
-	if activ.isActive()and
-		t and'function'==
-		typeof(t[1])then
-		t[1](mouse)
-	end
+	if not locked and activ.isActive()
+	and t and'function'==typeof(t[1])
+	then t[1](mouse)end
 end)
 mouse.Button2Down:connect(function()
 	local t=binds[prK]
-	if activ.isActive()and
-		t and'function'==
-		typeof(t[2])then
-		t[2](mouse)
-	end
+	if not locked and activ.isActive()
+	and t and'function'==typeof(t[2])
+	then t[2](mouse)end
 end)
 
 return{
 	bind=bind,
-	unbind=unbind,
 	mouse=mouse,
+	unbind=unbind,
+	lock=function()locked=true end,
+	unlock=function()locked=false end,
 	
 	--Returns the position of the mouse cast into a Vector2.
 	position=function()return Vector2.new(mouse.X,mouse.Y)end,
@@ -3553,7 +3548,7 @@ return{
 					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local algorSel=require(main.AlgorChooserModule).choose
-local algorConf=require(script.AlgorConfigModule)
+local algorConf=require(main.AlgorConfigModule)
 local wpm=require(script.Parent.WaypointModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
@@ -4273,319 +4268,6 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXC4AA31A386C144D6976663CBA9FC9754">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">AlgorConfigModule</string>
-						<string name="ScriptGuid">{C093938D-964E-4C6F-9A35-084AFC69C8C5}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local acTk=require(main.ActiveTickModule)
-local srts=require(main.ShortcutModule)
-local config=require(main.ConfigModule)
-local drpd=require(main.DropdownModule)
-local xtra,xtraCl,mValue=script.Extra
-
-local pValue=true function pToggle()pValue=not pValue
-xtraCl.Toggle.TextTransparency=pValue and.3 or 0 end
-
-return function(algor)
-	local mC,pC=algor.index,algor.index..'_prompt'
-	if algor.clearUndo and config.get(pC)then
-		
-		xtraCl,pValue=xtra:clone(),false
-		xtraCl.Shortcut.Text=srts.get'activeTick1'
-		xtraCl.Button.MouseButton1Click:connect(pToggle)
-		acTk.bind('activeTick1',pToggle)pToggle()
-		
-		if algor.ignorable then
-			local _,v=drpd.show({'Yes.','No.',},'Selecting this object'
-			..' will clear your undo history.  Proceed?',200,xtraCl)
-			mValue=v==1
-		end
-		
-		config.setPerm(mC,mValue)
-		config.setPerm(pC,pValue)
-		acTk.unbind'activeTick1'
-		xtraCl=nil return mValue
-	else
-		return config.get(algor.index)
-	end
-end]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-					<Item class="Frame" referent="RBX76DE1C12927A4B17A131BF96FCE7B5CB">
-						<Properties>
-							<bool name="Active">false</bool>
-							<Vector2 name="AnchorPoint">
-								<X>0</X>
-								<Y>0</Y>
-							</Vector2>
-							<bool name="AutoLocalize">true</bool>
-							<Color3 name="BackgroundColor3">
-								<R>1</R>
-								<G>1</G>
-								<B>1</B>
-							</Color3>
-							<float name="BackgroundTransparency">0</float>
-							<Color3 name="BorderColor3">
-								<R>0.105882362</R>
-								<G>0.164705887</G>
-								<B>0.207843155</B>
-							</Color3>
-							<token name="BorderMode">0</token>
-							<int name="BorderSizePixel">0</int>
-							<bool name="ClipsDescendants">false</bool>
-							<bool name="Draggable">false</bool>
-							<int name="LayoutOrder">0</int>
-							<string name="Name">Extra</string>
-							<Ref name="NextSelectionDown">null</Ref>
-							<Ref name="NextSelectionLeft">null</Ref>
-							<Ref name="NextSelectionRight">null</Ref>
-							<Ref name="NextSelectionUp">null</Ref>
-							<UDim2 name="Position">
-								<XS>0</XS>
-								<XO>0</XO>
-								<YS>0</YS>
-								<YO>0</YO>
-							</UDim2>
-							<Ref name="RootLocalizationTable">null</Ref>
-							<float name="Rotation">0</float>
-							<bool name="Selectable">false</bool>
-							<Ref name="SelectionImageObject">null</Ref>
-							<UDim2 name="Size">
-								<XS>1</XS>
-								<XO>0</XO>
-								<YS>0</YS>
-								<YO>20</YO>
-							</UDim2>
-							<token name="SizeConstraint">0</token>
-							<token name="Style">0</token>
-							<BinaryString name="Tags"></BinaryString>
-							<bool name="Visible">true</bool>
-							<int name="ZIndex">1</int>
-						</Properties>
-						<Item class="TextLabel" referent="RBXBDB66A510DA8485F9EC14C2141A2A04C">
-							<Properties>
-								<bool name="Active">false</bool>
-								<Vector2 name="AnchorPoint">
-									<X>1</X>
-									<Y>0</Y>
-								</Vector2>
-								<bool name="AutoLocalize">true</bool>
-								<Color3 name="BackgroundColor3">
-									<R>1</R>
-									<G>1</G>
-									<B>1</B>
-								</Color3>
-								<float name="BackgroundTransparency">1</float>
-								<Color3 name="BorderColor3">
-									<R>0.105882362</R>
-									<G>0.164705887</G>
-									<B>0.207843155</B>
-								</Color3>
-								<token name="BorderMode">0</token>
-								<int name="BorderSizePixel">0</int>
-								<bool name="ClipsDescendants">false</bool>
-								<bool name="Draggable">false</bool>
-								<token name="Font">3</token>
-								<int name="LayoutOrder">0</int>
-								<float name="LineHeight">1</float>
-								<string name="Name">Toggle</string>
-								<Ref name="NextSelectionDown">null</Ref>
-								<Ref name="NextSelectionLeft">null</Ref>
-								<Ref name="NextSelectionRight">null</Ref>
-								<Ref name="NextSelectionUp">null</Ref>
-								<UDim2 name="Position">
-									<XS>1</XS>
-									<XO>0</XO>
-									<YS>0</YS>
-									<YO>0</YO>
-								</UDim2>
-								<Ref name="RootLocalizationTable">null</Ref>
-								<float name="Rotation">0</float>
-								<bool name="Selectable">false</bool>
-								<Ref name="SelectionImageObject">null</Ref>
-								<UDim2 name="Size">
-									<XS>0</XS>
-									<XO>110</XO>
-									<YS>1</YS>
-									<YO>0</YO>
-								</UDim2>
-								<token name="SizeConstraint">0</token>
-								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">don&apos;t show next time</string>
-								<Color3 name="TextColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<bool name="TextScaled">false</bool>
-								<float name="TextSize">14</float>
-								<Color3 name="TextStrokeColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<float name="TextStrokeTransparency">1</float>
-								<float name="TextTransparency">0.300000012</float>
-								<token name="TextTruncate">0</token>
-								<bool name="TextWrapped">false</bool>
-								<token name="TextXAlignment">0</token>
-								<token name="TextYAlignment">1</token>
-								<bool name="Visible">true</bool>
-								<int name="ZIndex">1</int>
-							</Properties>
-						</Item>
-						<Item class="TextLabel" referent="RBX6186763FBFDF4000987E112E9F1AABAF">
-							<Properties>
-								<bool name="Active">false</bool>
-								<Vector2 name="AnchorPoint">
-									<X>1</X>
-									<Y>0</Y>
-								</Vector2>
-								<bool name="AutoLocalize">true</bool>
-								<Color3 name="BackgroundColor3">
-									<R>1</R>
-									<G>1</G>
-									<B>1</B>
-								</Color3>
-								<float name="BackgroundTransparency">1</float>
-								<Color3 name="BorderColor3">
-									<R>0.105882362</R>
-									<G>0.164705887</G>
-									<B>0.207843155</B>
-								</Color3>
-								<token name="BorderMode">0</token>
-								<int name="BorderSizePixel">0</int>
-								<bool name="ClipsDescendants">false</bool>
-								<bool name="Draggable">false</bool>
-								<token name="Font">4</token>
-								<int name="LayoutOrder">0</int>
-								<float name="LineHeight">1</float>
-								<string name="Name">Shortcut</string>
-								<Ref name="NextSelectionDown">null</Ref>
-								<Ref name="NextSelectionLeft">null</Ref>
-								<Ref name="NextSelectionRight">null</Ref>
-								<Ref name="NextSelectionUp">null</Ref>
-								<UDim2 name="Position">
-									<XS>1</XS>
-									<XO>-110</XO>
-									<YS>0</YS>
-									<YO>0</YO>
-								</UDim2>
-								<Ref name="RootLocalizationTable">null</Ref>
-								<float name="Rotation">0</float>
-								<bool name="Selectable">false</bool>
-								<Ref name="SelectionImageObject">null</Ref>
-								<UDim2 name="Size">
-									<XS>0</XS>
-									<XO>20</XO>
-									<YS>1</YS>
-									<YO>-1</YO>
-								</UDim2>
-								<token name="SizeConstraint">0</token>
-								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">1</string>
-								<Color3 name="TextColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<bool name="TextScaled">false</bool>
-								<float name="TextSize">13</float>
-								<Color3 name="TextStrokeColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<float name="TextStrokeTransparency">1</float>
-								<float name="TextTransparency">0.699999988</float>
-								<token name="TextTruncate">0</token>
-								<bool name="TextWrapped">false</bool>
-								<token name="TextXAlignment">2</token>
-								<token name="TextYAlignment">1</token>
-								<bool name="Visible">true</bool>
-								<int name="ZIndex">1</int>
-							</Properties>
-						</Item>
-						<Item class="TextButton" referent="RBXC9A6B6C5804B445E88433B36BBFA5FEB">
-							<Properties>
-								<bool name="Active">true</bool>
-								<Vector2 name="AnchorPoint">
-									<X>0</X>
-									<Y>0</Y>
-								</Vector2>
-								<bool name="AutoButtonColor">true</bool>
-								<bool name="AutoLocalize">true</bool>
-								<Color3 name="BackgroundColor3">
-									<R>1</R>
-									<G>1</G>
-									<B>1</B>
-								</Color3>
-								<float name="BackgroundTransparency">1</float>
-								<Color3 name="BorderColor3">
-									<R>0.105882362</R>
-									<G>0.164705887</G>
-									<B>0.207843155</B>
-								</Color3>
-								<token name="BorderMode">0</token>
-								<int name="BorderSizePixel">0</int>
-								<bool name="ClipsDescendants">false</bool>
-								<bool name="Draggable">false</bool>
-								<token name="Font">3</token>
-								<int name="LayoutOrder">0</int>
-								<float name="LineHeight">1</float>
-								<bool name="Modal">false</bool>
-								<string name="Name">Button</string>
-								<Ref name="NextSelectionDown">null</Ref>
-								<Ref name="NextSelectionLeft">null</Ref>
-								<Ref name="NextSelectionRight">null</Ref>
-								<Ref name="NextSelectionUp">null</Ref>
-								<UDim2 name="Position">
-									<XS>0</XS>
-									<XO>0</XO>
-									<YS>0</YS>
-									<YO>0</YO>
-								</UDim2>
-								<Ref name="RootLocalizationTable">null</Ref>
-								<float name="Rotation">0</float>
-								<bool name="Selectable">true</bool>
-								<bool name="Selected">false</bool>
-								<Ref name="SelectionImageObject">null</Ref>
-								<UDim2 name="Size">
-									<XS>1</XS>
-									<XO>0</XO>
-									<YS>1</YS>
-									<YO>0</YO>
-								</UDim2>
-								<token name="SizeConstraint">0</token>
-								<token name="Style">0</token>
-								<BinaryString name="Tags"></BinaryString>
-								<string name="Text"></string>
-								<Color3 name="TextColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<bool name="TextScaled">false</bool>
-								<float name="TextSize">14</float>
-								<Color3 name="TextStrokeColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<float name="TextStrokeTransparency">1</float>
-								<float name="TextTransparency">0</float>
-								<token name="TextTruncate">0</token>
-								<bool name="TextWrapped">false</bool>
-								<token name="TextXAlignment">2</token>
-								<token name="TextYAlignment">1</token>
-								<bool name="Visible">true</bool>
-								<int name="ZIndex">1</int>
-							</Properties>
-						</Item>
-					</Item>
-				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBXBC384082FE654D78895AEEC7B84001E2">
 				<Properties>
@@ -4643,6 +4325,11 @@ end
 local keys,fKeys={},{}for k,i in next,keyEnums
 do keys[i]=k fKeys[i]=format.sctOutput(k)end 
 
+--Keybind-locking mechanism.
+local lockT,lockA={}function lockAll()lockA=true
+end function lock(i)lockT[i]=(lockT[i]or 0)+1 end
+function unlock(i)lockA,lockT[i]=false,lockT[i]-1 end
+
 local binds={}
 local shft=false
 
@@ -4650,10 +4337,9 @@ uis.InputBegan:connect(function(input)
 	if input.UserInputType==Enum.UserInputType.Keyboard then
 		if input.KeyCode.Name:find'Shift$'then shft=true
 		else
-			local b=keyIs[shft
-			][input.KeyCode]
-			if binds[b] then
-			binds[b](b)end
+			local b=keyIs[shft][input.KeyCode]
+			local nL=not lockA and(lockT[b]==0 or not lockT[b])
+			if binds[b]and nL then binds[b](b)end
 		end
 	end
 end)
@@ -4686,6 +4372,9 @@ return{
 	end,
 	get=function(i)return fKeys[i]end,
 	bind=function(i,f)binds[i]=f end,
+	lockAll=lockAll,
+	unlock=unlock,
+	lock=lock,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -4698,29 +4387,18 @@ return{
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local cGui=require(main.ConfigGuiModule)
 local sel=require(main.SelectionModule)
+local subMM=require(main.SubmodeModule)
 local ogMod=require(main.OriginModule)
 local wpm=require(main.WaypointModule)
 
 --Modifies global environment.
 require(script.Parent.DebugModule)()
 
-local binds={}
 local bind,tagT
+local binds=subMM.getBinds()
 function modeHash(modeT)
 	if not modeT then return''end
 	return modeT[1]..'_'..modeT[2]
-end
-
-local subs={}
-function getSubs()return subs end
-for i,m in next,script:children() do
-	local t=require(m)
-	for i,f in next,t do
-		local t=subs[i[1]]
-		if t then t[#t+1]=i[2]
-		else subs[i[1]]={i[2]}end
-		binds[modeHash(i)]=f
-	end
 end
 
 function set(modeT)
@@ -4870,89 +4548,12 @@ end
 
 
 return{
-	getSubs=getSubs,exec=exec,execC=execC,set=set,unset=unset,
+	exec=exec,execC=execC,set=set,unset=unset,
 	getBind=function(modeT)return binds[modeHash(modeT)]or{}end,
 	--setBind=function(modeT,...)binds[modeHash(modeT)]={...}end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXBADD3C92FF7A48629009C7E47E974222">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">MoveModule</string>
-						<string name="ScriptGuid">{64078164-FFC7-4F87-8ABE-C71B2BAABD9E}</string>
-						<ProtectedString name="Source"><![CDATA[local get=require(script.Parent.Parent.SelectionModule).get
-function move(p,tags,face,d)
-	local cf=tags.origin.CFrame
-	local v=(cf-cf.p)*(Vector3.
-	FromNormalId(face)*d)
-	p.CFrame=p.CFrame+v
-	--[[
-	local m=tags.main
-	m.CFrame=m.CFrame+v
-	]]
-end
-
-return{
-	[{'move','axis'}]={drag=move,origin='axisG',waypoint='Move'},
-	[{'move','first'}]={drag=move,waypoint='Move'},
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBXA9F6ED1DD2CF4BCEA3A68A4DC9C5429A">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">ResizeModule</string>
-						<string name="ScriptGuid">{FA028C67-D252-44C5-951B-F4FA8C31B69B}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local plugin=main.Plugin.Value
-local sel=require(main.SelectionModule)
-
-function resize(p,d)
-	p.Size=p.Size+d
-end
-
-return{
-	[{'resize','face'}]={drag=function(p,tags,f,d)
-		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
-		local v2=Vector3.FromNormalId(f.Value%3)*d
-		resize(p,v2)p.CFrame=p.CFrame*v1
-	end,waypoint='Resize'},
-	
-	[{'resize','both'}]={drag=function(p,tags,f,d)
-		local v=Vector3.FromNormalId(f.Value%3)*d
-		resize(p,v)
-	end,waypoint='Resize'},
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBX937FC90868A040189436D8E10099A9F3">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">RotateModule</string>
-						<string name="ScriptGuid">{9518DC28-5C95-4077-A1A8-CCF78B2AB59D}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local sel=require(main.SelectionModule)
-
---Rotation function that takes the CFrame in.
-function rot8Main(p,tags,axis,angle,...)
-	
-	local o0=tags.origin.CFrame
-	local v3=Vector3.FromAxis(axis)
-	local o1=CFrame.fromAxisAngle(v3,math.rad(angle))
-	p.CFrame=o0*o1*(o0:inverse()*p.CFrame)
-end
-
-return{
-	[{'rotate','axis'}]={drag=rot8Main,origin='axisO',waypoint='Rotate'},
-	[{'rotate','group'}]={drag=rot8Main,origin='axisG',waypoint='Rotate'},
-	[{'rotate','first'}]={drag=rot8Main,waypoint='Rotate'},
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBX58C29B0C031142EBA4644A97F9BA22EB">
 				<Properties>
@@ -9487,7 +9088,7 @@ return{
 						<token name="Style">0</token>
 						<BinaryString name="Tags"></BinaryString>
 						<bool name="Visible">true</bool>
-						<int name="ZIndex">0</int>
+						<int name="ZIndex">2</int>
 					</Properties>
 					<Item class="Frame" referent="RBX90F04E1B641C4304919E6EDFC80E90E9">
 						<Properties>
@@ -10188,83 +9789,6 @@ return{
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
 					</Item>
-					<Item class="ScrollingFrame" referent="RBX979DC6C35F2643ECA3AF35B978ECF8F5">
-						<Properties>
-							<bool name="Active">false</bool>
-							<Vector2 name="AnchorPoint">
-								<X>0.5</X>
-								<Y>0.5</Y>
-							</Vector2>
-							<bool name="AutoLocalize">true</bool>
-							<Color3 name="BackgroundColor3">
-								<R>1</R>
-								<G>1</G>
-								<B>1</B>
-							</Color3>
-							<float name="BackgroundTransparency">1</float>
-							<Color3 name="BorderColor3">
-								<R>0.105882362</R>
-								<G>0.164705887</G>
-								<B>0.207843155</B>
-							</Color3>
-							<token name="BorderMode">0</token>
-							<int name="BorderSizePixel">0</int>
-							<Content name="BottomImage"><url>rbxasset://textures/ui/Scroll/scroll-bottom.png</url></Content>
-							<Vector2 name="CanvasPosition">
-								<X>0</X>
-								<Y>0</Y>
-							</Vector2>
-							<UDim2 name="CanvasSize">
-								<XS>0</XS>
-								<XO>0</XO>
-								<YS>0</YS>
-								<YO>0</YO>
-							</UDim2>
-							<bool name="ClipsDescendants">true</bool>
-							<bool name="Draggable">false</bool>
-							<token name="ElasticBehavior">2</token>
-							<token name="HorizontalScrollBarInset">0</token>
-							<int name="LayoutOrder">0</int>
-							<Content name="MidImage"><url>rbxasset://textures/ui/Scroll/scroll-middle.png</url></Content>
-							<string name="Name">ModalFrame</string>
-							<Ref name="NextSelectionDown">null</Ref>
-							<Ref name="NextSelectionLeft">null</Ref>
-							<Ref name="NextSelectionRight">null</Ref>
-							<Ref name="NextSelectionUp">null</Ref>
-							<UDim2 name="Position">
-								<XS>0.5</XS>
-								<XO>0</XO>
-								<YS>0.5</YS>
-								<YO>0</YO>
-							</UDim2>
-							<Ref name="RootLocalizationTable">null</Ref>
-							<float name="Rotation">0</float>
-							<Color3 name="ScrollBarImageColor3">
-								<R>1</R>
-								<G>1</G>
-								<B>1</B>
-							</Color3>
-							<float name="ScrollBarImageTransparency">1</float>
-							<int name="ScrollBarThickness">12</int>
-							<token name="ScrollingDirection">4</token>
-							<bool name="ScrollingEnabled">false</bool>
-							<bool name="Selectable">true</bool>
-							<Ref name="SelectionImageObject">null</Ref>
-							<UDim2 name="Size">
-								<XS>7</XS>
-								<XO>0</XO>
-								<YS>7</YS>
-								<YO>0</YO>
-							</UDim2>
-							<token name="SizeConstraint">0</token>
-							<BinaryString name="Tags"></BinaryString>
-							<Content name="TopImage"><url>rbxasset://textures/ui/Scroll/scroll-top.png</url></Content>
-							<token name="VerticalScrollBarInset">0</token>
-							<token name="VerticalScrollBarPosition">0</token>
-							<bool name="Visible">true</bool>
-							<int name="ZIndex">0</int>
-						</Properties>
-					</Item>
 				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBXCCD0DCEFF5DE42138EC35B514183C463">
@@ -10384,6 +9908,7 @@ local srts=require(main.ShortcutModule)
 local mouse=require(main.MouseModule)
 local vp=require(main.ViewportModule)
 local tween=require(main.TweenModule)
+local mode=require(main.ModeModule)
 local gui=script.Parent.RLVPGUI
 local dd=script.Dropdown
 local el=script.Element
@@ -10405,6 +9930,7 @@ function show(list,prompt,width,xtra)
 	dd.Position=UDim2.new(0,pos.x,0,pos.y)
 	local nPos=pos+(Vector2.new(.5,.5)-ap)*20
 	tween.tween(dd,{Position=UDim2.new(0,nPos.x,0,nPos.y)})
+	mouse.lock()
 	
 	dd.AnchorPoint=ap
 	dd.Size=UDim2.new(0,width,0,yS)
@@ -10451,6 +9977,17 @@ function show(list,prompt,width,xtra)
 	return dd.Event.Event:Wait()
 end
 
+--Binds to numbered shortcuts.
+function srt(v)local n=0+v
+	
+	--Overrides the keybind in the event a dropdown is showing.
+	if currList then if currList[n] then exec(currList[n])end
+	
+	--Sets the mode with the respective submode that was last used.
+	else mode.set(nil,mode.getSubs()[n])end
+end
+for i=0,9 do srts.bind(''..i,srt)end
+
 --Event for selecting an option.
 function exec(s)
 	
@@ -10467,6 +10004,7 @@ function exec(s)
 	
 	dd.Parent=script
 	currPrompt=nil
+	mouse.unlock()
 	currList=nil
 end
 
@@ -10766,9 +10304,9 @@ return{
 						</Color3>
 						<float name="BackgroundTransparency">1</float>
 						<Color3 name="BorderColor3">
-							<R>0.105882362</R>
-							<G>0.164705887</G>
-							<B>0.207843155</B>
+							<R>0.596078455</R>
+							<G>0.592156887</G>
+							<B>0.580392182</B>
 						</Color3>
 						<token name="BorderMode">0</token>
 						<int name="BorderSizePixel">0</int>
@@ -11822,7 +11360,7 @@ local stacks={activeTick1={},activeTick2={},}
 
 function func(i,...)
 	local t=stacks[i]
-	t[#t](...)
+	if#t>0 then t[#t](...)end
 end
 
 for i in next,stacks do
@@ -11849,6 +11387,7 @@ return{
 					<string name="ScriptGuid">{5C97A286-A3BD-45E7-9062-C60D4CCA8633}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local mEnum=require(main.ModeEnumModule)
+local mouse=require(main.MouseModule)
 local gui=main.RLVPGUI
 local config=gui.Config
 local frame=config.Frame
@@ -11856,11 +11395,24 @@ local frame=config.Frame
 --Obligatory callback structure (named 'bind' internally).
 local binds={}function bind(i,f)binds[i]=f end
 
---Shorthand functions for switching between visibility modes.
-function show()config.Visible,frame.Visible=true,true end
-function hide()config.Visible,frame.Visible=false,false end
-function ovly()config.Visible,frame.Visible=true,false end
-hide()
+--Visibility functions.
+function show()
+	config.Visible,frame
+	.Visible=true,true
+	mouse.lock()
+end
+function hide()
+	config.Visible,frame
+	.Visible=false,false
+	mouse.unlock()
+end
+function ovly()
+	config.Visible,frame
+	.Visible=true,false
+end
+
+--Preliminarily hides the config window.
+config.Visible,frame.Visible=false,false
 
 --Function for the mode-change event, stores previous mode.
 local prevM function mdeF(currM,tempM)
@@ -11906,6 +11458,419 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBXC4AA31A386C144D6976663CBA9FC9754">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">AlgorConfigModule</string>
+					<string name="ScriptGuid">{C093938D-964E-4C6F-9A35-084AFC69C8C5}</string>
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local acTk=require(main.ActiveTickModule)
+local srts=require(main.ShortcutModule)
+local config=require(main.ConfigModule)
+local drpd=require(main.DropdownModule)
+local xtra,xtraCl,mValue=script.Extra
+
+local pValue=true function pToggle()pValue=not pValue
+xtraCl.Toggle.TextTransparency=pValue and.3 or 0 end
+
+return function(algor)
+	local mC,pC=algor.index,algor.index..'_prompt'
+	if algor.clearUndo and config.get(pC)then
+		
+		xtraCl,pValue=xtra:clone(),false
+		xtraCl.Shortcut.Text=srts.get'activeTick1'
+		xtraCl.Button.MouseButton1Click:connect(pToggle)
+		acTk.bind('activeTick1',pToggle)pToggle()
+		
+		if algor.ignorable then
+			local _,v=drpd.show({'Yes.','No.',},'Selecting this object'
+			..' will clear your undo history.  Proceed?',200,xtraCl)
+			mValue=v==1
+		end
+		
+		config.setPerm(mC,mValue)
+		config.setPerm(pC,pValue)
+		acTk.unbind'activeTick1'
+		xtraCl=nil return mValue
+	else
+		return config.get(algor.index)
+	end
+end]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+				<Item class="Frame" referent="RBX76DE1C12927A4B17A131BF96FCE7B5CB">
+					<Properties>
+						<bool name="Active">false</bool>
+						<Vector2 name="AnchorPoint">
+							<X>0</X>
+							<Y>0</Y>
+						</Vector2>
+						<bool name="AutoLocalize">true</bool>
+						<Color3 name="BackgroundColor3">
+							<R>1</R>
+							<G>1</G>
+							<B>1</B>
+						</Color3>
+						<float name="BackgroundTransparency">0</float>
+						<Color3 name="BorderColor3">
+							<R>0.105882362</R>
+							<G>0.164705887</G>
+							<B>0.207843155</B>
+						</Color3>
+						<token name="BorderMode">0</token>
+						<int name="BorderSizePixel">0</int>
+						<bool name="ClipsDescendants">false</bool>
+						<bool name="Draggable">false</bool>
+						<int name="LayoutOrder">0</int>
+						<string name="Name">Extra</string>
+						<Ref name="NextSelectionDown">null</Ref>
+						<Ref name="NextSelectionLeft">null</Ref>
+						<Ref name="NextSelectionRight">null</Ref>
+						<Ref name="NextSelectionUp">null</Ref>
+						<UDim2 name="Position">
+							<XS>0</XS>
+							<XO>0</XO>
+							<YS>0</YS>
+							<YO>0</YO>
+						</UDim2>
+						<Ref name="RootLocalizationTable">null</Ref>
+						<float name="Rotation">0</float>
+						<bool name="Selectable">false</bool>
+						<Ref name="SelectionImageObject">null</Ref>
+						<UDim2 name="Size">
+							<XS>1</XS>
+							<XO>0</XO>
+							<YS>0</YS>
+							<YO>20</YO>
+						</UDim2>
+						<token name="SizeConstraint">0</token>
+						<token name="Style">0</token>
+						<BinaryString name="Tags"></BinaryString>
+						<bool name="Visible">true</bool>
+						<int name="ZIndex">1</int>
+					</Properties>
+					<Item class="TextLabel" referent="RBXBDB66A510DA8485F9EC14C2141A2A04C">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>1</X>
+								<Y>0</Y>
+							</Vector2>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<token name="Font">3</token>
+							<int name="LayoutOrder">0</int>
+							<float name="LineHeight">1</float>
+							<string name="Name">Toggle</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>1</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>0</XS>
+								<XO>110</XO>
+								<YS>1</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<string name="Text">don&apos;t show next time</string>
+							<Color3 name="TextColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<bool name="TextScaled">false</bool>
+							<float name="TextSize">14</float>
+							<Color3 name="TextStrokeColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<float name="TextStrokeTransparency">1</float>
+							<float name="TextTransparency">0.300000012</float>
+							<token name="TextTruncate">0</token>
+							<bool name="TextWrapped">false</bool>
+							<token name="TextXAlignment">0</token>
+							<token name="TextYAlignment">1</token>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+					</Item>
+					<Item class="TextLabel" referent="RBX6186763FBFDF4000987E112E9F1AABAF">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>1</X>
+								<Y>0</Y>
+							</Vector2>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<token name="Font">4</token>
+							<int name="LayoutOrder">0</int>
+							<float name="LineHeight">1</float>
+							<string name="Name">Shortcut</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>1</XS>
+								<XO>-110</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>0</XS>
+								<XO>20</XO>
+								<YS>1</YS>
+								<YO>-1</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<string name="Text">1</string>
+							<Color3 name="TextColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<bool name="TextScaled">false</bool>
+							<float name="TextSize">13</float>
+							<Color3 name="TextStrokeColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<float name="TextStrokeTransparency">1</float>
+							<float name="TextTransparency">0.699999988</float>
+							<token name="TextTruncate">0</token>
+							<bool name="TextWrapped">false</bool>
+							<token name="TextXAlignment">2</token>
+							<token name="TextYAlignment">1</token>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+					</Item>
+					<Item class="TextButton" referent="RBXC9A6B6C5804B445E88433B36BBFA5FEB">
+						<Properties>
+							<bool name="Active">true</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<bool name="AutoButtonColor">true</bool>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<token name="Font">3</token>
+							<int name="LayoutOrder">0</int>
+							<float name="LineHeight">1</float>
+							<bool name="Modal">false</bool>
+							<string name="Name">Button</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">true</bool>
+							<bool name="Selected">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>1</XS>
+								<XO>0</XO>
+								<YS>1</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<string name="Text"></string>
+							<Color3 name="TextColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<bool name="TextScaled">false</bool>
+							<float name="TextSize">14</float>
+							<Color3 name="TextStrokeColor3">
+								<R>0</R>
+								<G>0</G>
+								<B>0</B>
+							</Color3>
+							<float name="TextStrokeTransparency">1</float>
+							<float name="TextTransparency">0</float>
+							<token name="TextTruncate">0</token>
+							<bool name="TextWrapped">false</bool>
+							<token name="TextXAlignment">2</token>
+							<token name="TextYAlignment">1</token>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+					</Item>
+				</Item>
+			</Item>
+			<Item class="ModuleScript" referent="RBX26805BBC73B54C2C819E26C1E6D0471A">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">SubmodeModule</string>
+					<string name="ScriptGuid">{39B5895F-10CB-433A-B6E0-A851982488B1}</string>
+					<ProtectedString name="Source"><![CDATA[local subs,binds={},{}
+function getSubs()return subs end
+function getBinds()return binds end
+
+function modeHash(modeT)
+	if not modeT then return''end
+	return modeT[1]..'_'..modeT[2]
+end
+
+for i,m in next,script:children() do
+	local t=require(m)
+	for i,f in next,t do
+		local t=subs[i[1]]
+		if t then t[#t+1]=i[2]
+		else subs[i[1]]={i[2]}end
+		binds[modeHash(i)]=f
+	end
+end
+
+return{getSubs=getSubs,getBinds=getBinds}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+				<Item class="ModuleScript" referent="RBXBADD3C92FF7A48629009C7E47E974222">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">MoveModule</string>
+						<string name="ScriptGuid">{64078164-FFC7-4F87-8ABE-C71B2BAABD9E}</string>
+						<ProtectedString name="Source"><![CDATA[function move(p,tags,face,d)
+	local cf=tags.origin.CFrame
+	local v=(cf-cf.p)*(Vector3.
+	FromNormalId(face)*d)
+	p.CFrame=p.CFrame+v
+	--[[
+	local m=tags.main
+	m.CFrame=m.CFrame+v
+	]]
+end
+
+return{
+	[{'move','axis'}]={drag=move,origin='axisG',waypoint='Move'},
+	[{'move','first'}]={drag=move,waypoint='Move'},
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXA9F6ED1DD2CF4BCEA3A68A4DC9C5429A">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">ResizeModule</string>
+						<string name="ScriptGuid">{FA028C67-D252-44C5-951B-F4FA8C31B69B}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local plugin=main.Plugin.Value
+
+function resize(p,d)
+	p.Size=p.Size+d
+end
+
+return{
+	[{'resize','face'}]={drag=function(p,tags,f,d)
+		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
+		local v2=Vector3.FromNormalId(f.Value%3)*d
+		resize(p,v2)p.CFrame=p.CFrame*v1
+	end,waypoint='Resize'},
+	
+	[{'resize','both'}]={drag=function(p,tags,f,d)
+		local v=Vector3.FromNormalId(f.Value%3)*d
+		resize(p,v)
+	end,waypoint='Resize'},
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX937FC90868A040189436D8E10099A9F3">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">RotateModule</string>
+						<string name="ScriptGuid">{9518DC28-5C95-4077-A1A8-CCF78B2AB59D}</string>
+						<ProtectedString name="Source"><![CDATA[--Rotation function that takes the CFrame in.
+function rot8Main(p,tags,axis,angle,...)
+	
+	local o0=tags.origin.CFrame
+	local v3=Vector3.FromAxis(axis)
+	local o1=CFrame.fromAxisAngle(v3,math.rad(angle))
+	p.CFrame=o0*o1*(o0:inverse()*p.CFrame)
+end
+
+return{
+	[{'rotate','axis'}]={drag=rot8Main,origin='axisO',waypoint='Rotate'},
+	[{'rotate','group'}]={drag=rot8Main,origin='axisG',waypoint='Rotate'},
+	[{'rotate','first'}]={drag=rot8Main,waypoint='Rotate'},
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 		</Item>
 	</Item>
