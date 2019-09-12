@@ -1194,6 +1194,7 @@ return{
 						<string name="ScriptGuid">{3E7E5283-AC60-4265-B9F1-DD49328E6C2D}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local tween=require(main.TweenModule)
+local tbm=require(main.TextBoxModule)
 local format=require(main.FormatModule)
 local data=require(main.IncrementModule)
 
@@ -1261,6 +1262,8 @@ return{
 		local cardO=card.card
 		local lat=fKeys.latIncr
 		local rot=fKeys.rotIncr
+		tbm.bind(cardO.RotIncr.TextBox)
+		tbm.bind(cardO.LatIncr.TextBox)
 		cardO.LatIncr.Shortcut.Text=lat
 		cardO.RotIncr.Shortcut.Text=rot
 		if binds.latIncr then return end
@@ -3162,6 +3165,7 @@ local gui=require(main.GuiElemModule)
 local srts=require(main.ShortcutModule)
 local cGui=require(main.ConfigGuiModule)
 local subMM=require(main.SubmodeModule)
+local tbm=require(main.TextBoxModule)
 local cSubs,binds,busy={},{}
 local subs=subMM.getSubs()
 local dfltM={'select',1}
@@ -3191,16 +3195,16 @@ function preview(m,s)
 	tempM={m,s}send(currM,tempM)
 end
 
-function restore()
-if busy then return end
-tempM=nil send(currM)end
-
 function getSub(m)return cSubs[m]or(subs[m]or{''})[1]end
 function send(...)busy=true for i,f in next,binds do f(...)
 end cGui.mode(...)gui.actionAll('mode',...)busy=false end
 function getTemp()return tempM or currM end
 function getSubs(m)return subs[m]or{}end
 function getMode()return currM end
+
+--Removes temporarily-set mode.
+function restore()if busy then
+return end tempM=nil send(currM)end
 
 --Functional hooks to the main GUI.
 gui.callback('tools','set',setMode)
@@ -3212,6 +3216,10 @@ gui.callback('tools','getSubs',getSubs)
 --Functional hook to the config window.
 cGui.callback('setMode',setMode)
 
+--Module hook that requires setup.
+tbm.setup(lock,unlock)
+
+send(currM)
 return{
 	set=setMode,
 	get=getMode,
@@ -8121,11 +8129,11 @@ return{
 									</Color3>
 									<Vector2 name="ImageRectOffset">
 										<X>0</X>
-										<Y>0</Y>
+										<Y>1</Y>
 									</Vector2>
 									<Vector2 name="ImageRectSize">
-										<X>0</X>
-										<Y>0</Y>
+										<X>100</X>
+										<Y>100</Y>
 									</Vector2>
 									<float name="ImageTransparency">0.699999988</float>
 									<int name="LayoutOrder">0</int>
@@ -8282,12 +8290,12 @@ return{
 										<B>0</B>
 									</Color3>
 									<Vector2 name="ImageRectOffset">
-										<X>766</X>
-										<Y>810</Y>
+										<X>927</X>
+										<Y>910</Y>
 									</Vector2>
 									<Vector2 name="ImageRectSize">
-										<X>73</X>
-										<Y>73</Y>
+										<X>70</X>
+										<Y>70</Y>
 									</Vector2>
 									<float name="ImageTransparency">0.699999988</float>
 									<int name="LayoutOrder">0</int>
@@ -9931,6 +9939,7 @@ function show(list,prompt,width,xtra)
 	local nPos=pos+(Vector2.new(.5,.5)-ap)*20
 	tween.tween(dd,{Position=UDim2.new(0,nPos.x,0,nPos.y)})
 	mouse.lock()
+	mode.lock()
 	
 	dd.AnchorPoint=ap
 	dd.Size=UDim2.new(0,width,0,yS)
@@ -10005,6 +10014,7 @@ function exec(s)
 	dd.Parent=script
 	currPrompt=nil
 	mouse.unlock()
+	mode.unlock()
 	currList=nil
 end
 
@@ -11872,6 +11882,43 @@ return{
 					</Properties>
 				</Item>
 			</Item>
+			<Item class="ModuleScript" referent="RBX6EF39EA9717D4DB78E8883EE045E7D80">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">TextBoxModule</string>
+					<string name="ScriptGuid">{BE5AC997-FB13-4180-B998-E3C018905815}</string>
+					<ProtectedString name="Source"><![CDATA[local tbT,f,uf={}
+
+return{
+	setup=function(fF,ufF)
+		f,uf=fF,ufF
+		for tb in next,tbT do
+			local t=tbT[tb]for i,b in next,
+			t do b:disconnect()t[i]=nil end
+			
+			tbT[tb]={
+				tb.Focused:connect(f),
+				tb.FocusLost:connect(uf),
+			}
+		end
+	end,
+	
+	bind=function(tb)
+		tbT[tb]=f and{
+			tb.Focused:connect(f),
+			tb.FocusLost:connect(uf),
+		}or{}
+	end,
+	
+	unbind=function(tb)
+		local t=tbT[tb]
+		if t then for i,b in next,t do
+		b:disconnect()t[i]=nil end end
+	end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
 		</Item>
 	</Item>
 	<Item class="LocalizationService" referent="RBX82051A25D574462DADC32446BF09A371">
@@ -12061,6 +12108,19 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
+	<Item class="AnalyticsService" referent="RBX795748E9FABA400297282DB571FE8A0B">
+		<Properties>
+			<string name="ApiKey"></string>
+			<string name="Name">AnalyticsService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
+	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
+		<Properties>
+			<string name="Name">VirtualInputManager</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
 	<Item class="TestService" referent="RBX404EC13B8F684D9D9B96E75CAB2840FE">
 		<Properties>
 			<bool name="AutoRuns">true</bool>
@@ -12075,18 +12135,12 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBXF4C7EB30877E405693BB042A3E84FC39">
+		<Item class="Folder" referent="RBXE1D1C46B24DC4246A1BA4AF736156230">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-	</Item>
-	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
-		<Properties>
-			<string name="Name">VirtualInputManager</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
 	</Item>
 	<SharedStrings>
 		<SharedString md5="BrfrI4nr6bz44Y8AZCyS4w==">Q1NHUEhTBgAAAAAAAEEAAAAAAAAAAAAAAADkOA5BAAAAAAAAAADkOA5BAAAAAOQ4DkEQAAAA
