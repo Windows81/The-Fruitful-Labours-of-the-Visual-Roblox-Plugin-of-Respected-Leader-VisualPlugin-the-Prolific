@@ -38,16 +38,16 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>-13.093565</X>
-					<Y>26.7604942</Y>
-					<Z>-47.9768143</Z>
+					<X>3.75981951</X>
+					<Y>5.78828478</Y>
+					<Z>-47.9374619</Z>
 					<R00>0.956547499</R00>
-					<R01>-0.105507329</R01>
-					<R02>0.27181831</R02>
-					<R10>7.4505806e-09</R10>
+					<R01>-0.105507299</R01>
+					<R02>0.27181828</R02>
+					<R10>-0</R10>
 					<R11>0.932236075</R11>
 					<R12>0.361850947</R12>
-					<R20>-0.291576743</R20>
+					<R20>-0.291576684</R20>
 					<R21>-0.346127629</R21>
 					<R22>0.891727984</R22>
 				</CoordinateFrame>
@@ -55,9 +55,9 @@
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-13.6372013</X>
-					<Y>26.0367928</Y>
-					<Z>-49.7602692</Z>
+					<X>-0.0999999046</X>
+					<Y>0.650001526</Y>
+					<Z>-60.5999985</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -791,12 +791,12 @@ UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<bool name="ShowDevelopmentGui">true</bool>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="LocalScript" referent="RBXD29FAA1B765B45DEAAACE5787098CB0C">
+		<Item class="LocalScript" referent="RBXE1B73D8C010B4C30919FFC0308A2B604">
 			<Properties>
 				<bool name="Disabled">false</bool>
 				<Content name="LinkedSource"><null></null></Content>
 				<string name="Name">LocalScript</string>
-				<string name="ScriptGuid">{298530EC-416A-4CD3-99DE-4B81F65A49DE}</string>
+				<string name="ScriptGuid">{DB9F16EF-E1FC-406E-BC36-85F8A9FB09FB}</string>
 				<ProtectedString name="Source"><![CDATA[local t={Start=function(plugin)
 	
 script.Plugin.Value=plugin
@@ -816,18 +816,18 @@ t.Start(plugin)end
 return t]]></ProtectedString>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
-			<Item class="ObjectValue" referent="RBXD75D0694474F45BEA3C20D71E5E2D64F">
+			<Item class="ObjectValue" referent="RBX5E067D4403B44E8DAFA4F9763DA70759">
 				<Properties>
 					<string name="Name">Plugin</string>
 					<BinaryString name="Tags"></BinaryString>
 					<Ref name="Value">null</Ref>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX90461FDB28994C2AAC4AC163146B96AB">
+			<Item class="ModuleScript" referent="RBX72FF92928A33427494354445282CA6C0">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ActiveModule</string>
-					<string name="ScriptGuid">{325C82F6-F41A-4664-98B6-707BB4B4C15B}</string>
+					<string name="ScriptGuid">{91CBF982-1275-4A68-901D-81A40FCD3C9D}</string>
 					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
 local gui=require(script.Parent.GuiElemModule)
 local button=plugin:CreateToolbar'RLVP':CreateButton(
@@ -854,6 +854,7 @@ function activate()
 	for i,b in next,binds
 	do b(true)end
 	locked=false
+	return true
 end
 
 --Fires when deactivated.
@@ -867,6 +868,7 @@ function deactivate()
 	for i,b in next,binds
 	do b(false)end
 	locked=false
+	return true
 end
 
 function lock()locked=true end
@@ -891,11 +893,11 @@ deactivate=deactivate}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXD4BD9FD7573C4AC5A2A6271A1FA98AFA">
+			<Item class="ModuleScript" referent="RBX0AB6BE40E4FC4BDE8FE702100AF1EF07">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">FormatModule</string>
-					<string name="ScriptGuid">{EFAD9DC0-9A7A-4E4C-814F-2EC27AF3C947}</string>
+					<string name="ScriptGuid">{6B63AE69-B119-478C-81C5-DF30EF3748FD}</string>
 					<ProtectedString name="Source"><![CDATA[local uis=game:service'UserInputService'
 return{
 	numInput=function(v)
@@ -937,11 +939,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX7FA084F054D1445BA9C370CB7F0957A5">
+			<Item class="ModuleScript" referent="RBX095EA676C034448891EFC6B7BA24F94A">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">GuiElemModule</string>
-					<string name="ScriptGuid">{CFBF6BD8-4004-4414-9622-99BFFBDC3ABC}</string>
+					<string name="ScriptGuid">{14CFE469-E377-4F1C-A609-7B1343CD3623}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local psm=require(script.PosSettingModule)
 local tween=require(main.TweenModule)
@@ -1196,7 +1198,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Frame" referent="RBX247325F0B9764EF3BBAE573529D85E1A">
+				<Item class="Frame" referent="RBX8A1A8361CA2D43299D2B34F49CD3091A">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -1247,7 +1249,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">-1</int>
 					</Properties>
-					<Item class="ImageButton" referent="RBX8B3DABDFE02E4EA1889161049DD7C40A">
+					<Item class="ImageButton" referent="RBX29C4500F2F5A4ABDA78819146EA6B2D9">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -1337,7 +1339,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="ImageButton" referent="RBX837F25A19B8F4E3EAE8542B84AE7C526">
+					<Item class="ImageButton" referent="RBXDBA1BCC143C34BAFAB543AEEC332AEE4">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -1427,7 +1429,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="ImageButton" referent="RBXF80DD0FEAFE44B4097E7BE41F7A53EB3">
+					<Item class="ImageButton" referent="RBX3D049EFA68E44CAC83B3E346753C2502">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -1517,7 +1519,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="ImageButton" referent="RBXFCCD920A0884495B82BC187518506FF4">
+					<Item class="ImageButton" referent="RBX2F0917B6C751477E9DB6435EBFE880F4">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -1608,11 +1610,11 @@ return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBXFA4219AB96DB4B9EAA4199BEE79CE12B">
+				<Item class="ModuleScript" referent="RBX90E7A8E0B67C403189B2B215A8EE59C9">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">PosSettingModule</string>
-						<string name="ScriptGuid">{E4EF48F4-831D-447C-B668-CCF6905F4029}</string>
+						<string name="ScriptGuid">{A3F4E0DB-74D2-41DA-837C-B1782FF3DACA}</string>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local t={}
 return{
@@ -1633,11 +1635,11 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXD723FBFD866C4407910419EFF41E140C">
+				<Item class="ModuleScript" referent="RBXEF29363203EC4A5C98C1B8F9C23CF776">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">increment</string>
-						<string name="ScriptGuid">{3E7E5283-AC60-4265-B9F1-DD49328E6C2D}</string>
+						<string name="ScriptGuid">{431D7607-A6CA-45A2-8A08-451124BDEF61}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local tween=require(main.TweenModule)
 local tbm=require(main.TextBoxModule)
@@ -1726,7 +1728,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="Frame" referent="RBX1859C9B51FF84C19886BBDE6138D23F8">
+					<Item class="Frame" referent="RBX14CB1DE58E224D7C9CE8CE6E4C832AB3">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -1777,7 +1779,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBX25168AA7E5D5472DB0BDE1B30C15D991">
+						<Item class="Frame" referent="RBXBEF90F0D241F429382B1D6045E69947D">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -1829,7 +1831,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="ScrollingFrame" referent="RBXDEC13E8DB53948E98B1338D1E7AB4104">
+						<Item class="ScrollingFrame" referent="RBXEF03246EB7A749ACA41FA8B77072ED37">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -1905,7 +1907,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIListLayout" referent="RBX8981188F698043F6B4B6A1F0D35D2F75">
+							<Item class="UIListLayout" referent="RBX73A2F4FAF52C44B7914B9D15B7A13305">
 								<Properties>
 									<token name="FillDirection">1</token>
 									<token name="HorizontalAlignment">1</token>
@@ -1919,7 +1921,7 @@ return{
 									<token name="VerticalAlignment">1</token>
 								</Properties>
 							</Item>
-							<Item class="TextButton" referent="RBX5E6AA01B363B42F6A976F78CB6BCA0CA">
+							<Item class="TextButton" referent="RBX7D7642008F9A4E7DABB260369753D24E">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -1997,7 +1999,7 @@ return{
 							</Item>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX6EEBC0C04395418C8A532E47CF6EBF4C">
+					<Item class="TextButton" referent="RBXE7C80403FBD74FC7A1099C755E43E9FD">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2073,7 +2075,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="Frame" referent="RBXD9D1EFC62333472A862FEAAE655B054E">
+					<Item class="Frame" referent="RBX01EF6721D6D946FFAC7137D8A52B072A">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -2124,7 +2126,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBXD92A93D3D140468A8393B7B28A2C83B1">
+						<Item class="Frame" referent="RBX70ECA799F69F44CB874AB5901D9253C5">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -2176,7 +2178,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="ScrollingFrame" referent="RBX4C83BC7DC8AD413381EEF011A707544C">
+						<Item class="ScrollingFrame" referent="RBXC77F5A8CE0644D3FAB181F2209E04B71">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -2252,7 +2254,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIListLayout" referent="RBX0BCBC7003B1443629AE70C44C39EBFC4">
+							<Item class="UIListLayout" referent="RBXA5EE23292D9146CE8608F0749866F0A1">
 								<Properties>
 									<token name="FillDirection">1</token>
 									<token name="HorizontalAlignment">1</token>
@@ -2266,7 +2268,7 @@ return{
 									<token name="VerticalAlignment">2</token>
 								</Properties>
 							</Item>
-							<Item class="TextButton" referent="RBX64D8E80EE5784406BC1D7D3390CC4B01">
+							<Item class="TextButton" referent="RBXFE0C74A3123142EC90CDBD13A869DD7B">
 								<Properties>
 									<bool name="Active">true</bool>
 									<Vector2 name="AnchorPoint">
@@ -2345,11 +2347,11 @@ return{
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBX9B43274F05DD4ACDA3BC189E5F9D6F0F">
+				<Item class="ModuleScript" referent="RBX3C79070AB1AD452DBEA804D6B27FA77F">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">preview</string>
-						<string name="ScriptGuid">{2F61C6D2-04C8-4A1C-8659-08498C76A7EE}</string>
+						<string name="ScriptGuid">{C2282143-87E5-42DC-A203-38D37F1C63E2}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local tween=require(main.TweenModule)
 
@@ -2454,7 +2456,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="MeshPart" referent="RBX67EA90E7FBD54A76BA1FF48333998B62">
+					<Item class="MeshPart" referent="RBX69ED4D0960B14C9C9CDE8723F7AFF9AF">
 						<Properties>
 							<bool name="Anchored">true</bool>
 							<float name="BackParamA">-0.5</float>
@@ -2539,7 +2541,7 @@ return{
 							</Vector3>
 						</Properties>
 					</Item>
-					<Item class="Part" referent="RBX710B4FB90B1F4B41846F197D4F018A0D">
+					<Item class="Part" referent="RBX804CC3497A92401DB893F62A69C5F2DF">
 						<Properties>
 							<bool name="Anchored">true</bool>
 							<float name="BackParamA">-0.5</float>
@@ -2615,11 +2617,11 @@ return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBXA3BD1ECEC6BE4EB4A9F847C9B02682B4">
+				<Item class="ModuleScript" referent="RBXB7944B51E21D4E94A20F07F11647B433">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">tools</string>
-						<string name="ScriptGuid">{769ED6F6-B86F-4588-AD7E-5F53188EF446}</string>
+						<string name="ScriptGuid">{081F2320-5E31-44E3-AAB3-397CDA6E7C3E}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local tween=require(main.TweenModule)
 local subTempl=script.TextButton
@@ -2733,7 +2735,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="TextButton" referent="RBX0EBEB1BF026C41EA812F0E520CEECC09">
+					<Item class="TextButton" referent="RBXF232ABF4B6434B1690EBA37614A7A698">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2808,7 +2810,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="TextLabel" referent="RBX696F50B1C7D94E1C861008156EE19D9E">
+						<Item class="TextLabel" referent="RBX31CB7FE2A10C48C78EE0612323D00387">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -2882,11 +2884,11 @@ return{
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBX5032268311D24A65B4981124E053DA01">
+				<Item class="ModuleScript" referent="RBXC31231C8BE4D48C6A6E17BF3B241C052">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">value</string>
-						<string name="ScriptGuid">{C682BA51-3B4B-4648-B267-E67D49B88A52}</string>
+						<string name="ScriptGuid">{7113CF47-23AB-4BEB-A775-AA49042903E7}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local format=require(main.FormatModule)
 
@@ -2903,11 +2905,11 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBXEFC6EE44EDF045D19BB9DA6D4A30B347">
+			<Item class="ModuleScript" referent="RBX1BFB17C9C13F4DA89984DBDEEF9ACFA6">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">HandleModule</string>
-					<string name="ScriptGuid">{1F0C3FD2-23C0-4F98-82AD-020FC11EB4DA}</string>
+					<string name="ScriptGuid">{92EE6E54-99DD-45D2-A71D-25CAC50773D7}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local tool=require(main.ToolModule)
 local ogMod=require(main.OriginModule)
@@ -3059,7 +3061,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Handles" referent="RBXF135C0FB8E5C4A269F8D457DF64E4FA6">
+				<Item class="Handles" referent="RBX0190EC69A1554F0F8763D6ED8BEFC96C">
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<Color3 name="Color3">
@@ -3077,7 +3079,7 @@ return{
 						<bool name="Visible">true</bool>
 					</Properties>
 				</Item>
-				<Item class="Handles" referent="RBX7DE3831CB1B14E36AD65F110F5072D2D">
+				<Item class="Handles" referent="RBXF22227202EC9447884039353F604650F">
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<Color3 name="Color3">
@@ -3095,7 +3097,7 @@ return{
 						<bool name="Visible">true</bool>
 					</Properties>
 				</Item>
-				<Item class="ArcHandles" referent="RBX35971E1C63FC46B982E1BEE7FA7C7409">
+				<Item class="ArcHandles" referent="RBX219817A3005048CFB4F05DA748931F78">
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<Axes name="Axes">
@@ -3113,11 +3115,11 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBXF5B66A7DC1ED45A1B61F3044A420B28F">
+			<Item class="ModuleScript" referent="RBX17D146EE4B574363BF293480972B2512">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">IncrementModule</string>
-					<string name="ScriptGuid">{ADFA4906-A571-4B10-8DF9-04F423E7D6D8}</string>
+					<string name="ScriptGuid">{AA470ECE-3402-45A7-8D3C-50D01933700D}</string>
 					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
 local reset=false
 
@@ -3171,11 +3173,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXCD7E60D18A9F4821A469A9D9C03BFA52">
+			<Item class="ModuleScript" referent="RBX0467B7EDAE4649B681FC9539ADD50678">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ModeModule</string>
-					<string name="ScriptGuid">{CF1A5870-15E2-4A6B-842F-1AB02F8E82D0}</string>
+					<string name="ScriptGuid">{10551311-ED9B-491A-88F9-4E1583AF4DF7}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local gui=require(main.GuiElemModule)
 local srts=require(main.ShortcutModule)
@@ -3253,11 +3255,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXE0950CF80A504482A93EB3DB989C00FD">
+			<Item class="ModuleScript" referent="RBX5C717E51F49946809E9237066E209E1E">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">MouseModule</string>
-					<string name="ScriptGuid">{91B7B033-6671-4D02-AA84-B04A70926650}</string>
+					<string name="ScriptGuid">{2FB52DA1-1BA2-409F-A915-AB3C16B84726}</string>
 					<ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
 local mouse=script.Parent.Plugin.Value:GetMouse()
 local binds,locked,prK={}
@@ -3301,11 +3303,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX55453BE07E174BEEB8B7BA25C0B87213">
+			<Item class="ModuleScript" referent="RBXF6CDFAB167F54CFBA0E8801CC3FD2ADD">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">OriginModule</string>
-					<string name="ScriptGuid">{CAEE2984-1FF3-4257-AA97-24964EB0A20C}</string>
+					<string name="ScriptGuid">{60EF8A7C-A8C9-4636-ABEF-BED8D69ED107}</string>
 					<ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
 local mouse=require(script.Parent.MouseModule)
 local plugin=script.Parent.Plugin.Value
@@ -3449,7 +3451,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Part" referent="RBX614C057C85FF44DE8B28872ACFBEC596">
+				<Item class="Part" referent="RBX245856E26AA749FFA1A316543D223E45">
 					<Properties>
 						<bool name="Anchored">true</bool>
 						<float name="BackParamA">-0.5</float>
@@ -3524,9 +3526,9 @@ return{
 						</Vector3>
 					</Properties>
 				</Item>
-				<Item class="BoxHandleAdornment" referent="RBX7A4B8DBFA9E5457A8F5544D32F7A57B9">
+				<Item class="BoxHandleAdornment" referent="RBXBA37BA22977A417AB037AE9EB83CB6A1">
 					<Properties>
-						<Ref name="Adornee">RBX614C057C85FF44DE8B28872ACFBEC596</Ref>
+						<Ref name="Adornee">RBX245856E26AA749FFA1A316543D223E45</Ref>
 						<bool name="AlwaysOnTop">true</bool>
 						<CoordinateFrame name="CFrame">
 							<X>0</X>
@@ -3565,11 +3567,11 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX0B4D7F4AEB0A4138839262ACFC28EBAE">
+			<Item class="ModuleScript" referent="RBX93F893637E6C412C8824D5A6083F7E10">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelectionModule</string>
-					<string name="ScriptGuid">{6B8AE4EC-9690-4ACA-89DE-66025F5DCDA9}</string>
+					<string name="ScriptGuid">{CC525AF1-F6F3-4BA3-9B4E-131E90555750}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local algorSel=require(main.AlgorChooserModule).choose
 local algorConf=require(main.AlgorConfigModule)
@@ -4230,11 +4232,11 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXE4B5C4CF35BC47F59F0B3EFFAA5AB922">
+				<Item class="ModuleScript" referent="RBX7E89C53C543D49E0804D921E911B8691">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">GroupTagModule</string>
-						<string name="ScriptGuid">{B661EABF-AA5C-4A40-B5BE-C65970F00AED}</string>
+						<string name="ScriptGuid">{1202D9C3-2105-410E-921F-433359F571BF}</string>
 						<ProtectedString name="Source"><![CDATA[local collS=game:service'CollectionService'
 local tagFName='RLVP_Tags'
 local mpSuffix='-main'
@@ -4301,20 +4303,21 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBXBC384082FE654D78895AEEC7B84001E2">
+			<Item class="ModuleScript" referent="RBX0A33C8904E654F81B24161A8442DAB71">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ShortcutModule</string>
-					<string name="ScriptGuid">{40BD1D8E-D79F-4C2D-A31C-940490A6D3B5}</string>
+					<string name="ScriptGuid">{93227EE5-2FB9-471E-B9E6-D7896E4E9EB6}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local cGui=require(main.ConfigGuiModule)
 local mEnum=require(main.ModeEnumModule)
 local format=require(main.FormatModule)
+local config=require(main.ConfigModule)
 local gui=require(main.GuiElemModule)
-
-local uis=game:service'UserInputService'
+local kb=require(main.KeybindModule)
 local plugin=script.Parent.Plugin.Value
-local reset=true
+local reset=config.get'resetShortcuts'
+local binds={}
 
 local keyEnums=not reset and plugin:GetSetting'shortcuts'
 if not keyEnums then
@@ -4338,7 +4341,7 @@ if not keyEnums then
 	keyEnums[k[2]]=k[1]end
 end
 
-function getVars(k)
+function shiftPair(k)
 	local s=false
 	if'EnumItem'~=typeof(k)then
 		local c=string.byte(k)
@@ -4350,7 +4353,7 @@ end
 
 local keyIs={[true]={},[false]={}}
 for k,i in next,keyEnums do
-	local s,k=getVars(k)
+	local s,k=shiftPair(k)
 	keyIs[s][k]=i
 end
 
@@ -4362,23 +4365,10 @@ local lockT,lockA={}function lockAll()lockA=true
 end function lock(i)lockT[i]=(lockT[i]or 0)+1 end
 function unlock(i)lockA,lockT[i]=false,lockT[i]-1 end
 
-local binds={}
-local shft=false
-
-uis.InputBegan:connect(function(input)
-	if input.UserInputType==Enum.UserInputType.Keyboard then
-		if input.KeyCode.Name:find'Shift$'then shft=true
-		else
-			local b=keyIs[shft][input.KeyCode]
-			local nL=not lockA and(lockT[b]==0 or not lockT[b])
-			if binds[b]and nL then binds[b](b)end
-		end
-	end
-end)
-
-uis.InputEnded:connect(function(input)
-	if input.UserInputType==Enum.UserInputType.Keyboard then
-	if input.KeyCode.Name:find'Shift$'then shft=false end end
+kb.bind(0,function(shft,key)
+	local b=keyIs[shft][key]
+	local nL=not lockA and(lockT[b]==0 or not lockT[b])
+	if binds[b]and nL then binds[b](b)end
 end)
 
 --Helper function for sending shortcuts.
@@ -4388,16 +4378,17 @@ function send()
 end
 
 function setBind(i,k)
-	local s,k=getVars(k)
+	local s,k=shiftPair(k)
 	keyIs[s][k],keys[i]=i,k
 end
 
-for k,i in next,keyEnums do
-local s,k=getVars(k)keys[i]=k end
-send()
+--Binds default shortcuts.
+for k,i in next,keyEnums
+do local s,k=shiftPair(k)
+keys[i]=k end send()
 
 return{
-	set=function(i,k)
+	set=function(i,s,k)
 		plugin:SetSetting(
 		'shortcuts',keyIs)
 		setBind(i)send()
@@ -4411,11 +4402,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX5FC2F0B42D4F415394BDCEEA45AFB322">
+			<Item class="ModuleScript" referent="RBX9E1FC3AAE33B42B194221962CDAB4E7A">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ToolModule</string>
-					<string name="ScriptGuid">{1FCEB657-1CD6-48F9-8D60-BF8E6CA2F16F}</string>
+					<string name="ScriptGuid">{9F458B6D-90C5-4A9C-ADA4-BA655CCB57E1}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local cGui=require(main.ConfigGuiModule)
 local sel=require(main.SelectionModule)
@@ -4587,11 +4578,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX58C29B0C031142EBA4644A97F9BA22EB">
+			<Item class="ModuleScript" referent="RBX16CC3ABB126B4386B22194E7267CFA4C">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">TweenModule</string>
-					<string name="ScriptGuid">{9EA74CF0-8D66-4EEE-AE6D-1B5DE6DC1531}</string>
+					<string name="ScriptGuid">{AABB4E69-EADA-4079-9AFF-F46C965C3C84}</string>
 					<ProtectedString name="Source"><![CDATA[local tInfo=TweenInfo.new(.2)
 return{
 	wTime=tInfo.Time+tInfo.DelayTime,tInfo=tInfo,
@@ -4601,11 +4592,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXB0519F5C6858410484E88DBB32709C0D">
+			<Item class="ModuleScript" referent="RBXBEF46729C3424DCDAABBB4537571E8F9">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">GuiMainModule</string>
-					<string name="ScriptGuid">{B264EC59-246A-46E0-9E70-C0AB3588044A}</string>
+					<string name="ScriptGuid">{9D8868AE-D3D3-483A-8FF7-B1E3D135DE36}</string>
 					<ProtectedString name="Source"><![CDATA[local gui,t=script.Parent.RLVPGUI,{}
 return{
 	show=function()gui.Parent=game.CoreGui end,
@@ -4617,11 +4608,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXCCD0DCEFF5DE42138EC35B514183C463">
+			<Item class="ModuleScript" referent="RBX6997209866A843EC940F19EA56D01258">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelEventModule</string>
-					<string name="ScriptGuid">{8CFC0DD5-1F1A-4DB5-9444-AF5F8794194D}</string>
+					<string name="ScriptGuid">{8B7CEBAE-319A-4B29-AC55-3F4D76D1294B}</string>
 					<ProtectedString name="Source"><![CDATA[local mouse=require(script.Parent.MouseModule)
 local sel=require(script.Parent.SelectionModule)
 
@@ -4647,13 +4638,16 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXA06B57F69FEF4D3280426A2A36B481EF">
+			<Item class="ModuleScript" referent="RBXDF02FA486E0B485B888E8BDE35D2C14A">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ConfigModule</string>
-					<string name="ScriptGuid">{923F3F61-243E-4DFB-9928-87D6C9CC8A1E}</string>
+					<string name="ScriptGuid">{8C92F20E-0DD2-4583-B777-65D06CF3D5AD}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local plugin=main.Plugin.Value
+
+--Convenient boolean type-limiting function.
+function isBool(b)return'boolean'==type(b)end
 
 local defaults={
 	debugLevel={
@@ -4661,11 +4655,12 @@ local defaults={
 		function(v)
 			return type(v)=='number'and v%1==0 and v>=0 and v<=3
 		end,
-	}
+	},
+	resetShortcuts={
+		true,
+		isBool,
+	},
 }
-
---Convenient boolean type-limiting function.
-function isBool(b)return'boolean'==type(b)end
 
 --Places each setting index into a group.
 local sgT={}local configGrT={selGroup
@@ -4739,11 +4734,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX2E0AE5203F0946808320A9A7FE8CCA44">
+			<Item class="ModuleScript" referent="RBX3349CFDE92094D4EBFE4449B5E52A447">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">DropdownModule</string>
-					<string name="ScriptGuid">{93C6D89B-892D-4C60-9F95-888C7BAB484F}</string>
+					<string name="ScriptGuid">{6892D384-7E01-4E9F-B36A-386DC111644A}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local hb=game['Run Service'].Heartbeat
 local cGui=require(main.ConfigGuiModule)
@@ -4862,7 +4857,7 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Frame" referent="RBXA4C8F5DABB6547ECB608C18F4AD6D6EC">
+				<Item class="Frame" referent="RBX54CD61B6621749F787D356711539ED1C">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -4913,7 +4908,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextLabel" referent="RBXB67AE9BE1C6747449C3F223870CC33A5">
+					<Item class="TextLabel" referent="RBX94B952B2D72C4657AEF385385DCE4C56">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -4985,7 +4980,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBXB580D6B74F5641BFB73E44CA77347511">
+					<Item class="TextLabel" referent="RBX3D49553CC15F483184022AA55850C5CA">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5057,7 +5052,7 @@ return{
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextButton" referent="RBX7C479712787942D5A434E6A9ED2CF6E8">
+					<Item class="TextButton" referent="RBX024CFD6EDDC64E2EBFF3E5CA40AE16BD">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -5134,7 +5129,7 @@ return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="Frame" referent="RBXA7F8CDBB474942349A200A70CC72E327">
+				<Item class="Frame" referent="RBXC049A08C5166441693BAA85C9FC179D4">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -5185,7 +5180,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">2</int>
 					</Properties>
-					<Item class="Frame" referent="RBX72F1CA0FC941424CA7BA264355824DEF">
+					<Item class="Frame" referent="RBX7885DC96EB5548199095D0EDBA864972">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5237,7 +5232,7 @@ return{
 							<int name="ZIndex">0</int>
 						</Properties>
 					</Item>
-					<Item class="Frame" referent="RBX057004A197AF404AB5CB90300DA331FC">
+					<Item class="Frame" referent="RBX65138B4309DC463BBBA2192EA323DCE4">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5289,7 +5284,7 @@ return{
 							<int name="ZIndex">0</int>
 						</Properties>
 					</Item>
-					<Item class="Frame" referent="RBX3E5F06B267B8478AAAD4B08AB9E004D1">
+					<Item class="Frame" referent="RBX42AD4EF0CEE748968C41CF7D64FDD566">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5340,7 +5335,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIListLayout" referent="RBX6F08285161C74F3D841F21DF8AD754C2">
+						<Item class="UIListLayout" referent="RBX593C8A22F81E415DB462597610AE718F">
 							<Properties>
 								<token name="FillDirection">1</token>
 								<token name="HorizontalAlignment">1</token>
@@ -5355,14 +5350,14 @@ return{
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="BindableEvent" referent="RBX2A3885320A3C48E299EF7B77CD0046A9">
+					<Item class="BindableEvent" referent="RBX6F54F929C32044B9B1AC830C467A9472">
 						<Properties>
 							<string name="Name">Event</string>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="Frame" referent="RBXAEAD4665175C4C238B2BB54603473C0E">
+				<Item class="Frame" referent="RBXD0CDBF47EC39471F9A7E6BCB772ADF98">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -5413,7 +5408,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextLabel" referent="RBXBD174A25CD284D3DB633DE2EBF034F24">
+					<Item class="TextLabel" referent="RBXC7A8B473E55F47DB89E65D9DFE36F709">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -5487,11 +5482,11 @@ return{
 					</Item>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBXA714850A0E1741DCB47A64EC0105FB75">
+			<Item class="ModuleScript" referent="RBX8399E87938C64330B46BB32C11D788B8">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ViewportModule</string>
-					<string name="ScriptGuid">{49C6A758-0F39-47A4-82A9-DA047F6ECF21}</string>
+					<string name="ScriptGuid">{9057E091-16B7-4923-AAF1-30307E2DB088}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	size=function()
 		
@@ -5505,11 +5500,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXDC54C95BC35A4375BA01F49010AFAA0A">
+			<Item class="ModuleScript" referent="RBXE82BF0AB1F0746B19EA82BE47FD352FB">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">DebugModule</string>
-					<string name="ScriptGuid">{ABE5DA32-11B5-4AC6-9B5F-8A54B8BD25E8}</string>
+					<string name="ScriptGuid">{8A6AD28B-BDF0-4D40-BFE9-34C1FB3C02CD}</string>
 					<ProtectedString name="Source"><![CDATA[local config=require(script.Parent.ConfigModule)
 local empty=function()end
 local envs={}
@@ -5538,11 +5533,11 @@ end]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXC22D989F56ED4CF4975E0B1DA614C08D">
+			<Item class="ModuleScript" referent="RBX44921DC6A1FE4544A192A00E122CDB92">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">PartEventModule</string>
-					<string name="ScriptGuid">{339A06D1-BE9F-474E-94C7-0B8D1989033E}</string>
+					<string name="ScriptGuid">{2FA47B0D-FBAF-4413-AC72-2CDB5961F38A}</string>
 					<ProtectedString name="Source"><![CDATA[local pfMod=require(script.Parent.PartFilterModule)
 local active=require(script.Parent.ActiveModule)
 local wpm=require(script.Parent.WaypointModule)
@@ -5763,11 +5758,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX524BF499CB7F4C9B938BEE42E6DFDFF5">
+			<Item class="ModuleScript" referent="RBX9101EE86E45149BAA07EC872A46DC266">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">EventOrderModule</string>
-					<string name="ScriptGuid">{87E3086D-528A-4407-A3E2-D2F063EE5C4C}</string>
+					<string name="ScriptGuid">{E85A3061-82FB-4A7C-98D5-18CFEE85D0E0}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	order=function(w,...)
 		local t,done={...}
@@ -5785,11 +5780,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX4DBAB9354D8C4141A5FC5A662E33F7F9">
+			<Item class="ModuleScript" referent="RBX2215231EA8BC45DA80F0BCCB1D0887F1">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">PartFilterModule</string>
-					<string name="ScriptGuid">{9575339F-17DA-47EC-AFD5-B6DCD54ACB67}</string>
+					<string name="ScriptGuid">{AC7061AB-627E-4D81-8E5B-E3344C736428}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	part=function(p)
 		return(not p.Parent or p:IsDescendantOf(game.Workspace))and p:isA'BasePart'and not p:isA'Terrain'
@@ -5798,11 +5793,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXB03E85F241CE4289BA6D59C5AABA2796">
+			<Item class="ModuleScript" referent="RBXF3670C12D8A340BC9C5461AAFE406305">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">AlgorChooserModule</string>
-					<string name="ScriptGuid">{B10270BD-C9C0-4ACA-A11C-536042C17AB8}</string>
+					<string name="ScriptGuid">{01898732-B244-4D22-8065-BEDDA1295BE8}</string>
 					<ProtectedString name="Source"><![CDATA[local selAlgors={
 	--testU=require(script.TestUnitModule),
 	--testN=require(script.TestNonUnitModule),
@@ -5823,11 +5818,11 @@ return{
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXB50C67E2844045D4A2FE7898843D7A28">
+				<Item class="ModuleScript" referent="RBX8C4496A0CA844097949CAA88D2EFE264">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">CSGModule</string>
-						<string name="ScriptGuid">{D69757DD-6315-40B9-AA7F-0282C8C102C4}</string>
+						<string name="ScriptGuid">{74280F35-736F-454E-8DE5-B4AF65D94C1F}</string>
 						<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Parent.Plugin.Value
 local posN,negN='RLVP_Positive','RLVP_Negative'
 local propS=require(script.PropStorModule)
@@ -6026,11 +6021,11 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="ModuleScript" referent="RBX099F53F2AFB44CF7A48FBA885C8B914F">
+					<Item class="ModuleScript" referent="RBX9899BFF9F67245CAB25D04B3279DDCC2">
 						<Properties>
 							<Content name="LinkedSource"><null></null></Content>
 							<string name="Name">PropStorModule</string>
-							<string name="ScriptGuid">{B4930A64-D1D3-4388-9088-A4E9BD65AED6}</string>
+							<string name="ScriptGuid">{17A9511B-B35D-490E-BDD8-F72E7C825C90}</string>
 							<ProtectedString name="Source"><![CDATA[local props={
 	'Color',
 	'Material',
@@ -6087,11 +6082,11 @@ local cache={}return{
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBX189F1A2CB2A64E33B285FAD3C3F1B558">
+				<Item class="ModuleScript" referent="RBXC8AD91D731B4466EB6413C42187EACB5">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">TestNonUnitModule</string>
-						<string name="ScriptGuid">{BB093343-4058-485D-ABCD-143F1B5DAFDB}</string>
+						<string name="ScriptGuid">{0FF0A628-5426-4DD8-BEF1-F7DC9096722B}</string>
 						<ProtectedString name="Source"><![CDATA[local cache={}
 return{
 	asUnit=false,
@@ -6118,11 +6113,11 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBX514021206B7540AAAEE815BCD3828A43">
+				<Item class="ModuleScript" referent="RBXEF46E2ACB61A4562BE2357CC96D737B9">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">TestUnitModule</string>
-						<string name="ScriptGuid">{0E57817F-310F-4A49-8366-270BCBAB96FA}</string>
+						<string name="ScriptGuid">{043C04C9-3563-4165-9C48-65A45A5E37EE}</string>
 						<ProtectedString name="Source"><![CDATA[local cache={}
 return{
 	--asUnit = whether the parts 
@@ -6150,11 +6145,11 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX2263EFC3FC034EFF999C30E06A153FAF">
+			<Item class="ModuleScript" referent="RBX6B6864B121024B3ABA3CB42A4AE38EF4">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SetupModule</string>
-					<string name="ScriptGuid">{D1E18C21-BBD1-4C00-B0B4-14172FA5D728}</string>
+					<string name="ScriptGuid">{774B8714-12D1-4CE2-9AE2-DE2683433BD0}</string>
 					<ProtectedString name="Source"><![CDATA[local settings=settings().Studio
 
 if settings.RuntimeUndoBehavior~=Enum.RuntimeUndoBehavior.Hybrid then
@@ -6172,11 +6167,11 @@ return nil]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX1A6CC124A11A4F81B3BBB53AD1DB7C05">
+			<Item class="ModuleScript" referent="RBX92F07DA46ACD44399F4FA3FFD3A010AC">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">WaypointModule</string>
-					<string name="ScriptGuid">{18C9B3A7-4A8E-4E7D-B501-2C00B6718D39}</string>
+					<string name="ScriptGuid">{F3A5F5B0-7B73-4384-BFF5-FB38BDA3D470}</string>
 					<ProtectedString name="Source"><![CDATA[require(script.Parent.DebugModule)()
 local chs=game.ChangeHistoryService
 return{
@@ -6196,11 +6191,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX17999F65CFD34C739BBA2CC533412FE9">
+			<Item class="ModuleScript" referent="RBXBAFF85E68F1741BC838920913B6DDB07">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ActiveTickModule</string>
-					<string name="ScriptGuid">{EC29C90A-4F31-451F-A19C-106B0E5B16A3}</string>
+					<string name="ScriptGuid">{9B1A2AE0-54AC-43D3-9F36-4ABF3263ADC6}</string>
 					<ProtectedString name="Source"><![CDATA[local srts=require(script.Parent.ShortcutModule)
 local stacks={activeTick1={},activeTick2={},}
 
@@ -6226,11 +6221,11 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX6D4299D7013743339E7C5F8AD1108AD2">
+			<Item class="ModuleScript" referent="RBX5E2B568C7FF24B94B8D8357E994FC621">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ConfigGuiModule</string>
-					<string name="ScriptGuid">{5C97A286-A3BD-45E7-9062-C60D4CCA8633}</string>
+					<string name="ScriptGuid">{2785EAB1-CCB6-4539-B63F-0678DCD8B3D8}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local mEnum=require(main.ModeEnumModule)
 local config=require(main.ConfigModule)
@@ -6240,23 +6235,32 @@ local mouse=require(main.MouseModule)
 local cGui=gui.get'config'
 local frame=cGui.Frame
 
+local moduleT={}
+for i,c in next,script:children()do
+	moduleT[c.Name]=require(c)
+end
+
 --Obligatory callback implementation; transfers to sub-modules.
 local binds={}function bind(i,f)spM.callback(i,f)binds[i]=f end
 
 --Visibility functions.
+local shown
 function show()
 	cGui.Visible,frame
 	.Visible=true,true
 	mouse.lock()
+	shown=true
 end
 function hide()
 	cGui.Visible,frame
 	.Visible=false,false
 	mouse.unlock()
+	shown=false
 end
 function ovly()
 	cGui.Visible,frame
 	.Visible=true,false
+	shown=false
 end
 
 --Function for the mode-change event, stores previous mode.
@@ -6282,9 +6286,7 @@ frame.Close.MouseButton1Click:connect(
 function()binds.setMode(prevM)end)
 
 --Runs once for code design's sake.
-spM.setup(frame)
-gui.add(cGui)
-hide()
+spM.setup(frame)gui.add(cGui)hide()
 
 return{
 	overlay=ovly,
@@ -6292,14 +6294,16 @@ return{
 	callback=bind,mode=mdeF,
 	show=show,hide=hide,
 	getSubs=spM.getSubs,
+	isShown=function()
+	return shown end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXA0FA6A05BDA1484BA7CCA3C2FCE7B221">
+				<Item class="ModuleScript" referent="RBXA40F45BD9752451B8A7027B4B5FC60E0">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">SubpageModule</string>
-						<string name="ScriptGuid">{E70D74DF-43DA-4C3E-917E-781A26F58681}</string>
+						<string name="ScriptGuid">{430F4EF8-5C9C-43A0-8E48-D9C8A4A4FBAA}</string>
 						<ProtectedString name="Source"><![CDATA[local b=script.TextButton
 local labelT,lInfoT={},{
 	'main',
@@ -6347,7 +6351,7 @@ return{
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
-					<Item class="TextButton" referent="RBX286E4B90D318498F8EFA0DDF6C1D8C68">
+					<Item class="TextButton" referent="RBX13605880CC9E45549BC3532D9D4EE897">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -6422,7 +6426,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="TextLabel" referent="RBXBB930FBBB69D42CD9F79372DDE5331A6">
+						<Item class="TextLabel" referent="RBX4D057B6500E64502AD6AB15F131ADCE3">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -6496,11 +6500,11 @@ return{
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBX6D1F266E4FB94404A12340EF68C6B2BD">
+				<Item class="ModuleScript" referent="RBXE7852FC5AB394E9F9E70AD5FF722CD26">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">sel-group</string>
-						<string name="ScriptGuid">{9FE82350-8B8D-48F2-B07F-697C2723A3F9}</string>
+						<string name="ScriptGuid">{A1697887-C672-440F-9EA7-C331C6BCF9CA}</string>
 						<ProtectedString name="Source"><![CDATA[local module = {}
 
 return module
@@ -6509,11 +6513,11 @@ return module
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBXC6C41097D83B4CC191734745DC8E18AE">
+			<Item class="ModuleScript" referent="RBX1543A062E8414061869C5C02F9FE68F7">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ModeEnumModule</string>
-					<string name="ScriptGuid">{A0A9A13B-0190-4317-BF65-AF126CC754A2}</string>
+					<string name="ScriptGuid">{2D76A714-30CD-441B-BC79-77188AB38B50}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	{'select','v'},
 	{'move','z'},
@@ -6525,11 +6529,11 @@ return module
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXC4AA31A386C144D6976663CBA9FC9754">
+			<Item class="ModuleScript" referent="RBX2E80A408384443658E034DA3FB073615">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">AlgorConfigModule</string>
-					<string name="ScriptGuid">{C093938D-964E-4C6F-9A35-084AFC69C8C5}</string>
+					<string name="ScriptGuid">{FA2B0A4A-6122-4099-8D25-43806793D977}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local acTk=require(main.ActiveTickModule)
 local srts=require(main.ShortcutModule)
@@ -6565,7 +6569,7 @@ return function(algor)
 end]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="Frame" referent="RBX76DE1C12927A4B17A131BF96FCE7B5CB">
+				<Item class="Frame" referent="RBXD246FE05AB7C4961A21A246F0EE80033">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -6616,7 +6620,7 @@ end]]></ProtectedString>
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextLabel" referent="RBXBDB66A510DA8485F9EC14C2141A2A04C">
+					<Item class="TextLabel" referent="RBXA4D5579E0E0D4CCCAA516417D1EC0B62">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -6688,7 +6692,7 @@ end]]></ProtectedString>
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBX6186763FBFDF4000987E112E9F1AABAF">
+					<Item class="TextLabel" referent="RBX990FE0888F3445A8B94F292894954B73">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -6760,7 +6764,7 @@ end]]></ProtectedString>
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextButton" referent="RBXC9A6B6C5804B445E88433B36BBFA5FEB">
+					<Item class="TextButton" referent="RBXCA229C804A30487E9D7E06198FA65C0C">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -6838,11 +6842,11 @@ end]]></ProtectedString>
 					</Item>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX26805BBC73B54C2C819E26C1E6D0471A">
+			<Item class="ModuleScript" referent="RBXE1B9B9D659C04424854B0C3617FB466D">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SubmodeModule</string>
-					<string name="ScriptGuid">{39B5895F-10CB-433A-B6E0-A851982488B1}</string>
+					<string name="ScriptGuid">{18EC5BEF-2389-4B7D-B090-C2CFD1732EAB}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local cGui=require(main.ConfigGuiModule)
 
@@ -6873,11 +6877,11 @@ end
 return{getSubs=getSubs,getBinds=getBinds}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXBADD3C92FF7A48629009C7E47E974222">
+				<Item class="ModuleScript" referent="RBXF958E41E4C924A4CB371337F2E0E5486">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">MoveModule</string>
-						<string name="ScriptGuid">{64078164-FFC7-4F87-8ABE-C71B2BAABD9E}</string>
+						<string name="ScriptGuid">{F7192396-062E-4137-BFA1-D33D02B31B8F}</string>
 						<ProtectedString name="Source"><![CDATA[function move(p,tags,face,d)
 	local cf=tags.origin.CFrame
 	local v=(cf-cf.p)*(Vector3.
@@ -6896,11 +6900,11 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXA9F6ED1DD2CF4BCEA3A68A4DC9C5429A">
+				<Item class="ModuleScript" referent="RBX7B5858A2FCA544CE8375E4119C56DF39">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">ResizeModule</string>
-						<string name="ScriptGuid">{FA028C67-D252-44C5-951B-F4FA8C31B69B}</string>
+						<string name="ScriptGuid">{D5CBCCC1-7E66-450B-895D-49ABF0F93C8D}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local plugin=main.Plugin.Value
 
@@ -6923,11 +6927,11 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBX937FC90868A040189436D8E10099A9F3">
+				<Item class="ModuleScript" referent="RBX260FE65D18A74D978402591E5DBD6F71">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">RotateModule</string>
-						<string name="ScriptGuid">{9518DC28-5C95-4077-A1A8-CCF78B2AB59D}</string>
+						<string name="ScriptGuid">{00EF3C83-6583-489D-B4BA-4DCBDA3F58B0}</string>
 						<ProtectedString name="Source"><![CDATA[--Rotation function that takes the CFrame in.
 function rot8Main(p,tags,axis,angle,...)
 	
@@ -6946,11 +6950,11 @@ return{
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ModuleScript" referent="RBX6EF39EA9717D4DB78E8883EE045E7D80">
+			<Item class="ModuleScript" referent="RBX10FDC8C6BB184A85A9D1D28F43BC04A7">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">TextBoxModule</string>
-					<string name="ScriptGuid">{BE5AC997-FB13-4180-B998-E3C018905815}</string>
+					<string name="ScriptGuid">{F13C8012-403E-4B92-AFB1-FCF29DBD2124}</string>
 					<ProtectedString name="Source"><![CDATA[local tbT,f,uf={}
 
 return{
@@ -6983,7 +6987,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ScreenGui" referent="RBX7BFB8CC350BE4E8DA94D23B65170A576">
+			<Item class="ScreenGui" referent="RBX756C1CEA4589443EBBDADD0D9EEB21F6">
 				<Properties>
 					<bool name="AutoLocalize">true</bool>
 					<int name="DisplayOrder">0</int>
@@ -6995,7 +6999,7 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 					<token name="ZIndexBehavior">1</token>
 				</Properties>
-				<Item class="Frame" referent="RBX75C09E425DF14460920361E90BE073F8">
+				<Item class="Frame" referent="RBXE365F93ED1AA46DB83C16A2794C2767C">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -7046,7 +7050,7 @@ return{
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">2</int>
 					</Properties>
-					<Item class="Frame" referent="RBX90F04E1B641C4304919E6EDFC80E90E9">
+					<Item class="Frame" referent="RBX3C2569A00AAA445B988F32A79429684A">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -7097,7 +7101,7 @@ return{
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="Frame" referent="RBXA113E85700D7403CBC50260C1D08931E">
+						<Item class="Frame" referent="RBX16CE1874239E4EFA8A5ECB74D2C21D5A">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7149,7 +7153,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBX56D1B365DDDA461EB73925E165EC0302">
+						<Item class="TextLabel" referent="RBXB829ACFA7D654A2181C1A3C1913D9E26">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7221,7 +7225,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBXF10410586AB74AAFBA1D1B95D3D1FA30">
+						<Item class="Frame" referent="RBX433EB113023C40EE82BE3F39D5CE509E">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7273,7 +7277,7 @@ return{
 								<int name="ZIndex">0</int>
 							</Properties>
 						</Item>
-						<Item class="TextButton" referent="RBX4B311D521AEB4DE2AD4FF4ECFB20454B">
+						<Item class="TextButton" referent="RBXEBDF8B8158E349B6AD68C7437FEE90F5">
 							<Properties>
 								<bool name="Active">true</bool>
 								<Vector2 name="AnchorPoint">
@@ -7348,7 +7352,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="TextLabel" referent="RBXCF662FAD65974E72BAB813C44357864B">
+							<Item class="TextLabel" referent="RBX9133806657AF4C4CB41EA352DE0C2DC9">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -7421,7 +7425,7 @@ return{
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="Frame" referent="RBXAE4B6AA1BEC84306BB2F262B00CE2A14">
+						<Item class="Frame" referent="RBXC963481BDE5B4A3AB87544026F4D9E17">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7473,7 +7477,7 @@ return{
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="Frame" referent="RBX4140CB7AAFA941EF8E1FB0CF3E3E3085">
+						<Item class="Frame" referent="RBXF9FD6EC112364778A702C6DB9023050C">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7524,7 +7528,7 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIListLayout" referent="RBXADF77B36CB024289B22EF078C6B59F90">
+							<Item class="UIListLayout" referent="RBX099607E7097849099F9D014A9AF6BC39">
 								<Properties>
 									<token name="FillDirection">1</token>
 									<token name="HorizontalAlignment">1</token>
@@ -7539,7 +7543,7 @@ return{
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="Frame" referent="RBXE7BD7B7A20044E8F8EF8D723B81AB49B">
+						<Item class="Frame" referent="RBX219618CB730C4DC692D0DD7B41FF4B4B">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -7590,24 +7594,24 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Folder" referent="RBX33B48BA271CB4C30BE02EBB3921D4CDA">
+							<Item class="Folder" referent="RBXBDF268BA1CDA4D78B1A753DF1EA9C617">
 								<Properties>
 									<string name="Name">main</string>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
-								<Item class="UIGridLayout" referent="RBX0D5E7B3050BA4DDEBFB0F721C7DADC17">
+								<Item class="UIGridLayout" referent="RBXBAFD536BF3134BA99BF3E8CAB6E9C10E">
 									<Properties>
 										<UDim2 name="CellPadding">
 											<XS>0</XS>
-											<XO>-10</XO>
+											<XO>30</XO>
 											<YS>0</YS>
-											<YO>-10</YO>
+											<YO>0</YO>
 										</UDim2>
 										<UDim2 name="CellSize">
 											<XS>0</XS>
-											<XO>127</XO>
+											<XO>150</XO>
 											<YS>0</YS>
-											<YO>50</YO>
+											<YO>30</YO>
 										</UDim2>
 										<token name="FillDirection">0</token>
 										<int name="FillDirectionMaxCells">0</int>
@@ -7619,7 +7623,7 @@ return{
 										<token name="VerticalAlignment">1</token>
 									</Properties>
 								</Item>
-								<Item class="Frame" referent="RBX4C20D083BE5E437FA11A78C61DF7F98A">
+								<Item class="Frame" referent="RBX0BE39F81F9B244888CD957CCD4FE6CFA">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -7670,37 +7674,37 @@ return{
 										<bool name="Visible">true</bool>
 										<int name="ZIndex">1</int>
 									</Properties>
-									<Item class="Frame" referent="RBXCB4AB12A7A484818A4A53EFD913831D6">
+									<Item class="Frame" referent="RBX3BA723B98CA748E1A1EF077CAFB77E96">
 										<Properties>
 											<bool name="Active">false</bool>
 											<Vector2 name="AnchorPoint">
-												<X>0.5</X>
+												<X>1</X>
 												<Y>0.5</Y>
 											</Vector2>
 											<bool name="AutoLocalize">true</bool>
 											<Color3 name="BackgroundColor3">
 												<R>1</R>
-												<G>1</G>
-												<B>1</B>
+												<G>0.988235354</G>
+												<B>0.968627512</B>
 											</Color3>
-											<float name="BackgroundTransparency">0.600000024</float>
+											<float name="BackgroundTransparency">0</float>
 											<Color3 name="BorderColor3">
-												<R>0.105882362</R>
-												<G>0.164705887</G>
-												<B>0.207843155</B>
+												<R>0.866666734</R>
+												<G>0.866666734</G>
+												<B>0.866666734</B>
 											</Color3>
 											<token name="BorderMode">0</token>
-											<int name="BorderSizePixel">0</int>
+											<int name="BorderSizePixel">1</int>
 											<bool name="ClipsDescendants">false</bool>
 											<bool name="Draggable">false</bool>
 											<int name="LayoutOrder">0</int>
-											<string name="Name">Frame</string>
+											<string name="Name">Value</string>
 											<Ref name="NextSelectionDown">null</Ref>
 											<Ref name="NextSelectionLeft">null</Ref>
 											<Ref name="NextSelectionRight">null</Ref>
 											<Ref name="NextSelectionUp">null</Ref>
 											<UDim2 name="Position">
-												<XS>0.5</XS>
+												<XS>1</XS>
 												<XO>0</XO>
 												<YS>0.5</YS>
 												<YO>0</YO>
@@ -7710,10 +7714,10 @@ return{
 											<bool name="Selectable">false</bool>
 											<Ref name="SelectionImageObject">null</Ref>
 											<UDim2 name="Size">
-												<XS>1</XS>
-												<XO>-20</XO>
-												<YS>1</YS>
-												<YO>-20</YO>
+												<XS>0</XS>
+												<XO>50</XO>
+												<YS>0</YS>
+												<YO>20</YO>
 											</UDim2>
 											<token name="SizeConstraint">0</token>
 											<token name="Style">0</token>
@@ -7721,222 +7725,1578 @@ return{
 											<bool name="Visible">true</bool>
 											<int name="ZIndex">1</int>
 										</Properties>
-										<Item class="Frame" referent="RBXFCC832028C334C859A5678EB00D144A1">
+										<Item class="TextBox" referent="RBX18DFD98A0C1246A4B04E4F04F87E300D">
 											<Properties>
-												<bool name="Active">false</bool>
+												<bool name="Active">true</bool>
 												<Vector2 name="AnchorPoint">
-													<X>0.5</X>
-													<Y>1</Y>
+													<X>0</X>
+													<Y>0</Y>
 												</Vector2>
 												<bool name="AutoLocalize">true</bool>
 												<Color3 name="BackgroundColor3">
 													<R>1</R>
-													<G>0.988235354</G>
-													<B>0.968627512</B>
+													<G>1</G>
+													<B>1</B>
 												</Color3>
 												<float name="BackgroundTransparency">0</float>
 												<Color3 name="BorderColor3">
-													<R>0.866666734</R>
-													<G>0.866666734</G>
-													<B>0.866666734</B>
+													<R>0.890196145</R>
+													<G>0.890196145</G>
+													<B>0.890196145</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">0</int>
+												<bool name="ClearTextOnFocus">true</bool>
+												<bool name="ClipsDescendants">true</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="MultiLine">false</bool>
+												<string name="Name">TextBox</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<Color3 name="PlaceholderColor3">
+													<R>0.699999988</R>
+													<G>0.699999988</G>
+													<B>0.699999988</B>
+												</Color3>
+												<string name="PlaceholderText"></string>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<bool name="ShowNativeInput">true</bool>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextEditable">true</bool>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">true</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+										<Item class="TextButton" referent="RBX2D9D454B8E2546E7BAD30904B64C4234">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoButtonColor">true</bool>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">1</float>
+												<Color3 name="BorderColor3">
+													<R>0.105882362</R>
+													<G>0.164705887</G>
+													<B>0.207843155</B>
 												</Color3>
 												<token name="BorderMode">0</token>
 												<int name="BorderSizePixel">1</int>
 												<bool name="ClipsDescendants">false</bool>
 												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
 												<int name="LayoutOrder">0</int>
-												<string name="Name">LatIncr</string>
+												<float name="LineHeight">1</float>
+												<bool name="Modal">false</bool>
+												<string name="Name">TextButton</string>
 												<Ref name="NextSelectionDown">null</Ref>
 												<Ref name="NextSelectionLeft">null</Ref>
 												<Ref name="NextSelectionRight">null</Ref>
 												<Ref name="NextSelectionUp">null</Ref>
 												<UDim2 name="Position">
-													<XS>0.5</XS>
+													<XS>0</XS>
 													<XO>0</XO>
-													<YS>1</YS>
-													<YO>-3</YO>
+													<YS>0</YS>
+													<YO>0</YO>
 												</UDim2>
 												<Ref name="RootLocalizationTable">null</Ref>
 												<float name="Rotation">0</float>
-												<bool name="Selectable">false</bool>
+												<bool name="Selectable">true</bool>
+												<bool name="Selected">false</bool>
 												<Ref name="SelectionImageObject">null</Ref>
 												<UDim2 name="Size">
-													<XS>0</XS>
-													<XO>50</XO>
-													<YS>0</YS>
-													<YO>20</YO>
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
 												</UDim2>
 												<token name="SizeConstraint">0</token>
 												<token name="Style">0</token>
 												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">false</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+									</Item>
+									<Item class="TextLabel" referent="RBX25E6B77468A6442DAB132B7A21938CA1">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>0</X>
+												<Y>0</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>1</G>
+												<B>1</B>
+											</Color3>
+											<float name="BackgroundTransparency">1</float>
+											<Color3 name="BorderColor3">
+												<R>0.105882362</R>
+												<G>0.164705887</G>
+												<B>0.207843155</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<token name="Font">18</token>
+											<int name="LayoutOrder">0</int>
+											<float name="LineHeight">1</float>
+											<string name="Name">TextLabel</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>0</XS>
+												<XO>0</XO>
+												<YS>0</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>1</XS>
+												<XO>-53</XO>
+												<YS>0.5</YS>
+												<YO>7</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<string name="Text">DEBUG LEVEL</string>
+											<Color3 name="TextColor3">
+												<R>0.654901981</R>
+												<G>0.654901981</G>
+												<B>0.654901981</B>
+											</Color3>
+											<bool name="TextScaled">false</bool>
+											<float name="TextSize">13</float>
+											<Color3 name="TextStrokeColor3">
+												<R>0</R>
+												<G>0</G>
+												<B>0</B>
+											</Color3>
+											<float name="TextStrokeTransparency">1</float>
+											<float name="TextTransparency">0</float>
+											<token name="TextTruncate">0</token>
+											<bool name="TextWrapped">false</bool>
+											<token name="TextXAlignment">1</token>
+											<token name="TextYAlignment">2</token>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+									</Item>
+								</Item>
+								<Item class="Frame" referent="RBXE30A0878901644E38C106ADABAB02100">
+									<Properties>
+										<bool name="Active">false</bool>
+										<Vector2 name="AnchorPoint">
+											<X>0</X>
+											<Y>0</Y>
+										</Vector2>
+										<bool name="AutoLocalize">true</bool>
+										<Color3 name="BackgroundColor3">
+											<R>1</R>
+											<G>1</G>
+											<B>1</B>
+										</Color3>
+										<float name="BackgroundTransparency">1</float>
+										<Color3 name="BorderColor3">
+											<R>0.105882362</R>
+											<G>0.164705887</G>
+											<B>0.207843155</B>
+										</Color3>
+										<token name="BorderMode">0</token>
+										<int name="BorderSizePixel">0</int>
+										<bool name="ClipsDescendants">false</bool>
+										<bool name="Draggable">false</bool>
+										<int name="LayoutOrder">0</int>
+										<string name="Name">Frame</string>
+										<Ref name="NextSelectionDown">null</Ref>
+										<Ref name="NextSelectionLeft">null</Ref>
+										<Ref name="NextSelectionRight">null</Ref>
+										<Ref name="NextSelectionUp">null</Ref>
+										<UDim2 name="Position">
+											<XS>0</XS>
+											<XO>0</XO>
+											<YS>0</YS>
+											<YO>0</YO>
+										</UDim2>
+										<Ref name="RootLocalizationTable">null</Ref>
+										<float name="Rotation">0</float>
+										<bool name="Selectable">false</bool>
+										<Ref name="SelectionImageObject">null</Ref>
+										<UDim2 name="Size">
+											<XS>0</XS>
+											<XO>100</XO>
+											<YS>0</YS>
+											<YO>100</YO>
+										</UDim2>
+										<token name="SizeConstraint">0</token>
+										<token name="Style">0</token>
+										<BinaryString name="Tags"></BinaryString>
+										<bool name="Visible">true</bool>
+										<int name="ZIndex">1</int>
+									</Properties>
+									<Item class="Frame" referent="RBX7E72CA18705A4532B113D1F0C0284CF1">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>1</X>
+												<Y>0.5</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>0.988235354</G>
+												<B>0.968627512</B>
+											</Color3>
+											<float name="BackgroundTransparency">0</float>
+											<Color3 name="BorderColor3">
+												<R>0.866666734</R>
+												<G>0.866666734</G>
+												<B>0.866666734</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<int name="LayoutOrder">0</int>
+											<string name="Name">Value</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>1</XS>
+												<XO>0</XO>
+												<YS>0.5</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>0</XS>
+												<XO>50</XO>
+												<YS>0</YS>
+												<YO>20</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<token name="Style">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+										<Item class="TextBox" referent="RBX03432C1D5E544179A34295ABC7E8655D">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">0</float>
+												<Color3 name="BorderColor3">
+													<R>0.890196145</R>
+													<G>0.890196145</G>
+													<B>0.890196145</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">0</int>
+												<bool name="ClearTextOnFocus">true</bool>
+												<bool name="ClipsDescendants">true</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="MultiLine">false</bool>
+												<string name="Name">TextBox</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<Color3 name="PlaceholderColor3">
+													<R>0.699999988</R>
+													<G>0.699999988</G>
+													<B>0.699999988</B>
+												</Color3>
+												<string name="PlaceholderText"></string>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<bool name="ShowNativeInput">true</bool>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextEditable">true</bool>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
 												<bool name="Visible">true</bool>
 												<int name="ZIndex">1</int>
 											</Properties>
-											<Item class="TextBox" referent="RBX4E9D2185E21D49218EA53B404A20DB80">
-												<Properties>
-													<bool name="Active">true</bool>
-													<Vector2 name="AnchorPoint">
-														<X>0</X>
-														<Y>0</Y>
-													</Vector2>
-													<bool name="AutoLocalize">true</bool>
-													<Color3 name="BackgroundColor3">
-														<R>1</R>
-														<G>1</G>
-														<B>1</B>
-													</Color3>
-													<float name="BackgroundTransparency">0</float>
-													<Color3 name="BorderColor3">
-														<R>0.890196145</R>
-														<G>0.890196145</G>
-														<B>0.890196145</B>
-													</Color3>
-													<token name="BorderMode">0</token>
-													<int name="BorderSizePixel">0</int>
-													<bool name="ClearTextOnFocus">true</bool>
-													<bool name="ClipsDescendants">true</bool>
-													<bool name="Draggable">false</bool>
-													<token name="Font">3</token>
-													<int name="LayoutOrder">0</int>
-													<float name="LineHeight">1</float>
-													<bool name="MultiLine">false</bool>
-													<string name="Name">TextBox</string>
-													<Ref name="NextSelectionDown">null</Ref>
-													<Ref name="NextSelectionLeft">null</Ref>
-													<Ref name="NextSelectionRight">null</Ref>
-													<Ref name="NextSelectionUp">null</Ref>
-													<Color3 name="PlaceholderColor3">
-														<R>0.699999988</R>
-														<G>0.699999988</G>
-														<B>0.699999988</B>
-													</Color3>
-													<string name="PlaceholderText"></string>
-													<UDim2 name="Position">
-														<XS>0</XS>
-														<XO>0</XO>
-														<YS>0</YS>
-														<YO>0</YO>
-													</UDim2>
-													<Ref name="RootLocalizationTable">null</Ref>
-													<float name="Rotation">0</float>
-													<bool name="Selectable">true</bool>
-													<Ref name="SelectionImageObject">null</Ref>
-													<bool name="ShowNativeInput">true</bool>
-													<UDim2 name="Size">
-														<XS>1</XS>
-														<XO>-2</XO>
-														<YS>1</YS>
-														<YO>-1</YO>
-													</UDim2>
-													<token name="SizeConstraint">0</token>
-													<BinaryString name="Tags"></BinaryString>
-													<string name="Text">127.1</string>
-													<Color3 name="TextColor3">
-														<R>0</R>
-														<G>0</G>
-														<B>0</B>
-													</Color3>
-													<bool name="TextEditable">true</bool>
-													<bool name="TextScaled">false</bool>
-													<float name="TextSize">18</float>
-													<Color3 name="TextStrokeColor3">
-														<R>0</R>
-														<G>0</G>
-														<B>0</B>
-													</Color3>
-													<float name="TextStrokeTransparency">1</float>
-													<float name="TextTransparency">0</float>
-													<token name="TextTruncate">0</token>
-													<bool name="TextWrapped">false</bool>
-													<token name="TextXAlignment">1</token>
-													<token name="TextYAlignment">1</token>
-													<bool name="Visible">true</bool>
-													<int name="ZIndex">1</int>
-												</Properties>
-											</Item>
-											<Item class="TextButton" referent="RBX3AC8441CBF6D40E5B3D2889B0B238195">
-												<Properties>
-													<bool name="Active">true</bool>
-													<Vector2 name="AnchorPoint">
-														<X>0</X>
-														<Y>0</Y>
-													</Vector2>
-													<bool name="AutoButtonColor">true</bool>
-													<bool name="AutoLocalize">true</bool>
-													<Color3 name="BackgroundColor3">
-														<R>1</R>
-														<G>1</G>
-														<B>1</B>
-													</Color3>
-													<float name="BackgroundTransparency">1</float>
-													<Color3 name="BorderColor3">
-														<R>0.105882362</R>
-														<G>0.164705887</G>
-														<B>0.207843155</B>
-													</Color3>
-													<token name="BorderMode">0</token>
-													<int name="BorderSizePixel">1</int>
-													<bool name="ClipsDescendants">false</bool>
-													<bool name="Draggable">false</bool>
-													<token name="Font">3</token>
-													<int name="LayoutOrder">0</int>
-													<float name="LineHeight">1</float>
-													<bool name="Modal">false</bool>
-													<string name="Name">TextButton</string>
-													<Ref name="NextSelectionDown">null</Ref>
-													<Ref name="NextSelectionLeft">null</Ref>
-													<Ref name="NextSelectionRight">null</Ref>
-													<Ref name="NextSelectionUp">null</Ref>
-													<UDim2 name="Position">
-														<XS>0</XS>
-														<XO>0</XO>
-														<YS>0</YS>
-														<YO>0</YO>
-													</UDim2>
-													<Ref name="RootLocalizationTable">null</Ref>
-													<float name="Rotation">0</float>
-													<bool name="Selectable">true</bool>
-													<bool name="Selected">false</bool>
-													<Ref name="SelectionImageObject">null</Ref>
-													<UDim2 name="Size">
-														<XS>1</XS>
-														<XO>-2</XO>
-														<YS>1</YS>
-														<YO>-1</YO>
-													</UDim2>
-													<token name="SizeConstraint">0</token>
-													<token name="Style">0</token>
-													<BinaryString name="Tags"></BinaryString>
-													<string name="Text">127.1</string>
-													<Color3 name="TextColor3">
-														<R>0</R>
-														<G>0</G>
-														<B>0</B>
-													</Color3>
-													<bool name="TextScaled">false</bool>
-													<float name="TextSize">18</float>
-													<Color3 name="TextStrokeColor3">
-														<R>0</R>
-														<G>0</G>
-														<B>0</B>
-													</Color3>
-													<float name="TextStrokeTransparency">1</float>
-													<float name="TextTransparency">0</float>
-													<token name="TextTruncate">0</token>
-													<bool name="TextWrapped">false</bool>
-													<token name="TextXAlignment">1</token>
-													<token name="TextYAlignment">1</token>
-													<bool name="Visible">false</bool>
-													<int name="ZIndex">1</int>
-												</Properties>
-											</Item>
 										</Item>
+										<Item class="TextButton" referent="RBX734AA1F5FCF140168321851AC61BAE19">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoButtonColor">true</bool>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">1</float>
+												<Color3 name="BorderColor3">
+													<R>0.105882362</R>
+													<G>0.164705887</G>
+													<B>0.207843155</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">1</int>
+												<bool name="ClipsDescendants">false</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="Modal">false</bool>
+												<string name="Name">TextButton</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<bool name="Selected">false</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<token name="Style">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">false</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+									</Item>
+									<Item class="TextLabel" referent="RBXA3806A2824D045BDBEBB70E17ECE09C4">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>0</X>
+												<Y>0</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>1</G>
+												<B>1</B>
+											</Color3>
+											<float name="BackgroundTransparency">1</float>
+											<Color3 name="BorderColor3">
+												<R>0.105882362</R>
+												<G>0.164705887</G>
+												<B>0.207843155</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<token name="Font">18</token>
+											<int name="LayoutOrder">0</int>
+											<float name="LineHeight">1</float>
+											<string name="Name">TextLabel</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>0</XS>
+												<XO>0</XO>
+												<YS>0</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>1</XS>
+												<XO>-53</XO>
+												<YS>0.5</YS>
+												<YO>7</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<string name="Text">DEBUG LEVEL</string>
+											<Color3 name="TextColor3">
+												<R>0.654901981</R>
+												<G>0.654901981</G>
+												<B>0.654901981</B>
+											</Color3>
+											<bool name="TextScaled">false</bool>
+											<float name="TextSize">13</float>
+											<Color3 name="TextStrokeColor3">
+												<R>0</R>
+												<G>0</G>
+												<B>0</B>
+											</Color3>
+											<float name="TextStrokeTransparency">1</float>
+											<float name="TextTransparency">0</float>
+											<token name="TextTruncate">0</token>
+											<bool name="TextWrapped">false</bool>
+											<token name="TextXAlignment">1</token>
+											<token name="TextYAlignment">2</token>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+									</Item>
+								</Item>
+								<Item class="Frame" referent="RBXD035538C2ACF47989EAFBA2BE20258D1">
+									<Properties>
+										<bool name="Active">false</bool>
+										<Vector2 name="AnchorPoint">
+											<X>0</X>
+											<Y>0</Y>
+										</Vector2>
+										<bool name="AutoLocalize">true</bool>
+										<Color3 name="BackgroundColor3">
+											<R>1</R>
+											<G>1</G>
+											<B>1</B>
+										</Color3>
+										<float name="BackgroundTransparency">1</float>
+										<Color3 name="BorderColor3">
+											<R>0.105882362</R>
+											<G>0.164705887</G>
+											<B>0.207843155</B>
+										</Color3>
+										<token name="BorderMode">0</token>
+										<int name="BorderSizePixel">0</int>
+										<bool name="ClipsDescendants">false</bool>
+										<bool name="Draggable">false</bool>
+										<int name="LayoutOrder">0</int>
+										<string name="Name">Frame</string>
+										<Ref name="NextSelectionDown">null</Ref>
+										<Ref name="NextSelectionLeft">null</Ref>
+										<Ref name="NextSelectionRight">null</Ref>
+										<Ref name="NextSelectionUp">null</Ref>
+										<UDim2 name="Position">
+											<XS>0</XS>
+											<XO>0</XO>
+											<YS>0</YS>
+											<YO>0</YO>
+										</UDim2>
+										<Ref name="RootLocalizationTable">null</Ref>
+										<float name="Rotation">0</float>
+										<bool name="Selectable">false</bool>
+										<Ref name="SelectionImageObject">null</Ref>
+										<UDim2 name="Size">
+											<XS>0</XS>
+											<XO>100</XO>
+											<YS>0</YS>
+											<YO>100</YO>
+										</UDim2>
+										<token name="SizeConstraint">0</token>
+										<token name="Style">0</token>
+										<BinaryString name="Tags"></BinaryString>
+										<bool name="Visible">true</bool>
+										<int name="ZIndex">1</int>
+									</Properties>
+									<Item class="Frame" referent="RBXEFBB352F39C9454386391E8D59EB61B3">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>1</X>
+												<Y>0.5</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>0.988235354</G>
+												<B>0.968627512</B>
+											</Color3>
+											<float name="BackgroundTransparency">0</float>
+											<Color3 name="BorderColor3">
+												<R>0.866666734</R>
+												<G>0.866666734</G>
+												<B>0.866666734</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<int name="LayoutOrder">0</int>
+											<string name="Name">Value</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>1</XS>
+												<XO>0</XO>
+												<YS>0.5</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>0</XS>
+												<XO>50</XO>
+												<YS>0</YS>
+												<YO>20</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<token name="Style">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+										<Item class="TextBox" referent="RBX722F0F0096594898BF9EFC7BF8E9D7CD">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">0</float>
+												<Color3 name="BorderColor3">
+													<R>0.890196145</R>
+													<G>0.890196145</G>
+													<B>0.890196145</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">0</int>
+												<bool name="ClearTextOnFocus">true</bool>
+												<bool name="ClipsDescendants">true</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="MultiLine">false</bool>
+												<string name="Name">TextBox</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<Color3 name="PlaceholderColor3">
+													<R>0.699999988</R>
+													<G>0.699999988</G>
+													<B>0.699999988</B>
+												</Color3>
+												<string name="PlaceholderText"></string>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<bool name="ShowNativeInput">true</bool>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextEditable">true</bool>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">true</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+										<Item class="TextButton" referent="RBX7E612108212C4F108DBB3CCA5B1F8DF0">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoButtonColor">true</bool>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">1</float>
+												<Color3 name="BorderColor3">
+													<R>0.105882362</R>
+													<G>0.164705887</G>
+													<B>0.207843155</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">1</int>
+												<bool name="ClipsDescendants">false</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="Modal">false</bool>
+												<string name="Name">TextButton</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<bool name="Selected">false</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<token name="Style">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">false</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+									</Item>
+									<Item class="TextLabel" referent="RBXFACA863456F7445E92156B1FECA862C3">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>0</X>
+												<Y>0</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>1</G>
+												<B>1</B>
+											</Color3>
+											<float name="BackgroundTransparency">1</float>
+											<Color3 name="BorderColor3">
+												<R>0.105882362</R>
+												<G>0.164705887</G>
+												<B>0.207843155</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<token name="Font">18</token>
+											<int name="LayoutOrder">0</int>
+											<float name="LineHeight">1</float>
+											<string name="Name">TextLabel</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>0</XS>
+												<XO>0</XO>
+												<YS>0</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>1</XS>
+												<XO>-53</XO>
+												<YS>0.5</YS>
+												<YO>7</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<string name="Text">DEBUG LEVEL</string>
+											<Color3 name="TextColor3">
+												<R>0.654901981</R>
+												<G>0.654901981</G>
+												<B>0.654901981</B>
+											</Color3>
+											<bool name="TextScaled">false</bool>
+											<float name="TextSize">13</float>
+											<Color3 name="TextStrokeColor3">
+												<R>0</R>
+												<G>0</G>
+												<B>0</B>
+											</Color3>
+											<float name="TextStrokeTransparency">1</float>
+											<float name="TextTransparency">0</float>
+											<token name="TextTruncate">0</token>
+											<bool name="TextWrapped">false</bool>
+											<token name="TextXAlignment">1</token>
+											<token name="TextYAlignment">2</token>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+									</Item>
+								</Item>
+								<Item class="Frame" referent="RBXC1901EB3DE3143CE8EFD21D90663AFBC">
+									<Properties>
+										<bool name="Active">false</bool>
+										<Vector2 name="AnchorPoint">
+											<X>0</X>
+											<Y>0</Y>
+										</Vector2>
+										<bool name="AutoLocalize">true</bool>
+										<Color3 name="BackgroundColor3">
+											<R>1</R>
+											<G>1</G>
+											<B>1</B>
+										</Color3>
+										<float name="BackgroundTransparency">1</float>
+										<Color3 name="BorderColor3">
+											<R>0.105882362</R>
+											<G>0.164705887</G>
+											<B>0.207843155</B>
+										</Color3>
+										<token name="BorderMode">0</token>
+										<int name="BorderSizePixel">0</int>
+										<bool name="ClipsDescendants">false</bool>
+										<bool name="Draggable">false</bool>
+										<int name="LayoutOrder">0</int>
+										<string name="Name">Frame</string>
+										<Ref name="NextSelectionDown">null</Ref>
+										<Ref name="NextSelectionLeft">null</Ref>
+										<Ref name="NextSelectionRight">null</Ref>
+										<Ref name="NextSelectionUp">null</Ref>
+										<UDim2 name="Position">
+											<XS>0</XS>
+											<XO>0</XO>
+											<YS>0</YS>
+											<YO>0</YO>
+										</UDim2>
+										<Ref name="RootLocalizationTable">null</Ref>
+										<float name="Rotation">0</float>
+										<bool name="Selectable">false</bool>
+										<Ref name="SelectionImageObject">null</Ref>
+										<UDim2 name="Size">
+											<XS>0</XS>
+											<XO>100</XO>
+											<YS>0</YS>
+											<YO>100</YO>
+										</UDim2>
+										<token name="SizeConstraint">0</token>
+										<token name="Style">0</token>
+										<BinaryString name="Tags"></BinaryString>
+										<bool name="Visible">true</bool>
+										<int name="ZIndex">1</int>
+									</Properties>
+									<Item class="Frame" referent="RBX49ABCDAA2C6B4C51B5BD0B115D6ED622">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>1</X>
+												<Y>0.5</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>0.988235354</G>
+												<B>0.968627512</B>
+											</Color3>
+											<float name="BackgroundTransparency">0</float>
+											<Color3 name="BorderColor3">
+												<R>0.866666734</R>
+												<G>0.866666734</G>
+												<B>0.866666734</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<int name="LayoutOrder">0</int>
+											<string name="Name">Value</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>1</XS>
+												<XO>0</XO>
+												<YS>0.5</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>0</XS>
+												<XO>50</XO>
+												<YS>0</YS>
+												<YO>20</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<token name="Style">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+										<Item class="TextBox" referent="RBX5779F251F36F4C6989F6DFB984A05D5C">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">0</float>
+												<Color3 name="BorderColor3">
+													<R>0.890196145</R>
+													<G>0.890196145</G>
+													<B>0.890196145</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">0</int>
+												<bool name="ClearTextOnFocus">true</bool>
+												<bool name="ClipsDescendants">true</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="MultiLine">false</bool>
+												<string name="Name">TextBox</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<Color3 name="PlaceholderColor3">
+													<R>0.699999988</R>
+													<G>0.699999988</G>
+													<B>0.699999988</B>
+												</Color3>
+												<string name="PlaceholderText"></string>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<bool name="ShowNativeInput">true</bool>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextEditable">true</bool>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">true</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+										<Item class="TextButton" referent="RBX0E7186B6A21A49239741B8431E06D1C3">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoButtonColor">true</bool>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">1</float>
+												<Color3 name="BorderColor3">
+													<R>0.105882362</R>
+													<G>0.164705887</G>
+													<B>0.207843155</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">1</int>
+												<bool name="ClipsDescendants">false</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="Modal">false</bool>
+												<string name="Name">TextButton</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<bool name="Selected">false</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<token name="Style">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">false</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+									</Item>
+									<Item class="TextLabel" referent="RBX3FE6BA57081A4DE4AACD37B2E1B0B76E">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>0</X>
+												<Y>0</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>1</G>
+												<B>1</B>
+											</Color3>
+											<float name="BackgroundTransparency">1</float>
+											<Color3 name="BorderColor3">
+												<R>0.105882362</R>
+												<G>0.164705887</G>
+												<B>0.207843155</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<token name="Font">18</token>
+											<int name="LayoutOrder">0</int>
+											<float name="LineHeight">1</float>
+											<string name="Name">TextLabel</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>0</XS>
+												<XO>0</XO>
+												<YS>0</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>1</XS>
+												<XO>-53</XO>
+												<YS>0.5</YS>
+												<YO>7</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<string name="Text">DEBUG LEVEL</string>
+											<Color3 name="TextColor3">
+												<R>0.654901981</R>
+												<G>0.654901981</G>
+												<B>0.654901981</B>
+											</Color3>
+											<bool name="TextScaled">false</bool>
+											<float name="TextSize">13</float>
+											<Color3 name="TextStrokeColor3">
+												<R>0</R>
+												<G>0</G>
+												<B>0</B>
+											</Color3>
+											<float name="TextStrokeTransparency">1</float>
+											<float name="TextTransparency">0</float>
+											<token name="TextTruncate">0</token>
+											<bool name="TextWrapped">false</bool>
+											<token name="TextXAlignment">1</token>
+											<token name="TextYAlignment">2</token>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+									</Item>
+								</Item>
+								<Item class="Frame" referent="RBXE9C18EC29A304D1E8A49BA844F2338A8">
+									<Properties>
+										<bool name="Active">false</bool>
+										<Vector2 name="AnchorPoint">
+											<X>0</X>
+											<Y>0</Y>
+										</Vector2>
+										<bool name="AutoLocalize">true</bool>
+										<Color3 name="BackgroundColor3">
+											<R>1</R>
+											<G>1</G>
+											<B>1</B>
+										</Color3>
+										<float name="BackgroundTransparency">1</float>
+										<Color3 name="BorderColor3">
+											<R>0.105882362</R>
+											<G>0.164705887</G>
+											<B>0.207843155</B>
+										</Color3>
+										<token name="BorderMode">0</token>
+										<int name="BorderSizePixel">0</int>
+										<bool name="ClipsDescendants">false</bool>
+										<bool name="Draggable">false</bool>
+										<int name="LayoutOrder">0</int>
+										<string name="Name">Frame</string>
+										<Ref name="NextSelectionDown">null</Ref>
+										<Ref name="NextSelectionLeft">null</Ref>
+										<Ref name="NextSelectionRight">null</Ref>
+										<Ref name="NextSelectionUp">null</Ref>
+										<UDim2 name="Position">
+											<XS>0</XS>
+											<XO>0</XO>
+											<YS>0</YS>
+											<YO>0</YO>
+										</UDim2>
+										<Ref name="RootLocalizationTable">null</Ref>
+										<float name="Rotation">0</float>
+										<bool name="Selectable">false</bool>
+										<Ref name="SelectionImageObject">null</Ref>
+										<UDim2 name="Size">
+											<XS>0</XS>
+											<XO>100</XO>
+											<YS>0</YS>
+											<YO>100</YO>
+										</UDim2>
+										<token name="SizeConstraint">0</token>
+										<token name="Style">0</token>
+										<BinaryString name="Tags"></BinaryString>
+										<bool name="Visible">true</bool>
+										<int name="ZIndex">1</int>
+									</Properties>
+									<Item class="Frame" referent="RBX39E11CBE54DB4315BCDCF70C4AD482A5">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>1</X>
+												<Y>0.5</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>0.988235354</G>
+												<B>0.968627512</B>
+											</Color3>
+											<float name="BackgroundTransparency">0</float>
+											<Color3 name="BorderColor3">
+												<R>0.866666734</R>
+												<G>0.866666734</G>
+												<B>0.866666734</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<int name="LayoutOrder">0</int>
+											<string name="Name">Value</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>1</XS>
+												<XO>0</XO>
+												<YS>0.5</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>0</XS>
+												<XO>50</XO>
+												<YS>0</YS>
+												<YO>20</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<token name="Style">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
+										<Item class="TextBox" referent="RBX1239E37442D949859374A83C6857372C">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">0</float>
+												<Color3 name="BorderColor3">
+													<R>0.890196145</R>
+													<G>0.890196145</G>
+													<B>0.890196145</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">0</int>
+												<bool name="ClearTextOnFocus">true</bool>
+												<bool name="ClipsDescendants">true</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="MultiLine">false</bool>
+												<string name="Name">TextBox</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<Color3 name="PlaceholderColor3">
+													<R>0.699999988</R>
+													<G>0.699999988</G>
+													<B>0.699999988</B>
+												</Color3>
+												<string name="PlaceholderText"></string>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<bool name="ShowNativeInput">true</bool>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextEditable">true</bool>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">true</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+										<Item class="TextButton" referent="RBX6D27EC44F0874DBE9D52D0AE17946CEA">
+											<Properties>
+												<bool name="Active">true</bool>
+												<Vector2 name="AnchorPoint">
+													<X>0</X>
+													<Y>0</Y>
+												</Vector2>
+												<bool name="AutoButtonColor">true</bool>
+												<bool name="AutoLocalize">true</bool>
+												<Color3 name="BackgroundColor3">
+													<R>1</R>
+													<G>1</G>
+													<B>1</B>
+												</Color3>
+												<float name="BackgroundTransparency">1</float>
+												<Color3 name="BorderColor3">
+													<R>0.105882362</R>
+													<G>0.164705887</G>
+													<B>0.207843155</B>
+												</Color3>
+												<token name="BorderMode">0</token>
+												<int name="BorderSizePixel">1</int>
+												<bool name="ClipsDescendants">false</bool>
+												<bool name="Draggable">false</bool>
+												<token name="Font">3</token>
+												<int name="LayoutOrder">0</int>
+												<float name="LineHeight">1</float>
+												<bool name="Modal">false</bool>
+												<string name="Name">TextButton</string>
+												<Ref name="NextSelectionDown">null</Ref>
+												<Ref name="NextSelectionLeft">null</Ref>
+												<Ref name="NextSelectionRight">null</Ref>
+												<Ref name="NextSelectionUp">null</Ref>
+												<UDim2 name="Position">
+													<XS>0</XS>
+													<XO>0</XO>
+													<YS>0</YS>
+													<YO>0</YO>
+												</UDim2>
+												<Ref name="RootLocalizationTable">null</Ref>
+												<float name="Rotation">0</float>
+												<bool name="Selectable">true</bool>
+												<bool name="Selected">false</bool>
+												<Ref name="SelectionImageObject">null</Ref>
+												<UDim2 name="Size">
+													<XS>1</XS>
+													<XO>-2</XO>
+													<YS>1</YS>
+													<YO>-1</YO>
+												</UDim2>
+												<token name="SizeConstraint">0</token>
+												<token name="Style">0</token>
+												<BinaryString name="Tags"></BinaryString>
+												<string name="Text">127.1</string>
+												<Color3 name="TextColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<bool name="TextScaled">false</bool>
+												<float name="TextSize">18</float>
+												<Color3 name="TextStrokeColor3">
+													<R>0</R>
+													<G>0</G>
+													<B>0</B>
+												</Color3>
+												<float name="TextStrokeTransparency">1</float>
+												<float name="TextTransparency">0</float>
+												<token name="TextTruncate">0</token>
+												<bool name="TextWrapped">false</bool>
+												<token name="TextXAlignment">1</token>
+												<token name="TextYAlignment">1</token>
+												<bool name="Visible">false</bool>
+												<int name="ZIndex">1</int>
+											</Properties>
+										</Item>
+									</Item>
+									<Item class="TextLabel" referent="RBX0DEEC752E2DA4AEE8B36783CE9940422">
+										<Properties>
+											<bool name="Active">false</bool>
+											<Vector2 name="AnchorPoint">
+												<X>0</X>
+												<Y>0</Y>
+											</Vector2>
+											<bool name="AutoLocalize">true</bool>
+											<Color3 name="BackgroundColor3">
+												<R>1</R>
+												<G>1</G>
+												<B>1</B>
+											</Color3>
+											<float name="BackgroundTransparency">1</float>
+											<Color3 name="BorderColor3">
+												<R>0.105882362</R>
+												<G>0.164705887</G>
+												<B>0.207843155</B>
+											</Color3>
+											<token name="BorderMode">0</token>
+											<int name="BorderSizePixel">1</int>
+											<bool name="ClipsDescendants">false</bool>
+											<bool name="Draggable">false</bool>
+											<token name="Font">18</token>
+											<int name="LayoutOrder">0</int>
+											<float name="LineHeight">1</float>
+											<string name="Name">TextLabel</string>
+											<Ref name="NextSelectionDown">null</Ref>
+											<Ref name="NextSelectionLeft">null</Ref>
+											<Ref name="NextSelectionRight">null</Ref>
+											<Ref name="NextSelectionUp">null</Ref>
+											<UDim2 name="Position">
+												<XS>0</XS>
+												<XO>0</XO>
+												<YS>0</YS>
+												<YO>0</YO>
+											</UDim2>
+											<Ref name="RootLocalizationTable">null</Ref>
+											<float name="Rotation">0</float>
+											<bool name="Selectable">false</bool>
+											<Ref name="SelectionImageObject">null</Ref>
+											<UDim2 name="Size">
+												<XS>1</XS>
+												<XO>-53</XO>
+												<YS>0.5</YS>
+												<YO>7</YO>
+											</UDim2>
+											<token name="SizeConstraint">0</token>
+											<BinaryString name="Tags"></BinaryString>
+											<string name="Text">DEBUG LEVEL</string>
+											<Color3 name="TextColor3">
+												<R>0.654901981</R>
+												<G>0.654901981</G>
+												<B>0.654901981</B>
+											</Color3>
+											<bool name="TextScaled">false</bool>
+											<float name="TextSize">13</float>
+											<Color3 name="TextStrokeColor3">
+												<R>0</R>
+												<G>0</G>
+												<B>0</B>
+											</Color3>
+											<float name="TextStrokeTransparency">1</float>
+											<float name="TextTransparency">0</float>
+											<token name="TextTruncate">0</token>
+											<bool name="TextWrapped">false</bool>
+											<token name="TextXAlignment">1</token>
+											<token name="TextYAlignment">2</token>
+											<bool name="Visible">true</bool>
+											<int name="ZIndex">1</int>
+										</Properties>
 									</Item>
 								</Item>
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UISizeConstraint" referent="RBX4D27E72C14644201AE429036A0BDD61F">
+					<Item class="UISizeConstraint" referent="RBXC0AD878B743E4D7E9B57BC42B01E695E">
 						<Properties>
 							<Vector2 name="MaxSize">
 								<X>1000</X>
@@ -9388,7 +10748,7 @@ return{
 								</UDim2>
 								<token name="SizeConstraint">0</token>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">PREV&#196;&#176;EW</string>
+								<string name="Text">PREVIEW</string>
 								<Color3 name="TextColor3">
 									<R>0.580392182</R>
 									<G>0.580392182</G>
@@ -10660,7 +12020,7 @@ return{
 								</UDim2>
 								<token name="SizeConstraint">0</token>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">T&#195;&#146;&#195;&#147;LS</string>
+								<string name="Text">TOOLS</string>
 								<Color3 name="TextColor3">
 									<R>0.580392182</R>
 									<G>0.580392182</G>
@@ -12410,6 +13770,85 @@ return{
 					</Item>
 				</Item>
 			</Item>
+			<Item class="ModuleScript" referent="RBX623350787E9F4E69BECC10D11F9D52A8">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">KeybindModule</string>
+					<string name="ScriptGuid">{1D528035-9A72-4CC6-B036-3C79506F2B6B}</string>
+					<ProtectedString name="Source"><![CDATA[local uis=game:service'UserInputService'
+local binds,shft,prK={},false
+
+function bind(pr,f)
+	if not prK or pr>prK then
+	prK=pr end binds[pr]=f
+end
+
+function unbind(pr)
+	binds[pr],prK=nil,nil
+	for i in next,binds do
+	if not prK or i>prK then
+	prK=i end end
+end
+
+uis.InputBegan:connect(function(input)
+	if input.UserInputType==Enum.UserInputType.Keyboard then
+		if input.KeyCode.Name:find'Shift$'then shft=true
+		else binds[prK](shft,input.KeyCode)end
+	end
+end)
+
+uis.InputEnded:connect(function(input)
+	if input.UserInputType==Enum.UserInputType.Keyboard then
+	if input.KeyCode.Name:find'Shift$'then shft=false end end
+end)
+
+return{
+	bind=bind,
+	unbind=unbind,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX1E9C21AAB24A456181F3C11624F30E30">
+				<Properties>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ShortcutSetModule</string>
+					<string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local srts=require(main.ShortcutModule)
+local cGui=require(main.ConfigGuiModule)
+local actv=require(main.ActiveModule)
+local kb=require(main.KeybindModule)
+local mode=require(main.ModeModule)
+
+--Stores the shortcut to variables when undergoing process.
+local collE=Instance.new'BindableEvent'
+function collect(s,k)collE:Fire(s,k)end
+
+return{
+	process=function(name)
+		
+		--Locks onto the config mode.
+		mode.restore()if mode.get()[
+		1]~='config'then return end
+		
+		mode.lock()
+		srts.lock()
+		actv.lock()
+		print(666)
+		
+		--Collects new values.
+		kb.bind(collect)local s,k=collE
+		.Event:Wait()srts.set(name,s,k)
+		
+		mode.unlock()
+		srts.unlock()
+		actv.unlock()
+	end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
 		</Item>
 	</Item>
 	<Item class="LocalizationService" referent="RBX82051A25D574462DADC32446BF09A371">
@@ -12626,7 +14065,7 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX466C30BE6F8F45AFA4B61749DCBE5603">
+		<Item class="Folder" referent="RBXFFDF30DA82814EBBB7EFEFC0D538B660">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
