@@ -4387,17 +4387,22 @@ for k,i in next,keyEnums
 do local s,k=shiftPair(k)
 keys[i]=k end send()
 
+function set(i,s,k)
+	plugin:SetSetting('shortcuts',keyIs)
+	setBind(i)send()
+end
+
 return{
-	set=function(i,s,k)
-		plugin:SetSetting(
-		'shortcuts',keyIs)
-		setBind(i)send()
-	end,
+	set=set,
 	get=function(i)return fKeys[i]end,
 	bind=function(i,f)binds[i]=f end,
 	lockAll=lockAll,
 	unlock=unlock,
 	lock=lock,
+	
+	setC=function(...)
+		set(...)
+	end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -14065,7 +14070,7 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBXFFDF30DA82814EBBB7EFEFC0D538B660">
+		<Item class="Folder" referent="RBX3B1DCCA6B622497F9518F4BDA01F1C19">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
