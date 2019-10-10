@@ -3743,17 +3743,22 @@ for k,i in next,keyEnums
 do local s,k=shiftPair(k)
 keys[i]=k end send()
 
+function set(i,s,k)
+	plugin:SetSetting('shortcuts',keyIs)
+	setBind(i)send()
+end
+
 return{
-	set=function(i,s,k)
-		plugin:SetSetting(
-		'shortcuts',keyIs)
-		setBind(i)send()
-	end,
+	set=set,
 	get=function(i)return fKeys[i]end,
 	bind=function(i,f)binds[i]=f end,
 	lockAll=lockAll,
 	unlock=unlock,
 	lock=lock,
+	
+	setC=function(...)
+		set(...)
+	end,
 }]]></ProtectedString>
         <BinaryString name="Tags">
         </BinaryString>
