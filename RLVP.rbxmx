@@ -2527,11 +2527,11 @@ function setBind(i,f)binds[i]=f end
 function getBind(i)return binds[i]end
 
 --Locking mechanism.
-local locked function lock()locked=true
-end function unlock()locked=false end
+local locked=0 function lock()locked=locked+1
+end function unlock()locked=locked-1 end
 
 function setMode(m,s)
-	if busy or locked
+	if busy or locked>=1
 	then return end
 	local m=m or currM[1]
 	local s=s or getSub(m)
@@ -2600,7 +2600,7 @@ return{
         <string name="ScriptGuid">{2FB52DA1-1BA2-409F-A915-AB3C16B84726}</string>
         <ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
 local mouse=script.Parent.Plugin.Value:GetMouse()
-local binds,locked,prK={}
+local binds,locked,prK={},0
 
 function bind(pr,...)
 	if not prK or pr>prK then
@@ -2617,13 +2617,13 @@ end
 --Calls only the binds with the highest priority.
 mouse.Button1Down:connect(function()
 	local t=binds[prK]
-	if not locked and activ.isActive()
+	if 1>locked and activ.isActive()
 	and t and'function'==typeof(t[1])
 	then t[1](mouse)end
 end)
 mouse.Button2Down:connect(function()
 	local t=binds[prK]
-	if not locked and activ.isActive()
+	if 1>locked and activ.isActive()
 	and t and'function'==typeof(t[2])
 	then t[2](mouse)end
 end)
@@ -2632,8 +2632,8 @@ return{
 	bind=bind,
 	mouse=mouse,
 	unbind=unbind,
-	lock=function()locked=true end,
-	unlock=function()locked=false end,
+	lock=function()locked=locked+1 end,
+	unlock=function()locked=locked-1 end,
 	
 	--Returns the position of the mouse cast into a Vector2.
 	position=function()return Vector2.new(mouse.X,mouse.Y)end,
@@ -5700,12 +5700,18 @@ local binds={}function bind(i,f)spM.callback(i,f)binds[i]=f end
 --Visibility functions.
 local shown
 function show()
+	if shown then
+	return end
+	
 	cGui.Visible,frame
 	.Visible=true,true
 	mouse.lock()
 	shown=true
 end
 function hide()
+	if not shown
+	then return end
+	
 	cGui.Visible,frame
 	.Visible=false,false
 	mouse.unlock()
@@ -5714,7 +5720,6 @@ end
 function ovly()
 	cGui.Visible,frame
 	.Visible=true,false
-	shown=false
 end
 
 --Function for the mode-change event, stores previous mode.
@@ -6705,7 +6710,7 @@ return{
               <token name="SizeConstraint">0</token>
               <BinaryString name="Tags">
               </BinaryString>
-              <string name="Text">SETTÄ°NGS</string>
+              <string name="Text">SETTINGS</string>
               <Color3 name="TextColor3">
                 <R>0.580392182</R>
                 <G>0.580392182</G>
@@ -9098,11 +9103,11 @@ return{
                   <XS>0.5</XS>
                   <XO>2</XO>
                   <YS>1</YS>
-                  <YO>1</YO>
+                  <YO>3</YO>
                 </UDim2>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">3</token>
                 <bool name="Selectable">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
                 <UDim2 name="Size">
@@ -9816,18 +9821,18 @@ return{
                   <XS>0.5</XS>
                   <XO>2</XO>
                   <YS>1</YS>
-                  <YO>1</YO>
+                  <YO>3</YO>
                 </UDim2>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">3</token>
                 <bool name="Selectable">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
                 <UDim2 name="Size">
                   <XS>0</XS>
                   <XO>20</XO>
                   <YS>0</YS>
-                  <YO>15</YO>
+                  <YO>17</YO>
                 </UDim2>
                 <token name="SizeConstraint">0</token>
                 <Rect2D name="SliceCenter">
@@ -11861,12 +11866,12 @@ return{
                   <B>0</B>
                 </Color3>
                 <Vector2 name="ImageRectOffset">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>7</X>
+                  <Y>1</Y>
                 </Vector2>
                 <Vector2 name="ImageRectSize">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>26</X>
+                  <Y>26</Y>
                 </Vector2>
                 <float name="ImageTransparency">0.699999988</float>
                 <int name="LayoutOrder">0</int>
@@ -11888,7 +11893,7 @@ return{
                 </Content>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">1</token>
                 <bool name="Selectable">true</bool>
                 <bool name="Selected">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
@@ -11901,7 +11906,7 @@ return{
                 <token name="SizeConstraint">0</token>
                 <Rect2D name="SliceCenter">
                   <min>
-                    <X>0</X>
+                    <X>-13</X>
                     <Y>0</Y>
                   </min>
                   <max>
@@ -12033,12 +12038,12 @@ return{
                   <B>0</B>
                 </Color3>
                 <Vector2 name="ImageRectOffset">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>7</X>
+                  <Y>1</Y>
                 </Vector2>
                 <Vector2 name="ImageRectSize">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>26</X>
+                  <Y>26</Y>
                 </Vector2>
                 <float name="ImageTransparency">0.699999988</float>
                 <int name="LayoutOrder">0</int>
@@ -12060,7 +12065,7 @@ return{
                 </Content>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">1</token>
                 <bool name="Selectable">true</bool>
                 <bool name="Selected">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
@@ -12073,7 +12078,7 @@ return{
                 <token name="SizeConstraint">0</token>
                 <Rect2D name="SliceCenter">
                   <min>
-                    <X>0</X>
+                    <X>-13</X>
                     <Y>0</Y>
                   </min>
                   <max>
@@ -12205,12 +12210,12 @@ return{
                   <B>0</B>
                 </Color3>
                 <Vector2 name="ImageRectOffset">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>7</X>
+                  <Y>-1</Y>
                 </Vector2>
                 <Vector2 name="ImageRectSize">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>26</X>
+                  <Y>26</Y>
                 </Vector2>
                 <float name="ImageTransparency">0.699999988</float>
                 <int name="LayoutOrder">0</int>
@@ -12232,7 +12237,7 @@ return{
                 </Content>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">1</token>
                 <bool name="Selectable">true</bool>
                 <bool name="Selected">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
@@ -12245,7 +12250,7 @@ return{
                 <token name="SizeConstraint">0</token>
                 <Rect2D name="SliceCenter">
                   <min>
-                    <X>0</X>
+                    <X>-13</X>
                     <Y>0</Y>
                   </min>
                   <max>
@@ -12377,12 +12382,12 @@ return{
                   <B>0</B>
                 </Color3>
                 <Vector2 name="ImageRectOffset">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>7</X>
+                  <Y>1</Y>
                 </Vector2>
                 <Vector2 name="ImageRectSize">
-                  <X>0</X>
-                  <Y>0</Y>
+                  <X>26</X>
+                  <Y>26</Y>
                 </Vector2>
                 <float name="ImageTransparency">0.699999988</float>
                 <int name="LayoutOrder">0</int>
@@ -12404,7 +12409,7 @@ return{
                 </Content>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">1</token>
                 <bool name="Selectable">true</bool>
                 <bool name="Selected">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
@@ -12417,7 +12422,7 @@ return{
                 <token name="SizeConstraint">0</token>
                 <Rect2D name="SliceCenter">
                   <min>
-                    <X>0</X>
+                    <X>-13</X>
                     <Y>0</Y>
                   </min>
                   <max>
@@ -12549,12 +12554,12 @@ return{
                   <B>0</B>
                 </Color3>
                 <Vector2 name="ImageRectOffset">
-                  <X>0</X>
+                  <X>7</X>
                   <Y>1</Y>
                 </Vector2>
                 <Vector2 name="ImageRectSize">
-                  <X>100</X>
-                  <Y>100</Y>
+                  <X>26</X>
+                  <Y>26</Y>
                 </Vector2>
                 <float name="ImageTransparency">0.699999988</float>
                 <int name="LayoutOrder">0</int>
@@ -12576,7 +12581,7 @@ return{
                 </Content>
                 <Ref name="RootLocalizationTable">null</Ref>
                 <float name="Rotation">0</float>
-                <token name="ScaleType">0</token>
+                <token name="ScaleType">1</token>
                 <bool name="Selectable">true</bool>
                 <bool name="Selected">false</bool>
                 <Ref name="SelectionImageObject">null</Ref>
@@ -12589,7 +12594,7 @@ return{
                 <token name="SizeConstraint">0</token>
                 <Rect2D name="SliceCenter">
                   <min>
-                    <X>0</X>
+                    <X>-13</X>
                     <Y>0</Y>
                   </min>
                   <max>
@@ -12722,13 +12727,13 @@ return{
                 </Color3>
                 <Vector2 name="ImageRectOffset">
                   <X>5.5</X>
-                  <Y>-20</Y>
+                  <Y>-16</Y>
                 </Vector2>
                 <Vector2 name="ImageRectSize">
                   <X>100</X>
                   <Y>98</Y>
                 </Vector2>
-                <float name="ImageTransparency">0.699999988</float>
+                <float name="ImageTransparency">0.800000012</float>
                 <int name="LayoutOrder">0</int>
                 <bool name="Modal">false</bool>
                 <string name="Name">config</string>
@@ -13506,6 +13511,291 @@ return{
           </Item>
         </Item>
       </Item>
+      <Item class="Frame" referent="RBXCD594B49D5424A15B3354C644700BB4E">
+        <Properties>
+          <bool name="Active">false</bool>
+          <Vector2 name="AnchorPoint">
+            <X>0</X>
+            <Y>0</Y>
+          </Vector2>
+          <bool name="AutoLocalize">true</bool>
+          <Color3 name="BackgroundColor3">
+            <R>0</R>
+            <G>0</G>
+            <B>0</B>
+          </Color3>
+          <float name="BackgroundTransparency">0.689999998</float>
+          <Color3 name="BorderColor3">
+            <R>0.596078455</R>
+            <G>0.592156887</G>
+            <B>0.580392182</B>
+          </Color3>
+          <token name="BorderMode">0</token>
+          <int name="BorderSizePixel">0</int>
+          <bool name="ClipsDescendants">false</bool>
+          <bool name="Draggable">false</bool>
+          <int name="LayoutOrder">0</int>
+          <string name="Name">block</string>
+          <Ref name="NextSelectionDown">null</Ref>
+          <Ref name="NextSelectionLeft">null</Ref>
+          <Ref name="NextSelectionRight">null</Ref>
+          <Ref name="NextSelectionUp">null</Ref>
+          <UDim2 name="Position">
+            <XS>0</XS>
+            <XO>0</XO>
+            <YS>0</YS>
+            <YO>0</YO>
+          </UDim2>
+          <Ref name="RootLocalizationTable">null</Ref>
+          <float name="Rotation">0</float>
+          <bool name="Selectable">false</bool>
+          <Ref name="SelectionImageObject">null</Ref>
+          <UDim2 name="Size">
+            <XS>1</XS>
+            <XO>0</XO>
+            <YS>1</YS>
+            <YO>0</YO>
+          </UDim2>
+          <token name="SizeConstraint">0</token>
+          <token name="Style">0</token>
+          <BinaryString name="Tags">
+          </BinaryString>
+          <bool name="Visible">false</bool>
+          <int name="ZIndex">3</int>
+        </Properties>
+        <Item class="Frame" referent="RBX98572775820F414EB289B4DBB91FA0E0">
+          <Properties>
+            <bool name="Active">false</bool>
+            <Vector2 name="AnchorPoint">
+              <X>0.5</X>
+              <Y>0.5</Y>
+            </Vector2>
+            <bool name="AutoLocalize">true</bool>
+            <Color3 name="BackgroundColor3">
+              <R>1</R>
+              <G>0.988235354</G>
+              <B>0.968627512</B>
+            </Color3>
+            <float name="BackgroundTransparency">1</float>
+            <Color3 name="BorderColor3">
+              <R>0.105882362</R>
+              <G>0.164705887</G>
+              <B>0.207843155</B>
+            </Color3>
+            <token name="BorderMode">0</token>
+            <int name="BorderSizePixel">0</int>
+            <bool name="ClipsDescendants">false</bool>
+            <bool name="Draggable">false</bool>
+            <int name="LayoutOrder">0</int>
+            <string name="Name">Frame</string>
+            <Ref name="NextSelectionDown">null</Ref>
+            <Ref name="NextSelectionLeft">null</Ref>
+            <Ref name="NextSelectionRight">null</Ref>
+            <Ref name="NextSelectionUp">null</Ref>
+            <UDim2 name="Position">
+              <XS>0.5</XS>
+              <XO>0</XO>
+              <YS>0.5</YS>
+              <YO>0</YO>
+            </UDim2>
+            <Ref name="RootLocalizationTable">null</Ref>
+            <float name="Rotation">0</float>
+            <bool name="Selectable">false</bool>
+            <Ref name="SelectionImageObject">null</Ref>
+            <UDim2 name="Size">
+              <XS>0</XS>
+              <XO>200</XO>
+              <YS>0</YS>
+              <YO>50</YO>
+            </UDim2>
+            <token name="SizeConstraint">0</token>
+            <token name="Style">0</token>
+            <BinaryString name="Tags">
+            </BinaryString>
+            <bool name="Visible">true</bool>
+            <int name="ZIndex">1</int>
+          </Properties>
+          <Item class="Frame" referent="RBXF7DEA32CB15E4594BAF614A990649CC7">
+            <Properties>
+              <bool name="Active">false</bool>
+              <Vector2 name="AnchorPoint">
+                <X>0</X>
+                <Y>0</Y>
+              </Vector2>
+              <bool name="AutoLocalize">true</bool>
+              <Color3 name="BackgroundColor3">
+                <R>0</R>
+                <G>0</G>
+                <B>0</B>
+              </Color3>
+              <float name="BackgroundTransparency">0.800000012</float>
+              <Color3 name="BorderColor3">
+                <R>0.105882362</R>
+                <G>0.164705887</G>
+                <B>0.207843155</B>
+              </Color3>
+              <token name="BorderMode">0</token>
+              <int name="BorderSizePixel">0</int>
+              <bool name="ClipsDescendants">false</bool>
+              <bool name="Draggable">false</bool>
+              <int name="LayoutOrder">0</int>
+              <string name="Name">Frame</string>
+              <Ref name="NextSelectionDown">null</Ref>
+              <Ref name="NextSelectionLeft">null</Ref>
+              <Ref name="NextSelectionRight">null</Ref>
+              <Ref name="NextSelectionUp">null</Ref>
+              <UDim2 name="Position">
+                <XS>0</XS>
+                <XO>1</XO>
+                <YS>0</YS>
+                <YO>2</YO>
+              </UDim2>
+              <Ref name="RootLocalizationTable">null</Ref>
+              <float name="Rotation">0</float>
+              <bool name="Selectable">false</bool>
+              <Ref name="SelectionImageObject">null</Ref>
+              <UDim2 name="Size">
+                <XS>1</XS>
+                <XO>2</XO>
+                <YS>1</YS>
+                <YO>2</YO>
+              </UDim2>
+              <token name="SizeConstraint">0</token>
+              <token name="Style">0</token>
+              <BinaryString name="Tags">
+              </BinaryString>
+              <bool name="Visible">true</bool>
+              <int name="ZIndex">0</int>
+            </Properties>
+          </Item>
+          <Item class="TextLabel" referent="RBXEFA1B4B2C28C4F7EB92C0BFA8A5EE09B">
+            <Properties>
+              <bool name="Active">false</bool>
+              <Vector2 name="AnchorPoint">
+                <X>0.5</X>
+                <Y>0.5</Y>
+              </Vector2>
+              <bool name="AutoLocalize">true</bool>
+              <Color3 name="BackgroundColor3">
+                <R>1</R>
+                <G>1</G>
+                <B>1</B>
+              </Color3>
+              <float name="BackgroundTransparency">1</float>
+              <Color3 name="BorderColor3">
+                <R>0.105882362</R>
+                <G>0.164705887</G>
+                <B>0.207843155</B>
+              </Color3>
+              <token name="BorderMode">0</token>
+              <int name="BorderSizePixel">1</int>
+              <bool name="ClipsDescendants">false</bool>
+              <bool name="Draggable">false</bool>
+              <token name="Font">20</token>
+              <int name="LayoutOrder">0</int>
+              <float name="LineHeight">1</float>
+              <string name="Name">TextLabel</string>
+              <Ref name="NextSelectionDown">null</Ref>
+              <Ref name="NextSelectionLeft">null</Ref>
+              <Ref name="NextSelectionRight">null</Ref>
+              <Ref name="NextSelectionUp">null</Ref>
+              <UDim2 name="Position">
+                <XS>0.5</XS>
+                <XO>0</XO>
+                <YS>0.5</YS>
+                <YO>0</YO>
+              </UDim2>
+              <Ref name="RootLocalizationTable">null</Ref>
+              <float name="Rotation">0</float>
+              <bool name="Selectable">false</bool>
+              <Ref name="SelectionImageObject">null</Ref>
+              <UDim2 name="Size">
+                <XS>1</XS>
+                <XO>0</XO>
+                <YS>1</YS>
+                <YO>0</YO>
+              </UDim2>
+              <token name="SizeConstraint">0</token>
+              <BinaryString name="Tags">
+              </BinaryString>
+              <string name="Text">SETTING SHORTCUT</string>
+              <Color3 name="TextColor3">
+                <R>0.580392182</R>
+                <G>0.580392182</G>
+                <B>0.580392182</B>
+              </Color3>
+              <bool name="TextScaled">false</bool>
+              <float name="TextSize">20</float>
+              <Color3 name="TextStrokeColor3">
+                <R>0.403921604</R>
+                <G>0.403921604</G>
+                <B>0.403921604</B>
+              </Color3>
+              <float name="TextStrokeTransparency">1</float>
+              <float name="TextTransparency">0</float>
+              <token name="TextTruncate">0</token>
+              <bool name="TextWrapped">false</bool>
+              <token name="TextXAlignment">2</token>
+              <token name="TextYAlignment">1</token>
+              <bool name="Visible">true</bool>
+              <int name="ZIndex">1</int>
+            </Properties>
+          </Item>
+          <Item class="Frame" referent="RBXB7D444776B304AA1BC16DF588858949B">
+            <Properties>
+              <bool name="Active">false</bool>
+              <Vector2 name="AnchorPoint">
+                <X>0</X>
+                <Y>0</Y>
+              </Vector2>
+              <bool name="AutoLocalize">true</bool>
+              <Color3 name="BackgroundColor3">
+                <R>1</R>
+                <G>0.988235354</G>
+                <B>0.968627512</B>
+              </Color3>
+              <float name="BackgroundTransparency">0</float>
+              <Color3 name="BorderColor3">
+                <R>0</R>
+                <G>0</G>
+                <B>0</B>
+              </Color3>
+              <token name="BorderMode">0</token>
+              <int name="BorderSizePixel">0</int>
+              <bool name="ClipsDescendants">false</bool>
+              <bool name="Draggable">false</bool>
+              <int name="LayoutOrder">0</int>
+              <string name="Name">Frame</string>
+              <Ref name="NextSelectionDown">null</Ref>
+              <Ref name="NextSelectionLeft">null</Ref>
+              <Ref name="NextSelectionRight">null</Ref>
+              <Ref name="NextSelectionUp">null</Ref>
+              <UDim2 name="Position">
+                <XS>0</XS>
+                <XO>0</XO>
+                <YS>0</YS>
+                <YO>0</YO>
+              </UDim2>
+              <Ref name="RootLocalizationTable">null</Ref>
+              <float name="Rotation">0</float>
+              <bool name="Selectable">false</bool>
+              <Ref name="SelectionImageObject">null</Ref>
+              <UDim2 name="Size">
+                <XS>1</XS>
+                <XO>0</XO>
+                <YS>1</YS>
+                <YO>0</YO>
+              </UDim2>
+              <token name="SizeConstraint">0</token>
+              <token name="Style">0</token>
+              <BinaryString name="Tags">
+              </BinaryString>
+              <bool name="Visible">true</bool>
+              <int name="ZIndex">0</int>
+            </Properties>
+          </Item>
+        </Item>
+      </Item>
     </Item>
     <Item class="ModuleScript" referent="RBX623350787E9F4E69BECC10D11F9D52A8">
       <Properties>
@@ -13556,14 +13846,15 @@ return{
           <null>
           </null>
         </Content>
-        <string name="Name">ShortcutSetModule</string>
+        <string name="Name">SetSrtModule</string>
         <string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
-local srts=require(main.ShortcutModule)
 local cGui=require(main.ConfigGuiModule)
-local actv=require(main.ActiveModule)
+local block=require(main.BlockboxModule)
+local srts=require(main.ShortcutModule)
 local kb=require(main.KeybindModule)
 local mode=require(main.ModeModule)
+local locked
 
 --Stores the shortcut to variables when undergoing process.
 local collE=Instance.new'BindableEvent'
@@ -13572,22 +13863,56 @@ function collect(s,k)collE:Fire(s,k)end
 return{
 	process=function(name)
 		
+		--Prevents concurrent calls.
+		if locked then return end
+		
 		--Locks onto the config mode.
 		mode.restore()if mode.get()[
 		1]~='config'then return end
 		
-		mode.lock()
-		srts.lock()
-		actv.lock()
-		print(666)
+		--Blocks input interference and shows prompt.
+		srts.lock()block.show'Setting shortcut'locked=true
 		
-		--Collects new values.
+		--Collects and sends new values.
 		kb.bind(collect)local s,k=collE
 		.Event:Wait()srts.set(name,s,k)
 		
-		mode.unlock()
-		srts.unlock()
-		actv.unlock()
+		--Unlocks those factors of interference.
+		srts.unlock()block.hide()locked=false
+		
+		return s,k
+	end,
+}]]></ProtectedString>
+        <BinaryString name="Tags">
+        </BinaryString>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="RBXBC5BF8CC802B4136B1F99F8353EF55D6">
+      <Properties>
+        <Content name="LinkedSource">
+          <null>
+          </null>
+        </Content>
+        <string name="Name">BlockboxModule</string>
+        <string name="ScriptGuid">{3C1548EE-D7CB-45FE-9E29-0AC1A641A37B}</string>
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local gui=require(main.GuiMainModule)
+local actv=require(main.ActiveModule)
+local mode=require(main.ModeModule)
+local fr,shown=gui.get'block'.Frame
+fr.Parent,fr.Visible=nil,true
+
+return{
+	show=function(s,w)
+		fr.TextLabel.Size=UDim2.fromOffset(w or 300,50)
+		fr.TextLabel.Text=s:upper()shown=true
+		if shown then return end mode
+		.lock()actv.lock()gui.add(fr)
+	end,
+	hide=function()
+		if not shown then return end
+		mode.unlock()actv.unlock()
+		gui.remove(fr)shown=false
 	end,
 }]]></ProtectedString>
         <BinaryString name="Tags">
