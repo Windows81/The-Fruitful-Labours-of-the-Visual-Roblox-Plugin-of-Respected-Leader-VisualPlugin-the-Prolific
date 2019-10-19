@@ -38,26 +38,26 @@
 		<Item class="Camera" referent="RBXA066C25127644ED591E752D0F7C276A7">
 			<Properties>
 				<CoordinateFrame name="CFrame">
-					<X>3.75981951</X>
-					<Y>5.78828478</Y>
-					<Z>-47.9374619</Z>
-					<R00>0.956547499</R00>
-					<R01>-0.105507299</R01>
-					<R02>0.27181828</R02>
-					<R10>-0</R10>
-					<R11>0.932236075</R11>
-					<R12>0.361850947</R12>
-					<R20>-0.291576684</R20>
-					<R21>-0.346127629</R21>
-					<R22>0.891727984</R22>
+					<X>-16.4265442</X>
+					<Y>23.1946907</Y>
+					<Z>-46.8812561</Z>
+					<R00>0.971330404</R00>
+					<R01>-0.0599801913</R01>
+					<R02>0.23004289</R02>
+					<R10>3.7252903e-09</R10>
+					<R11>0.967649221</R11>
+					<R12>0.252299786</R12>
+					<R20>-0.237733796</R20>
+					<R21>-0.245066449</R21>
+					<R22>0.939906955</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
 				<float name="FieldOfView">70</float>
 				<CoordinateFrame name="Focus">
-					<X>-0.0999999046</X>
-					<Y>0.650001526</Y>
-					<Z>-60.5999985</Z>
+					<X>-16.8866291</X>
+					<Y>22.6900921</Y>
+					<Z>-48.7610664</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -3632,7 +3632,7 @@ function addP(p,selP)
 		[i]==selP then return end
 	end
 	
-	if selP~=false then
+	if pfMod.part(selP)then
 		while n>#pluginSels do
 			studioSels[n+1]=studioSels[n]
 			pluginSels[n+1]=pluginSels[n]
@@ -4022,7 +4022,7 @@ function changeSel(changes)
 			if g then grAdded=true
 			
 			--Adds that part to selection otherwise.
-			else addP(p,pfMod.part(p)and nil or false)end
+			else addP(p)end
 		end
 	end
 	
@@ -5792,7 +5792,7 @@ return{
 					<string name="ScriptGuid">{AC7061AB-627E-4D81-8E5B-E3344C736428}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	part=function(p)
-		return(not p.Parent or p:IsDescendantOf(game.Workspace))and p:isA'BasePart'and not p:isA'Terrain'
+		return p and(not p.Parent or p:IsDescendantOf(game.Workspace))and p:isA'BasePart'and not p:isA'Terrain'
 	end
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -14358,13 +14358,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="AnalyticsService" referent="RBX795748E9FABA400297282DB571FE8A0B">
-		<Properties>
-			<string name="ApiKey"></string>
-			<string name="Name">AnalyticsService</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
 	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
 		<Properties>
 			<string name="Name">VirtualInputManager</string>
@@ -14385,12 +14378,25 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
+		<Item class="Folder" referent="RBX856EA17403FF48ABA0B37B18D6993135">
+			<Properties>
+				<string name="Name">LocalPlugins</string>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX98AEBD8AC71742C5910211B80F7CDA46">
 			<Properties>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
+	</Item>
+	<Item class="AnalyticsService" referent="RBX795748E9FABA400297282DB571FE8A0B">
+		<Properties>
+			<string name="ApiKey"></string>
+			<string name="Name">AnalyticsService</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
 	</Item>
 	<SharedStrings>
 		<SharedString md5="BrfrI4nr6bz44Y8AZCyS4w==">Q1NHUEhTBgAAAAAAAEEAAAAAAAAAAAAAAADkOA5BAAAAAAAAAADkOA5BAAAAAOQ4DkEQAAAA
