@@ -6353,8 +6353,6 @@ local save=require(script.
 SubpageModule.SaveModule)
 local cGui=gui.get'config'
 local frame=cGui.Frame
-local saveBttn=frame.
-Selection.SaveButton
 
 --Obligatory callback implementation; transfers to sub-modules.
 local callbackT={}function bindCB(i,f)spM.callback(i,f)callbackT[i]=f end
@@ -6406,12 +6404,15 @@ end
 frame.Close.MouseButton1Click:connect(
 	function()callbackT.setMode(prevM)end)
 
-saveBttn.InfoHover.MouseEnter:connect(function()
-	saveBttn.InfoHover.Screentip.Visible=true
-end)
-saveBttn.InfoHover.MouseLeave:connect(function()
-	saveBttn.InfoHover.Screentip.Visible=false
-end)
+
+--Operations for the save button.
+local saveB=frame.Selection.SaveButton
+saveB.MouseEnter:connect(function()saveB.TextTransparency=0 end)
+saveB.MouseLeave:connect(function()saveB.TextTransparency=.25 end)
+saveB.InfoHover.MouseEnter:connect(function()
+saveB.InfoHover.Screentip.Visible=true end)
+saveB.InfoHover.MouseLeave:connect(function()
+saveB.InfoHover.Screentip.Visible=false end)
 
 --Runs for code's sake.
 gui.add(cGui)hide()
@@ -6476,10 +6477,6 @@ function mode(currM)subNum=currM[2]
 	--Calls the page's specific method.
 	moduleT[subNum].show(labelT[subNum],configTable)
 end
-
---Operations for the save button.
-saveB.MouseEnter:connect(function()saveB.TextTransparency=0 end)
-saveB.MouseLeave:connect(function()saveB.TextTransparency=.25 end)
 
 --Called upon modification of shortcuts.
 function srtF(fKeys)

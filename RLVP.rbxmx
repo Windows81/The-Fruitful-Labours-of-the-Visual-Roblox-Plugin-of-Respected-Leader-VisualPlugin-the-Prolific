@@ -1,6 +1,8 @@
 <roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
   <Item class="LocalScript" referent="RBXE1B73D8C010B4C30919FFC0308A2B604">
     <Properties>
+      <BinaryString name="AttributesSerialize">
+      </BinaryString>
       <bool name="Disabled">false</bool>
       <Content name="LinkedSource">
         <null>
@@ -8,7 +10,8 @@
       </Content>
       <string name="Name">LocalScript</string>
       <string name="ScriptGuid">{DB9F16EF-E1FC-406E-BC36-85F8A9FB09FB}</string>
-      <ProtectedString name="Source"><![CDATA[local t={Start=function(plugin)
+      <ProtectedString name="Source"><![CDATA[--Why this weird setup?  Blame Accessible Plugins.
+local t={Start=function(plugin)
 	
 script.Plugin.Value=plugin
 while not script.Plugin
@@ -22,14 +25,21 @@ require(script.ShortcutModule)
 require(script.ConfigGuiModule)
 require(script.GuiElemModule)
 
-end}if plugin then
-t.Start(plugin)end
+end}
+
+plugin=plugin
+if plugin then
+t.Start(plugin)
+end
+
 return t]]></ProtectedString>
       <BinaryString name="Tags">
       </BinaryString>
     </Properties>
     <Item class="ObjectValue" referent="RBX5E067D4403B44E8DAFA4F9763DA70759">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <string name="Name">Plugin</string>
         <BinaryString name="Tags">
         </BinaryString>
@@ -38,6 +48,8 @@ return t]]></ProtectedString>
     </Item>
     <Item class="ModuleScript" referent="RBX72FF92928A33427494354445282CA6C0">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -112,6 +124,8 @@ deactivate=deactivate}]]></ProtectedString>
     </Item>
     <Item class="ModuleScript" referent="RBX0AB6BE40E4FC4BDE8FE702100AF1EF07">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -162,6 +176,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX095EA676C034448891EFC6B7BA24F94A">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -430,6 +446,8 @@ return{
             <X>0</X>
             <Y>1</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>0.572549045</R>
@@ -482,6 +500,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -581,6 +601,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -680,6 +702,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -779,6 +803,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -874,6 +900,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBX90E7A8E0B67C403189B2B215A8EE59C9">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -903,6 +931,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBXEF29363203EC4A5C98C1B8F9C23CF776">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -1005,6 +1035,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>0.992156923</R>
@@ -1057,6 +1089,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -1110,6 +1144,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -1189,6 +1225,8 @@ return{
             </Properties>
             <Item class="UIListLayout" referent="RBX73A2F4FAF52C44B7914B9D15B7A13305">
               <Properties>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <token name="FillDirection">1</token>
                 <token name="HorizontalAlignment">1</token>
                 <string name="Name">UIListLayout</string>
@@ -1209,6 +1247,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -1288,6 +1328,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -1365,6 +1407,8 @@ return{
               <X>0</X>
               <Y>1</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>0.992156923</R>
@@ -1417,6 +1461,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -1470,6 +1516,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -1549,6 +1597,8 @@ return{
             </Properties>
             <Item class="UIListLayout" referent="RBXA5EE23292D9146CE8608F0749866F0A1">
               <Properties>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <token name="FillDirection">1</token>
                 <token name="HorizontalAlignment">1</token>
                 <string name="Name">UIListLayout</string>
@@ -1569,6 +1619,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -1644,6 +1696,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBX3C79070AB1AD452DBEA804D6B27FA77F">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -1758,6 +1812,8 @@ return{
         <Item class="MeshPart" referent="RBX69ED4D0960B14C9C9CDE8723F7AFF9AF">
           <Properties>
             <bool name="Anchored">true</bool>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <float name="BackParamA">-0.5</float>
             <float name="BackParamB">0.5</float>
             <token name="BackSurface">0</token>
@@ -1853,6 +1909,8 @@ return{
         <Item class="Part" referent="RBX804CC3497A92401DB893F62A69C5F2DF">
           <Properties>
             <bool name="Anchored">true</bool>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <float name="BackParamA">-0.5</float>
             <float name="BackParamB">0.5</float>
             <token name="BackSurface">0</token>
@@ -1929,6 +1987,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBXB7944B51E21D4E94A20F07F11647B433">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -2056,6 +2116,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -2132,6 +2194,8 @@ return{
                 <X>1</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -2202,6 +2266,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBXC31231C8BE4D48C6A6E17BF3B241C052">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -2227,6 +2293,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX1BFB17C9C13F4DA89984DBDEEF9ACFA6">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -2388,6 +2456,8 @@ return{
       <Item class="Handles" referent="RBX0190EC69A1554F0F8763D6ED8BEFC96C">
         <Properties>
           <Ref name="Adornee">null</Ref>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Color3 name="Color3">
             <R>0.768627524</R>
             <G>0.156862751</G>
@@ -2407,6 +2477,8 @@ return{
       <Item class="Handles" referent="RBXF22227202EC9447884039353F604650F">
         <Properties>
           <Ref name="Adornee">null</Ref>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Color3 name="Color3">
             <R>0</R>
             <G>0.470588267</G>
@@ -2426,6 +2498,8 @@ return{
       <Item class="ArcHandles" referent="RBX219817A3005048CFB4F05DA748931F78">
         <Properties>
           <Ref name="Adornee">null</Ref>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Axes name="Axes">
             <axes>7</axes>
           </Axes>
@@ -2444,6 +2518,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX17D146EE4B574363BF293480972B2512">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -2506,6 +2582,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX0467B7EDAE4649B681FC9539ADD50678">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -2592,6 +2670,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX5C717E51F49946809E9237066E209E1E">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -2644,6 +2724,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXF6CDFAB167F54CFBA0E8801CC3FD2ADD">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -2797,6 +2879,8 @@ return{
       <Item class="Part" referent="RBX245856E26AA749FFA1A316543D223E45">
         <Properties>
           <bool name="Anchored">true</bool>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <float name="BackParamA">-0.5</float>
           <float name="BackParamB">0.5</float>
           <token name="BackSurface">0</token>
@@ -2874,6 +2958,8 @@ return{
         <Properties>
           <Ref name="Adornee">RBX245856E26AA749FFA1A316543D223E45</Ref>
           <bool name="AlwaysOnTop">true</bool>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <CoordinateFrame name="CFrame">
             <X>0</X>
             <Y>0</Y>
@@ -2914,6 +3000,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX93F893637E6C412C8824D5A6083F7E10">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -3583,6 +3671,8 @@ return{
       </Properties>
       <Item class="ModuleScript" referent="RBX7E89C53C543D49E0804D921E911B8691">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -3658,6 +3748,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX0A33C8904E654F81B24161A8442DAB71">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -3766,6 +3858,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX9E1FC3AAE33B42B194221962CDAB4E7A">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -3946,6 +4040,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX16CC3ABB126B4386B22194E7267CFA4C">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -3964,6 +4060,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXBEF46729C3424DCDAABBB4537571E8F9">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -3984,6 +4082,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX6997209866A843EC940F19EA56D01258">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -4018,6 +4118,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXDF02FA486E0B485B888E8BDE35D2C14A">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -4125,6 +4227,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX3349CFDE92094D4EBFE4449B5E52A447">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -4257,6 +4361,8 @@ return{
             <X>0</X>
             <Y>0</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>1</R>
@@ -4309,6 +4415,8 @@ return{
               <X>1</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -4382,6 +4490,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -4455,6 +4565,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -4534,6 +4646,8 @@ return{
             <X>0</X>
             <Y>0</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>1</R>
@@ -4586,6 +4700,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>0</R>
@@ -4639,6 +4755,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -4692,6 +4810,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -4739,6 +4859,8 @@ return{
           </Properties>
           <Item class="UIListLayout" referent="RBX593C8A22F81E415DB462597610AE718F">
             <Properties>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <token name="FillDirection">1</token>
               <token name="HorizontalAlignment">1</token>
               <string name="Name">UIListLayout</string>
@@ -4755,6 +4877,8 @@ return{
         </Item>
         <Item class="BindableEvent" referent="RBX6F54F929C32044B9B1AC830C467A9472">
           <Properties>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <string name="Name">Event</string>
             <BinaryString name="Tags">
             </BinaryString>
@@ -4768,6 +4892,8 @@ return{
             <X>0</X>
             <Y>0</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>1</R>
@@ -4820,6 +4946,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -4890,6 +5018,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX8399E87938C64330B46BB32C11D788B8">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -4912,6 +5042,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXE82BF0AB1F0746B19EA82BE47FD352FB">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -4949,6 +5081,8 @@ end]]></ProtectedString>
     </Item>
     <Item class="ModuleScript" referent="RBX44921DC6A1FE4544A192A00E122CDB92">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5039,21 +5173,21 @@ added:Connect(function(p)
 	
 	--Takes care of the event for undoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=wpm.onUndo:
-	Wait()if done then return end
-		done=true warn('Action undone:',wp)
-		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,true,addParts,remParts)
-	end))
-	
+		function()local wp=wpm.onUndo:
+		Wait()if done then return end
+			done=true warn('Action undone:',wp)
+			addC:Disconnect()remC:Disconnect()
+			wpAction(wp,true,addParts,remParts)
+		end))
+		
 	--Takes care of the event for redoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=wpm.onRedo:
-	Wait()if done then return end
-		done=true warn('Action redone:',wp)
-		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,false,addParts,remParts)
-	end))
+		function()local wp=wpm.onRedo:
+		Wait()if done then return end
+			done=true warn('Action redone:',wp)
+			addC:Disconnect()remC:Disconnect()
+			wpAction(wp,false,addParts,remParts)
+		end))
 	
 	--Waits for events to lapse.
 	rs:wait()
@@ -5099,21 +5233,21 @@ remov:Connect(function(p)
 	
 	--Takes care of the event for undoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=wpm.onUndo:
-	Wait()if done then return end
-		done=true warn('Action undone:',wp)
-		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,true,addParts,remParts)
-	end))
+		function()local wp=wpm.onUndo:
+		Wait()if done then return end
+			done=true warn('Action undone:',wp)
+			addC:Disconnect()remC:Disconnect()
+			wpAction(wp,true,addParts,remParts)
+		end))
 	
 	--Takes care of the event for redoing changes.
 	coroutine.resume(coroutine.create(
-	function()local wp=wpm.onRedo:
-	Wait()if done then return end
-		done=true warn('Action redone:',wp)
-		addC:Disconnect()remC:Disconnect()
-		wpAction(wp,false,addParts,remParts)
-	end))
+		function()local wp=wpm.onRedo:
+		Wait()if done then return end
+			done=true warn('Action redone:',wp)
+			addC:Disconnect()remC:Disconnect()
+			wpAction(wp,false,addParts,remParts)
+		end))
 	
 	--Waits for events to lapse.
 	rs:wait()
@@ -5178,6 +5312,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX9101EE86E45149BAA07EC872A46DC266">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5204,6 +5340,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX2215231EA8BC45DA80F0BCCB1D0887F1">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5221,6 +5359,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXF3670C12D8A340BC9C5461AAFE406305">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5250,6 +5390,8 @@ return{
       </Properties>
       <Item class="ModuleScript" referent="RBX8C4496A0CA844097949CAA88D2EFE264">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -5457,6 +5599,8 @@ return{
         </Properties>
         <Item class="ModuleScript" referent="RBX9899BFF9F67245CAB25D04B3279DDCC2">
           <Properties>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <Content name="LinkedSource">
               <null>
               </null>
@@ -5522,6 +5666,8 @@ local cache={}return{
       </Item>
       <Item class="ModuleScript" referent="RBXC8AD91D731B4466EB6413C42187EACB5">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -5557,6 +5703,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBXEF46E2ACB61A4562BE2357CC96D737B9">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -5593,6 +5741,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX6B6864B121024B3ABA3CB42A4AE38EF4">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5619,6 +5769,8 @@ return nil]]></ProtectedString>
     </Item>
     <Item class="ModuleScript" referent="RBX92F07DA46ACD44399F4FA3FFD3A010AC">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5647,6 +5799,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXBAFF85E68F1741BC838920913B6DDB07">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5681,6 +5835,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX5E2B568C7FF24B94B8D8357E994FC621">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -5748,7 +5904,7 @@ end
 
 --Binds to the close button.
 frame.Close.MouseButton1Click:connect(
-function()callbackT.setMode(prevM)end)
+	function()callbackT.setMode(prevM)end)
 
 saveBttn.InfoHover.MouseEnter:connect(function()
 	saveBttn.InfoHover.Screentip.Visible=true
@@ -5774,6 +5930,8 @@ return{
       </Properties>
       <Item class="ModuleScript" referent="RBXA40F45BD9752451B8A7027B4B5FC60E0">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -5824,6 +5982,10 @@ function mode(currM)subNum=currM[2]
 	moduleT[subNum].show(labelT[subNum],configTable)
 end
 
+--Operations for the save button.
+saveB.MouseEnter:connect(function()saveB.TextTransparency=0 end)
+saveB.MouseLeave:connect(function()saveB.TextTransparency=.25 end)
+
 --Called upon modification of shortcuts.
 function srtF(fKeys)
 	for i,l in next,labelT do
@@ -5848,6 +6010,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">false</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -5924,6 +6088,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -5993,6 +6159,8 @@ return{
         </Item>
         <Item class="ModuleScript" referent="RBXABBA428E10E24117BDF07E5FB52B50F7">
           <Properties>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <Content name="LinkedSource">
               <null>
               </null>
@@ -6028,6 +6196,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBXE7852FC5AB394E9F9E70AD5FF722CD26">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -6052,6 +6222,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX1543A062E8414061869C5C02F9FE68F7">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -6072,6 +6244,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX2E80A408384443658E034DA3FB073615">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -6121,6 +6295,8 @@ end]]></ProtectedString>
             <X>0</X>
             <Y>0</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>1</R>
@@ -6173,6 +6349,8 @@ end]]></ProtectedString>
               <X>1</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -6246,6 +6424,8 @@ end]]></ProtectedString>
               <X>1</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -6319,6 +6499,8 @@ end]]></ProtectedString>
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoButtonColor">true</bool>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
@@ -6394,6 +6576,8 @@ end]]></ProtectedString>
     </Item>
     <Item class="ModuleScript" referent="RBXE1B9B9D659C04424854B0C3617FB466D">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -6433,6 +6617,8 @@ return{getSubs=getSubs,getBinds=getBinds}]]></ProtectedString>
       </Properties>
       <Item class="ModuleScript" referent="RBXF958E41E4C924A4CB371337F2E0E5486">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -6460,6 +6646,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBX7B5858A2FCA544CE8375E4119C56DF39">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -6491,6 +6679,8 @@ return{
       </Item>
       <Item class="ModuleScript" referent="RBX260FE65D18A74D978402591E5DBD6F71">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <Content name="LinkedSource">
             <null>
             </null>
@@ -6518,6 +6708,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX10FDC8C6BB184A85A9D1D28F43BC04A7">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -6559,6 +6751,8 @@ return{
     </Item>
     <Item class="ScreenGui" referent="RBX756C1CEA4589443EBBDADD0D9EEB21F6">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <bool name="AutoLocalize">true</bool>
         <int name="DisplayOrder">0</int>
         <bool name="Enabled">true</bool>
@@ -6577,6 +6771,8 @@ return{
             <X>0.5</X>
             <Y>0.5</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>0.650980413</R>
@@ -6629,6 +6825,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -6681,6 +6879,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0</R>
@@ -6734,6 +6934,8 @@ return{
                 <X>1</X>
                 <Y>1</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -6807,6 +7009,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -6860,6 +7064,8 @@ return{
                 <X>1</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoButtonColor">true</bool>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
@@ -6936,6 +7142,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -7010,6 +7218,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0.333333343</R>
@@ -7063,6 +7273,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0.619607866</R>
@@ -7110,6 +7322,8 @@ return{
             </Properties>
             <Item class="UIListLayout" referent="RBX099607E7097849099F9D014A9AF6BC39">
               <Properties>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <token name="FillDirection">1</token>
                 <token name="HorizontalAlignment">1</token>
                 <string name="Name">UIListLayout</string>
@@ -7130,6 +7344,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">false</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -7169,7 +7385,7 @@ return{
                 <Ref name="SelectionImageObject">null</Ref>
                 <UDim2 name="Size">
                   <XS>0</XS>
-                  <XO>99</XO>
+                  <XO>119</XO>
                   <YS>0</YS>
                   <YO>30</YO>
                 </UDim2>
@@ -7177,7 +7393,7 @@ return{
                 <token name="Style">0</token>
                 <BinaryString name="Tags">
                 </BinaryString>
-                <string name="Text">SAVE</string>
+                <string name="Text">SAVE     </string>
                 <Color3 name="TextColor3">
                   <R>1</R>
                   <G>1</G>
@@ -7206,6 +7422,8 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -7279,6 +7497,8 @@ return{
                     <X>0.5</X>
                     <Y>0.5</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -7296,12 +7516,12 @@ return{
                   <bool name="ClipsDescendants">false</bool>
                   <bool name="Draggable">false</bool>
                   <Content name="Image">
-                    <url>rbxasset:///textures/ui/LuaChat/icons/ic-info.png</url>
+                    <url>rbxasset://textures/ui/InspectMenu/ico_favorite.png</url>
                   </Content>
                   <Color3 name="ImageColor3">
-                    <R>0</R>
-                    <G>0</G>
-                    <B>0</B>
+                    <R>1</R>
+                    <G>1</G>
+                    <B>1</B>
                   </Color3>
                   <Vector2 name="ImageRectOffset">
                     <X>0</X>
@@ -7311,7 +7531,7 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
-                  <float name="ImageTransparency">0.800000012</float>
+                  <float name="ImageTransparency">0.600000024</float>
                   <int name="LayoutOrder">0</int>
                   <string name="Name">InfoHover</string>
                   <Ref name="NextSelectionDown">null</Ref>
@@ -7320,7 +7540,7 @@ return{
                   <Ref name="NextSelectionUp">null</Ref>
                   <UDim2 name="Position">
                     <XS>1</XS>
-                    <XO>17</XO>
+                    <XO>-3</XO>
                     <YS>1</YS>
                     <YO>-7</YO>
                   </UDim2>
@@ -7365,6 +7585,8 @@ return{
                       <X>0</X>
                       <Y>0</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -7431,79 +7653,6 @@ return{
                     <int name="ZIndex">1</int>
                   </Properties>
                 </Item>
-                <Item class="TextLabel" referent="RBX25E6B77468A6442DAB132B7A21938CA1">
-                  <Properties>
-                    <bool name="Active">false</bool>
-                    <Vector2 name="AnchorPoint">
-                      <X>0</X>
-                      <Y>0</Y>
-                    </Vector2>
-                    <bool name="AutoLocalize">true</bool>
-                    <Color3 name="BackgroundColor3">
-                      <R>1</R>
-                      <G>1</G>
-                      <B>1</B>
-                    </Color3>
-                    <float name="BackgroundTransparency">1</float>
-                    <Color3 name="BorderColor3">
-                      <R>0.105882362</R>
-                      <G>0.164705887</G>
-                      <B>0.207843155</B>
-                    </Color3>
-                    <token name="BorderMode">0</token>
-                    <int name="BorderSizePixel">1</int>
-                    <bool name="ClipsDescendants">false</bool>
-                    <bool name="Draggable">false</bool>
-                    <token name="Font">18</token>
-                    <int name="LayoutOrder">0</int>
-                    <float name="LineHeight">1</float>
-                    <string name="Name">TextLabel</string>
-                    <Ref name="NextSelectionDown">null</Ref>
-                    <Ref name="NextSelectionLeft">null</Ref>
-                    <Ref name="NextSelectionRight">null</Ref>
-                    <Ref name="NextSelectionUp">null</Ref>
-                    <UDim2 name="Position">
-                      <XS>0</XS>
-                      <XO>0</XO>
-                      <YS>0</YS>
-                      <YO>0</YO>
-                    </UDim2>
-                    <Ref name="RootLocalizationTable">null</Ref>
-                    <float name="Rotation">0</float>
-                    <bool name="Selectable">false</bool>
-                    <Ref name="SelectionImageObject">null</Ref>
-                    <UDim2 name="Size">
-                      <XS>1</XS>
-                      <XO>-53</XO>
-                      <YS>0.5</YS>
-                      <YO>7</YO>
-                    </UDim2>
-                    <token name="SizeConstraint">0</token>
-                    <BinaryString name="Tags">
-                    </BinaryString>
-                    <string name="Text">DEBUG LEVEL</string>
-                    <Color3 name="TextColor3">
-                      <R>0.654901981</R>
-                      <G>0.654901981</G>
-                      <B>0.654901981</B>
-                    </Color3>
-                    <bool name="TextScaled">false</bool>
-                    <float name="TextSize">13</float>
-                    <Color3 name="TextStrokeColor3">
-                      <R>0</R>
-                      <G>0</G>
-                      <B>0</B>
-                    </Color3>
-                    <float name="TextStrokeTransparency">1</float>
-                    <float name="TextTransparency">0</float>
-                    <token name="TextTruncate">0</token>
-                    <bool name="TextWrapped">false</bool>
-                    <token name="TextXAlignment">1</token>
-                    <token name="TextYAlignment">2</token>
-                    <bool name="Visible">true</bool>
-                    <int name="ZIndex">1</int>
-                  </Properties>
-                </Item>
               </Item>
             </Item>
           </Item>
@@ -7514,6 +7663,8 @@ return{
                 <X>1</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0.937254965</R>
@@ -7561,12 +7712,16 @@ return{
             </Properties>
             <Item class="Folder" referent="RBXBDF268BA1CDA4D78B1A753DF1EA9C617">
               <Properties>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <string name="Name">main</string>
                 <BinaryString name="Tags">
                 </BinaryString>
               </Properties>
               <Item class="UIGridLayout" referent="RBXBAFD536BF3134BA99BF3E8CAB6E9C10E">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <UDim2 name="CellPadding">
                     <XS>0</XS>
                     <XO>30</XO>
@@ -7597,6 +7752,8 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -7649,6 +7806,8 @@ return{
                       <X>1</X>
                       <Y>0.5</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -7701,6 +7860,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
                         <R>1</R>
@@ -7785,6 +7946,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoButtonColor">true</bool>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
@@ -7863,6 +8026,8 @@ return{
                       <X>0</X>
                       <Y>0</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -7937,6 +8102,8 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -7989,6 +8156,8 @@ return{
                       <X>1</X>
                       <Y>0.5</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -8041,6 +8210,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
                         <R>1</R>
@@ -8125,6 +8296,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoButtonColor">true</bool>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
@@ -8203,6 +8376,8 @@ return{
                       <X>0</X>
                       <Y>0</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -8277,6 +8452,8 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -8329,6 +8506,8 @@ return{
                       <X>1</X>
                       <Y>0.5</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -8381,6 +8560,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
                         <R>1</R>
@@ -8465,6 +8646,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoButtonColor">true</bool>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
@@ -8543,6 +8726,8 @@ return{
                       <X>0</X>
                       <Y>0</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -8617,6 +8802,8 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -8669,6 +8856,8 @@ return{
                       <X>1</X>
                       <Y>0.5</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -8721,6 +8910,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
                         <R>1</R>
@@ -8805,6 +8996,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoButtonColor">true</bool>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
@@ -8883,6 +9076,8 @@ return{
                       <X>0</X>
                       <Y>0</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -8957,6 +9152,8 @@ return{
                     <X>0</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -9009,6 +9206,8 @@ return{
                       <X>1</X>
                       <Y>0.5</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -9061,6 +9260,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
                         <R>1</R>
@@ -9145,6 +9346,8 @@ return{
                         <X>0</X>
                         <Y>0</Y>
                       </Vector2>
+                      <BinaryString name="AttributesSerialize">
+                      </BinaryString>
                       <bool name="AutoButtonColor">true</bool>
                       <bool name="AutoLocalize">true</bool>
                       <Color3 name="BackgroundColor3">
@@ -9223,6 +9426,8 @@ return{
                       <X>0</X>
                       <Y>0</Y>
                     </Vector2>
+                    <BinaryString name="AttributesSerialize">
+                    </BinaryString>
                     <bool name="AutoLocalize">true</bool>
                     <Color3 name="BackgroundColor3">
                       <R>1</R>
@@ -9295,6 +9500,8 @@ return{
         </Item>
         <Item class="UISizeConstraint" referent="RBXC0AD878B743E4D7E9B57BC42B01E695E">
           <Properties>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <Vector2 name="MaxSize">
               <X>1000</X>
               <Y>600</Y>
@@ -9311,6 +9518,8 @@ return{
       </Item>
       <Item class="Folder" referent="RBX5F53BA9105E24BB487E67FC08D233EC7">
         <Properties>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <string name="Name">elems</string>
           <BinaryString name="Tags">
           </BinaryString>
@@ -9322,6 +9531,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -9374,6 +9585,8 @@ return{
                 <X>0.5</X>
                 <Y>0.5</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -9426,6 +9639,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -9510,6 +9725,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -9597,6 +9814,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -9674,6 +9893,8 @@ return{
                     <X>0.5</X>
                     <Y>0.5</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -9762,6 +9983,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -9839,6 +10062,8 @@ return{
                   <X>1</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -9913,6 +10138,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0</R>
@@ -9966,6 +10193,8 @@ return{
                 <X>1</X>
                 <Y>1</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -10039,6 +10268,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -10092,6 +10323,8 @@ return{
                 <X>0.5</X>
                 <Y>0.5</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -10144,6 +10377,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -10228,6 +10463,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -10315,6 +10552,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -10392,6 +10631,8 @@ return{
                     <X>0.5</X>
                     <Y>0.5</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -10480,6 +10721,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -10557,6 +10800,8 @@ return{
                   <X>1</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -10632,6 +10877,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -10684,6 +10931,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0</R>
@@ -10737,6 +10986,8 @@ return{
                 <X>1</X>
                 <Y>1</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -10810,6 +11061,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -10863,6 +11116,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0.576470613</R>
@@ -10915,6 +11170,8 @@ return{
                   <X>0</X>
                   <Y>0.5</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -10968,6 +11225,8 @@ return{
                   <X>0.5</X>
                   <Y>0.5</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>0.623529434</R>
@@ -11048,6 +11307,8 @@ return{
               </Properties>
               <Item class="UIGridLayout" referent="RBX1CC20C304661407491429D8A8D09BD4B">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <UDim2 name="CellPadding">
                     <XS>0</XS>
                     <XO>0</XO>
@@ -11079,6 +11340,8 @@ return{
                   <X>1</X>
                   <Y>0.5</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -11138,6 +11401,8 @@ return{
                 <X>0.5</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0.937254965</R>
@@ -11216,6 +11481,8 @@ return{
             <Item class="Part" referent="RBX4D33E4B52B024005A7852FB6D1F9FA90">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11290,6 +11557,8 @@ return{
               </Properties>
               <Item class="Decal" referent="RBX0C417E9591764F4DACEAF0046D42A28A">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <Color3 name="Color3">
                     <R>1</R>
                     <G>1</G>
@@ -11307,6 +11576,8 @@ return{
               </Item>
               <Item class="Decal" referent="RBX0D4E0C5D05C24BB487C627D0727B7955">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <Color3 name="Color3">
                     <R>1</R>
                     <G>1</G>
@@ -11325,6 +11596,8 @@ return{
             </Item>
             <Item class="Camera" referent="RBXCC5EC06DB09F48A494083E6E08DAD413">
               <Properties>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <CoordinateFrame name="CFrame">
                   <X>59.7601738</X>
                   <Y>83.0280075</Y>
@@ -11366,6 +11639,8 @@ return{
             <Item class="Part" referent="RBX8B22B38B766A48FD99634F0E23FCA698">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11440,6 +11715,8 @@ return{
               </Properties>
               <Item class="SpecialMesh" referent="RBX054D05C0D2C74EA489E1FC43025EC9F7">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <token name="LODX">2</token>
                   <token name="LODY">2</token>
                   <Content name="MeshId">
@@ -11475,6 +11752,8 @@ return{
             <Item class="Part" referent="RBXE18BAD2E85A741F89CFB1F3D4F41EFB9">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11549,6 +11828,8 @@ return{
               </Properties>
               <Item class="SpecialMesh" referent="RBX6985CC13FAA94C10A5F6B666D2BAEB7F">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <token name="LODX">2</token>
                   <token name="LODY">2</token>
                   <Content name="MeshId">
@@ -11584,6 +11865,8 @@ return{
             <Item class="Part" referent="RBX2B17495ADE254FC1BCA3344848237568">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11658,6 +11941,8 @@ return{
               </Properties>
               <Item class="CylinderMesh" referent="RBXF1C43FA029B147BEA85E1C28C8A0EC14">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <float name="Bevel">0</float>
                   <float name="Bevel Roundness">0</float>
                   <float name="Bulge">0</float>
@@ -11687,6 +11972,8 @@ return{
             <Item class="MeshPart" referent="RBX4FAAAD4B0CBF47FDA5403CE60F3F8533">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11782,6 +12069,8 @@ return{
             <Item class="MeshPart" referent="RBXA9198608AAC446E18EA2A966459F6BB3">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11877,6 +12166,8 @@ return{
             <Item class="MeshPart" referent="RBX82A5626CBB2D461B8153770F2D94B693">
               <Properties>
                 <bool name="Anchored">true</bool>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <float name="BackParamA">-0.5</float>
                 <float name="BackParamB">0.5</float>
                 <token name="BackSurface">0</token>
@@ -11978,6 +12269,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -12030,6 +12323,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0</R>
@@ -12083,6 +12378,8 @@ return{
                 <X>1</X>
                 <Y>1</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -12156,6 +12453,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -12209,6 +12508,8 @@ return{
                 <X>0</X>
                 <Y>1</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -12256,6 +12557,8 @@ return{
             </Properties>
             <Item class="UIGridLayout" referent="RBX29950A531F0A4E37AFAF35695E4DB091">
               <Properties>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <UDim2 name="CellPadding">
                   <XS>0</XS>
                   <XO>8</XO>
@@ -12286,6 +12589,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -12384,6 +12689,8 @@ return{
                     <X>1</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -12458,6 +12765,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -12556,6 +12865,8 @@ return{
                     <X>1</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -12630,6 +12941,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -12728,6 +13041,8 @@ return{
                     <X>1</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -12802,6 +13117,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -12900,6 +13217,8 @@ return{
                     <X>1</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -12974,6 +13293,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -13072,6 +13393,8 @@ return{
                     <X>1</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -13146,6 +13469,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoButtonColor">true</bool>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
@@ -13244,6 +13569,8 @@ return{
                     <X>1</X>
                     <Y>0</Y>
                   </Vector2>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <bool name="AutoLocalize">true</bool>
                   <Color3 name="BackgroundColor3">
                     <R>1</R>
@@ -13319,6 +13646,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0.576470613</R>
@@ -13371,6 +13700,8 @@ return{
                   <X>0</X>
                   <Y>0.5</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -13424,6 +13755,8 @@ return{
                   <X>0.5</X>
                   <Y>0.5</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>0.623529434</R>
@@ -13504,6 +13837,8 @@ return{
               </Properties>
               <Item class="UIGridLayout" referent="RBXE4BB9DF515754AFD90179CC766506026">
                 <Properties>
+                  <BinaryString name="AttributesSerialize">
+                  </BinaryString>
                   <UDim2 name="CellPadding">
                     <XS>0</XS>
                     <XO>0</XO>
@@ -13535,6 +13870,8 @@ return{
                   <X>1</X>
                   <Y>0.5</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -13590,6 +13927,8 @@ return{
               <X>0</X>
               <Y>0</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -13642,6 +13981,8 @@ return{
                 <X>0.5</X>
                 <Y>0.5</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -13694,6 +14035,8 @@ return{
                   <X>0</X>
                   <Y>0</Y>
                 </Vector2>
+                <BinaryString name="AttributesSerialize">
+                </BinaryString>
                 <bool name="AutoLocalize">true</bool>
                 <Color3 name="BackgroundColor3">
                   <R>1</R>
@@ -13768,6 +14111,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0</R>
@@ -13821,6 +14166,8 @@ return{
                 <X>1</X>
                 <Y>1</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -13894,6 +14241,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -13942,6 +14291,8 @@ return{
           </Item>
           <Item class="ModuleScript" referent="RBX398265CAA6614E039E6071CA57192424">
             <Properties>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <Content name="LinkedSource">
                 <null>
                 </null>
@@ -13968,6 +14319,8 @@ return{
             <X>0</X>
             <Y>0</Y>
           </Vector2>
+          <BinaryString name="AttributesSerialize">
+          </BinaryString>
           <bool name="AutoLocalize">true</bool>
           <Color3 name="BackgroundColor3">
             <R>0</R>
@@ -14020,6 +14373,8 @@ return{
               <X>0.5</X>
               <Y>0.5</Y>
             </Vector2>
+            <BinaryString name="AttributesSerialize">
+            </BinaryString>
             <bool name="AutoLocalize">true</bool>
             <Color3 name="BackgroundColor3">
               <R>1</R>
@@ -14072,6 +14427,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>0</R>
@@ -14125,6 +14482,8 @@ return{
                 <X>0.5</X>
                 <Y>0.5</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -14198,6 +14557,8 @@ return{
                 <X>0</X>
                 <Y>0</Y>
               </Vector2>
+              <BinaryString name="AttributesSerialize">
+              </BinaryString>
               <bool name="AutoLocalize">true</bool>
               <Color3 name="BackgroundColor3">
                 <R>1</R>
@@ -14249,6 +14610,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX623350787E9F4E69BECC10D11F9D52A8">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -14292,6 +14655,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBX1E9C21AAB24A456181F3C11624F30E30">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
@@ -14339,6 +14704,8 @@ return{
     </Item>
     <Item class="ModuleScript" referent="RBXBC5BF8CC802B4136B1F99F8353EF55D6">
       <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
         <Content name="LinkedSource">
           <null>
           </null>
