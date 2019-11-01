@@ -2430,7 +2430,7 @@ function set(card,n)
 	return end hMode=n
 	
 	local vf=card.
-	card.ViewportFrame
+	card.PreviewFrame
 	local pX=vf.PoleX
 	local pY=vf.PoleY
 	local pZ=vf.PoleZ
@@ -2458,8 +2458,10 @@ function set(card,n)
 		handles[i]=nil
 	end
 	
-	vf.CurrentCamera=vf.Camera
+	local cam=vf:findFirstChild'Camera'
+	or Instance.new('Camera',vf)
 	vf.Camera.CFrame=camCf1
+	vf.CurrentCamera=cam
 	
 	local h=n and script:findFirstChild(n)
 	for i=#tweens,1,-1 do tweens[i
@@ -11712,7 +11714,7 @@ return{
 									<Y>-1</Y>
 									<Z>-1</Z>
 								</Vector3>
-								<string name="Name">ViewportFrame</string>
+								<string name="Name">PreviewFrame</string>
 								<Ref name="NextSelectionDown">null</Ref>
 								<Ref name="NextSelectionLeft">null</Ref>
 								<Ref name="NextSelectionRight">null</Ref>
