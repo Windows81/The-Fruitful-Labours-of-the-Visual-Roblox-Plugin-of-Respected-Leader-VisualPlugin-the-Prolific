@@ -5921,7 +5921,7 @@ frame.Close.MouseButton1Click:connect(
 local saveB=frame.Selection.SaveButton
 saveB.MouseEnter:connect(function()saveB.TextTransparency=0 end)
 saveB.MouseLeave:connect(function()saveB.TextTransparency=.25 end)
-saveB.MouseButton1Click:connect()
+saveB.MouseButton1Click:connect(config.saveToPerm)
 saveB.InfoHover.MouseEnter:connect(function()
 saveB.InfoHover.Screentip.Visible=true end)
 saveB.InfoHover.MouseLeave:connect(function()

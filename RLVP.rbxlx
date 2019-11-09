@@ -4763,6 +4763,20 @@ for i,t in next,defaults do
 	permCache[i]=v
 end
 
+--Responsible for callbacks.
+function send(dict,isTemp)
+	
+	--Calls the 'each' binds.
+	for i,v in next,dict do
+		local f=bindEchT[i]
+		if f then f(v,false)end
+	end
+		
+	--Calls the 'all' binds.
+	for i,f in next,bindAllT do
+	f(dict,currCache,isTemp)end
+end
+
 --Selection algorithms: iterates to store enabled-states.
 local chT=require(main.AlgorChooserModule).getChoices()
 local algorChT={true,isBool}for i,algor in next,chT do
@@ -4777,15 +4791,8 @@ return{
 		permCache[i]=v
 		tempCache[i]=nil
 		allSaved=not next(tempCache)
+		send({[i]=v},false,allSaved)
 		plugin:SetSetting(i,v)
-		
-		--Calls the 'each' binds.
-		local f=bindEchT[i]if
-		f then f(v,false)end
-		
-		--Calls the 'all' binds.
-		for i,f in next,bindAllT
-		do f(i,v,false,currCache)end
 	return true end,
 	
 	setTemp=function(i,v)
@@ -4795,14 +4802,7 @@ return{
 		currCache[i]=v
 		tempCache[i]=v
 		allSaved=false
-		
-		--Calls the 'each' binds.
-		local f=bindEchT[i]if
-		f then f(v,true)end
-		
-		--Calls the 'all' binds.
-		for i,f in next,bindAllT
-		do f(i,v,true,currCache)end
+		send({[i]=v},true)
 	return true end,
 	
 	get=function(i)
@@ -4820,13 +4820,22 @@ return{
 		tempCache[i]
 	end,
 	
-	saveToPerm=function()
-		if not allSaved then
-			allSaved=true
-			for i,v in next,tempCache do
-				permCache[i]=v
-			end
+	saveToPerm=function()if allSaved
+		then return end allSaved=true
+		
+		--Don't affect tempCache yet.
+		for i,v in next,tempCache do
+			bindEchT[i](v,true)
+			permCache[i]=v
+			currCache[i]=v
 		end
+		
+		--Calls the 'all' binds; tempCache should still have its items.
+		for i,f in next,bindAllT do f(tempCache,currCache,false,allSaved)end
+		
+		--Prevents memory leaks.
+		for i in next,tempCache
+		do tempCache[i]=nil end
 	end,
 	
 	--Binds function to each setting-change.
@@ -6358,6 +6367,7 @@ return{
 					<string name="Name">ConfigGuiModule</string>
 					<string name="ScriptGuid">{2785EAB1-CCB6-4539-B63F-0678DCD8B3D8}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local saveB=require(script.SaveButtonModule)
 local mEnum=require(main.ModeEnumModule)
 local config=require(main.ConfigModule)
 local spM=require(script.SubpageModule)
@@ -6412,23 +6422,12 @@ function srtF(...)
 	spM.shortcuts(...)
 end
 
---Binds to the close button.
+--Binds to the close button; previous mode set.
 frame.Close.MouseButton1Click:connect(
 	function()callbackT.setMode(prevM)end)
 
-
---Operations for the save button.
-local saveB=frame.Selection.SaveButton
-saveB.MouseEnter:connect(function()saveB.TextTransparency=0 end)
-saveB.MouseLeave:connect(function()saveB.TextTransparency=.25 end)
-saveB.MouseButton1Click:connect()
-saveB.InfoHover.MouseEnter:connect(function()
-saveB.InfoHover.Screentip.Visible=true end)
-saveB.InfoHover.MouseLeave:connect(function()
-saveB.InfoHover.Screentip.Visible=false end)
-
---Runs for code's sake.
-gui.add(cGui)hide()
+--Initialises GUI in a few functions.
+saveB(cGui)gui.add(cGui)hide()
 
 return{
 	overlay=ovly,
@@ -6674,6 +6673,36 @@ return{
 		
 	end,
 }]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX243A109B14D34B4794CD1808DACFCEE8">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">SaveButtonModule</string>
+						<string name="ScriptGuid">{5638653E-8BC3-4DF6-8F6E-6C6F6811A95C}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local config=require(main.ConfigModule)
+local gui=require(main.GuiMainModule)
+local mouse=require(main.MouseModule)
+local cGui=gui.get'config'
+
+return function(cGui)
+	local frame,saveState=cGui.Frame
+	config.bindAll(function(_,_,_,
+	allSaved)saveState=allSaved end)
+	
+	--Operations for the save button.
+	local saveB=frame.Selection.SaveButton
+	saveB.MouseButton1Click:connect(config.saveToPerm)
+	saveB.MouseLeave:connect(function()
+		saveB.TextTransparency=saveState and.25 or.5
+		saveB.InfoHover.Screentip.Visible=false end)
+	saveB.MouseEnter:connect(function()
+		saveB.TextTransparency=saveState and 0 or.75
+		saveB.InfoHover.Screentip.Visible=saveState end)
+end]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
@@ -7927,7 +7956,7 @@ return{
 											<XS>1</XS>
 											<XO>-3</XO>
 											<YS>1</YS>
-											<YO>-7</YO>
+											<YO>-8</YO>
 										</UDim2>
 										<Ref name="RootLocalizationTable">null</Ref>
 										<float name="Rotation">0</float>
@@ -15000,13 +15029,20 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBXAA0C0F49460847608B6CF4A27B06056F">
+		<Item class="Folder" referent="RBX69AA8DD3C2394C088E507C0122FF22D7">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<string name="Name">LocalPlugins</string>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
+	</Item>
+	<Item class="Teams" referent="RBXE65C477AC4BF48EC8553FAA95183CA4C">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<string name="Name">Teams</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
 	</Item>
 	<Item class="AnalyticsService" referent="RBX795748E9FABA400297282DB571FE8A0B">
 		<Properties>
