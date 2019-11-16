@@ -3474,7 +3474,8 @@ return{
 				for x=-1,1,2 do
 				for y=-1,1,2 do
 				for z=-1,1,2 do
-				local v=c*(s*Vector3.new(x,y,z))local X,Y,Z=v.x,v.y,v.z
+				local v=c*(s*Vector3.new(x,y,z))
+				local X,Y,Z=v.x,v.y,v.z
 				if X>maxX then maxX=X elseif X<minX then minX=X end
 				if Y>maxY then maxY=Y elseif Y<minY then minY=Y end
 				if Z>maxZ then maxZ=Z elseif Z<minZ then minZ=Z end
