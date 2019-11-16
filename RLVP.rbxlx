@@ -109,6 +109,7 @@
 				<PhysicalProperties name="CustomPhysicalProperties">
 					<CustomPhysics>false</CustomPhysics>
 				</PhysicalProperties>
+				<bool name="Decoration">false</bool>
 				<float name="FrontParamA">-0.5</float>
 				<float name="FrontParamB">0.5</float>
 				<token name="FrontSurface">0</token>
@@ -1751,10 +1752,10 @@ return{
 		local cardO=card.card
 		local lat=fKeys.latIncr
 		local rot=fKeys.rotIncr
-		tbm.bind(cardO.RotIncr.TextBox)
-		tbm.bind(cardO.LatIncr.TextBox)
 		cardO.LatIncr.Shortcut.Text=lat
 		cardO.RotIncr.Shortcut.Text=rot
+		tbm.bindTextBox(cardO.RotIncr.TextBox)
+		tbm.bindTextBox(cardO.LatIncr.TextBox)
 		if binds.latIncr then return end
 		binds.latIncr=function()wait()cardO
 		.LatIncr.TextBox:CaptureFocus()end
@@ -2748,7 +2749,7 @@ end
 
 return{
 	init=function(card)
-		local grid,aB=card.card.Grid
+		local grid,aB=card.card.Grid,nil
 		local function s()subC=subC+1 showSub(card)wait(2
 		)subC=subC-1 if subC==0 then hideSub(card)end end
 		
@@ -3252,10 +3253,11 @@ local srts=require(main.ShortcutModule)
 local cGui=require(main.ConfigGuiModule)
 local subMM=require(main.SubmodeModule)
 local tbm=require(main.TextBoxModule)
-local cSubs,binds,busy={},{}
+local cSubs,binds,busy={},{},nil
 local subs=subMM.getSubs()
 local dfltM={'select',1}
-local currM,tempM=dfltM
+local currM=dfltM
+local tempM=nil
 
 function setBind(i,f)binds[i]=f end
 function getBind(i)return binds[i]end
@@ -3302,8 +3304,8 @@ gui.callback('tools','getSubs',getSubs)
 --Functional hook to the config window.
 cGui.callback('mode',setMode)
 
---Module hook that requires setup.
-tbm.setup(lock,unlock)
+--Ensures text-input doesn't mess it up.
+tbm.bindGlobal(1,lock,unlock)
 
 send(currM)
 return{
@@ -3331,7 +3333,7 @@ return{
 					<string name="ScriptGuid">{2FB52DA1-1BA2-409F-A915-AB3C16B84726}</string>
 					<ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
 local mouse=script.Parent.Plugin.Value:GetMouse()
-local binds,locked,prK={},0
+local binds,locked,prK={},0,nil
 
 function bind(pr,...)
 	if not prK or pr>prK then
@@ -3654,7 +3656,7 @@ local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=require(main.ActiveModule)
-local selGroups,binds,locked={},{}
+local selGroups,binds,locked={},{},nil
 
 --Modifies global environment.
 require(main.DebugModule)()
@@ -3867,7 +3869,7 @@ function removeC(p)
 	
 	local r
 	for i,g in next,selGroups do
-		local u,has=g.algor.asUnit
+		local u,has=g.algor.asUnit,nil
 		
 		--Evaluates whether the part is in a selection group.
 		for i,gp in next,g.parts do if gp==p then has=true end end
@@ -4436,7 +4438,7 @@ local keys,fKeys={},{}for k,i in next,keyEnums
 do keys[i]=k fKeys[i]=format.sctOutput(k)end 
 
 --Keybind-locking mechanism.
-local lockT,lockA={}function lockAll()lockA=true
+local lockT,lockA={},nil function lockAll()lockA=true
 end function lock(i)lockT[i]=(lockT[i]or 0)+1 end
 function unlock(i)lockA,lockT[i]=false,lockT[i]-1 end
 
@@ -5698,7 +5700,7 @@ local wpm=require(script.Parent.WaypointModule)
 local rs=game['Run Service'].RenderStepped
 local addParts,remParts={},{}
 local selSer=game.Selection
-local binds,debounce={}
+local binds,debounce={},nil
 
 --Modifies global environment.
 require(script.Parent.DebugModule)()
@@ -5883,7 +5885,7 @@ selSer.SelectionChanged:Connect(function()
 	if debounce then return end debounce=true
 	
 	--Stores all removed parts on a table.
-	local t,d={}local e=remov:Connect(function(p)
+	local t,d={},nil local e=remov:Connect(function(p)
 		if check(p)and p.Parent then
 			warn('Destroyed:',p)
 			t[p],d=true,true
@@ -5920,7 +5922,7 @@ return{
 					<string name="ScriptGuid">{E85A3061-82FB-4A7C-98D5-18CFEE85D0E0}</string>
 					<ProtectedString name="Source"><![CDATA[return{
 	order=function(w,...)
-		local t,done={...}
+		local t,done={...},nil
 		spawn(function()
 			local l=#t
 			for i=1,l do
@@ -6439,7 +6441,7 @@ local prevM function mdeF(currM,tempM)
 end
 
 function srtF(...)
-	local s,b=''for i,m in next,mEnum do if m[1]~='config'
+	local b,s=nil,''for i,m in next,mEnum do if m[1]~='config'
 	then s,b=s..(b and', 'or'')..m[2],true end end
 	frame.Close.TextLabel.Text=s
 	spM.shortcuts(...)
@@ -6775,11 +6777,11 @@ end]]></ProtectedString>
 					<string name="Name">AlgorConfigModule</string>
 					<string name="ScriptGuid">{FA2B0A4A-6122-4099-8D25-43806793D977}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local xtra,xtraCl,mValue=script.Extra,nil,nil
 local acTk=require(main.ActiveTickModule)
 local srts=require(main.ShortcutModule)
 local config=require(main.ConfigModule)
 local drpd=require(main.DropdownModule)
-local xtra,xtraCl,mValue=script.Extra
 
 local pValue=true function pToggle()pValue=not pValue
 xtraCl.Toggle.TextTransparency=pValue and.3 or 0 end
@@ -7204,33 +7206,37 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">TextBoxModule</string>
 					<string name="ScriptGuid">{F13C8012-403E-4B92-AFB1-FCF29DBD2124}</string>
-					<ProtectedString name="Source"><![CDATA[local tbT,f,uf={}
+					<ProtectedString name="Source"><![CDATA[local globals={}
+local locals={}
 
 return{
-	setup=function(fF,ufF)
-		f,uf=fF,ufF
-		for tb in next,tbT do
-			local t=tbT[tb]for i,b in next,
-			t do b:disconnect()t[i]=nil end
-			
-			tbT[tb]={
-				tb.Focused:connect(f),
-				tb.FocusLost:connect(uf),
-			}
+	bindGlobal=function(i,fF,lF)
+		local t={[true]={fF,lF}}
+		for tb in next,locals do
+			t[tb]={
+			tb.Focused:connect(fF),
+			tb.FocusLost:connect(lF)}
+		end
+		globals[i]=t
+	end,
+	
+	bindTextBox=function(tb,fF,lF)
+		locals[tb]=fF and{
+		tb.Focused:connect(fF),
+		tb.FocusLost:connect(lF)}or{}
+		for i,t in next,globals do
+			local f,l=unpack(t[true])
+			print(f,l)
+			t[tb]={
+			tb.Focused:connect(f),
+			tb.FocusLost:connect(l)}
 		end
 	end,
 	
-	bind=function(tb)
-		tbT[tb]=f and{
-			tb.Focused:connect(f),
-			tb.FocusLost:connect(uf),
-		}or{}
-	end,
-	
-	unbind=function(tb)
-		local t=tbT[tb]
-		if t then for i,b in next,t do
-		b:disconnect()t[i]=nil end end
+	unbindGlobal=function(i)
+		for _,c in next,globals
+		[i] do c:Disconnect()
+		end globals[i]=nil
 	end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -13375,7 +13381,7 @@ return{
 					<string name="Name">KeybindModule</string>
 					<string name="ScriptGuid">{1D528035-9A72-4CC6-B036-3C79506F2B6B}</string>
 					<ProtectedString name="Source"><![CDATA[local uis=game:service'UserInputService'
-local binds,shft,prK={},false
+local binds,shft,prK={},false,nil
 
 function bind(pr,f)
 	if not prK or pr>prK then
@@ -13462,7 +13468,7 @@ return{
 local gui=require(main.GuiMainModule)
 local actv=require(main.ActiveModule)
 local mode=require(main.ModeModule)
-local fr,shown=gui.get'block'.Frame
+local fr,shown=gui.get'block'.Frame,nil
 fr.Parent,fr.Visible=nil,true
 
 return{
@@ -13717,7 +13723,7 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<double name="Timeout">10</double>
 		</Properties>
-		<Item class="Folder" referent="RBX69AA8DD3C2394C088E507C0122FF22D7">
+		<Item class="Folder" referent="RBXE02443E376A34F638C979909E72DC07C">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<string name="Name">LocalPlugins</string>
