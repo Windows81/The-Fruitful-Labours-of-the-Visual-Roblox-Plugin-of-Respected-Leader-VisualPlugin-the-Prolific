@@ -2686,12 +2686,13 @@ return{
 local tween=require(main.TweenModule)
 local subTempl=script.TextButton
 local subElems={}
-local subElemC=0
-local events={}
+local buttons={}
 local subC=0
-local subEvt
 local cList
 
+local shownSub
+local showableSub
+local enabledSub=true
 function doSub(card,k)
 	local list=card.callbacks.getSubs(k)
 	if cList==list or card.callbacks.
@@ -2702,7 +2703,7 @@ function doSub(card,k)
 	e:destroy()end subElems={}
 	
 	local sf=card.card.Sub.ScrollingFrame
-	subElemC=0 for i,n in next,list do
+	local subElemC=0 for i,n in next,list do
 		local c=subTempl:clone()
 		c.Activated:connect(function()
 			card.callbacks.set(k,n)
@@ -2716,81 +2717,99 @@ function doSub(card,k)
 		subElems[n]=c
 		c.Parent=sf
 	end
+	showableSub
+	=subElemC>0
+	return showableSub
 end
 
 function showSub(card)
-	if subElemC==0 then return end
 	local sub=card.card.Sub
-	local x=card.position.x>=.5 and-1 or 1 
-	tween.tween(sub,{Position=UDim2.new(x,0,0,1)})
+	if showableSub and enabledSub and not shownSub then
+		local x=card.position.x>=.5 and-1 or 1
+		tween.tween(sub,{Position=UDim2.new(x,0,0,1)})
+		shownSub=true
+	end
 end
 
 function hideSub(card)
 	local sub=card.card.Sub 
-	tween.tween(sub,{Position=UDim2.new(0,0,0,1)})
+	if shownSub then
+		tween.tween(sub,{Position=UDim2.new(0,0,0,1)})
+		shownSub=false
+	end
 end
 
-function show(card,mode,preview)
+function hoverShow(card)spawn(function()
+subC=subC+1 showSub(card)wait(2)subC=subC-1
+if subC==0 then hideSub(card)end end)end
+
+function enableSub(card)enabledSub=true end
+function disableSub(card)enabledSub=false hideSub(card)end
+
+function setElems(card,mode,preview)
+	local m=(preview or mode)[1]
+	for n,b in next,buttons do
+		b.ImageTransparency
+		=n==m and.5 or.7
+	end
+	
+	local s=mode[2]
+	local sP=preview and preview[2]
+	for i,e in next,subElems do
+		e.TextTransparency=i==s
+		and 0 or i==sP and.25 or.5
+	end
+end
+
+function modeF(card,mode,preview)
 	local m,s=unpack(mode)
 	if preview then
 		local mP,sP=unpack(preview)
-		events[mP][1]()
-		for i,e in next,subElems do
-			e.TextTransparency=i==s
-			and 0 or i==sP and.25 or.5
+		if mP==m then
+			enableSub(card)
+			hoverShow(card)
+		else
+			disableSub(card)
 		end
 	else
-		events[m][1]()
-		for i,e in next,subElems do
-			e.TextTransparency=i==s and 0 or.5
-		end
+		doSub(card,m)
+		enableSub(card)
+		hoverShow(card)
 	end
+	setElems(card,mode,preview)
 end
 
 return{
 	init=function(card)
 		local grid,aB=card.card.Grid,nil
-		local function s()subC=subC+1 showSub(card)wait(2
-		)subC=subC-1 if subC==0 then hideSub(card)end end
-		
 		for i,b in next,grid:children() do
 			if b.ClassName=='ImageButton'then
-				
 				local n=b.Name
+				buttons[n]=b
+				
 				local function a()
 					card.callbacks.set(n)
 				end
-				events[n]={function()
-					if aB then aB.ImageTransparency=.7
-					end b.ImageTransparency,aB=.5,b
-					doSub(card,n)
-					
-					if subElemC>0 then spawn(s)
-					else hideSub(card)end
-				end,a}
-				b.Activated:connect(a)
 				
+				b.Activated:connect(a)
 				b.MouseEnter:connect(function()
-					card.callbacks.preview(n)
-				end)
+				card.callbacks.preview(n)end)
 			end
 		end
 		
 		delay(1/2,function()card.card.MouseLeave
 		:connect(card.callbacks.restore)end)
-		
+		local function s()hoverShow(card)end
 		card.card.Sub.ScrollingFrame.MouseMoved:connect(s)
 		card.card.MouseMoved:connect(s)
-		subEvt=s
 	end,
 	shortcuts=function(card,fKeys,binds)
 		local grid=card.card.Grid
-		for i,e in next,events do
-			local b=grid[i]binds[i]=binds[i]or e[2]
-			b.TextLabel.Text=fKeys[i]
+		for n,b in next,buttons do
+			b.TextLabel.Text=fKeys[n]
 		end
 	end,
-	mode=show,
+	mode=modeF,
 	move=hideSub,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -3254,6 +3273,7 @@ local cGui=require(main.ConfigGuiModule)
 local subMM=require(main.SubmodeModule)
 local tbm=require(main.TextBoxModule)
 local cSubs,binds,busy={},{},nil
+require(main.DebugModule)()
 local subs=subMM.getSubs()
 local dfltM={'select',1}
 local currM=dfltM
@@ -3272,6 +3292,7 @@ function setMode(m,s)
 	local m=m or currM[1]
 	local s=s or getSub(m)
 	local oM,oS=unpack(currM)
+	print('Setting mode:',m,s)
 	currM,tempM={m,s},nil
 	send(currM)
 	cSubs[m]=s
@@ -3280,6 +3301,7 @@ end
 function preview(m,s)
 	if busy then return end 
 	local s=s or getSub(m)
+	print('Previewing mode:',m,s)
 	tempM={m,s}send(currM,tempM)
 end
 
@@ -3291,8 +3313,8 @@ function getSubs(m)return subs[m or currM[1]]or{}end
 function getMode()return currM end
 
 --Removes temporarily-set mode.
-function restore()if busy then
-return end tempM=nil send(currM)end
+function restore()if busy then return end
+print'Restoring mode.' tempM=nil send(currM)end
 
 --Functional hooks to the main GUI.
 gui.callback('tools','set',setMode)
@@ -4928,7 +4950,7 @@ function show(list,prompt,width,xtra)
 		items[s],yS=c,yS+c.AbsoluteSize.Y
 		
 		--Connects the click event to the button itself.
-		c.Button.MouseButton1Click:connect(function()exec(s)end)
+		c.Button.Activated:connect(function()exec(s)end)
 		
 		--Shades the button upon hover.
 		c.Button.MouseEnter:connect(function()
@@ -5695,16 +5717,17 @@ end]]></ProtectedString>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">PartEventModule</string>
 					<string name="ScriptGuid">{2FA47B0D-FBAF-4413-AC72-2CDB5961F38A}</string>
-					<ProtectedString name="Source"><![CDATA[local pfMod=require(script.Parent.PartFilterModule)
-local active=require(script.Parent.ActiveModule)
-local wpm=require(script.Parent.WaypointModule)
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local rs=game['Run Service'].RenderStepped
+local pfMod=require(main.PartFilterModule)
+local active=require(main.ActiveModule)
+local wpm=require(main.WaypointModule)
 local addParts,remParts={},{}
 local selSer=game.Selection
 local binds,debounce={},nil
 
 --Modifies global environment.
-require(script.Parent.DebugModule)()
+require(main.DebugModule)()
 
 local added=game.DescendantAdded
 local remov=game.DescendantRemoving
@@ -6408,26 +6431,26 @@ local frame=cGui.Frame
 local callbackT={}function bindCB(i,f)spM.callback(i,f)callbackT[i]=f end
 
 --Visibility functions.
-local shown=true
-function show()
-	if shown
-	then return end
-	cGui.Visible,frame
-	.Visible=true,true
-	mouse.lock()
-	shown=true
-end
+local shown=2
 function hide()
-	if not shown
-	then return end
+	if shown==0 then
+	return end shown=0
 	cGui.Visible,frame.
 	Visible=false,false
 	mouse.unlock()
-	shown=false
 end
 function ovly()
+	if shown==1 then
+	return end shown=1
 	cGui.Visible,frame.
 	Visible=true,false
+end
+function show()
+	if shown==2 then
+	return end shown=2
+	cGui.Visible,frame
+	.Visible=true,true
+	mouse.lock()
 end
 
 --Function for the mode-change event, stores previous mode.
@@ -6449,7 +6472,7 @@ function srtF(...)
 end
 
 --Binds to the close button; previous mode set.
-frame.Close.MouseButton1Click:connect(
+frame.Close.Activated:connect(
 	function()callbackT.setMode(prevM)end)
 
 --Initialises GUI in a few functions.
@@ -6462,7 +6485,7 @@ return{
 	show=show,hide=hide,
 	getSubs=spM.getSubs,
 	isShown=function()
-	return shown end,
+	return shown==2 end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -6491,7 +6514,7 @@ local moduleT,pageT,pNameT,labelT,subNum,subCount={},{},{},{},1,0
 for i,o in next,window:children()do local n=o.Name subCount=subCount+1
 	
 	--Creates the labels and binds each one to mouse-based events.
-	local l,mod=textB:clone()l.MouseButton1Click:connect(function()binds.mode(nil,i)end)
+	local l,mod=textB:clone()l.Activated:connect(function()binds.mode(nil,i)end)
 	l.MouseEnter:connect(function()l.TextTransparency=i==subNum and 0 or.25 end)
 	l.MouseLeave:connect(function()l.TextTransparency=i==subNum and 0 or.5 end)
 	mod,pageT[i],pNameT[i],labelT[i]=require(script.Parent[n]),o,n,l
@@ -6747,7 +6770,7 @@ return function(cGui)
 	saveB.MouseLeave:connect(function()
 		saveB.TextTransparency=getTrans(saveState,false)
 		saveB.InfoHover.Screentip.Visible=false end)
-	saveB.MouseButton1Click:connect(config.saveToPerm)
+	saveB.Activated:connect(config.saveToPerm)
 	saveB.TextTransparency=getTrans(saveState)
 end]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -6793,7 +6816,7 @@ return function(algor)
 		
 		xtraCl,pValue=xtra:clone(),false
 		xtraCl.Shortcut.Text=srts.get'activeTick1'
-		xtraCl.Button.MouseButton1Click:connect(pToggle)
+		xtraCl.Button.Activated:connect(pToggle)
 		acTk.bind('activeTick1',pToggle)pToggle()
 		
 		if algor.ignorable then
@@ -13702,13 +13725,6 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
-	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
-		<Properties>
-			<BinaryString name="AttributesSerialize"></BinaryString>
-			<string name="Name">VirtualInputManager</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
 	<Item class="TestService" referent="RBX404EC13B8F684D9D9B96E75CAB2840FE">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
@@ -13731,6 +13747,13 @@ end]]></ProtectedString>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
+	</Item>
+	<Item class="VirtualInputManager" referent="RBX6BCD521C4D234CB498470A8A2EE30E5C">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<string name="Name">VirtualInputManager</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
 	</Item>
 	<Item class="Teams" referent="RBXE65C477AC4BF48EC8553FAA95183CA4C">
 		<Properties>
