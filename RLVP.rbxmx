@@ -21,7 +21,7 @@ require(script.SetupModule)
 require(script.SelEventModule)
 require(script.ActiveModule)
 require(script.HandleModule)
-require(script.ShortcutModule)
+require(script.ModeBindModule)
 require(script.ConfigGuiModule)
 require(script.GuiElemModule)
 
@@ -55,8 +55,9 @@ return t]]></ProtectedString>
         </Content>
         <string name="Name">ActiveModule</string>
         <string name="ScriptGuid">{91CBF982-1275-4A68-901D-81A40FCD3C9D}</string>
-        <ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
-local gui=require(script.Parent.GuiElemModule)
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local plugin=main.Plugin.Value
+local gui=require(main.GuiElemModule)
 local button=plugin:CreateToolbar'RLVP':CreateButton(
 	'Respected Leader VisualPlugin',
 	'Upon the honourly might of Respected Leader VisualPlugin, I beseech you!',
@@ -131,8 +132,14 @@ deactivate=deactivate}]]></ProtectedString>
         </Content>
         <string name="Name">FormatModule</string>
         <string name="ScriptGuid">{6B63AE69-B119-478C-81C5-DF30EF3748FD}</string>
-        <ProtectedString name="Source"><![CDATA[local uis=game:service'UserInputService'
-return{
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local config=require(main.ConfigModule)
+local uis=game:service'UserInputService'
+local configModes={
+	['number']='num',
+}
+
+local funcs={
 	numInput=function(v)
 		local n=tonumber(v)
 		if n then return n
@@ -141,13 +148,13 @@ return{
 		local lsW,lsV=pcall(loadstring('return '..v))
 		lsV=tonumber(lsV)if lsW then return lsV end
 	end,
-	numOutput=function(n)
+	numOutput=function(n,dec)
+		dec=dec or 3
+		if not tonumber(n)then return''end
 		local m=math.floor(math.log10(math.max(1e-9,math.abs(n))))
 		
-		if not tonumber(n)then
-			return''
-		elseif m<4 then
-			return string.format('%.'..math.clamp(3-m,0,3)..'f',n)
+		if m<=dec then
+			return string.format('%.'..math.clamp(dec-m,0,dec)..'f',n)
 		else
 			local l=1-math.floor(math.log10(m))
 			return string.format('%.'..l..'fE%i',n/10^m,m)
@@ -167,8 +174,32 @@ return{
 			end r=r..i
 		end
 		return r
+	end,
+}
+
+funcs.configInput=function(key,value)
+	local def=config.getDefault(key)
+	local mode=def.format[1]
+	local name=configModes[mode]
+	if not name then return value
+	else
+		local func=funcs[name..'Input']
+		return func(value,unpack(def.format,2))
 	end
-}]]></ProtectedString>
+end
+
+funcs.configOutput=function(key,value)
+	local def=config.getDefault(key)
+	local mode=def.format[1]
+	local name=configModes[mode]
+	if not name then return value
+	else
+		local func=funcs[name..'Output']
+		return func(value,unpack(def.format,2))
+	end
+end
+
+return funcs]]></ProtectedString>
         <BinaryString name="Tags">
         </BinaryString>
       </Properties>
@@ -981,7 +1012,8 @@ end
 
 function doIncrFrame(card,fr,key,min,max)
 	local tb=fr.TextBox
-	local curr=format.numOutput(data.getCurr(key))
+	local v=data.getCurr(key)
+	local curr=format.numOutput(v)
 	tb.Text=curr
 	
 	tb.FocusLost:connect(function()
@@ -2703,8 +2735,9 @@ return{
         </Content>
         <string name="Name">MouseModule</string>
         <string name="ScriptGuid">{2FB52DA1-1BA2-409F-A915-AB3C16B84726}</string>
-        <ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
-local mouse=script.Parent.Plugin.Value:GetMouse()
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local activ=require(main.ActiveModule)
+local mouse=main.Plugin.Value:GetMouse()
 local binds,locked,prK={},0,nil
 
 function bind(pr,...)
@@ -2757,8 +2790,9 @@ return{
         </Content>
         <string name="Name">OriginModule</string>
         <string name="ScriptGuid">{60EF8A7C-A8C9-4636-ABEF-BED8D69ED107}</string>
-        <ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
-local mouse=require(script.Parent.MouseModule)
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local mouse=require(main.MouseModule)
+local sel=require(main.SelectionModule)
 local plugin=script.Parent.Plugin.Value
 local rs=game:service'RunService'
 local origin=script.Origin
@@ -3037,13 +3071,13 @@ return{
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
 local algorSel=require(main.AlgorChooserModule).choose
 local algorConf=require(main.AlgorConfigModule)
-local wpm=require(script.Parent.WaypointModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=require(main.ActiveModule)
 local selGroups,binds,locked={},{},nil
+local wpm=require(main.WaypointModule)
 
 --Modifies global environment.
 require(main.DebugModule)()
@@ -3900,7 +3934,7 @@ local ogMod=require(main.OriginModule)
 local wpm=require(main.WaypointModule)
 
 --Modifies global environment.
-require(script.Parent.DebugModule)()
+require(main.DebugModule)()
 
 local bind,tagT
 local binds=subMM.getBinds()
@@ -4165,7 +4199,7 @@ local bindEchT,bindAllT,allSaved={},{},true
 
 function loadKey(i)
 	return plugin:GetSetting(i)
-	or defaults[i][1]
+	or defaults[i].value
 end
 
 --Loads each listed setting to cache.
@@ -4189,14 +4223,14 @@ function send(dict,isTemp)
 	f(dict,currCache,isTemp,allSaved)end
 end
 
---Selection algorithms: iterates to store enabled-states.
+--Algorithms from various modes of selection.
+local algorChT={value=true,check=util.isBool}
 local chT=require(main.AlgorChooserModule).getChoices()
-local algorChT={true,util.isBool}for i,algor in next,chT do
-defaults[i],defaults[i..'_prompt']=algorChT,algorChT end
+for i,algor in next,chT do defaults[i],defaults[i..'_prompt']=algorChT,algorChT end
 
 return{
 	setPerm=function(i,v)
-		if defaults[i][2](v)
+		if defaults[i].check(v)
 		then else return end
 		
 		currCache[i]=v
@@ -4208,7 +4242,7 @@ return{
 	return true end,
 	
 	setTemp=function(i,v)
-		if defaults[i][2](v)
+		if defaults[i].check(v)
 		then else return end
 		
 		currCache[i]=v
@@ -4223,6 +4257,7 @@ return{
 		else return loadKey(i)end
 	end,
 	
+	getDefault=function(i)return defaults[i]end,
 	currCache=function()return currCache end,
 	permCache=function()return permCache end,
 	tempCache=function()return tempCache end,
@@ -4269,18 +4304,21 @@ return{
           </Content>
           <string name="Name">DefaultModule</string>
           <string name="ScriptGuid">{3BEB58A7-1B41-4214-B557-C797049D7DB8}</string>
-          <ProtectedString name="Source"><![CDATA[local u=require(script.Parent.DefaultUtilModule)
+          <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local u=require(main.DefaultUtilModule)
 
 return{
 	debugLevel={
-		2,
-		function(v)
+		value=2,
+		check=function(v)
 			return type(v)=='number'and v%1==0 and v>=0 and v<=3
 		end,
+		format={'number',0},
 	},
 	resetShortcuts={
-		true,
-		u.isBool,
+		value=true,
+		check=u.isBool,
+		format={'bool'},
 	},
 }]]></ProtectedString>
           <BinaryString name="Tags">
@@ -4393,17 +4431,6 @@ function show(list,prompt,width,xtra)
 	dd.Size=UDim2.new(0,width,0,yS)
 	return dd.Event.Event:Wait()
 end
-
---Binds to numbered shortcuts.
-function srt(v)local n=0+v
-	
-	--Overrides the keybind in the event a dropdown is showing.
-	if currList then if currList[n] then exec(currList[n])end
-	
-	--Sets the submode using numerical index.
-	else mode.set(nil,mode.getSubs()[n])end
-end
-for i=0,9 do srts.bind(''..i,srt)end
 
 --Event for selecting an option.
 function exec(s)
@@ -5132,7 +5159,8 @@ return{
         </Content>
         <string name="Name">DebugModule</string>
         <string name="ScriptGuid">{8A6AD28B-BDF0-4D40-BFE9-34C1FB3C02CD}</string>
-        <ProtectedString name="Source"><![CDATA[local config=require(script.Parent.ConfigModule)
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local config=require(main.ConfigModule)
 local empty=function()end
 local envs={}
 
@@ -5890,7 +5918,8 @@ return{
         </Content>
         <string name="Name">ActiveTickModule</string>
         <string name="ScriptGuid">{9B1A2AE0-54AC-43D3-9F36-4ABF3263ADC6}</string>
-        <ProtectedString name="Source"><![CDATA[local srts=require(script.Parent.ShortcutModule)
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local srts=require(main.ShortcutModule)
 local stacks={activeTick1={},activeTick2={},}
 
 function func(i,...)
@@ -6240,15 +6269,12 @@ return{
           <string name="Name">main</string>
           <string name="ScriptGuid">{A1697887-C672-440F-9EA7-C331C6BCF9CA}</string>
           <ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local config=require(main.ConfigModule)
+local field=require(main.ConfigFieldModule)
 
 return{
 	init=function(fd)
 		local tb=fd.Frame.Value.TextBox
-		tb.FocusLost:connect(function()
-			print(5)
-			config.setTemp('debugLevel',tonumber(tb.Text))
-		end)
+		field.text('debugLevel',tb)
 	end,
 	show=function(fd,configT)
 		
@@ -6298,7 +6324,7 @@ return function(cGui)
 	saveB.MouseLeave:connect(function()
 		saveB.TextTransparency=getTrans(saveState,false)
 		saveB.InfoHover.Screentip.Visible=false end)
-	saveB.Activated:connect(config.saveToPerm)
+	saveB.MouseButton1Click:connect(config.saveToPerm)
 	saveB.TextTransparency=getTrans(saveState)
 end]]></ProtectedString>
           <BinaryString name="Tags">
@@ -6354,7 +6380,7 @@ return function(algor)
 		
 		xtraCl,pValue=xtra:clone(),false
 		xtraCl.Shortcut.Text=srts.get'activeTick1'
-		xtraCl.Button.Activated:connect(pToggle)
+		xtraCl.Button.MouseButt:connect(pToggle)
 		acTk.bind('activeTick1',pToggle)pToggle()
 		
 		if algor.ignorable then
@@ -13421,6 +13447,98 @@ return{
 		mode.unlock()actv.unlock()
 		gui.remove(fr)shown=false
 	end,
+}]]></ProtectedString>
+        <BinaryString name="Tags">
+        </BinaryString>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="RBX1A235854AB26416EB6AE223A4EB2216D">
+      <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
+        <Content name="LinkedSource">
+          <null>
+          </null>
+        </Content>
+        <string name="Name">ConfigFieldModule</string>
+        <string name="ScriptGuid">{6ACD727E-F7C5-4A89-98F5-F2C86928ED7A}</string>
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local config=require(main.ConfigModule)
+local format=require(main.FormatModule)
+local inputs={}
+
+config.bindAll(function(dict)
+	for tb,info in next,inputs do
+		local key,mode=unpack(info)
+		if dict[key]then
+			local val=config.get(key)
+			local def=config.getDefault(key)
+			if mode=='text'then
+				tb.Text=format.configInput(key,val)
+			end
+		end
+	end
+end)
+
+return{
+	text=function(key,tb)
+		local val=config.get(key)
+		inputs[tb]={key,'text'}
+		tb.Text=format.configOutput(key,val)
+		tb.FocusLost:connect(function()
+			local num=format.configInput(key,tb.Text)
+			if num then config.setTemp(key,num)return end
+			tb.Text=format.configOutput(key,config.get(key))
+		end)
+	end,
+}]]></ProtectedString>
+        <BinaryString name="Tags">
+        </BinaryString>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="RBX109CF73B708F4AEAAAA8760381D4C5CB">
+      <Properties>
+        <BinaryString name="AttributesSerialize">
+        </BinaryString>
+        <Content name="LinkedSource">
+          <null>
+          </null>
+        </Content>
+        <string name="Name">ModeBindModule</string>
+        <string name="ScriptGuid">{DB772F1E-B693-46A5-BA83-FD7914287A32}</string>
+        <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local mEnum=require(main.ModeEnumModule)
+local drpd=require(main.DropdownModule)
+local srts=require(main.ShortcutModule)
+local mode=require(main.ModeModule)
+local locked=0
+
+function bind(v)
+	if locked>0 then return end
+	mode.set(v)
+end
+
+--Directly alters sub-mode.
+function subBind(v)
+	if locked>0 then return end
+	local currList=drpd.get()
+	
+	--Overrides the keybind in the event a dropdown is showing.
+	if currList then if currList[0+v] then drpd.exec(currList[0+v])end
+	
+	--Sets the submode using numerical index.
+	else mode.set(nil,mode.getSubs()[0+v])end
+end
+
+--Binds to named shortcut; as defined elsewhere.
+for i,k in next,mEnum do srts.bind(k[1],bind)end
+
+--Binds to numbered shortcuts.
+for i=0,9 do srts.bind(''..i,subBind)end
+
+return{
+	lock=function()locked=locked+1 end,
+	unlock=function()locked=locked-1 end,
 }]]></ProtectedString>
         <BinaryString name="Tags">
         </BinaryString>
