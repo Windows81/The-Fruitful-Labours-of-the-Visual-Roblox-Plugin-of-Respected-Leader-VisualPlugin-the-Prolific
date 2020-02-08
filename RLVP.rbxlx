@@ -992,7 +992,8 @@ funcs.configInput=function(key,value)
 	local def=config.getDefault(key)
 	local mode=def.format[1]
 	local name=configModes[mode]
-	if not name then return value
+	if not def.check(value)then return
+	elseif not name then return value
 	else
 		local func=funcs[name..'Input']
 		return func(value,unpack(def.format,2))
@@ -1003,7 +1004,8 @@ funcs.configOutput=function(key,value)
 	local def=config.getDefault(key)
 	local mode=def.format[1]
 	local name=configModes[mode]
-	if not name then return value
+	if not def.check(value)then return
+	elseif not name then return value
 	else
 		local func=funcs[name..'Output']
 		return func(value,unpack(def.format,2))
@@ -1057,6 +1059,8 @@ local totalH=0 for i,cardO in next,elems do
 	local name=cardO.Name
 	local h=cardO.Size.Y.Offset+7
 	local module=require(script[name])
+	
+	--Searching for the card table's initiation?
 	local card={position=Vector2.new(),
 		card=cardO,module=module,
 		offset=totalH,height=h,
@@ -1103,7 +1107,7 @@ local totalH=0 for i,cardO in next,elems do
 		end)
 	end
 	
-	--Treats them further.
+	--Constructs the cross thingy.
 	activ8SwitchPos(card)
 end
 
@@ -1728,6 +1732,7 @@ local tween=require(main.TweenModule)
 local tbm=require(main.TextBoxModule)
 local format=require(main.FormatModule)
 local data=require(main.IncrementModule)
+local enabled
 
 local ddButton=script.DropdownButton
 function getDDItem(e,n)
@@ -1770,15 +1775,30 @@ function doIncrFrame(card,fr,key,min,max)
 	local curr=format.numOutput(v)
 	tb.Text=curr
 	
+	--Suppresses input if disabled.
+	tb.Focused:connect(function()
+		if not enabled then
+			tb:ReleaseFocus()
+		end
+	end)
+	
+	--Captures new value and processes.
 	tb.FocusLost:connect(function()
+		if not enabled then return end
 		local v=format.numInput(tb.Text)
 		if v and v>=min and v<max then 
 			data.set(key,v)
 			curr=format.numOutput(v)
 		end tb.Text=curr
 	end)
+	
+	--Constructs drop-down list for increments.
 	fr.Expand.Activated:connect(function()
-		if card.busy or tb:IsFocused()
+		if
+			not enabled or
+			card.busy or
+			tb:IsFocused()
+			
 		then return end card.busy=true
 		local l=data.getHist(key)
 		local ddv=doDropdown(card,fr,l)
@@ -1787,6 +1807,21 @@ function doIncrFrame(card,fr,key,min,max)
 		tb.Text=format.numOutput(ddv)
 		card.busy=false
 	end)
+end
+
+--Toggles taking in user input for the increment.
+function setEnabled(card,b)
+	if enabled==b
+	then return end
+	local cardO=card.card
+	local lat,rot=cardO.LatIncr,cardO.RotIncr
+	lat.TextBox.TextTransparency=b and 0 or.5
+	rot.TextBox.TextTransparency=b and 0 or.5
+	lat.TextBox.ClearTextOnFocus=b
+	rot.TextBox.ClearTextOnFocus=b
+	lat.Expand.AutoButtonColor=b
+	rot.Expand.AutoButtonColor=b
+	enabled=b
 end
 
 return{
@@ -1799,15 +1834,22 @@ return{
 		tbm.bindTextBox(cardO.RotIncr.TextBox)
 		tbm.bindTextBox(cardO.LatIncr.TextBox)
 		if binds.latIncr then return end
-		binds.latIncr=function()wait()cardO
-		.LatIncr.TextBox:CaptureFocus()end
-		binds.rotIncr=function()wait()cardO
-		.RotIncr.TextBox:CaptureFocus()end
+		
+		--Looking for how these shortcuts got binded?
+		binds.latIncr=function()wait()if enabled then
+		cardO.LatIncr.TextBox:CaptureFocus()end end
+		binds.rotIncr=function()wait()if enabled then
+		cardO.RotIncr.TextBox:CaptureFocus()end end
 	end,
 	init=function(card)
 		local o=card.card
 		doIncrFrame(card,o.LatIncr,'lat',0,10^13)
 		doIncrFrame(card,o.RotIncr,'rot',0,360)
+		setEnabled(card,true)
+	end,
+	mode=function(card,currM,tempM)
+		local m=tempM or currM
+		setEnabled(card,m[1]~='config')
 	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -3310,7 +3352,6 @@ return{
 					<string name="ScriptGuid">{10551311-ED9B-491A-88F9-4E1583AF4DF7}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local gui=require(main.GuiElemModule)
-local srts=require(main.ShortcutModule)
 local cGui=require(main.ConfigGuiModule)
 local subMM=require(main.SubmodeModule)
 local tbm=require(main.TextBoxModule)
@@ -3348,11 +3389,13 @@ function preview(m,s)
 end
 
 function getSub(m)return cSubs[m]or(subs[m]or{''})[1]end
-function send(...)busy=true for i,f in next,binds do f(...)
-end cGui.mode(...)gui.actionAll('mode',...)busy=false end
 function getTemp()return tempM or currM end
 function getSubs(m)return subs[m or currM[1]]or{}end
 function getMode()return currM end
+
+--Looking for proof that the GUI elements receive mode changes?
+function send(...)busy=true for i,f in next,binds do f(...)
+end cGui.mode(...)gui.actionAll('mode',...)busy=false end
 
 --Removes temporarily-set mode.
 function restore()if busy then return end
@@ -3365,7 +3408,7 @@ gui.callback('tools','preview',preview)
 gui.callback('tools','restore',restore)
 gui.callback('tools','getSubs',getSubs)
 
---Functional hook to the config window.
+--Set-mode hook to the config GUI.
 cGui.callback('mode',setMode)
 
 --Ensures text-input doesn't mess it up.
@@ -4501,8 +4544,8 @@ for k,i in next,keyEnums do
 	keyIs[s][k]=i
 end
 
-local keys,fKeys={},{}for k,i in next,keyEnums
-do keys[i]=k fKeys[i]=format.sctOutput(k)end 
+local keys,fmtKeys={},{}for k,i in next,keyEnums
+do keys[i]=k fmtKeys[i]=format.sctOutput(k)end 
 
 --Keybind-locking mechanism.
 local lockT,lockA={},nil function lockAll()lockA=true
@@ -4515,10 +4558,10 @@ kb.bind(0,function(shft,key)
 	if binds[b]and nL then binds[b](b)end
 end)
 
---Helper function for sending shortcuts.
+--Helper function for sending shortcuts modifications.
 function send()
-	gui.actionAll('shortcuts',fKeys,binds,keys)
-	cGui.shortcuts(fKeys,binds,keys)
+	gui.actionAll('shortcuts',fmtKeys,binds,keys)
+	cGui.shortcuts(fmtKeys,binds,keys)
 end
 
 function setBind(i,k)
@@ -4538,7 +4581,7 @@ end
 
 return{
 	set=set,
-	get=function(i)return fKeys[i]end,
+	get=function(i)return fmtKeys[i]end,
 	bind=function(i,f)binds[i]=f end,
 	lockAll=lockAll,
 	unlock=unlock,
@@ -4880,9 +4923,11 @@ return{
 	
 	saveToPerm=function()if allSaved
 		then return end allSaved=true
+		print'Saving configuration to permanent storage.'
 		
 		--Don't affect tempCache yet.
 		for i,v in next,tempCache do
+			plugin:SetSetting(i,v)
 			bindEchT[i](v,true)
 			permCache[i]=v
 			currCache[i]=v
@@ -4917,7 +4962,8 @@ return{
 	debugLevel={
 		value=2,
 		check=function(v)
-			return type(v)=='number'and v%1==0 and v>=0 and v<=3
+			local n=tonumber(v)
+			return n and n%1==0 and n>=0 and n<=3
 		end,
 		format={'number',0},
 	},
@@ -6153,7 +6199,7 @@ function implode(o)
 end
 
 return{
-	ignorable=true,
+	skippable=true,
 	name='CSGExplosion™',
 	clearUndo=true,
 	asUnit=false,
@@ -6457,7 +6503,7 @@ return{
 					<string name="Name">ConfigGuiModule</string>
 					<string name="ScriptGuid">{2785EAB1-CCB6-4539-B63F-0678DCD8B3D8}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local saveB=require(script.SaveButtonModule)
+local svB=require(script.SaveButtonModule)
 local mEnum=require(main.ModeEnumModule)
 local config=require(main.ConfigModule)
 local spM=require(script.SubpageModule)
@@ -6503,23 +6549,26 @@ local prevM function mdeF(currM,tempM)
 	elseif'config'~=currM[1]then hide()else show()spM.mode(currM)end
 end
 
-function srtF(...)
+--Shortcut function.
+function shortcuts(...)
+	spM.shortcuts(...)
+	svB.shortcuts(...)
+	
+	--Transposes each of the modes onto the close button.
 	local b,s=nil,''for i,m in next,mEnum do if m[1]~='config'
 	then s,b=s..(b and', 'or'')..m[2],true end end
 	frame.Close.TextLabel.Text=s
-	spM.shortcuts(...)
 end
 
 --Binds to the close button; previous mode set.
-frame.Close.Activated:connect(
-	function()callbackT.setMode(prevM)end)
+frame.Close.Activated:connect(function()callbackT.setMode(prevM)end)
 
---Initialises GUI in a few functions.
-saveB(cGui)gui.add(cGui)hide()
+--Initialises GUI in external functions.
+svB.init(cGui)gui.add(cGui)hide()
 
 return{
 	overlay=ovly,
-	shortcuts=srtF,
+	shortcuts=shortcuts,
 	callback=bindCB,mode=mdeF,
 	show=show,hide=hide,
 	getSubs=spM.getSubs,
@@ -6583,7 +6632,7 @@ for i,m in next,moduleT do
 m.update(pNameT[i],...)end end)
 
 --Called upon modification of shortcuts.
-function srtF(fKeys)
+function shortcuts(fKeys)
 	for i,l in next,labelT do
 		l.TextLabel.Text=fKeys[tostring(i)]
 	end
@@ -6592,7 +6641,7 @@ end
 return{
 	getSubs=function()
 	return pNameT end,
-	shortcuts=srtF,
+	shortcuts=shortcuts,
 	callback=bind,
 	mode=mode,
 }]]></ProtectedString>
@@ -6783,32 +6832,38 @@ return{
 local config=require(main.ConfigModule)
 local gui=require(main.GuiMainModule)
 local mouse=require(main.MouseModule)
-local cGui=gui.get'config'
+local saveB
 
 function getTrans(s,a)
 	return s and .75
 	or(a and 0 or.5)
 end
 
-return function(cGui)
-	local saveState=true
-	local saveB=cGui.Frame.Selection.SaveButton
-	config.bindAll(function(_,_,_,allSaved)
-		saveB.TextTransparency=getTrans(allSaved)
-		saveB.Active=false
-		saveState=allSaved
-	end)
-	
-	--Operations for the save button.
-	saveB.MouseEnter:connect(function()
-		saveB.TextTransparency=getTrans(saveState,true)
-		saveB.InfoHover.Screentip.Visible=not saveState end)
-	saveB.MouseLeave:connect(function()
-		saveB.TextTransparency=getTrans(saveState,false)
-		saveB.InfoHover.Screentip.Visible=false end)
-	saveB.Activated:connect(config.saveToPerm)
-	saveB.TextTransparency=getTrans(saveState)
-end]]></ProtectedString>
+return{
+	init=function(cGui)
+		local saveState=true
+		saveB=cGui.Frame.Selection.SaveButton
+		config.bindAll(function(_,_,_,allSaved)
+			saveB.TextTransparency=getTrans(allSaved)
+			saveB.Active=false
+			saveState=allSaved
+		end)
+		
+		--Operations for the save button.
+		saveB.MouseEnter:connect(function()
+			saveB.TextTransparency=getTrans(saveState,true)
+			saveB.InfoHover.Screentip.Visible=not saveState end)
+		saveB.MouseLeave:connect(function()
+			saveB.TextTransparency=getTrans(saveState,false)
+			saveB.InfoHover.Screentip.Visible=false end)
+		saveB.MouseButton1Click:connect(config.saveToPerm)
+		saveB.TextTransparency=getTrans(saveState)
+		return saveB
+	end,
+	shortcuts=function(fKeys)
+		saveB.TextLabel.Text=fKeys.activeTick1
+	end,
+}]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
@@ -6837,34 +6892,47 @@ end]]></ProtectedString>
 					<string name="Name">AlgorConfigModule</string>
 					<string name="ScriptGuid">{FA2B0A4A-6122-4099-8D25-43806793D977}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local xtra,xtraCl,mValue=script.Extra,nil,nil
+local xtra,xtraCl=script.Extra,nil
 local acTk=require(main.ActiveTickModule)
 local srts=require(main.ShortcutModule)
 local config=require(main.ConfigModule)
 local drpd=require(main.DropdownModule)
 
-local pValue=true function pToggle()pValue=not pValue
-xtraCl.Toggle.TextTransparency=pValue and.3 or 0 end
+local xtraRes=true function pToggle()xtraRes=not xtraRes
+xtraCl.Toggle.TextTransparency=xtraRes and.3 or 0 end
 
 return function(algor)
 	local mC,pC=algor.index,algor.index..'_prompt'
-	if algor.clearUndo and config.get(pC)then
+	if algor.clearUndo and config.get(pC)~=false then
 		
-		xtraCl,pValue=xtra:clone(),false
-		xtraCl.Shortcut.Text=srts.get'activeTick1'
-		xtraCl.Button.Activated:connect(pToggle)
-		acTk.bind('activeTick1',pToggle)pToggle()
+		--For this scope.
+		local mainRes
 		
-		if algor.ignorable then
-			local _,v=drpd.show({'Yes.','No.',},'Selecting this object'
-			..' will clear your undo history.  Proceed?',200,xtraCl)
-			mValue=v==1
+		--Custom toggle added; keybinds should be done here.
+		if algor.skippable then
+			xtraRes,xtraCl=false,xtra:clone()
+			xtraCl.Shortcut.Text=srts.get'activeTick1'
+			xtraCl.Button.Activated:connect(pToggle)
+			acTk.bind('activeTick1',pToggle)pToggle()
+		
+			mainRes=select(2,drpd.show({'Yes.','No.',},'Selecting this object'
+			..' will clear your undo history.  Proceed?',200,xtraCl))==1
+			
+			config.setPerm(mC,mainRes)
+			config.setPerm(pC,xtraRes)
+			acTk.unbind'activeTick1'
+		else
+		
+			mainRes=select(2,drpd.show({'Yes.','No.',},'Selecting this'
+			..' object will clear your undo history.  Proceed?',200))==1
+			config.setPerm(mC,mainRes)
 		end
 		
-		config.setPerm(mC,mValue)
-		config.setPerm(pC,pValue)
-		acTk.unbind'activeTick1'
-		xtraCl=nil return mValue
+		--Already destroyed.
+		xtraCl=nil
+		
+		--As defined in-scope.
+		return mainRes
 	else
 		return config.get(algor.index)
 	end
@@ -7271,23 +7339,24 @@ local locals={}
 
 return{
 	bindGlobal=function(i,fF,lF)
-		local t={[true]={fF,lF}}
+		local gT={[true]={fF,lF}}
 		for tb in next,locals do
-			t[tb]={
+			gT[tb]={
 			tb.Focused:connect(fF),
 			tb.FocusLost:connect(lF)}
 		end
-		globals[i]=t
+		globals[i]=gT
 	end,
 	
 	bindTextBox=function(tb,fF,lF)
-		locals[tb]=fF and{
-		tb.Focused:connect(fF),
-		tb.FocusLost:connect(lF)}or{}
-		for i,t in next,globals do
-			local f,l=unpack(t[true])
+		local lT={}
+		locals[tb]=lT
+		if fF then lT[#lT+1]=tb.Focused:connect(fF)end
+		if lF then lT[#lT+1]=tb.FocusLost:connect(lF)end
+		for i,gT in next,globals do
+			local f,l=unpack(gT[true])
 			print(f,l)
-			t[tb]={
+			gT[tb]={
 			tb.Focused:connect(f),
 			tb.FocusLost:connect(l)}
 		end
@@ -7994,7 +8063,7 @@ return{
 										</UDim2>
 										<token name="SizeConstraint">0</token>
 										<BinaryString name="Tags"></BinaryString>
-										<string name="Text">K</string>
+										<string name="Text">666</string>
 										<Color3 name="TextColor3">
 											<R>0.800000072</R>
 											<G>0.760784388</G>
@@ -13556,6 +13625,7 @@ return{
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local config=require(main.ConfigModule)
 local format=require(main.FormatModule)
+local tbm=require(main.TextBoxModule)
 local inputs={}
 
 config.bindAll(function(dict)
@@ -13576,7 +13646,8 @@ return{
 		local val=config.get(key)
 		inputs[tb]={key,'text'}
 		tb.Text=format.configOutput(key,val)
-		tb.FocusLost:connect(function()
+		
+		tbm.bindTextBox(tb,nil,function()
 			local num=format.configInput(key,tb.Text)
 			if num then config.setTemp(key,num)return end
 			tb.Text=format.configOutput(key,config.get(key))

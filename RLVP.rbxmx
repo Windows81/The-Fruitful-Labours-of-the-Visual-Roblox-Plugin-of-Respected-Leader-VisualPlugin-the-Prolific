@@ -6324,7 +6324,7 @@ return function(cGui)
 	saveB.MouseLeave:connect(function()
 		saveB.TextTransparency=getTrans(saveState,false)
 		saveB.InfoHover.Screentip.Visible=false end)
-	saveB.MouseButton1Click:connect(config.saveToPerm)
+	saveB.Activated:connect(config.saveToPerm)
 	saveB.TextTransparency=getTrans(saveState)
 end]]></ProtectedString>
           <BinaryString name="Tags">
@@ -6380,7 +6380,7 @@ return function(algor)
 		
 		xtraCl,pValue=xtra:clone(),false
 		xtraCl.Shortcut.Text=srts.get'activeTick1'
-		xtraCl.Button.MouseButt:connect(pToggle)
+		xtraCl.Button.Activated:connect(pToggle)
 		acTk.bind('activeTick1',pToggle)pToggle()
 		
 		if algor.ignorable then
