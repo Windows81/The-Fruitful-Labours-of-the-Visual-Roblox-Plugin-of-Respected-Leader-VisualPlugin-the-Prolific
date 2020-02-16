@@ -742,6 +742,17 @@ UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
+	<Item class="StudioData" referent="RBX815F4F2F337E4D39B564EC0E6DE28DBE">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<bool name="EnableScriptCollabByDefaultOnLoad">true</bool>
+			<bool name="EnableScriptCollabOnLoad">false</bool>
+			<string name="Name">StudioData</string>
+			<int64 name="SrcPlaceId">0</int64>
+			<int64 name="SrcUniverseId">0</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
 	<Item class="StarterPlayer" referent="RBX7AD907E9380641E6ABAE2A1CFAB3ABEB">
 		<Properties>
 			<bool name="AllowCustomAnimations">true</bool>
@@ -831,10 +842,10 @@ while not script.Plugin
 .Value do wait(1/2)end
 
 require(script.SetupModule)
-require(script.SelEventModule)
+require(script.SelectionEventModule)
 require(script.ActiveModule)
 require(script.HandleModule)
-require(script.ShortcutModule)
+require(script.ModeBindModule)
 require(script.ConfigGuiModule)
 require(script.GuiElemModule)
 
@@ -861,8 +872,8 @@ return t]]></ProtectedString>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ActiveModule</string>
 					<string name="ScriptGuid">{91CBF982-1275-4A68-901D-81A40FCD3C9D}</string>
-					<ProtectedString name="Source"><![CDATA[local plugin=script.Parent.Plugin.Value
-local gui=require(script.Parent.GuiElemModule)
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local plugin=main.Plugin.Value
 local button=plugin:CreateToolbar'RLVP':CreateButton(
 	'Respected Leader VisualPlugin',
 	'Upon the honourly might of Respected Leader VisualPlugin, I beseech you!',
@@ -881,7 +892,7 @@ function activate()
 	--Debounce to prevent duplicate calls.
 	if locked then return end locked=true
 	
-	gui.show()active=true
+	active=true
 	button:SetActive(true)
 	plugin:Activate(true)
 	for i,b in next,binds
@@ -896,7 +907,7 @@ function deactivate()
 	--Debounce to prevent duplicate calls.
 	if locked then return end locked=true
 	
-	gui.hide()active=false
+	active=false
 	button:SetActive(false)
 	for i,b in next,binds
 	do b(false)end
@@ -932,8 +943,14 @@ deactivate=deactivate}]]></ProtectedString>
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">FormatModule</string>
 					<string name="ScriptGuid">{6B63AE69-B119-478C-81C5-DF30EF3748FD}</string>
-					<ProtectedString name="Source"><![CDATA[local uis=game:service'UserInputService'
-return{
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local config=require(main.ConfigModule)
+local uis=game:service'UserInputService'
+local configModes={
+	['number']='num',
+}
+
+local funcs={
 	numInput=function(v)
 		local n=tonumber(v)
 		if n then return n
@@ -942,13 +959,13 @@ return{
 		local lsW,lsV=pcall(loadstring('return '..v))
 		lsV=tonumber(lsV)if lsW then return lsV end
 	end,
-	numOutput=function(n)
+	numOutput=function(n,dec)
+		dec=dec or 3
+		if not tonumber(n)then return''end
 		local m=math.floor(math.log10(math.max(1e-9,math.abs(n))))
 		
-		if not tonumber(n)then
-			return''
-		elseif m<4 then
-			return string.format('%.'..math.clamp(3-m,0,3)..'f',n)
+		if m<=dec then
+			return string.format('%.'..math.clamp(dec-m,0,dec)..'f',n)
 		else
 			local l=1-math.floor(math.log10(m))
 			return string.format('%.'..l..'fE%i',n/10^m,m)
@@ -968,8 +985,34 @@ return{
 			end r=r..i
 		end
 		return r
+	end,
+}
+
+funcs.configInput=function(key,value)
+	local def=config.getDefault(key)
+	local mode=def.format[1]
+	local name=configModes[mode]
+	if not def.check(value)then return
+	elseif not name then return value
+	else
+		local func=funcs[name..'Input']
+		return func(value,unpack(def.format,2))
 	end
-}]]></ProtectedString>
+end
+
+funcs.configOutput=function(key,value)
+	local def=config.getDefault(key)
+	local mode=def.format[1]
+	local name=configModes[mode]
+	if not def.check(value)then return
+	elseif not name then return value
+	else
+		local func=funcs[name..'Output']
+		return func(value,unpack(def.format,2))
+	end
+end
+
+return funcs]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
@@ -981,8 +1024,11 @@ return{
 					<string name="ScriptGuid">{14CFE469-E377-4F1C-A609-7B1343CD3623}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local psm=require(script.PosSettingModule)
+local srts=require(main.ShortcutModule)
+local actv=require(main.ActiveModule)
 local tween=require(main.TweenModule)
 local gui=require(main.GuiMainModule)
+local mode=require(main.ModeModule)
 local switchPos=script.SwitchPos
 local plugin=main.Plugin.Value
 
@@ -1016,6 +1062,8 @@ local totalH=0 for i,cardO in next,elems do
 	local name=cardO.Name
 	local h=cardO.Size.Y.Offset+7
 	local module=require(script[name])
+	
+	--Searching for the card table's initiation?
 	local card={position=Vector2.new(),
 		card=cardO,module=module,
 		offset=totalH,height=h,
@@ -1062,7 +1110,7 @@ local totalH=0 for i,cardO in next,elems do
 		end)
 	end
 	
-	--Treats them further.
+	--Constructs the cross thingy.
 	activ8SwitchPos(card)
 end
 
@@ -1223,9 +1271,14 @@ function callbackAll(cbN,func)
 	end
 end
 
+mode.bind(function(...)
+actionAll('mode',...)end)
+actv.bind(function(b)
+	(b and showAll or hideAll)()
+	actionAll('active',b)
+end)
+
 return{
-	show=showAll,
-	hide=hideAll,
 	action=doAction,
 	callback=callback,
 	actionAll=actionAll,
@@ -1687,6 +1740,7 @@ local tween=require(main.TweenModule)
 local tbm=require(main.TextBoxModule)
 local format=require(main.FormatModule)
 local data=require(main.IncrementModule)
+local enabled
 
 local ddButton=script.DropdownButton
 function getDDItem(e,n)
@@ -1725,18 +1779,34 @@ end
 
 function doIncrFrame(card,fr,key,min,max)
 	local tb=fr.TextBox
-	local curr=format.numOutput(data.getCurr(key))
+	local v=data.getCurr(key)
+	local curr=format.numOutput(v)
 	tb.Text=curr
 	
+	--Suppresses input if disabled.
+	tb.Focused:connect(function()
+		if not enabled then
+			tb:ReleaseFocus()
+		end
+	end)
+	
+	--Captures new value and processes.
 	tb.FocusLost:connect(function()
+		if not enabled then return end
 		local v=format.numInput(tb.Text)
 		if v and v>=min and v<max then 
 			data.set(key,v)
 			curr=format.numOutput(v)
 		end tb.Text=curr
 	end)
+	
+	--Constructs drop-down list for increments.
 	fr.Expand.Activated:connect(function()
-		if card.busy or tb:IsFocused()
+		if
+			not enabled or
+			card.busy or
+			tb:IsFocused()
+			
 		then return end card.busy=true
 		local l=data.getHist(key)
 		local ddv=doDropdown(card,fr,l)
@@ -1745,6 +1815,21 @@ function doIncrFrame(card,fr,key,min,max)
 		tb.Text=format.numOutput(ddv)
 		card.busy=false
 	end)
+end
+
+--Toggles taking in user input for the increment.
+function setEnabled(card,b)
+	if enabled==b
+	then return end
+	local cardO=card.card
+	local lat,rot=cardO.LatIncr,cardO.RotIncr
+	lat.TextBox.TextTransparency=b and 0 or.5
+	rot.TextBox.TextTransparency=b and 0 or.5
+	lat.TextBox.ClearTextOnFocus=b
+	rot.TextBox.ClearTextOnFocus=b
+	lat.Expand.AutoButtonColor=b
+	rot.Expand.AutoButtonColor=b
+	enabled=b
 end
 
 return{
@@ -1757,15 +1842,22 @@ return{
 		tbm.bindTextBox(cardO.RotIncr.TextBox)
 		tbm.bindTextBox(cardO.LatIncr.TextBox)
 		if binds.latIncr then return end
-		binds.latIncr=function()wait()cardO
-		.LatIncr.TextBox:CaptureFocus()end
-		binds.rotIncr=function()wait()cardO
-		.RotIncr.TextBox:CaptureFocus()end
+		
+		--Looking for how these shortcuts got binded?
+		binds.latIncr=function()wait()if enabled then
+		cardO.LatIncr.TextBox:CaptureFocus()end end
+		binds.rotIncr=function()wait()if enabled then
+		cardO.RotIncr.TextBox:CaptureFocus()end end
 	end,
 	init=function(card)
 		local o=card.card
 		doIncrFrame(card,o.LatIncr,'lat',0,10^13)
 		doIncrFrame(card,o.RotIncr,'rot',0,360)
+		setEnabled(card,true)
+	end,
+	mode=function(card,currM,tempM)
+		local m=tempM or currM
+		setEnabled(card,m[1]~='config')
 	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -2684,6 +2776,7 @@ return{
 						<string name="ScriptGuid">{081F2320-5E31-44E3-AAB3-397CDA6E7C3E}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local tween=require(main.TweenModule)
+local mode=require(main.ModeModule)
 local subTempl=script.TextButton
 local subElems={}
 local buttons={}
@@ -2694,9 +2787,8 @@ local shownSub
 local showableSub
 local enabledSub=true
 function doSub(card,k)
-	local list=card.callbacks.getSubs(k)
-	if cList==list or card.callbacks.
-	getTemp()[1]=='config'then return end
+	local list=mode.getSubs(k)
+	if cList==list or mode.getTemp()[1]=='config'then return end
 	cList=list
 	
 	for i,e in next,subElems do
@@ -2705,12 +2797,8 @@ function doSub(card,k)
 	local sf=card.card.Sub.ScrollingFrame
 	local subElemC=0 for i,n in next,list do
 		local c=subTempl:clone()
-		c.Activated:connect(function()
-			card.callbacks.set(k,n)
-		end)
-		c.MouseEnter:connect(function()
-			card.callbacks.preview(k,n)
-		end)
+		c.Activated:connect(function()mode.set(k,n)end)
+		c.MouseEnter:connect(function()mode.preview(k,n)end)
 		subElemC=subElemC+1
 		c.TextLabel.Text=i
 		c.Text=n:upper()
@@ -2761,7 +2849,7 @@ function setElems(card,mode,preview)
 	end
 end
 
-function modeF(card,mode,preview)
+function modeFwd(card,mode,preview)
 	local m,s=unpack(mode)
 	if preview then
 		local mP,sP=unpack(preview)
@@ -2787,18 +2875,13 @@ return{
 				local n=b.Name
 				buttons[n]=b
 				
-				local function a()
-					card.callbacks.set(n)
-				end
-				
-				b.Activated:connect(a)
-				b.MouseEnter:connect(function()
-				card.callbacks.preview(n)end)
+				b.Activated:connect(function()mode.set(n)end)
+				b.MouseEnter:connect(function()mode.preview(n)end)
 			end
 		end
 		
 		delay(1/2,function()card.card.MouseLeave
-		:connect(card.callbacks.restore)end)
+		:connect(mode.restore)end)
 		local function s()hoverShow(card)end
 		card.card.Sub.ScrollingFrame.MouseMoved:connect(s)
 		card.card.MouseMoved:connect(s)
@@ -2809,7 +2892,7 @@ return{
 			b.TextLabel.Text=fKeys[n]
 		end
 	end,
-	mode=modeF,
+	mode=modeFwd,
 	move=hideSub,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -3095,8 +3178,8 @@ function setHMode(argM,tempM)
 	isPrev=not not tempM
 end
 
---Binds to mode being changed.
-mode.bind('handle',setHMode)
+--Binds to mode change.
+mode.bind(setHMode)
 
 --Binds to selection change.
 sel.bind(function(parts)
@@ -3267,9 +3350,6 @@ return{
 					<string name="Name">ModeModule</string>
 					<string name="ScriptGuid">{10551311-ED9B-491A-88F9-4E1583AF4DF7}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local gui=require(main.GuiElemModule)
-local srts=require(main.ShortcutModule)
-local cGui=require(main.ConfigGuiModule)
 local subMM=require(main.SubmodeModule)
 local tbm=require(main.TextBoxModule)
 local cSubs,binds,busy={},{},nil
@@ -3278,9 +3358,6 @@ local subs=subMM.getSubs()
 local dfltM={'select',1}
 local currM=dfltM
 local tempM=nil
-
-function setBind(i,f)binds[i]=f end
-function getBind(i)return binds[i]end
 
 --Locking mechanism.
 local locked=0 function lock()locked=locked+1
@@ -3306,40 +3383,33 @@ function preview(m,s)
 end
 
 function getSub(m)return cSubs[m]or(subs[m]or{''})[1]end
-function send(...)busy=true for i,f in next,binds do f(...)
-end cGui.mode(...)gui.actionAll('mode',...)busy=false end
 function getTemp()return tempM or currM end
 function getSubs(m)return subs[m or currM[1]]or{}end
 function getMode()return currM end
 
+--Fires already-bound functions.
+function send(...)busy=true
+for i,f in next,binds do
+f(...)end busy=false end
+
 --Removes temporarily-set mode.
 function restore()if busy then return end
 print'Restoring mode.' tempM=nil send(currM)end
-
---Functional hooks to the main GUI.
-gui.callback('tools','set',setMode)
-gui.callback('tools','getTemp',getTemp)
-gui.callback('tools','preview',preview)
-gui.callback('tools','restore',restore)
-gui.callback('tools','getSubs',getSubs)
-
---Functional hook to the config window.
-cGui.callback('mode',setMode)
 
 --Ensures text-input doesn't mess it up.
 tbm.bindGlobal(1,lock,unlock)
 
 send(currM)
 return{
+	bind=function(f)binds
+	[#binds+1]=f end,
 	set=setMode,
 	get=getMode,
 	getTemp=getTemp,
 	preview=preview,
 	restore=restore,
 	getSubs=getSubs,
-	getBind=getBind,
 	unlock=unlock,
-	bind=setBind,
 	lock=lock,
 	--[[unbind=function(i)
 	binds[i]=nil end,]]
@@ -3353,9 +3423,10 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">MouseModule</string>
 					<string name="ScriptGuid">{2FB52DA1-1BA2-409F-A915-AB3C16B84726}</string>
-					<ProtectedString name="Source"><![CDATA[local activ=require(script.Parent.ActiveModule)
-local mouse=script.Parent.Plugin.Value:GetMouse()
-local binds,locked,prK={},0,nil
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local actv=require(main.ActiveModule)
+local mouse=main.Plugin.Value:GetMouse()
+local binds,locked,prK,active={},0,nil,nil
 
 function bind(pr,...)
 	if not prK or pr>prK then
@@ -3372,16 +3443,19 @@ end
 --Calls only the binds with the highest priority.
 mouse.Button1Down:connect(function()
 	local t=binds[prK]
-	if 1>locked and activ.isActive()
+	if 1>locked and active
 	and t and'function'==typeof(t[1])
 	then t[1](mouse)end
 end)
 mouse.Button2Down:connect(function()
 	local t=binds[prK]
-	if 1>locked and activ.isActive()
+	if 1>locked and active
 	and t and'function'==typeof(t[2])
 	then t[2](mouse)end
 end)
+
+actv.bind(function(
+b)active=b end)
 
 return{
 	bind=bind,
@@ -3402,8 +3476,9 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">OriginModule</string>
 					<string name="ScriptGuid">{60EF8A7C-A8C9-4636-ABEF-BED8D69ED107}</string>
-					<ProtectedString name="Source"><![CDATA[local sel=require(script.Parent.SelectionModule)
-local mouse=require(script.Parent.MouseModule)
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local mouse=require(main.MouseModule)
+local sel=require(main.SelectionModule)
 local plugin=script.Parent.Plugin.Value
 local rs=game:service'RunService'
 local origin=script.Origin
@@ -3673,13 +3748,13 @@ return{
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local algorSel=require(main.AlgorChooserModule).choose
 local algorConf=require(main.AlgorConfigModule)
-local wpm=require(script.Parent.WaypointModule)
 local evtMod=require(main.PartEventModule)
 local pfMod=require(main.PartFilterModule)
 local grTag=require(script.GroupTagModule)
 local hb=game['Run Service'].Heartbeat
 local active=require(main.ActiveModule)
 local selGroups,binds,locked={},{},nil
+local wpm=require(main.WaypointModule)
 
 --Modifies global environment.
 require(main.DebugModule)()
@@ -4409,15 +4484,13 @@ return{
 					<string name="Name">ShortcutModule</string>
 					<string name="ScriptGuid">{93227EE5-2FB9-471E-B9E6-D7896E4E9EB6}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local cGui=require(main.ConfigGuiModule)
 local mEnum=require(main.ModeEnumModule)
 local format=require(main.FormatModule)
 local config=require(main.ConfigModule)
-local gui=require(main.GuiElemModule)
 local kb=require(main.KeybindModule)
 local plugin=script.Parent.Plugin.Value
 local reset=config.get'resetShortcuts'
-local binds={}
+local hitBinds,setBinds={},{}
 
 local keyEnums=not reset and plugin:GetSetting'shortcuts'
 if not keyEnums then
@@ -4457,8 +4530,8 @@ for k,i in next,keyEnums do
 	keyIs[s][k]=i
 end
 
-local keys,fKeys={},{}for k,i in next,keyEnums
-do keys[i]=k fKeys[i]=format.sctOutput(k)end 
+local keys,fmtKeys={},{}for k,i in next,keyEnums
+do keys[i]=k fmtKeys[i]=format.sctOutput(k)end 
 
 --Keybind-locking mechanism.
 local lockT,lockA={},nil function lockAll()lockA=true
@@ -4468,14 +4541,12 @@ function unlock(i)lockA,lockT[i]=false,lockT[i]-1 end
 kb.bind(0,function(shft,key)
 	local b=keyIs[shft][key]
 	local nL=not lockA and(lockT[b]==0 or not lockT[b])
-	if binds[b]and nL then binds[b](b)end
+	if hitBinds[b]and nL then hitBinds[b](b)end
 end)
 
---Helper function for sending shortcuts.
-function send()
-	gui.actionAll('shortcuts',fKeys,binds,keys)
-	cGui.shortcuts(fKeys,binds,keys)
-end
+--Sends shortcuts modifications.
+function send()for i,f in next,setBinds
+do f(fmtKeys,hitBinds,keys)end end
 
 function setBind(i,k)
 	local s,k=shiftPair(k)
@@ -4494,15 +4565,12 @@ end
 
 return{
 	set=set,
-	get=function(i)return fKeys[i]end,
-	bind=function(i,f)binds[i]=f end,
+	get=function(i)return fmtKeys[i]end,
+	bind=function(i,f)hitBinds[i]=f end,
+	bindSet=function(f)setBinds[#setBinds+1]=f end,
 	lockAll=lockAll,
 	unlock=unlock,
 	lock=lock,
-	
-	setC=function(...)
-		set(...)
-	end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -4514,14 +4582,13 @@ return{
 					<string name="Name">ToolModule</string>
 					<string name="ScriptGuid">{9F458B6D-90C5-4A9C-ADA4-BA655CCB57E1}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local cGui=require(main.ConfigGuiModule)
 local sel=require(main.SelectionModule)
 local subMM=require(main.SubmodeModule)
 local ogMod=require(main.OriginModule)
 local wpm=require(main.WaypointModule)
 
 --Modifies global environment.
-require(script.Parent.DebugModule)()
+require(main.DebugModule)()
 
 local bind,tagT
 local binds=subMM.getBinds()
@@ -4720,7 +4787,7 @@ return{
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">SelEventModule</string>
+					<string name="Name">SelectionEventModule</string>
 					<string name="ScriptGuid">{8B7CEBAE-319A-4B29-AC55-3F4D76D1294B}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local mode=require(main.ModeModule)
@@ -4766,7 +4833,7 @@ local bindEchT,bindAllT,allSaved={},{},true
 
 function loadKey(i)
 	return plugin:GetSetting(i)
-	or defaults[i][1]
+	or defaults[i].value
 end
 
 --Loads each listed setting to cache.
@@ -4788,16 +4855,19 @@ function send(dict,isTemp)
 	--Calls the 'all' binds.
 	for i,f in next,bindAllT do
 	f(dict,currCache,isTemp,allSaved)end
+	
+	--Forwards the changes to the on-board GUI.
+	cGui.config(dict,currCache,isTemp,allSaved)
 end
 
---Selection algorithms: iterates to store enabled-states.
+--Algorithms from various modes of selection.
+local algorChT={value=true,check=util.isBool}
 local chT=require(main.AlgorChooserModule).getChoices()
-local algorChT={true,util.isBool}for i,algor in next,chT do
-defaults[i],defaults[i..'_prompt']=algorChT,algorChT end
+for i,algor in next,chT do defaults[i],defaults[i..'_prompt']=algorChT,algorChT end
 
 return{
 	setPerm=function(i,v)
-		if defaults[i][2](v)
+		if defaults[i].check(v)
 		then else return end
 		
 		currCache[i]=v
@@ -4809,7 +4879,7 @@ return{
 	return true end,
 	
 	setTemp=function(i,v)
-		if defaults[i][2](v)
+		if defaults[i].check(v)
 		then else return end
 		
 		currCache[i]=v
@@ -4824,6 +4894,7 @@ return{
 		else return loadKey(i)end
 	end,
 	
+	getDefault=function(i)return defaults[i]end,
 	currCache=function()return currCache end,
 	permCache=function()return permCache end,
 	tempCache=function()return tempCache end,
@@ -4835,9 +4906,11 @@ return{
 	
 	saveToPerm=function()if allSaved
 		then return end allSaved=true
+		print'Saving configuration to permanent storage.'
 		
 		--Don't affect tempCache yet.
 		for i,v in next,tempCache do
+			plugin:SetSetting(i,v)
 			bindEchT[i](v,true)
 			permCache[i]=v
 			currCache[i]=v
@@ -4865,18 +4938,22 @@ return{
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">DefaultModule</string>
 						<string name="ScriptGuid">{3BEB58A7-1B41-4214-B557-C797049D7DB8}</string>
-						<ProtectedString name="Source"><![CDATA[local u=require(script.Parent.DefaultUtilModule)
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local u=require(main.DefaultUtilModule)
 
 return{
 	debugLevel={
-		2,
-		function(v)
-			return type(v)=='number'and v%1==0 and v>=0 and v<=3
+		value=2,
+		check=function(v)
+			local n=tonumber(v)
+			return n and n%1==0 and n>=0 and n<=3
 		end,
+		format={'number',0},
 	},
 	resetShortcuts={
-		true,
-		u.isBool,
+		value=true,
+		check=u.isBool,
+		format={'bool'},
 	},
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -4905,7 +4982,6 @@ return{
 					<string name="ScriptGuid">{6892D384-7E01-4E9F-B36A-386DC111644A}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local hb=game['Run Service'].Heartbeat
-local cGui=require(main.ConfigGuiModule)
 local srts=require(main.ShortcutModule)
 local mouse=require(main.MouseModule)
 local vp=require(main.ViewportModule)
@@ -4979,17 +5055,6 @@ function show(list,prompt,width,xtra)
 	dd.Size=UDim2.new(0,width,0,yS)
 	return dd.Event.Event:Wait()
 end
-
---Binds to numbered shortcuts.
-function srt(v)local n=0+v
-	
-	--Overrides the keybind in the event a dropdown is showing.
-	if currList then if currList[n] then exec(currList[n])end
-	
-	--Sets the submode using numerical index.
-	else mode.set(nil,mode.getSubs()[n])end
-end
-for i=0,9 do srts.bind(''..i,srt)end
 
 --Event for selecting an option.
 function exec(s)
@@ -5683,7 +5748,8 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">DebugModule</string>
 					<string name="ScriptGuid">{8A6AD28B-BDF0-4D40-BFE9-34C1FB3C02CD}</string>
-					<ProtectedString name="Source"><![CDATA[local config=require(script.Parent.ConfigModule)
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local config=require(main.ConfigModule)
 local empty=function()end
 local envs={}
 
@@ -6115,7 +6181,7 @@ function implode(o)
 end
 
 return{
-	ignorable=true,
+	skippable=true,
 	name='CSGExplosion™',
 	clearUndo=true,
 	asUnit=false,
@@ -6386,7 +6452,8 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ActiveTickModule</string>
 					<string name="ScriptGuid">{9B1A2AE0-54AC-43D3-9F36-4ABF3263ADC6}</string>
-					<ProtectedString name="Source"><![CDATA[local srts=require(script.Parent.ShortcutModule)
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local srts=require(main.ShortcutModule)
 local stacks={activeTick1={},activeTick2={},}
 
 function func(i,...)
@@ -6418,14 +6485,21 @@ return{
 					<string name="Name">ConfigGuiModule</string>
 					<string name="ScriptGuid">{2785EAB1-CCB6-4539-B63F-0678DCD8B3D8}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local saveB=require(script.SaveButtonModule)
+local svB=require(script.SaveButtonModule)
 local mEnum=require(main.ModeEnumModule)
-local config=require(main.ConfigModule)
 local spM=require(script.SubpageModule)
+local config=require(main.ConfigModule)
+local srts=require(main.ShortcutModule)
 local gui=require(main.GuiMainModule)
 local mouse=require(main.MouseModule)
+local mode=require(main.ModeModule)
 local cGui=gui.get'config'
 local frame=cGui.Frame
+
+function send(name,...)
+	spM[name](...)
+	svB[name](...)
+end
 
 --Obligatory callback implementation; transfers to sub-modules.
 local callbackT={}function bindCB(i,f)spM.callback(i,f)callbackT[i]=f end
@@ -6454,7 +6528,7 @@ function show()
 end
 
 --Function for the mode-change event, stores previous mode.
-local prevM function mdeF(currM,tempM)
+local prevM mode.bind(function(currM,tempM)
 	
 	--Set to last used mode other than 'config'.
 	if'config'~=currM[1]then prevM=currM end
@@ -6462,26 +6536,31 @@ local prevM function mdeF(currM,tempM)
 	--Determines which state the GUI should be set to.
 	if tempM and('config'==tempM[1])~=('config'==currM[1])then ovly()
 	elseif'config'~=currM[1]then hide()else show()spM.mode(currM)end
-end
+end)
 
-function srtF(...)
+--Config modification event.
+config.bindAll(function(
+...)send('config',...)end)
+
+--Shortcut modification event.
+srts.bindSet(function(...)
+	send('shortcuts',...)
+	
+	--Transposes each of the modes onto the close button.
 	local b,s=nil,''for i,m in next,mEnum do if m[1]~='config'
 	then s,b=s..(b and', 'or'')..m[2],true end end
 	frame.Close.TextLabel.Text=s
-	spM.shortcuts(...)
-end
+end)
 
 --Binds to the close button; previous mode set.
-frame.Close.Activated:connect(
-	function()callbackT.setMode(prevM)end)
+frame.Close.Activated:connect(function()mode.set(prevM)end)
 
---Initialises GUI in a few functions.
-saveB(cGui)gui.add(cGui)hide()
+--Initialises GUI in external functions.
+send('init',cGui)gui.add(cGui)hide()
 
 return{
 	overlay=ovly,
-	shortcuts=srtF,
-	callback=bindCB,mode=mdeF,
+	callback=bindCB,
 	show=show,hide=hide,
 	getSubs=spM.getSubs,
 	isShown=function()
@@ -6496,34 +6575,41 @@ return{
 						<string name="Name">SubpageModule</string>
 						<string name="ScriptGuid">{430F4EF8-5C9C-43A0-8E48-D9C8A4A4FBAA}</string>
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local mode=require(main.ModeModule)
 local config=require(main.ConfigModule)
-local gui=require(main.GuiMainModule)
-local fr=gui.get'config'.Frame
-local textB=script.TextButton
-local selFr=fr.Selection
-local window=fr.Window
+local confSm=require(main.ConfigSubmodeModule)
 
 --Obligatory callback structure (named 'bind' internally).
 local binds={}function bind(i,f)binds[i]=f end
 
---Retrieves a reference of the configs.
-local configTable=config.currCache()
-
---Gathers the configuration pages from the configuration window.
-local moduleT,pageT,pNameT,labelT,subNum,subCount={},{},{},{},1,0
-for i,o in next,window:children()do local n=o.Name subCount=subCount+1
+local moduleT=confSm.getModules()
+local pageT,pNameT,labelT,configT={},{},{},{}
+local subNum,subCount=1,0 function init(cGui)
 	
-	--Creates the labels and binds each one to mouse-based events.
-	local l,mod=textB:clone()l.Activated:connect(function()binds.mode(nil,i)end)
-	l.MouseEnter:connect(function()l.TextTransparency=i==subNum and 0 or.25 end)
-	l.MouseLeave:connect(function()l.TextTransparency=i==subNum and 0 or.5 end)
-	mod,pageT[i],pNameT[i],labelT[i]=require(script.Parent[n]),o,n,l
-	moduleT[i],l.Text,l.Parent,o.Parent=mod,n:upper(),selFr,nil
-	mod.init(o)
+	local fr=cGui.Frame
+	local textB=script.TextButton
+	local selFr=fr.Selection
+	local window=fr.Window
+	
+	--Retrieves a reference of the configs.
+	configT=config.currCache()
+	
+	for n,mod in next,moduleT do
+		subCount=subCount+1
+		local o=window[n]
+		
+		--Creates the labels and binds each one to mouse-based events.
+		local l=textB:clone()l.Activated:connect(function()mode.set(nil,subCount)end)
+		l.MouseEnter:connect(function()l.TextTransparency=subCount==subNum and 0 or.25 end)
+		l.MouseLeave:connect(function()l.TextTransparency=subCount==subNum and 0 or.5 end)
+		moduleT[subCount],pageT[subCount],pNameT[subCount],labelT[subCount]=mod,o,n,l
+		l.Text,l.Parent,o.Parent=n:upper(),selFr,nil
+		mod.init(o)
+	end
 end
 
 --Called upon setting of mode.
-function mode(currM)subNum=currM[2]
+function modeFwd(currM)subNum=currM[2]
 	
 	--Updates GUI elements.
 	for i,l in next,labelT do
@@ -6532,30 +6618,43 @@ function mode(currM)subNum=currM[2]
 	end
 	
 	--Shows the appropriate sub-page; hides the rest.
-	for i=1,subCount do pageT[i].Parent=i==subNum and window or nil end
+	for i=1,subCount do pageT[i].Visible=i==subNum end
 	
 	--Calls the page's specific method.
-	moduleT[subNum].show(pNameT[subNum],configTable)
+	moduleT[subNum].show(pNameT[subNum],configT)
 end
 
 --Forwards updates to the pages.
-config.bindAll(function(...)
-for i,m in next,moduleT do
-m.update(pNameT[i],...)end end)
+function configFwd(...)
+	for i,m in next,moduleT do
+		if m.config then
+			m.config(pNameT[i],...)
+		end
+	end
+end
 
---Called upon modification of shortcuts.
-function srtF(fKeys)
+--Called when shortcuts get changed.
+function shortcutsFwd(fKeys)
 	for i,l in next,labelT do
 		l.TextLabel.Text=fKeys[tostring(i)]
+	end
+	
+	--Forwards changes to the pages.
+	for i,m in next,moduleT do
+		if m.shortcuts then
+			m.shortcuts(pNameT[i],fKeys)
+		end
 	end
 end
 
 return{
+	init=init,
+	callback=bind,
 	getSubs=function()
 	return pNameT end,
-	shortcuts=srtF,
-	callback=bind,
-	mode=mode,
+	shortcuts=shortcutsFwd,
+	config=configFwd,
+	mode=modeFwd,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
@@ -6710,33 +6809,6 @@ return{
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ModuleScript" referent="RBXE7852FC5AB394E9F9E70AD5FF722CD26">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">main</string>
-						<string name="ScriptGuid">{A1697887-C672-440F-9EA7-C331C6BCF9CA}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local config=require(main.ConfigModule)
-
-return{
-	init=function(fd)
-		local tb=fd.Frame.Value.TextBox
-		tb.FocusLost:connect(function()
-			print(5)
-			config.setTemp('debugLevel',tonumber(tb.Text))
-		end)
-	end,
-	show=function(fd,configT)
-		
-	end,
-	update=function(fd,_,cache)
-		
-	end,
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
 				<Item class="ModuleScript" referent="RBX243A109B14D34B4794CD1808DACFCEE8">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -6746,33 +6818,35 @@ return{
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local config=require(main.ConfigModule)
 local gui=require(main.GuiMainModule)
-local mouse=require(main.MouseModule)
-local cGui=gui.get'config'
+local saveB,saveState
 
 function getTrans(s,a)
 	return s and .75
 	or(a and 0 or.5)
 end
 
-return function(cGui)
-	local saveState=true
-	local saveB=cGui.Frame.Selection.SaveButton
-	config.bindAll(function(_,_,_,allSaved)
+return{
+	init=function(cGui)
+		saveB=cGui.Frame.Selection.SaveButton
+		saveB.MouseEnter:connect(function()
+			saveB.TextTransparency=getTrans(saveState,true)
+			saveB.InfoHover.Screentip.Visible=not saveState end)
+		saveB.MouseLeave:connect(function()
+			saveB.TextTransparency=getTrans(saveState,false)
+			saveB.InfoHover.Screentip.Visible=false end)
+		saveB.MouseButton1Click:connect(config.saveToPerm)
+		saveB.TextTransparency=getTrans(saveState)
+		return saveB
+	end,
+	config=function(_,_,_,allSaved)
 		saveB.TextTransparency=getTrans(allSaved)
 		saveB.Active=false
 		saveState=allSaved
-	end)
-	
-	--Operations for the save button.
-	saveB.MouseEnter:connect(function()
-		saveB.TextTransparency=getTrans(saveState,true)
-		saveB.InfoHover.Screentip.Visible=not saveState end)
-	saveB.MouseLeave:connect(function()
-		saveB.TextTransparency=getTrans(saveState,false)
-		saveB.InfoHover.Screentip.Visible=false end)
-	saveB.Activated:connect(config.saveToPerm)
-	saveB.TextTransparency=getTrans(saveState)
-end]]></ProtectedString>
+	end,
+	shortcuts=function(fKeys)
+		--saveB.TextLabel.Text=fKeys.activeTick1
+	end,
+}]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
@@ -6801,34 +6875,47 @@ end]]></ProtectedString>
 					<string name="Name">AlgorConfigModule</string>
 					<string name="ScriptGuid">{FA2B0A4A-6122-4099-8D25-43806793D977}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local xtra,xtraCl,mValue=script.Extra,nil,nil
+local xtra,xtraCl=script.Extra,nil
 local acTk=require(main.ActiveTickModule)
 local srts=require(main.ShortcutModule)
 local config=require(main.ConfigModule)
 local drpd=require(main.DropdownModule)
 
-local pValue=true function pToggle()pValue=not pValue
-xtraCl.Toggle.TextTransparency=pValue and.3 or 0 end
+local xtraRes=true function pToggle()xtraRes=not xtraRes
+xtraCl.Toggle.TextTransparency=xtraRes and.3 or 0 end
 
 return function(algor)
 	local mC,pC=algor.index,algor.index..'_prompt'
-	if algor.clearUndo and config.get(pC)then
+	if algor.clearUndo and config.get(pC)~=false then
 		
-		xtraCl,pValue=xtra:clone(),false
-		xtraCl.Shortcut.Text=srts.get'activeTick1'
-		xtraCl.Button.Activated:connect(pToggle)
-		acTk.bind('activeTick1',pToggle)pToggle()
+		--For this scope.
+		local mainRes
 		
-		if algor.ignorable then
-			local _,v=drpd.show({'Yes.','No.',},'Selecting this object'
-			..' will clear your undo history.  Proceed?',200,xtraCl)
-			mValue=v==1
+		--Custom toggle added; keybinds should be done here.
+		if algor.skippable then
+			xtraRes,xtraCl=false,xtra:clone()
+			xtraCl.Shortcut.Text=srts.get'activeTick1'
+			xtraCl.Button.Activated:connect(pToggle)
+			acTk.bind('activeTick1',pToggle)pToggle()
+		
+			mainRes=select(2,drpd.show({'Yes.','No.',},'Selecting this object'
+			..' will clear your undo history.  Proceed?',200,xtraCl))==1
+			
+			config.setPerm(mC,mainRes)
+			config.setPerm(pC,xtraRes)
+			acTk.unbind'activeTick1'
+		else
+		
+			mainRes=select(2,drpd.show({'Yes.','No.',},'Selecting this'
+			..' object will clear your undo history.  Proceed?',200))==1
+			config.setPerm(mC,mainRes)
 		end
 		
-		config.setPerm(mC,mValue)
-		config.setPerm(pC,pValue)
-		acTk.unbind'activeTick1'
-		xtraCl=nil return mValue
+		--Already destroyed.
+		xtraCl=nil
+		
+		--As defined in-scope.
+		return mainRes
 	else
 		return config.get(algor.index)
 	end
@@ -7119,7 +7206,6 @@ end]]></ProtectedString>
 					<string name="Name">SubmodeModule</string>
 					<string name="ScriptGuid">{18EC5BEF-2389-4B7D-B090-C2CFD1732EAB}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local cGui=require(main.ConfigGuiModule)
 
 local subs,binds={},{}
 function getSubs()return subs end
@@ -7132,17 +7218,12 @@ end
 
 for i,m in next,script:children() do
 	local t=require(m)
-	for i,f in next,t do
+	for i,bt in next,t do
 		local t=subs[i[1]]
 		if t then t[#t+1]=i[2]
 		else subs[i[1]]={i[2]}end
-		binds[modeHash(i)]=f
+		binds[modeHash(i)]=bt
 	end
-end
-
-subs.config={}
-for i in next,cGui.getSubs()do
-	subs.config[i]=i
 end
 
 return{getSubs=getSubs,getBinds=getBinds}]]></ProtectedString>
@@ -7223,6 +7304,24 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
+				<Item class="ModuleScript" referent="RBXBEE9CAD4629B4D818174BCE92801FD3A">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">ConfigDummyModule</string>
+						<string name="ScriptGuid">{453004FF-48B3-4BDF-A5B6-0461C99FFE1D}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local confSm=require(main.ConfigSubmodeModule)
+
+local t={}
+for i,n in next,confSm.get()do
+	t[{'config',n}]={}
+end
+
+return t]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBX10FDC8C6BB184A85A9D1D28F43BC04A7">
 				<Properties>
@@ -7235,23 +7334,23 @@ local locals={}
 
 return{
 	bindGlobal=function(i,fF,lF)
-		local t={[true]={fF,lF}}
+		local gT={[true]={fF,lF}}
 		for tb in next,locals do
-			t[tb]={
+			gT[tb]={
 			tb.Focused:connect(fF),
 			tb.FocusLost:connect(lF)}
 		end
-		globals[i]=t
+		globals[i]=gT
 	end,
 	
 	bindTextBox=function(tb,fF,lF)
-		locals[tb]=fF and{
-		tb.Focused:connect(fF),
-		tb.FocusLost:connect(lF)}or{}
-		for i,t in next,globals do
-			local f,l=unpack(t[true])
-			print(f,l)
-			t[tb]={
+		local lT={}
+		locals[tb]=lT
+		if fF then lT[#lT+1]=tb.Focused:connect(fF)end
+		if lF then lT[#lT+1]=tb.FocusLost:connect(lF)end
+		for i,gT in next,globals do
+			local f,l=unpack(gT[true])
+			gT[tb]={
 			tb.Focused:connect(f),
 			tb.FocusLost:connect(l)}
 		end
@@ -7958,7 +8057,7 @@ return{
 										</UDim2>
 										<token name="SizeConstraint">0</token>
 										<BinaryString name="Tags"></BinaryString>
-										<string name="Text">K</string>
+										<string name="Text">666</string>
 										<Color3 name="TextColor3">
 											<R>0.800000072</R>
 											<G>0.760784388</G>
@@ -7977,7 +8076,7 @@ return{
 										<bool name="TextWrapped">false</bool>
 										<token name="TextXAlignment">0</token>
 										<token name="TextYAlignment">2</token>
-										<bool name="Visible">true</bool>
+										<bool name="Visible">false</bool>
 										<int name="ZIndex">1</int>
 									</Properties>
 								</Item>
@@ -8163,7 +8262,7 @@ return{
 								</Color3>
 								<token name="BorderMode">0</token>
 								<int name="BorderSizePixel">0</int>
-								<bool name="ClipsDescendants">false</bool>
+								<bool name="ClipsDescendants">true</bool>
 								<bool name="Draggable">false</bool>
 								<int name="LayoutOrder">0</int>
 								<string name="Name">Window</string>
@@ -8193,13 +8292,59 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Folder" referent="RBXBDF268BA1CDA4D78B1A753DF1EA9C617">
+							<Item class="Frame" referent="RBX237849A9FDA343EC9A70A8BC26949129">
 								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>0</X>
+										<Y>0</Y>
+									</Vector2>
 									<BinaryString name="AttributesSerialize"></BinaryString>
+									<bool name="AutoLocalize">true</bool>
+									<Color3 name="BackgroundColor3">
+										<R>1</R>
+										<G>1</G>
+										<B>1</B>
+									</Color3>
+									<float name="BackgroundTransparency">1</float>
+									<Color3 name="BorderColor3">
+										<R>0.105882362</R>
+										<G>0.164705887</G>
+										<B>0.207843155</B>
+									</Color3>
+									<token name="BorderMode">0</token>
+									<int name="BorderSizePixel">1</int>
+									<bool name="ClipsDescendants">false</bool>
+									<bool name="Draggable">false</bool>
+									<int name="LayoutOrder">0</int>
 									<string name="Name">main</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>0</XS>
+										<XO>0</XO>
+										<YS>0</YS>
+										<YO>0</YO>
+									</UDim2>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<bool name="Selectable">false</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<UDim2 name="Size">
+										<XS>1</XS>
+										<XO>0</XO>
+										<YS>1</YS>
+										<YO>0</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<token name="Style">0</token>
 									<BinaryString name="Tags"></BinaryString>
+									<bool name="Visible">false</bool>
+									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="UIGridLayout" referent="RBXBAFD536BF3134BA99BF3E8CAB6E9C10E">
+								<Item class="UIGridLayout" referent="RBXB7F82FAEEF4245C4999752EBAE7DD3B8">
 									<Properties>
 										<BinaryString name="AttributesSerialize"></BinaryString>
 										<UDim2 name="CellPadding">
@@ -8224,7 +8369,7 @@ return{
 										<token name="VerticalAlignment">1</token>
 									</Properties>
 								</Item>
-								<Item class="Frame" referent="RBX0BE39F81F9B244888CD957CCD4FE6CFA">
+								<Item class="Frame" referent="RBX41949E464B8D43D9AD21F08122EA943B">
 									<Properties>
 										<bool name="Active">false</bool>
 										<Vector2 name="AnchorPoint">
@@ -8276,7 +8421,7 @@ return{
 										<bool name="Visible">true</bool>
 										<int name="ZIndex">1</int>
 									</Properties>
-									<Item class="Frame" referent="RBX3BA723B98CA748E1A1EF077CAFB77E96">
+									<Item class="Frame" referent="RBX0FDE41520B044A5180E5E0F66C9C640B">
 										<Properties>
 											<bool name="Active">false</bool>
 											<Vector2 name="AnchorPoint">
@@ -8328,7 +8473,7 @@ return{
 											<bool name="Visible">true</bool>
 											<int name="ZIndex">1</int>
 										</Properties>
-										<Item class="TextBox" referent="RBX18DFD98A0C1246A4B04E4F04F87E300D">
+										<Item class="TextBox" referent="RBX330A2889383245998BBA206CA14DCCF4">
 											<Properties>
 												<bool name="Active">true</bool>
 												<Vector2 name="AnchorPoint">
@@ -8411,7 +8556,7 @@ return{
 												<int name="ZIndex">1</int>
 											</Properties>
 										</Item>
-										<Item class="TextButton" referent="RBX2D9D454B8E2546E7BAD30904B64C4234">
+										<Item class="TextButton" referent="RBX7A15C8CBBF964F839D29AA7C203C4A9D">
 											<Properties>
 												<bool name="Active">true</bool>
 												<Vector2 name="AnchorPoint">
@@ -8489,7 +8634,7 @@ return{
 											</Properties>
 										</Item>
 									</Item>
-									<Item class="TextLabel" referent="RBX25E6B77468A6442DAB132B7A21938CA1">
+									<Item class="TextLabel" referent="RBX5CCAF3987A6B4808ABC96AEF7FAF91B6">
 										<Properties>
 											<bool name="Active">false</bool>
 											<Vector2 name="AnchorPoint">
@@ -8562,6 +8707,84 @@ return{
 											<int name="ZIndex">1</int>
 										</Properties>
 									</Item>
+								</Item>
+							</Item>
+							<Item class="Frame" referent="RBXA0039DF1CD6448B39162765DF5DE3172">
+								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>0.5</X>
+										<Y>0.5</Y>
+									</Vector2>
+									<BinaryString name="AttributesSerialize"></BinaryString>
+									<bool name="AutoLocalize">true</bool>
+									<Color3 name="BackgroundColor3">
+										<R>1</R>
+										<G>1</G>
+										<B>1</B>
+									</Color3>
+									<float name="BackgroundTransparency">1</float>
+									<Color3 name="BorderColor3">
+										<R>0.105882362</R>
+										<G>0.164705887</G>
+										<B>0.207843155</B>
+									</Color3>
+									<token name="BorderMode">0</token>
+									<int name="BorderSizePixel">1</int>
+									<bool name="ClipsDescendants">false</bool>
+									<bool name="Draggable">false</bool>
+									<int name="LayoutOrder">0</int>
+									<string name="Name">keybinds</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>0.5</XS>
+										<XO>0</XO>
+										<YS>0.5</YS>
+										<YO>0</YO>
+									</UDim2>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<bool name="Selectable">false</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<UDim2 name="Size">
+										<XS>1</XS>
+										<XO>2</XO>
+										<YS>1</YS>
+										<YO>0</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<token name="Style">0</token>
+									<BinaryString name="Tags"></BinaryString>
+									<bool name="Visible">true</bool>
+									<int name="ZIndex">1</int>
+								</Properties>
+								<Item class="UIGridLayout" referent="RBXBACDE3D87EE04B478D41D01E42AC0939">
+									<Properties>
+										<BinaryString name="AttributesSerialize"></BinaryString>
+										<UDim2 name="CellPadding">
+											<XS>0</XS>
+											<XO>2</XO>
+											<YS>0</YS>
+											<YO>5</YO>
+										</UDim2>
+										<UDim2 name="CellSize">
+											<XS>0.25</XS>
+											<XO>-2</XO>
+											<YS>0</YS>
+											<YO>24</YO>
+										</UDim2>
+										<token name="FillDirection">0</token>
+										<int name="FillDirectionMaxCells">0</int>
+										<token name="HorizontalAlignment">1</token>
+										<string name="Name">UIGridLayout</string>
+										<token name="SortOrder">2</token>
+										<token name="StartCorner">0</token>
+										<BinaryString name="Tags"></BinaryString>
+										<token name="VerticalAlignment">1</token>
+									</Properties>
 								</Item>
 							</Item>
 						</Item>
@@ -13442,15 +13665,32 @@ return{
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">SetSrtModule</string>
+					<string name="Name">ShortcutProcessModule</string>
 					<string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local cGui=require(main.ConfigGuiModule)
 local block=require(main.BlockboxModule)
 local srts=require(main.ShortcutModule)
+local gui=require(main.GuiMainModule)
+local actv=require(main.ActiveModule)
 local kb=require(main.KeybindModule)
 local mode=require(main.ModeModule)
+
+local fr,shown=gui.get'block'.Frame,nil
+fr.Parent,fr.Visible=nil,true
 local locked
+
+function show(s,w)
+	fr.TextLabel.Size=UDim2.fromOffset(w or 300,50)
+	fr.TextLabel.Text=s:upper()shown=true
+	if shown then return end mode
+	.lock()actv.lock()gui.add(fr)
+end
+function hide()
+	if not shown then return end
+	mode.unlock()actv.unlock()
+	gui.remove(fr)shown=false
+end
 
 --Stores the shortcut to variables when undergoing process.
 local collE=Instance.new'BindableEvent'
@@ -13482,34 +13722,409 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBXBC5BF8CC802B4136B1F99F8353EF55D6">
+			<Item class="ModuleScript" referent="RBX109CF73B708F4AEAAAA8760381D4C5CB">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">BlockboxModule</string>
-					<string name="ScriptGuid">{3C1548EE-D7CB-45FE-9E29-0AC1A641A37B}</string>
+					<string name="Name">ModeBindModule</string>
+					<string name="ScriptGuid">{DB772F1E-B693-46A5-BA83-FD7914287A32}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local gui=require(main.GuiMainModule)
-local actv=require(main.ActiveModule)
+local mEnum=require(main.ModeEnumModule)
+local drpd=require(main.DropdownModule)
+local srts=require(main.ShortcutModule)
 local mode=require(main.ModeModule)
-local fr,shown=gui.get'block'.Frame,nil
-fr.Parent,fr.Visible=nil,true
+local locked=0
+
+function bind(v)
+	if locked>0 then return end
+	mode.set(v)
+end
+
+--Directly alters sub-mode.
+function subBind(v)
+	if locked>0 then return end
+	local currList=drpd.get()
+	
+	--Overrides the keybind in the event a dropdown is showing.
+	if currList then if currList[0+v] then drpd.exec(currList[0+v])end
+	
+	--Sets the submode using numerical index.
+	else mode.set(nil,mode.getSubs()[0+v])end
+end
+
+--Binds to named shortcut; as defined elsewhere.
+for i,k in next,mEnum do srts.bind(k[1],bind)end
+
+--Binds to numbered shortcuts.
+for i=0,9 do srts.bind(''..i,subBind)end
 
 return{
-	show=function(s,w)
-		fr.TextLabel.Size=UDim2.fromOffset(w or 300,50)
-		fr.TextLabel.Text=s:upper()shown=true
-		if shown then return end mode
-		.lock()actv.lock()gui.add(fr)
-	end,
-	hide=function()
-		if not shown then return end
-		mode.unlock()actv.unlock()
-		gui.remove(fr)shown=false
+	lock=function()locked=locked+1 end,
+	unlock=function()locked=locked-1 end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX1A235854AB26416EB6AE223A4EB2216D">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ConfigFieldModule</string>
+					<string name="ScriptGuid">{6ACD727E-F7C5-4A89-98F5-F2C86928ED7A}</string>
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local config=require(main.ConfigModule)
+local format=require(main.FormatModule)
+local tbm=require(main.TextBoxModule)
+local inputs={}
+
+config.bindAll(function(dict)
+	for tb,info in next,inputs do
+		local key,mode=unpack(info)
+		if dict[key]then
+			local val=config.get(key)
+			local def=config.getDefault(key)
+			if mode=='text'then
+				tb.Text=format.configInput(key,val)
+			end
+		end
+	end
+end)
+
+return{
+	text=function(key,tb)
+		local val=config.get(key)
+		inputs[tb]={key,'text'}
+		tb.Text=format.configOutput(key,val)
+		
+		tbm.bindTextBox(tb,nil,function()
+			local num=format.configInput(key,tb.Text)
+			if num then config.setTemp(key,num)return end
+			tb.Text=format.configOutput(key,config.get(key))
+		end)
 	end,
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX141073770BE64D09843BAC96379E827E">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ConfigSubmodeModule</string>
+					<string name="ScriptGuid">{FB072771-9BE1-4AB8-9470-2049222AE11C}</string>
+					<ProtectedString name="Source"><![CDATA[local modules,subNames={},{}
+for i,m in next,script:children()do
+	local n=m.Name
+	subNames[i]=n
+	modules[n]=require(m)
+end
+
+return{
+	getModules=function()return modules end,
+	get=function()return subNames end,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+				<Item class="ModuleScript" referent="RBXE7852FC5AB394E9F9E70AD5FF722CD26">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">main</string>
+						<string name="ScriptGuid">{A1697887-C672-440F-9EA7-C331C6BCF9CA}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local field=require(main.ConfigFieldModule)
+
+return{
+	init=function(fd)
+		local tb=fd.Frame.Value.TextBox
+		field.text('debugLevel',tb)
+	end,
+	show=function(fd,configT)
+		
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXA43D36E450224493A8C89085295C30AB">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">keybinds</string>
+						<string name="ScriptGuid">{3ECFE769-081E-47EA-86E9-914C3779BE9F}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local field=require(main.ConfigFieldModule)
+
+return{
+	init=function(fd)
+		local elem=script.Frame
+	end,
+	show=function(fd,configT)
+		
+	end,
+	config=function(fd,_,cache)
+		
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+					<Item class="Frame" referent="RBXEAE03AAC65304A20A1DFB2A43D8E68B2">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">3</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<int name="LayoutOrder">0</int>
+							<string name="Name">Frame</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>1</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>30</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+						<Item class="TextLabel" referent="RBXCA5AD7AAE95344EABDFA0CD121EC3D12">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>1</X>
+									<Y>0</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>1</G>
+									<B>1</B>
+								</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">
+									<R>0.105882362</R>
+									<G>0.164705887</G>
+									<B>0.207843155</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">1</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">6</token>
+								<int name="LayoutOrder">0</int>
+								<float name="LineHeight">1</float>
+								<string name="Name">TextLabel</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>1</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>3</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>-11</XO>
+									<YS>0</YS>
+									<YO>23</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<string name="Text">activeTick1</string>
+								<Color3 name="TextColor3">
+									<R>0.415686309</R>
+									<G>0.415686309</G>
+									<B>0.415686309</B>
+								</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">19</float>
+								<Color3 name="TextStrokeColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<token name="TextTruncate">0</token>
+								<bool name="TextWrapped">false</bool>
+								<token name="TextXAlignment">0</token>
+								<token name="TextYAlignment">2</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+						<Item class="TextButton" referent="RBXB02BADAED94045A8BCC565DAB7F2452E">
+							<Properties>
+								<bool name="Active">true</bool>
+								<Vector2 name="AnchorPoint">
+									<X>1</X>
+									<Y>0</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoButtonColor">true</bool>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>1</G>
+									<B>1</B>
+								</Color3>
+								<float name="BackgroundTransparency">0</float>
+								<Color3 name="BorderColor3">
+									<R>0.839215755</R>
+									<G>0.839215755</G>
+									<B>0.839215755</B>
+								</Color3>
+								<token name="BorderMode">2</token>
+								<int name="BorderSizePixel">1</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">3</token>
+								<int name="LayoutOrder">0</int>
+								<float name="LineHeight">1</float>
+								<bool name="Modal">false</bool>
+								<string name="Name">TextButton</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>1</XS>
+									<XO>-7</XO>
+									<YS>0</YS>
+									<YO>6</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">true</bool>
+								<bool name="Selected">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>0</XS>
+									<XO>60</XO>
+									<YS>0</YS>
+									<YO>22</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<string name="Text">K</string>
+								<Color3 name="TextColor3">
+									<R>0.43921572</R>
+									<G>0.43921572</G>
+									<B>0.43921572</B>
+								</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">18</float>
+								<Color3 name="TextStrokeColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<token name="TextTruncate">0</token>
+								<bool name="TextWrapped">true</bool>
+								<token name="TextXAlignment">2</token>
+								<token name="TextYAlignment">0</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+						<Item class="Frame" referent="RBXE70247E6F6424835A5E3AB5A5750B275">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0.5</X>
+									<Y>0</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>0.800000072</R>
+									<G>0.800000072</G>
+									<B>0.800000072</B>
+								</Color3>
+								<float name="BackgroundTransparency">0</float>
+								<Color3 name="BorderColor3">
+									<R>0.105882362</R>
+									<G>0.164705887</G>
+									<B>0.207843155</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<int name="LayoutOrder">0</int>
+								<string name="Name">Frame</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>7</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>0</XS>
+									<XO>2</XO>
+									<YS>0</YS>
+									<YO>19</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+					</Item>
+				</Item>
 			</Item>
 		</Item>
 	</Item>
@@ -13725,6 +14340,13 @@ end]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
+	<Item class="Teams" referent="RBXE65C477AC4BF48EC8553FAA95183CA4C">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<string name="Name">Teams</string>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+	</Item>
 	<Item class="TestService" referent="RBX404EC13B8F684D9D9B96E75CAB2840FE">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
@@ -13752,13 +14374,6 @@ end]]></ProtectedString>
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<string name="Name">VirtualInputManager</string>
-			<BinaryString name="Tags"></BinaryString>
-		</Properties>
-	</Item>
-	<Item class="Teams" referent="RBXE65C477AC4BF48EC8553FAA95183CA4C">
-		<Properties>
-			<BinaryString name="AttributesSerialize"></BinaryString>
-			<string name="Name">Teams</string>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
 	</Item>
