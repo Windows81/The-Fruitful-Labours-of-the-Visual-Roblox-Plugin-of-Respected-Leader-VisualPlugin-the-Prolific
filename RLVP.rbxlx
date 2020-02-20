@@ -1271,8 +1271,9 @@ function callbackAll(cbN,func)
 	end
 end
 
-mode.bind(function(...)
-actionAll('mode',...)end)
+mode.bind(function(...)actionAll('mode',...)end)
+srts.bindSet(function(...)actionAll('shortcuts',...)end,true)
+
 actv.bind(function(b)
 	(b and showAll or hideAll)()
 	actionAll('active',b)
@@ -4484,12 +4485,12 @@ return{
 					<string name="Name">ShortcutModule</string>
 					<string name="ScriptGuid">{93227EE5-2FB9-471E-B9E6-D7896E4E9EB6}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local plugin=script.Parent.Plugin.Value
 local mEnum=require(main.ModeEnumModule)
 local format=require(main.FormatModule)
 local config=require(main.ConfigModule)
-local kb=require(main.KeybindModule)
-local plugin=script.Parent.Plugin.Value
 local reset=config.get'resetShortcuts'
+local kb=require(main.KeybindModule)
 local hitBinds,setBinds={},{}
 
 local keyEnums=not reset and plugin:GetSetting'shortcuts'
@@ -4567,7 +4568,12 @@ return{
 	set=set,
 	get=function(i)return fmtKeys[i]end,
 	bind=function(i,f)hitBinds[i]=f end,
-	bindSet=function(f)setBinds[#setBinds+1]=f end,
+	
+	bindSet=function(f,exec)
+	setBinds[#setBinds+1]=f
+	if exec then f(fmtKeys
+	,hitBinds,keys)end end,
+	
 	lockAll=lockAll,
 	unlock=unlock,
 	lock=lock,
@@ -4855,9 +4861,6 @@ function send(dict,isTemp)
 	--Calls the 'all' binds.
 	for i,f in next,bindAllT do
 	f(dict,currCache,isTemp,allSaved)end
-	
-	--Forwards the changes to the on-board GUI.
-	cGui.config(dict,currCache,isTemp,allSaved)
 end
 
 --Algorithms from various modes of selection.
@@ -6595,15 +6598,16 @@ local subNum,subCount=1,0 function init(cGui)
 	configT=config.currCache()
 	
 	for n,mod in next,moduleT do
+		local subIndex=subCount+1
 		subCount=subCount+1
 		local o=window[n]
 		
 		--Creates the labels and binds each one to mouse-based events.
-		local l=textB:clone()l.Activated:connect(function()mode.set(nil,subCount)end)
+		local l=textB:clone()l.Activated:connect(function()mode.set(nil,subIndex)end)
 		l.MouseEnter:connect(function()l.TextTransparency=subCount==subNum and 0 or.25 end)
 		l.MouseLeave:connect(function()l.TextTransparency=subCount==subNum and 0 or.5 end)
 		moduleT[subCount],pageT[subCount],pNameT[subCount],labelT[subCount]=mod,o,n,l
-		l.Text,l.Parent,o.Parent=n:upper(),selFr,nil
+		l.Text,l.Parent=n:upper(),selFr
 		mod.init(o)
 	end
 end
@@ -7227,10 +7231,10 @@ for i,m in next,script:children() do
 	end
 end
 
-local configSubs={}subs.config=configSubs
-for i in next,confSm.get()do
-	configSubs[i]=i
-end
+local configSubs={}
+subs.config=configSubs
+for i in next,confSm.get(
+)do configSubs[i]=i end
 
 return{getSubs=getSubs,binds=getBinds}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -13656,7 +13660,6 @@ return{
 					<string name="Name">ShortcutProcessModule</string>
 					<string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local cGui=require(main.ConfigGuiModule)
 local block=require(main.BlockboxModule)
 local srts=require(main.ShortcutModule)
 local gui=require(main.GuiMainModule)

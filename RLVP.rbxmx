@@ -464,8 +464,9 @@ function callbackAll(cbN,func)
 	end
 end
 
-mode.bind(function(...)
-actionAll('mode',...)end)
+mode.bind(function(...)actionAll('mode',...)end)
+srts.bindSet(function(...)actionAll('shortcuts',...)end,true)
+
 actv.bind(function(b)
 	(b and showAll or hideAll)()
 	actionAll('active',b)
@@ -2684,11 +2685,11 @@ return{
         <string name="Name">ModeModule</string>
         <string name="ScriptGuid">{10551311-ED9B-491A-88F9-4E1583AF4DF7}</string>
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
-local subMM=require(main.SubmodeModule)
+local subMd=require(main.SubmodeModule)
 local tbm=require(main.TextBoxModule)
 local cSubs,binds,busy={},{},nil
 require(main.DebugModule)()
-local subs=subMM.getSubs()
+local subs=subMd.getSubs()
 local dfltM={'select',1}
 local currM=dfltM
 local tempM=nil
@@ -3847,12 +3848,12 @@ return{
         <string name="Name">ShortcutModule</string>
         <string name="ScriptGuid">{93227EE5-2FB9-471E-B9E6-D7896E4E9EB6}</string>
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local plugin=script.Parent.Plugin.Value
 local mEnum=require(main.ModeEnumModule)
 local format=require(main.FormatModule)
 local config=require(main.ConfigModule)
-local kb=require(main.KeybindModule)
-local plugin=script.Parent.Plugin.Value
 local reset=config.get'resetShortcuts'
+local kb=require(main.KeybindModule)
 local hitBinds,setBinds={},{}
 
 local keyEnums=not reset and plugin:GetSetting'shortcuts'
@@ -3930,7 +3931,12 @@ return{
 	set=set,
 	get=function(i)return fmtKeys[i]end,
 	bind=function(i,f)hitBinds[i]=f end,
-	bindSet=function(f)setBinds[#setBinds+1]=f end,
+	
+	bindSet=function(f,exec)
+	setBinds[#setBinds+1]=f
+	if exec then f(fmtKeys
+	,hitBinds,keys)end end,
+	
 	lockAll=lockAll,
 	unlock=unlock,
 	lock=lock,
@@ -3951,7 +3957,7 @@ return{
         <string name="ScriptGuid">{9F458B6D-90C5-4A9C-ADA4-BA655CCB57E1}</string>
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
 local sel=require(main.SelectionModule)
-local subMM=require(main.SubmodeModule)
+local subMd=require(main.SubmodeModule)
 local ogMod=require(main.OriginModule)
 local wpm=require(main.WaypointModule)
 
@@ -3959,7 +3965,7 @@ local wpm=require(main.WaypointModule)
 require(main.DebugModule)()
 
 local bind,tagT
-local binds=subMM.getBinds()
+local binds=subMd.binds()
 function modeHash(modeT)
 	if not modeT then return''end
 	return modeT[1]..'_'..modeT[2]
@@ -4243,9 +4249,6 @@ function send(dict,isTemp)
 	--Calls the 'all' binds.
 	for i,f in next,bindAllT do
 	f(dict,currCache,isTemp,allSaved)end
-	
-	--Forwards the changes to the on-board GUI.
-	cGui.config(dict,currCache,isTemp,allSaved)
 end
 
 --Algorithms from various modes of selection.
@@ -6098,15 +6101,16 @@ local subNum,subCount=1,0 function init(cGui)
 	configT=config.currCache()
 	
 	for n,mod in next,moduleT do
+		local subIndex=subCount+1
 		subCount=subCount+1
 		local o=window[n]
 		
 		--Creates the labels and binds each one to mouse-based events.
-		local l=textB:clone()l.Activated:connect(function()mode.set(nil,subCount)end)
+		local l=textB:clone()l.Activated:connect(function()mode.set(nil,subIndex)end)
 		l.MouseEnter:connect(function()l.TextTransparency=subCount==subNum and 0 or.25 end)
 		l.MouseLeave:connect(function()l.TextTransparency=subCount==subNum and 0 or.5 end)
 		moduleT[subCount],pageT[subCount],pNameT[subCount],labelT[subCount]=mod,o,n,l
-		l.Text,l.Parent,o.Parent=n:upper(),selFr,nil
+		l.Text,l.Parent=n:upper(),selFr
 		mod.init(o)
 	end
 end
@@ -6742,6 +6746,7 @@ end]]></ProtectedString>
         <string name="Name">SubmodeModule</string>
         <string name="ScriptGuid">{18EC5BEF-2389-4B7D-B090-C2CFD1732EAB}</string>
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
+local confSm=require(main.ConfigSubmodeModule)
 
 local subs,binds={},{}
 function getSubs()return subs end
@@ -6762,7 +6767,12 @@ for i,m in next,script:children() do
 	end
 end
 
-return{getSubs=getSubs,getBinds=getBinds}]]></ProtectedString>
+local configSubs={}
+subs.config=configSubs
+for i in next,confSm.get(
+)do configSubs[i]=i end
+
+return{getSubs=getSubs,binds=getBinds}]]></ProtectedString>
         <BinaryString name="Tags">
         </BinaryString>
       </Properties>
@@ -6774,7 +6784,7 @@ return{getSubs=getSubs,getBinds=getBinds}]]></ProtectedString>
             <null>
             </null>
           </Content>
-          <string name="Name">MoveModule</string>
+          <string name="Name">move</string>
           <string name="ScriptGuid">{F7192396-062E-4137-BFA1-D33D02B31B8F}</string>
           <ProtectedString name="Source"><![CDATA[function move(p,tags,face,d)
 	local cf=tags.origin.CFrame
@@ -6803,7 +6813,7 @@ return{
             <null>
             </null>
           </Content>
-          <string name="Name">ResizeModule</string>
+          <string name="Name">resize</string>
           <string name="ScriptGuid">{D5CBCCC1-7E66-450B-895D-49ABF0F93C8D}</string>
           <ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local plugin=main.Plugin.Value
@@ -6836,7 +6846,7 @@ return{
             <null>
             </null>
           </Content>
-          <string name="Name">RotateModule</string>
+          <string name="Name">rotate</string>
           <string name="ScriptGuid">{00EF3C83-6583-489D-B4BA-4DCBDA3F58B0}</string>
           <ProtectedString name="Source"><![CDATA[--Rotation function that takes the CFrame in.
 function rot8Main(p,tags,axis,angle,...)
@@ -6852,29 +6862,6 @@ return{
 	[{'rotate','group'}]={drag=rot8Main,origin='axisG',waypoint='Rotate'},
 	[{'rotate','first'}]={drag=rot8Main,waypoint='Rotate'},
 }]]></ProtectedString>
-          <BinaryString name="Tags">
-          </BinaryString>
-        </Properties>
-      </Item>
-      <Item class="ModuleScript" referent="RBXBEE9CAD4629B4D818174BCE92801FD3A">
-        <Properties>
-          <BinaryString name="AttributesSerialize">
-          </BinaryString>
-          <Content name="LinkedSource">
-            <null>
-            </null>
-          </Content>
-          <string name="Name">ConfigDummyModule</string>
-          <string name="ScriptGuid">{453004FF-48B3-4BDF-A5B6-0461C99FFE1D}</string>
-          <ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local confSm=require(main.ConfigSubmodeModule)
-
-local t={}
-for i,n in next,confSm.get()do
-	t[{'config',n}]={}
-end
-
-return t]]></ProtectedString>
           <BinaryString name="Tags">
           </BinaryString>
         </Properties>
@@ -13570,7 +13557,6 @@ return{
         <string name="Name">ShortcutProcessModule</string>
         <string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
         <ProtectedString name="Source"><![CDATA[local main=script.Parent
-local cGui=require(main.ConfigGuiModule)
 local block=require(main.BlockboxModule)
 local srts=require(main.ShortcutModule)
 local gui=require(main.GuiMainModule)
