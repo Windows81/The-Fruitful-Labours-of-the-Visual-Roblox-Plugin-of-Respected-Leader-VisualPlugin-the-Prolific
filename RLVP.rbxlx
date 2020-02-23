@@ -4531,8 +4531,8 @@ for k,i in next,keyEnums do
 	keyIs[s][k]=i
 end
 
-local keys,fmtKeys={},{}for k,i in next,keyEnums
-do keys[i]=k fmtKeys[i]=format.sctOutput(k)end 
+local fmtKeys={}for k,i in next,keyEnums
+do fmtKeys[i]=format.sctOutput(k)end 
 
 --Keybind-locking mechanism.
 local lockT,lockA={},nil function lockAll()lockA=true
@@ -4547,17 +4547,17 @@ end)
 
 --Sends shortcuts modifications.
 function send()for i,f in next,setBinds
-do f(fmtKeys,hitBinds,keys)end end
+do f(fmtKeys,hitBinds)end end
 
 function setBind(i,k)
 	local s,k=shiftPair(k)
-	keyIs[s][k],keys[i]=i,k
+	keyIs[s][k]=i
 end
 
 --Binds default shortcuts.
 for k,i in next,keyEnums
 do local s,k=shiftPair(k)
-keys[i]=k end send()
+end send()
 
 function set(i,s,k)
 	plugin:SetSetting('shortcuts',keyIs)
@@ -4568,11 +4568,12 @@ return{
 	set=set,
 	get=function(i)return fmtKeys[i]end,
 	bind=function(i,f)hitBinds[i]=f end,
+	list=function()return keyEnums end,
 	
 	bindSet=function(f,exec)
 	setBinds[#setBinds+1]=f
 	if exec then f(fmtKeys
-	,hitBinds,keys)end end,
+	,hitBinds)end end,
 	
 	lockAll=lockAll,
 	unlock=unlock,
@@ -6131,11 +6132,11 @@ function separate(u)
 end
 
 --Recursive helper function.
-function expl(u,pT)
+function explodeRec(u,pT)
 	local o,t,u2=separate(u)
 	for i,p in next,t do
 		if p:isA'PartOperation'then
-			p=select(2,expl(p,pT))
+			p=select(2,explodeRec(p,pT))
 		else
 			pT[#pT+1]=p
 		end
@@ -6143,28 +6144,25 @@ function expl(u,pT)
 	return o,u or u2
 end
 
---Explodes a union and adds all the residue into the table.
-function explode(u)local t={}local o=expl(u,t)return o,t end
-
---Recursively reverses the explosion.
-function implode(o)
+--Recursively undoes the explosion.
+function implodeRec(o)
 	if o:isA'Folder'then
 		local allNeg=true
 		
-		--Determines whether all children are negative; will affect later code.
+		--Determines whether all children are negative parts; will affect later code.
 		local c=o:children()for i,u in next,c do allNeg=allNeg and u.Name==negN end
 		
-		--Recursively implodes.
+		--Recursive calls are here.
 		if allNeg then
 			for i,u in next,c do
 				u.Name=posN
-				u=implode(u)
+				u=implodeRec(u)
 				u.Name=negN
 				c[i]=u
 			end
 		else
 			for i,u in next,c do
-				c[i]=implode(u)
+				c[i]=implodeRec(u)
 			end
 		end
 		
@@ -6182,6 +6180,12 @@ function implode(o)
 	
 	return o
 end
+
+--Explodes a union and adds all the residue into a table reference.
+function explode(u)local t={}local o=explodeRec(u,t)return o,t end
+
+--Wrapper function to ensure code-design consistency.
+function implode(o)return implodeRec(o)end
 
 return{
 	skippable=true,
@@ -6580,12 +6584,15 @@ return{
 						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
 local mode=require(main.ModeModule)
 local config=require(main.ConfigModule)
-local confSm=require(main.ConfigSubmodeModule)
+local cEnum=require(main.ConfigSubEnumModule)
 
 --Obligatory callback structure (named 'bind' internally).
 local binds={}function bind(i,f)binds[i]=f end
 
-local moduleT=confSm.getModules()
+--Collects all config-page GUI modules.
+local moduleT={}for i,n in next,cEnum do
+moduleT[n]=require(script.Parent[n])end
+
 local pageT,pNameT,labelT,configT={},{},{},{}
 local subNum,subCount=1,0 function init(cGui)
 	
@@ -6606,7 +6613,7 @@ local subNum,subCount=1,0 function init(cGui)
 		local l=textB:clone()l.Activated:connect(function()mode.set(nil,subIndex)end)
 		l.MouseEnter:connect(function()l.TextTransparency=subCount==subNum and 0 or.25 end)
 		l.MouseLeave:connect(function()l.TextTransparency=subCount==subNum and 0 or.5 end)
-		moduleT[subCount],pageT[subCount],pNameT[subCount],labelT[subCount]=mod,o,n,l
+		pageT[subCount],pNameT[subCount],labelT[subCount]=o,n,l
 		l.Text,l.Parent=n:upper(),selFr
 		mod.init(o)
 	end
@@ -6625,7 +6632,8 @@ function modeFwd(currM)subNum=currM[2]
 	for i=1,subCount do pageT[i].Visible=i==subNum end
 	
 	--Calls the page's specific method.
-	moduleT[subNum].show(pNameT[subNum],configT)
+	local n=pNameT[subNum]
+	moduleT[n].show(n,configT)
 end
 
 --Forwards updates to the pages.
@@ -6849,6 +6857,309 @@ return{
 	end,
 	shortcuts=function(fKeys)
 		--saveB.TextLabel.Text=fKeys.activeTick1
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXA43D36E450224493A8C89085295C30AB">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">keybinds</string>
+						<string name="ScriptGuid">{3ECFE769-081E-47EA-86E9-914C3779BE9F}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local field=require(main.ConfigFieldModule)
+local srtPr=require(main.ShortcutProcessModule)
+local srts=require(main.ShortcutModule)
+
+return{
+	init=function(fd)
+		local elem=script.Frame
+		srts.list()
+	end,
+	show=function(fd,configT)
+		
+	end,
+	config=function(fd,_,cache)
+		
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+					<Item class="Frame" referent="RBXEAE03AAC65304A20A1DFB2A43D8E68B2">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<bool name="AutoLocalize">true</bool>
+							<Color3 name="BackgroundColor3">
+								<R>1</R>
+								<G>1</G>
+								<B>1</B>
+							</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">
+								<R>0.105882362</R>
+								<G>0.164705887</G>
+								<B>0.207843155</B>
+							</Color3>
+							<token name="BorderMode">0</token>
+							<int name="BorderSizePixel">3</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<int name="LayoutOrder">0</int>
+							<string name="Name">Frame</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<Ref name="RootLocalizationTable">null</Ref>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>1</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>30</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<BinaryString name="Tags"></BinaryString>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+						<Item class="TextLabel" referent="RBXCA5AD7AAE95344EABDFA0CD121EC3D12">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>1</X>
+									<Y>0</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>1</G>
+									<B>1</B>
+								</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">
+									<R>0.105882362</R>
+									<G>0.164705887</G>
+									<B>0.207843155</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">1</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">6</token>
+								<int name="LayoutOrder">0</int>
+								<float name="LineHeight">1</float>
+								<string name="Name">TextLabel</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>1</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>3</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>-11</XO>
+									<YS>0</YS>
+									<YO>23</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<string name="Text">activeTick1</string>
+								<Color3 name="TextColor3">
+									<R>0.415686309</R>
+									<G>0.415686309</G>
+									<B>0.415686309</B>
+								</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">19</float>
+								<Color3 name="TextStrokeColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<token name="TextTruncate">0</token>
+								<bool name="TextWrapped">false</bool>
+								<token name="TextXAlignment">0</token>
+								<token name="TextYAlignment">2</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+						<Item class="TextButton" referent="RBXB02BADAED94045A8BCC565DAB7F2452E">
+							<Properties>
+								<bool name="Active">true</bool>
+								<Vector2 name="AnchorPoint">
+									<X>1</X>
+									<Y>0</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoButtonColor">true</bool>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>1</G>
+									<B>1</B>
+								</Color3>
+								<float name="BackgroundTransparency">0</float>
+								<Color3 name="BorderColor3">
+									<R>0.839215755</R>
+									<G>0.839215755</G>
+									<B>0.839215755</B>
+								</Color3>
+								<token name="BorderMode">2</token>
+								<int name="BorderSizePixel">1</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">3</token>
+								<int name="LayoutOrder">0</int>
+								<float name="LineHeight">1</float>
+								<bool name="Modal">false</bool>
+								<string name="Name">TextButton</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>1</XS>
+									<XO>-7</XO>
+									<YS>0</YS>
+									<YO>6</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">true</bool>
+								<bool name="Selected">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>0</XS>
+									<XO>60</XO>
+									<YS>0</YS>
+									<YO>22</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<string name="Text">K</string>
+								<Color3 name="TextColor3">
+									<R>0.43921572</R>
+									<G>0.43921572</G>
+									<B>0.43921572</B>
+								</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">18</float>
+								<Color3 name="TextStrokeColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<token name="TextTruncate">0</token>
+								<bool name="TextWrapped">true</bool>
+								<token name="TextXAlignment">2</token>
+								<token name="TextYAlignment">0</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+						<Item class="Frame" referent="RBXE70247E6F6424835A5E3AB5A5750B275">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0.5</X>
+									<Y>0</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoLocalize">true</bool>
+								<Color3 name="BackgroundColor3">
+									<R>0.800000072</R>
+									<G>0.800000072</G>
+									<B>0.800000072</B>
+								</Color3>
+								<float name="BackgroundTransparency">0</float>
+								<Color3 name="BorderColor3">
+									<R>0.105882362</R>
+									<G>0.164705887</G>
+									<B>0.207843155</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<int name="LayoutOrder">0</int>
+								<string name="Name">Frame</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>7</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>0</XS>
+									<XO>2</XO>
+									<YS>0</YS>
+									<YO>19</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+					</Item>
+				</Item>
+				<Item class="ModuleScript" referent="RBXE7852FC5AB394E9F9E70AD5FF722CD26">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">main</string>
+						<string name="ScriptGuid">{A1697887-C672-440F-9EA7-C331C6BCF9CA}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local field=require(main.ConfigFieldModule)
+
+return{
+	init=function(fd)
+		local tb=fd.Frame.Value.TextBox
+		field.text('debugLevel',tb)
+	end,
+	show=function(fd,configT)
+		
 	end,
 }]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
@@ -7210,7 +7521,7 @@ end]]></ProtectedString>
 					<string name="Name">SubmodeModule</string>
 					<string name="ScriptGuid">{18EC5BEF-2389-4B7D-B090-C2CFD1732EAB}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local confSm=require(main.ConfigSubmodeModule)
+local cEnum=require(main.ConfigSubEnumModule)
 
 local subs,binds={},{}
 function getSubs()return subs end
@@ -7233,8 +7544,8 @@ end
 
 local configSubs={}
 subs.config=configSubs
-for i in next,confSm.get(
-)do configSubs[i]=i end
+for i in next,cEnum
+do configSubs[i]=i end
 
 return{getSubs=getSubs,binds=getBinds}]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -13660,16 +13971,15 @@ return{
 					<string name="Name">ShortcutProcessModule</string>
 					<string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local block=require(main.BlockboxModule)
 local srts=require(main.ShortcutModule)
 local gui=require(main.GuiMainModule)
 local actv=require(main.ActiveModule)
 local kb=require(main.KeybindModule)
 local mode=require(main.ModeModule)
 
-local fr,shown=gui.get'block'.Frame,nil
+local fr=gui.get'block'.Frame
 fr.Parent,fr.Visible=nil,true
-local locked
+local locked,shown
 
 function show(s,w)
 	fr.TextLabel.Size=UDim2.fromOffset(w or 300,50)
@@ -13698,14 +14008,14 @@ return{
 		1]~='config'then return end
 		
 		--Blocks input interference and shows prompt.
-		srts.lock()block.show'Setting shortcut'locked=true
+		srts.lock()show'Setting shortcut'locked=true
 		
 		--Collects and sends new values.
 		kb.bind(collect)local s,k=collE
 		.Event:Wait()srts.set(name,s,k)
 		
 		--Unlocks those factors of interference.
-		srts.unlock()block.hide()locked=false
+		srts.unlock()hide()locked=false
 		
 		return s,k
 	end,
@@ -13797,325 +14107,18 @@ return{
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX141073770BE64D09843BAC96379E827E">
+			<Item class="ModuleScript" referent="RBXCE2E92D9589C49C9961C07F78B0F0960">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">ConfigSubmodeModule</string>
-					<string name="ScriptGuid">{FB072771-9BE1-4AB8-9470-2049222AE11C}</string>
-					<ProtectedString name="Source"><![CDATA[local modules,subNames={},{}
-for i,m in next,script:children()do
-	local n=m.Name
-	subNames[i]=n
-	modules[n]=require(m)
-end
-
-return{
-	getModules=function()return modules end,
-	get=function()return subNames end,
+					<string name="Name">ConfigSubEnumModule</string>
+					<string name="ScriptGuid">{F600461E-0A28-4FF9-BE28-14D64B54B1AC}</string>
+					<ProtectedString name="Source"><![CDATA[return{
+	'keybinds',
+	'main',
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXE7852FC5AB394E9F9E70AD5FF722CD26">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">main</string>
-						<string name="ScriptGuid">{A1697887-C672-440F-9EA7-C331C6BCF9CA}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local field=require(main.ConfigFieldModule)
-
-return{
-	init=function(fd)
-		local tb=fd.Frame.Value.TextBox
-		field.text('debugLevel',tb)
-	end,
-	show=function(fd,configT)
-		
-	end,
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBXA43D36E450224493A8C89085295C30AB">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">keybinds</string>
-						<string name="ScriptGuid">{3ECFE769-081E-47EA-86E9-914C3779BE9F}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local field=require(main.ConfigFieldModule)
-
-return{
-	init=function(fd)
-		local elem=script.Frame
-	end,
-	show=function(fd,configT)
-		
-	end,
-	config=function(fd,_,cache)
-		
-	end,
-}]]></ProtectedString>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-					<Item class="Frame" referent="RBXEAE03AAC65304A20A1DFB2A43D8E68B2">
-						<Properties>
-							<bool name="Active">false</bool>
-							<Vector2 name="AnchorPoint">
-								<X>0</X>
-								<Y>0</Y>
-							</Vector2>
-							<BinaryString name="AttributesSerialize"></BinaryString>
-							<bool name="AutoLocalize">true</bool>
-							<Color3 name="BackgroundColor3">
-								<R>1</R>
-								<G>1</G>
-								<B>1</B>
-							</Color3>
-							<float name="BackgroundTransparency">1</float>
-							<Color3 name="BorderColor3">
-								<R>0.105882362</R>
-								<G>0.164705887</G>
-								<B>0.207843155</B>
-							</Color3>
-							<token name="BorderMode">0</token>
-							<int name="BorderSizePixel">3</int>
-							<bool name="ClipsDescendants">false</bool>
-							<bool name="Draggable">false</bool>
-							<int name="LayoutOrder">0</int>
-							<string name="Name">Frame</string>
-							<Ref name="NextSelectionDown">null</Ref>
-							<Ref name="NextSelectionLeft">null</Ref>
-							<Ref name="NextSelectionRight">null</Ref>
-							<Ref name="NextSelectionUp">null</Ref>
-							<UDim2 name="Position">
-								<XS>0</XS>
-								<XO>0</XO>
-								<YS>0</YS>
-								<YO>0</YO>
-							</UDim2>
-							<Ref name="RootLocalizationTable">null</Ref>
-							<float name="Rotation">0</float>
-							<bool name="Selectable">false</bool>
-							<Ref name="SelectionImageObject">null</Ref>
-							<UDim2 name="Size">
-								<XS>1</XS>
-								<XO>0</XO>
-								<YS>0</YS>
-								<YO>30</YO>
-							</UDim2>
-							<token name="SizeConstraint">0</token>
-							<token name="Style">0</token>
-							<BinaryString name="Tags"></BinaryString>
-							<bool name="Visible">true</bool>
-							<int name="ZIndex">1</int>
-						</Properties>
-						<Item class="TextLabel" referent="RBXCA5AD7AAE95344EABDFA0CD121EC3D12">
-							<Properties>
-								<bool name="Active">false</bool>
-								<Vector2 name="AnchorPoint">
-									<X>1</X>
-									<Y>0</Y>
-								</Vector2>
-								<BinaryString name="AttributesSerialize"></BinaryString>
-								<bool name="AutoLocalize">true</bool>
-								<Color3 name="BackgroundColor3">
-									<R>1</R>
-									<G>1</G>
-									<B>1</B>
-								</Color3>
-								<float name="BackgroundTransparency">1</float>
-								<Color3 name="BorderColor3">
-									<R>0.105882362</R>
-									<G>0.164705887</G>
-									<B>0.207843155</B>
-								</Color3>
-								<token name="BorderMode">0</token>
-								<int name="BorderSizePixel">1</int>
-								<bool name="ClipsDescendants">false</bool>
-								<bool name="Draggable">false</bool>
-								<token name="Font">6</token>
-								<int name="LayoutOrder">0</int>
-								<float name="LineHeight">1</float>
-								<string name="Name">TextLabel</string>
-								<Ref name="NextSelectionDown">null</Ref>
-								<Ref name="NextSelectionLeft">null</Ref>
-								<Ref name="NextSelectionRight">null</Ref>
-								<Ref name="NextSelectionUp">null</Ref>
-								<UDim2 name="Position">
-									<XS>1</XS>
-									<XO>0</XO>
-									<YS>0</YS>
-									<YO>3</YO>
-								</UDim2>
-								<Ref name="RootLocalizationTable">null</Ref>
-								<float name="Rotation">0</float>
-								<bool name="Selectable">false</bool>
-								<Ref name="SelectionImageObject">null</Ref>
-								<UDim2 name="Size">
-									<XS>1</XS>
-									<XO>-11</XO>
-									<YS>0</YS>
-									<YO>23</YO>
-								</UDim2>
-								<token name="SizeConstraint">0</token>
-								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">activeTick1</string>
-								<Color3 name="TextColor3">
-									<R>0.415686309</R>
-									<G>0.415686309</G>
-									<B>0.415686309</B>
-								</Color3>
-								<bool name="TextScaled">false</bool>
-								<float name="TextSize">19</float>
-								<Color3 name="TextStrokeColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<float name="TextStrokeTransparency">1</float>
-								<float name="TextTransparency">0</float>
-								<token name="TextTruncate">0</token>
-								<bool name="TextWrapped">false</bool>
-								<token name="TextXAlignment">0</token>
-								<token name="TextYAlignment">2</token>
-								<bool name="Visible">true</bool>
-								<int name="ZIndex">1</int>
-							</Properties>
-						</Item>
-						<Item class="TextButton" referent="RBXB02BADAED94045A8BCC565DAB7F2452E">
-							<Properties>
-								<bool name="Active">true</bool>
-								<Vector2 name="AnchorPoint">
-									<X>1</X>
-									<Y>0</Y>
-								</Vector2>
-								<BinaryString name="AttributesSerialize"></BinaryString>
-								<bool name="AutoButtonColor">true</bool>
-								<bool name="AutoLocalize">true</bool>
-								<Color3 name="BackgroundColor3">
-									<R>1</R>
-									<G>1</G>
-									<B>1</B>
-								</Color3>
-								<float name="BackgroundTransparency">0</float>
-								<Color3 name="BorderColor3">
-									<R>0.839215755</R>
-									<G>0.839215755</G>
-									<B>0.839215755</B>
-								</Color3>
-								<token name="BorderMode">2</token>
-								<int name="BorderSizePixel">1</int>
-								<bool name="ClipsDescendants">false</bool>
-								<bool name="Draggable">false</bool>
-								<token name="Font">3</token>
-								<int name="LayoutOrder">0</int>
-								<float name="LineHeight">1</float>
-								<bool name="Modal">false</bool>
-								<string name="Name">TextButton</string>
-								<Ref name="NextSelectionDown">null</Ref>
-								<Ref name="NextSelectionLeft">null</Ref>
-								<Ref name="NextSelectionRight">null</Ref>
-								<Ref name="NextSelectionUp">null</Ref>
-								<UDim2 name="Position">
-									<XS>1</XS>
-									<XO>-7</XO>
-									<YS>0</YS>
-									<YO>6</YO>
-								</UDim2>
-								<Ref name="RootLocalizationTable">null</Ref>
-								<float name="Rotation">0</float>
-								<bool name="Selectable">true</bool>
-								<bool name="Selected">false</bool>
-								<Ref name="SelectionImageObject">null</Ref>
-								<UDim2 name="Size">
-									<XS>0</XS>
-									<XO>60</XO>
-									<YS>0</YS>
-									<YO>22</YO>
-								</UDim2>
-								<token name="SizeConstraint">0</token>
-								<token name="Style">0</token>
-								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">K</string>
-								<Color3 name="TextColor3">
-									<R>0.43921572</R>
-									<G>0.43921572</G>
-									<B>0.43921572</B>
-								</Color3>
-								<bool name="TextScaled">false</bool>
-								<float name="TextSize">18</float>
-								<Color3 name="TextStrokeColor3">
-									<R>0</R>
-									<G>0</G>
-									<B>0</B>
-								</Color3>
-								<float name="TextStrokeTransparency">1</float>
-								<float name="TextTransparency">0</float>
-								<token name="TextTruncate">0</token>
-								<bool name="TextWrapped">true</bool>
-								<token name="TextXAlignment">2</token>
-								<token name="TextYAlignment">0</token>
-								<bool name="Visible">true</bool>
-								<int name="ZIndex">1</int>
-							</Properties>
-						</Item>
-						<Item class="Frame" referent="RBXE70247E6F6424835A5E3AB5A5750B275">
-							<Properties>
-								<bool name="Active">false</bool>
-								<Vector2 name="AnchorPoint">
-									<X>0.5</X>
-									<Y>0</Y>
-								</Vector2>
-								<BinaryString name="AttributesSerialize"></BinaryString>
-								<bool name="AutoLocalize">true</bool>
-								<Color3 name="BackgroundColor3">
-									<R>0.800000072</R>
-									<G>0.800000072</G>
-									<B>0.800000072</B>
-								</Color3>
-								<float name="BackgroundTransparency">0</float>
-								<Color3 name="BorderColor3">
-									<R>0.105882362</R>
-									<G>0.164705887</G>
-									<B>0.207843155</B>
-								</Color3>
-								<token name="BorderMode">0</token>
-								<int name="BorderSizePixel">0</int>
-								<bool name="ClipsDescendants">false</bool>
-								<bool name="Draggable">false</bool>
-								<int name="LayoutOrder">0</int>
-								<string name="Name">Frame</string>
-								<Ref name="NextSelectionDown">null</Ref>
-								<Ref name="NextSelectionLeft">null</Ref>
-								<Ref name="NextSelectionRight">null</Ref>
-								<Ref name="NextSelectionUp">null</Ref>
-								<UDim2 name="Position">
-									<XS>0</XS>
-									<XO>0</XO>
-									<YS>0</YS>
-									<YO>7</YO>
-								</UDim2>
-								<Ref name="RootLocalizationTable">null</Ref>
-								<float name="Rotation">0</float>
-								<bool name="Selectable">false</bool>
-								<Ref name="SelectionImageObject">null</Ref>
-								<UDim2 name="Size">
-									<XS>0</XS>
-									<XO>2</XO>
-									<YS>0</YS>
-									<YO>19</YO>
-								</UDim2>
-								<token name="SizeConstraint">0</token>
-								<token name="Style">0</token>
-								<BinaryString name="Tags"></BinaryString>
-								<bool name="Visible">true</bool>
-								<int name="ZIndex">1</int>
-							</Properties>
-						</Item>
-					</Item>
-				</Item>
 			</Item>
 		</Item>
 	</Item>
