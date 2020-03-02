@@ -1,3 +1,5 @@
 hooky
 *.lock
 RLVP.rbxlx.lock
+.swo
+.swp

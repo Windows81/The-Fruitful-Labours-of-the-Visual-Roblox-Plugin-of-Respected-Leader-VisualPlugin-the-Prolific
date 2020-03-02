@@ -848,6 +848,7 @@ require(script.HandleModule)
 require(script.ModeBindModule)
 require(script.ConfigGuiModule)
 require(script.GuiElemModule)
+require(script.CommandModule)
 
 end}
 plugin=plugin
@@ -3765,7 +3766,7 @@ function tblPrint(t1,t2)
 end
 
 --Prints selection.
-function selPr()
+function selPrint()
 	
 	--Dumps the selection data to the output.
 	print()warn'Selection dump:'
@@ -3905,14 +3906,14 @@ function addGrPart(p)
 end
 
 --Creates a group then adds the first part.
-function createGroup(p)
+function createGroup(p,cmdMode)
 	
 	--Special cases for groups.
 	local algor=algorSel(p)
 	if algor then
 		
 		--If algorithm is disabled, returns dummy value.
-		if not algorConf(algor)then return 0 end
+		if not algorConf(algor,cmdMode)then return 0 end
 		
 		--Adds a group in the group table.
 		local g=addG(algor,p)
@@ -3942,12 +3943,12 @@ function addC(p)
 	
 	local b=p and(
 		addGrPart(p)or
-		createGroup(p)or
+		createGroup(p,true)or
 		addP(p))
 	
 	unlock()
 	if not b then return end
-	send()selPr()return p
+	selPrint()return p
 end
 
 --Remove part (command)
@@ -3987,10 +3988,8 @@ function removeC(p)
 		end
 	end
 	
-	if r==nil then r=removeP(p)end
-	unlock()
-	
-	if r then send()end
+	if r==nil then
+	r=removeP(p)end unlock()
 	return r and true or false
 end
 
@@ -4290,7 +4289,7 @@ evtMod.bind('negateSel',function(addT,remT)
 	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
 	
 	tblPrint(addT,remT)
-	selPr()send()
+	selPrint()send()
 end)
 
 --Implements bind for separated parts.
@@ -4309,7 +4308,7 @@ evtMod.bind('unionSel',function(addT,remT)
 	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
 	
 	tblPrint(addT,remT)
-	selPr()send()
+	selPrint()send()
 end)
 
 --Implements bind for separated parts.
@@ -4328,7 +4327,7 @@ evtMod.bind('separSel',function(addT,remT)
 	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
 	
 	tblPrint(addT,remT)
-	selPr()send()
+	selPrint()send()
 end)
 
 evtMod.bind('restore',function(wp)
@@ -4477,14 +4476,13 @@ return{
 					<string name="ScriptGuid">{93227EE5-2FB9-471E-B9E6-D7896E4E9EB6}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
 local stor=require(script.ShortcutStorageModule)
-local enumS=require(main.EnumShortcutModule)
+local keyEnums=require(main.EnumShortcutModule)
 local format=require(main.FormatModule)
 local config=require(main.ConfigModule)
 local reset=config.get'resetShortcuts'
 local kb=require(main.KeybindModule)
 local hitBinds,setBinds={},{}
 
-local keyEnums=enumS
 if not reset then
 stor.load()end
 
@@ -4501,9 +4499,9 @@ end
 local keyIs,fmtKeys={[
 true]={},[false]={}},{}
 
-for k,i in next,keyEnums do
-	local s,k=shiftPair(k)keyIs[s][k]=i
-	fmtKeys[i]=format.srtOutput(s,k)
+for i,t in next,keyEnums do
+	local s,k=shiftPair(t[2])keyIs[s][k]=t[1]
+	fmtKeys[t[1]]=format.srtOutput(s,k)
 end
 
 --Keybind-locking mechanism.
@@ -4528,8 +4526,8 @@ function setBind(i,s,k)
 end
 
 --Binds default shortcuts.
-for k,i in next,keyEnums
-do local s,k=shiftPair(k)
+for i,t in next,keyEnums
+do local s,k=shiftPair(t[2])
 end send()
 
 function set(i,s,k)
@@ -4542,6 +4540,7 @@ return{
 	get=function(i)return fmtKeys[i]end,
 	bind=function(i,f)hitBinds[i]=f end,
 	list=function()return fmtKeys end,
+	shiftPair=shiftPair,
 	
 	bindSet=function(f,exec)
 	setBinds[#setBinds+1]=f
@@ -6071,76 +6070,84 @@ function explodeNeg(o)
 	return propS.explode(p)
 end
 
---Explodes the union and groups its parts.
-function separate(u)
+--Recursive helper function.
+function explodeRec(orig,pT)
 	
 	--Un-negates instance if negative.
-	local isNeg=u:isA'NegateOperation'
-	u=explodeNeg(u)
+	local union,folder,comps=explodeNeg(orig),nil,nil
 	
 	--Generates a name for the new part(s).
+	local isNeg=orig:isA'NegateOperation'
 	local name=isNeg and negN or posN
 	
-	--Returns just the part for iterator table if at its most basic.
-	if not u:isA'UnionOperation'then u.Name=name return u,{u}end
-	
-	local f=Instance.new'Folder'
-	local par=u.Parent
-	f.Name=name
-	u.Parent=f
-	
-	--Separates and sets the parent.
-	local t=plugin:Separate{u}
-	f.Parent=par
-	return f,t
-end
-
---Recursive helper function.
-function explodeRec(u,pT)
-	local o,t,u2=separate(u)
-	for i,p in next,t do
-		if p:isA'PartOperation'then
-			p=select(2,explodeRec(p,pT))
-		else
-			pT[#pT+1]=p
-		end
+	--Stores variables as object if it's at its most basic.
+	if not union:isA'UnionOperation'then
+	union.Name=name folder,comps=union,{union}
+		
+	--Otherwise, splits union in folder.
+	else
+		local par=union.Parent
+		folder=Instance.new'Folder'
+		union.Parent=folder
+		folder.Name=name
+		
+		comps=plugin:Separate{union}
+		folder.Parent=par
 	end
-	return o,u or u2
+	
+	--Recursively splits components.
+	for i,p in next,comps do
+		if p:isA'PartOperation'then
+		p=select(2,explodeRec(p,pT))end
+			
+		pT[#pT+1]=p
+	end
+	return folder,union
 end
 
 --Recursively undoes the explosion.
 function implodeRec(o)
-	if o:isA'Folder'then
+		
+	--Negates exploded parts that were NegativeParts.
+	if o.Name==negN then return implodeNeg(o)
+	
+	elseif o:isA'Folder'then
 		local allNeg=true
 		
 		--Determines whether all children are negative parts; will affect later code.
 		local c=o:children()for i,u in next,c do allNeg=allNeg and u.Name==negN end
 		
-		--Recursive calls are here.
-		if allNeg then
-			for i,u in next,c do
-				u.Name=posN
-				u=implodeRec(u)
-				u.Name=negN
-				c[i]=u
+		--Labels children negative for future calls.
+		if allNeg then for i,old,new in next,c do
+				old.Name=posN
+				new=implodeRec(old)
+				new.Name=negN
+				c[i]=new
 			end
-		else
-			for i,u in next,c do
+		
+			--Unions the parts.
+			local u=plugin:Union(c)
+			
+			--Removes its now-empty folder.
+			u.Parent=o.Parent o:destroy()
+			
+			--Returns the newly-made union.
+			u.Name=negN return u
+		
+		else for i,u in next,c do
 				c[i]=implodeRec(u)
 			end
+		
+			--Unions the parts.
+			local u=plugin:Union(c)
+			
+			--Removes its now-empty folder.
+			u.Parent=o.Parent o:destroy()
+			
+			--Returns the newly-made union.
+			u.Name=o.Name return u
 		end
-		
-		--Unions the parts and removes its now-empty folder.
-		local u=plugin:Union(c)u.Parent=o.Parent o:destroy()u.Name=o.Name
-		
-		--Essentially negates the final union.
-		if allNeg then u.Name=negN end
-		
-		--Returns.
-		return u
-		
-	--Negates exploded parts that were NegativeParts.
-	elseif o.Name==negN then return implodeNeg(o)end
+	end
 	
 	return o
 end
@@ -6178,6 +6185,7 @@ return{
 					n.CFrame=addP.CFrame
 					n.Anchored=true
 					n.Parent=addP.Parent
+					propS.decorate(n)
 					
 					--Determines if the original part was negative.
 					local negating=remP.Name~=negN
@@ -6220,7 +6228,7 @@ return{
 			for i,p in next,t do addT[i]=p end return true
 			
 		else
-			--Explodes all newly-added parts, adds the residue in.
+			--Explodes all newly-added parts; adds the residue in.
 			local newT={}
 			for i,addP in next,addT do
 				if addP:IsDescendantOf(main)then
@@ -6249,17 +6257,17 @@ return{
 							<string name="Name">PropStorModule</string>
 							<string name="ScriptGuid">{17A9511B-B35D-490E-BDD8-F72E7C825C90}</string>
 							<ProtectedString name="Source"><![CDATA[local props={
-	'Color',
-	'Material',
-	'BackSurface',
-	'BottomSurface',
-	'FrontSurface',
-	'LeftSurface',
-	'RightSurface',
-	'TopSurface',
-	'Transparency',
-	'Reflectance',
-	'CastShadow',	
+	Color=BrickColor.Gray().Color,
+	Material='Plastic',
+	BackSurface='Smooth',
+	BottomSurface='Smooth',
+	FrontSurface='Smooth',
+	LeftSurface='Smooth',
+	RightSurface='Smooth',
+	TopSurface='Smooth',
+	Transparency=0,
+	Reflectance=0,
+	CastShadow=true,
 }
 
 --Parts for property storage.
@@ -6270,10 +6278,10 @@ local cache={}return{
 		print'Object exploding.'
 		
 		--Clones the original part for caching upon implosion.
-		local cl,c=new:clone(),new.Color;cache[new]=cl
+		local cPart,c=Instance.new'Part',new.Color cache[new]=cPart
 		
 		--Decorates the cache part according to the old one's appearance.
-		if old then for i,pr in next,props do cl[pr]=old[pr]end end
+		if old then for pr in next,props do cPart[pr]=old[pr]end end
 		
 		--Mimicks the original NegativePart.
 		new.BottomSurface='Smooth'
@@ -6290,15 +6298,19 @@ local cache={}return{
 	--Used for union implosion.
 	implode=function(new,old)
 		print'Object imploding.'
-		
-		--Reverts all properties.
 		local cPart=cache[old]
-		for i,pr in next,props
-		do new[pr]=cPart[pr]end
-		cPart:destroy()
+		
+		--Reverts all properties; or decorates with stock appearance.
+		if cPart then for pr in next,props do new[pr]=cPart[pr]end cPart
+		:destroy()else for pr,val in next,props do new[pr]=val end end
 		
 		return new
 	end,
+	
+	decorate=function(part)
+		for pr,val in next,props
+		do part[pr]=val end
+	end
 }]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
@@ -6837,24 +6849,32 @@ local format=require(main.FormatModule)
 local srts=require(main.ShortcutModule)
 local field=require(main.ConfigFieldModule)
 local srtPr=require(main.ShortcutProcessModule)
+local keyEnums=require(main.EnumShortcutModule)
 local elems={}
 
 return{
 	init=function(fd)
 		local elem=script.Frame
-		for i,k in next,srts.list()do
+		for i,t in next,keyEnums do
+			
+			local i=t[1]
+			local k=format.srtOutput(
+				srts.shiftPair(t[2]))
+				
 			local e=elem:clone()
 			e.TextButton.Text=k
-			e.TextLabel.Text=i
+			e.TextLabel.Text=t[3]
 			e.Parent=fd
 			elems[i]=e
+			
+			--e.TextButton.MouseEnter:connect(function()e.TextButton.Screentip.Visible=true end)
+			--e.TextButton.MouseLeave:connect(function()e.TextButton.Screentip.Visible=false end)
 			
 			e.TextButton.MouseButton1Click:
 			connect(function()srtPr.process(i)end)
 		end
 	end,
 	shortcuts=function(fd,fKeys)
-		print(fd)
 		for i,k in next,fKeys do
 			elems[i].TextButton.Text=k
 		end
@@ -7001,7 +7021,7 @@ return{
 									<Y>0</Y>
 								</Vector2>
 								<BinaryString name="AttributesSerialize"></BinaryString>
-								<bool name="AutoButtonColor">true</bool>
+								<bool name="AutoButtonColor">false</bool>
 								<bool name="AutoLocalize">true</bool>
 								<Color3 name="BackgroundColor3">
 									<R>1</R>
@@ -7069,6 +7089,79 @@ return{
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
+							<Item class="TextLabel" referent="RBX9825C0167CD149098A7C0B823F9B1C30">
+								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>1</X>
+										<Y>0</Y>
+									</Vector2>
+									<BinaryString name="AttributesSerialize"></BinaryString>
+									<bool name="AutoLocalize">true</bool>
+									<Color3 name="BackgroundColor3">
+										<R>1</R>
+										<G>0.988235354</G>
+										<B>0.968627512</B>
+									</Color3>
+									<float name="BackgroundTransparency">0</float>
+									<Color3 name="BorderColor3">
+										<R>0.937254965</R>
+										<G>0.929411829</G>
+										<B>0.909803987</B>
+									</Color3>
+									<token name="BorderMode">2</token>
+									<int name="BorderSizePixel">3</int>
+									<bool name="ClipsDescendants">false</bool>
+									<bool name="Draggable">false</bool>
+									<token name="Font">17</token>
+									<int name="LayoutOrder">0</int>
+									<float name="LineHeight">1</float>
+									<string name="Name">Screentip</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>0</XS>
+										<XO>-2</XO>
+										<YS>0</YS>
+										<YO>-2</YO>
+									</UDim2>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<bool name="Selectable">false</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<UDim2 name="Size">
+										<XS>0</XS>
+										<XO>300</XO>
+										<YS>0</YS>
+										<YO>20</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<BinaryString name="Tags"></BinaryString>
+									<string name="Text">This is evil.</string>
+									<Color3 name="TextColor3">
+										<R>0.368627459</R>
+										<G>0.368627459</G>
+										<B>0.368627459</B>
+									</Color3>
+									<bool name="TextScaled">false</bool>
+									<float name="TextSize">12</float>
+									<Color3 name="TextStrokeColor3">
+										<R>0</R>
+										<G>0</G>
+										<B>0</B>
+									</Color3>
+									<float name="TextStrokeTransparency">1</float>
+									<float name="TextTransparency">0</float>
+									<token name="TextTruncate">0</token>
+									<bool name="TextWrapped">true</bool>
+									<token name="TextXAlignment">2</token>
+									<token name="TextYAlignment">1</token>
+									<bool name="Visible">false</bool>
+									<int name="ZIndex">2</int>
+								</Properties>
+							</Item>
 						</Item>
 						<Item class="Frame" referent="RBXE70247E6F6424835A5E3AB5A5750B275">
 							<Properties>
@@ -7146,6 +7239,49 @@ return{
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
+				<Item class="ModuleScript" referent="RBXB7E472A311A64E7FB7C682E2B4E4CA0C">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">selection</string>
+						<string name="ScriptGuid">{7F3795BB-0D4A-46B6-ADD6-D8393739038B}</string>
+						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
+local format=require(main.FormatModule)
+local srts=require(main.ShortcutModule)
+local field=require(main.ConfigFieldModule)
+local srtPr=require(main.ShortcutProcessModule)
+local elems={}
+
+return{
+	init=function(fd)
+		local elem=script.Frame
+		for i,k in next,srts.list()do
+			local e=elem:clone()
+			e.TextButton.Text=k
+			e.TextLabel.Text=i
+			e.Parent=fd
+			elems[i]=e
+			
+			e.TextButton.MouseButton1Click:
+			connect(function()srtPr.process(i)end)
+		end
+	end,
+	shortcuts=function(fd,fKeys)
+		print(fd)
+		for i,k in next,fKeys do
+			elems[i].TextButton.Text=k
+		end
+	end,
+	show=function(fd,configT)
+		
+	end,
+	config=function(fd,_,cache)
+		
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 			<Item class="ModuleScript" referent="RBX1543A062E8414061869C5C02F9FE68F7">
 				<Properties>
@@ -7176,13 +7312,17 @@ local acTk=require(main.ActiveTickModule)
 local srts=require(main.ShortcutModule)
 local config=require(main.ConfigModule)
 local drpd=require(main.DropdownModule)
+local actv=require(main.ActiveModule)
 
 local xtraRes=true function pToggle()xtraRes=not xtraRes
 xtraCl.Toggle.TextTransparency=xtraRes and.3 or 0 end
 
-return function(algor)
+return function(algor,cmdMode)
 	local mC,pC=algor.index,algor.index..'_prompt'
-	if algor.clearUndo and config.get(pC)~=false then
+	local skip=cmdMode or not actv.isActive()
+	
+	--Decides whether to show thread-blocking dialogue box.
+	if skip and algor.clearUndo and config.get(pC)~=false then
 		
 		--For this scope.
 		local mainRes
@@ -7193,7 +7333,7 @@ return function(algor)
 			xtraCl.Shortcut.Text=srts.get'activeTick1'
 			xtraCl.Button.Activated:connect(pToggle)
 			acTk.bind('activeTick1',pToggle)pToggle()
-		
+			
 			mainRes=select(2,drpd.show({'Yes.','No.',},'Selecting this object'
 			..' will clear your undo history.  Proceed?',200,xtraCl))==1
 			
@@ -7213,7 +7353,7 @@ return function(algor)
 		--As defined in-scope.
 		return mainRes
 	else
-		return config.get(algor.index)
+		return config.get(mC)
 	end
 end]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
@@ -9060,8 +9200,8 @@ return{
 											<YS>0</YS>
 											<YO>24</YO>
 										</UDim2>
-										<token name="FillDirection">0</token>
-										<int name="FillDirectionMaxCells">0</int>
+										<token name="FillDirection">1</token>
+										<int name="FillDirectionMaxCells">6</int>
 										<token name="HorizontalAlignment">1</token>
 										<string name="Name">UIGridLayout</string>
 										<token name="SortOrder">2</token>
@@ -13952,27 +14092,11 @@ return{
 					<string name="Name">ShortcutProcessModule</string>
 					<string name="ScriptGuid">{E3061ACE-151F-4227-BCBB-4BC3CB5F035C}</string>
 					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local block=require(main.BlockWindowModule)
 local srts=require(main.ShortcutModule)
-local gui=require(main.GuiMainModule)
-local actv=require(main.ActiveModule)
 local kb=require(main.KeybindModule)
 local mode=require(main.ModeModule)
-
-local fr=gui.get'block'.Frame
-fr.Parent,fr.Visible=nil,true
-local locked,shown
-
-function show(s,w)
-	fr.TextLabel.Size=UDim2.fromOffset(w or 300,50)
-	fr.TextLabel.Text=s:upper()shown=true
-	if shown then return end mode
-	.lock()actv.lock()gui.add(fr)
-end
-function hide()
-	if not shown then return end
-	mode.unlock()actv.unlock()
-	gui.remove(fr)shown=false
-end
+local locked
 
 --Stores the shortcut to variables when undergoing process.
 local collE=Instance.new'BindableEvent'
@@ -13989,14 +14113,14 @@ return{
 		1]~='config'then return end
 		
 		--Blocks input interference and shows prompt.
-		srts.lockAll()show'Setting shortcut'locked=true
+		srts.lockAll()block.show('Setting shortcut',300)locked=true
 		
 		--Collects and sends new values.
 		kb.bind(127,collect)local s,k=collE.Event
 		:Wait()kb.unbind(127)srts.set(name,s,k)
 		
 		--Unlocks those factors of interference.
-		srts.unlockAll()hide()locked=false
+		srts.unlockAll()block.hide()locked=false
 		
 		return s,k
 	end,
@@ -14151,26 +14275,187 @@ return{
 local enumM=require(main.EnumModeModule)
 
 local t={
-	K='rotIncr',k='latIncr',
-	m='activeTick1',
-	M='activeTick2',
+	{'rotIncr','K','rotate incr.'},
+	{'latIncr','k','lateral incr.'},
+	{'activeTick1','m','primary tick'},
+	{'activeTick2','M','secondary tick'},
 	
-	[Enum.KeyCode.One]='1',
-	[Enum.KeyCode.Two]='2',
-	[Enum.KeyCode.Three]='3',
-	[Enum.KeyCode.Four]='4',
-	[Enum.KeyCode.Five]='5',
-	[Enum.KeyCode.Six]='6',
-	[Enum.KeyCode.Seven]='7',
-	[Enum.KeyCode.Eight]='8',
-	[Enum.KeyCode.Nine]='9',
-	[Enum.KeyCode.Zero]='0',
+	{'1',Enum.KeyCode.One,'submode #1'},
+	{'2',Enum.KeyCode.Two,'submode #2'},
+	{'3',Enum.KeyCode.Three,'submode #3'},
+	{'4',Enum.KeyCode.Four,'submode #4'},
+	{'5',Enum.KeyCode.Five,'submode #5'},
+	{'6',Enum.KeyCode.Six,'submode #6'},
+	{'7',Enum.KeyCode.Seven,'submode #7'},
+	{'8',Enum.KeyCode.Eight,'submode #8'},
+	{'9',Enum.KeyCode.Nine,'submode #9'},
+	{'0',Enum.KeyCode.Zero,'submode #10'},
 }
 
-for i,k in next,enumM do
-t[k[2]]=k[1]end return t]]></ProtectedString>
+for i,m in next,enumM do t[#t+1]={m
+[1],m[2],'mode: '..m[1]}end return t]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX1916AA350E9E458CB2BD79447B886C80">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">BlockWindowModule</string>
+					<string name="ScriptGuid">{D8DF831C-0658-4B3A-AF61-C03079779547}</string>
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local gui=require(main.GuiMainModule)
+local actv=require(main.ActiveModule)
+local mode=require(main.ModeModule)
+
+local bl=gui.get'block'
+local fr=bl.Frame
+bl.Visible=true
+bl.Parent=nil
+local shown
+
+function show(s,w)
+	fr.Size=UDim2.fromOffset(w or 300,50)
+	fr.TextLabel.Text=s:upper()
+	if shown then return end
+	shown=true mode.lock()
+	actv.lock()gui.add(bl)
+end
+function hide()
+	if not shown then return end
+	mode.unlock()actv.unlock()
+	gui.remove(bl)shown=false
+end
+
+return{
+	show=show,
+	hide=hide,
+}]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBXAFEE5AF0CCB9439DA63F6F5C796049B4">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">CommandModule</string>
+					<string name="ScriptGuid">{D2409E5A-49C5-4B7E-BB74-19960F53CB26}</string>
+					<ProtectedString name="Source"><![CDATA[local main=script.Parent
+local path=require(script.PathModule)
+local sel=require(main.SelectionModule)
+
+function process(input)
+	local command=select(3,input:find'^(%w+)'):lower()
+	
+	local components={}
+	for key,arg in string.gmatch(input,'%-(%w) ([^-]+)')do
+		components[key:lower()]=arg end
+	for key,arg in string.gmatch(input,'%-%-(%w+) ([^-]+)')do
+		components[key:lower()]=arg end
+	
+	if command=='lp'then
+		local items=path.parse(components.path)
+		for i,item in next,items do
+			print(item:GetFullName())
+		end
+		
+	elseif command=='as'then
+		local items=path.parse(components.path)
+		for i,item in next,items do
+			sel.add(item)
+		end
+		sel.update()
+		
+	elseif command=='rs'then
+		local items=path.parse(components.path)
+		for i,item in next,items do
+			sel.remove(item)
+		end
+		sel.update()
+	end
+end
+
+_G.RLVP=process
+return process]]></ProtectedString>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+				<Item class="ModuleScript" referent="RBX922658AEBEDC48608D08AD4A86CCAE99">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">PathModule</string>
+						<string name="ScriptGuid">{65FD2130-5680-43C1-BF12-0C7925CFC38F}</string>
+						<ProtectedString name="Source"><![CDATA[function parseComponents(path)
+	local comps,index,esc1,esc2={''},1,0,0
+	for i in string.gmatch(path,'.')do
+		
+		if i=='['and esc2<1 then
+			esc1=esc1+1
+			index=index+1
+			comps[index]=''
+			
+		elseif i==']'and esc2<1 then esc1=esc1-1
+		elseif i=='"'and esc2<2 then esc2=1-esc2
+		elseif i=='\''then esc2=2
+			
+		elseif esc1==0 and esc2==0 and i=='.'then
+			index=index+1
+			comps[index]=''
+		else
+			comps[index]=comps[index]..i
+		end
+	end
+	return comps
+end
+
+function getPartsRec(t,obj,comps,single,cn)
+	if cn>#comps then t[#t+1]=obj return end
+	local comp=comps[cn]
+	
+	if comp:find'[%*%?%[%]%(%)%^%$%%]'then
+		for i,p in next,obj:children()do
+			local succ,valid=pcall(function()
+			return p.Name:find(comp)end)
+			
+			if succ and valid then
+				getPartsRec(t,p,comps,single,cn+1)
+				if single then return end
+			end
+		end
+		
+	elseif single then
+		local part=obj:findFirstChild(comp)
+		getPartsRec(t,part,comps,single,cn+1)
+		
+	else
+		for i,p in next,obj:children()do
+			local succ,valid=pcall(function()
+			return p.Name==comp end)
+			
+			if succ and valid then
+				getPartsRec(t,p,comps,single,cn+1)
+				if single then return end
+			end
+		end
+	end
+end
+
+function getParts(comps,single)
+	local items={}
+	getPartsRec(items,game,comps,single,2)
+	return single and items[1]or items
+end
+
+return{
+	parse=function(path)
+		local comps=parseComponents(path)
+		local parts=getParts(comps)
+		return parts
+	end,
+}]]></ProtectedString>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
 			</Item>
 		</Item>
 	</Item>
