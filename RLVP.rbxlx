@@ -7,7 +7,7 @@
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<string name="CollisionGroups">Default^0^1</string>
 			<Ref name="CurrentCamera">RBXA066C25127644ED591E752D0F7C276A7</Ref>
-			<double name="DistributedGameTime">0</double>
+			<double name="DistributedGameTime">-127</double>
 			<bool name="ExplicitAutoJoints">true</bool>
 			<float name="FallenPartsDestroyHeight">-500</float>
 			<bool name="FilteringEnabled">true</bool>
@@ -836,7 +836,10 @@ UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 				<string name="ScriptGuid">{DB9F16EF-E1FC-406E-BC36-85F8A9FB09FB}</string>
 				<ProtectedString name="Source"><![CDATA[--Why this weird setup?  Blame Accessible Plugins.
 local t={Start=function(plugin)
-	
+
+--Sneaky hack to disable RLVP when in edit mode (exclusive to RLVP.rbxlx).
+if game.Workspace.DistributedGameTime==-127 then script:destroy()return end
+
 script.Plugin.Value=plugin
 while not script.Plugin
 .Value do wait(1/2)end
@@ -3229,6 +3232,9 @@ return{
 							<G>0.156862751</G>
 							<B>0.10980393</B>
 						</Color3>
+
+
+
 						<string name="Name">move</string>
 						<token name="Style">1</token>
 						<BinaryString name="Tags"></BinaryString>
@@ -3245,6 +3251,9 @@ return{
 							<G>0.470588267</G>
 							<B>0.843137324</B>
 						</Color3>
+
+
+
 						<string name="Name">resize</string>
 						<token name="Style">0</token>
 						<BinaryString name="Tags"></BinaryString>
@@ -3256,6 +3265,9 @@ return{
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<BinaryString name="AttributesSerialize"></BinaryString>
+
+
+
 						<Color3 name="Color3">
 							<R>1</R>
 							<G>1</G>
@@ -4804,6 +4816,7 @@ function execL(m)
 	local t=m.Target
 	if not validMode()or not t then return end
 	if not sel.remove(t)then sel.add(t)end
+	sel.update()
 end
 
 function execR(m)
