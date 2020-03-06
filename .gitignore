@@ -1,5 +1,7 @@
 hooky
 *.lock
-RLVP.rbxlx.lock
+*.exe
+*.log
 .swo
 .swp
+RLVP.rbxlx.lock

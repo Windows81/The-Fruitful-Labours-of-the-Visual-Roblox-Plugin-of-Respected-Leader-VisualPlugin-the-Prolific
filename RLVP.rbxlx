@@ -832,7 +832,7 @@ UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<bool name="Disabled">false</bool>
 				<Content name="LinkedSource"><null></null></Content>
-				<string name="Name">LocalScript</string>
+				<string name="Name">RLVP</string>
 				<string name="ScriptGuid">{DB9F16EF-E1FC-406E-BC36-85F8A9FB09FB}</string>
 				<ProtectedString name="Source"><![CDATA[--Why this weird setup?  Blame Accessible Plugins.
 local t={Start=function(plugin)
@@ -3229,9 +3229,6 @@ return{
 							<G>0.156862751</G>
 							<B>0.10980393</B>
 						</Color3>
-						<Faces name="Faces">
-							<faces>63</faces>
-						</Faces>
 						<string name="Name">move</string>
 						<token name="Style">1</token>
 						<BinaryString name="Tags"></BinaryString>
@@ -3248,9 +3245,6 @@ return{
 							<G>0.470588267</G>
 							<B>0.843137324</B>
 						</Color3>
-						<Faces name="Faces">
-							<faces>63</faces>
-						</Faces>
 						<string name="Name">resize</string>
 						<token name="Style">0</token>
 						<BinaryString name="Tags"></BinaryString>
@@ -3262,9 +3256,6 @@ return{
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<BinaryString name="AttributesSerialize"></BinaryString>
-						<Axes name="Axes">
-							<axes>7</axes>
-						</Axes>
 						<Color3 name="Color3">
 							<R>1</R>
 							<G>1</G>
