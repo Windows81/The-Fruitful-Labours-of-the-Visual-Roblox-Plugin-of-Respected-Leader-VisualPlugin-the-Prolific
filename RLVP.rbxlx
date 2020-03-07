@@ -3072,154 +3072,165 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">HandleModule</string>
 					<string name="ScriptGuid">{92EE6E54-99DD-45D2-A71D-25CAC50773D7}</string>
-					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local tool=require(main.ToolModule)
-local ogMod=require(main.OriginModule)
-local incr=require(main.IncrementModule)
-local sel=require(main.SelectionModule)
-local mouse=require(main.MouseModule)
-local actv=require(main.ActiveModule)
-local gui=require(main.GuiElemModule)
-local mode=require(main.ModeModule)
-local cgui=game.CoreGui
-local currH,currP,currN
-local cMode,mBind
-local binds={}
+					<ProtectedString name="Source"><![CDATA[local main = script.Parent
+local tool = require(main.ToolModule)
+local ogMod = require(main.OriginModule)
+local incr = require(main.IncrementModule)
+local sel = require(main.SelectionModule)
+local mouse = require(main.MouseModule)
+local actv = require(main.ActiveModule)
+local gui = require(main.GuiElemModule)
+local mode = require(main.ModeModule)
+local cgui = game.CoreGui
+local currH, currP, currN
+local cMode, mBind, setT
+local binds = {}
 local adornee
 local specOrig
 local isPrev
 
-local incrT={
-	move='lat',
-	resize='lat',
-	rotate='rot',
-}
+local incrT = {move = 'lat', resize = 'lat', rotate = 'rot'}
 
-local magn=0
+local magn = 0
 local locked
-local parts={}
+local parts = {}
 
-function dn()magn=0
+function dn(which)
+	magn = 0
 	if locked then return end
-	locked=true parts=sel.get()
-	tool.set(cMode)
-	locked=false
+	locked = true
+	parts = sel.get()
+	setT = tool.set(cMode, which)
+	locked = false
 end
 
-function up()
+function up(which)
 	if locked then return end
-	locked=true
-	tool.unset()
-	locked=false
+	locked = true
+	tool.unset(which)
+	locked = false
 end
 
-function drag(which,m)
-	m=incr.calc(incrT[currN],m)
-	if magn==m then return end
-	gui.action('value','display',m)
-	tool.exec(which,m-magn)magn=m
+function drag(which, m)
+	m = incr.calc(incrT[currN], m)
+	local min, max = setT.min, setT.max
+	if min and m < min then m = min end
+	if max and m > max then m = max end
+
+	if magn == m then return end
+	gui.action('value', 'display', m)
+	tool.drag(which, m, magn)
+	magn = m
 end
 
-function lockM()return mouse.bind(127)end
-function unlockM()return mouse.unbind(127)end
+function lockM() return mouse.bind(127) end
+function unlockM() return mouse.unbind(127) end
 
---Procedure for changing the mode.
-function setHMode(argM,tempM)
-	
-	--Ensures tool is deactivated.
+-- Procedure for changing the mode.
+function setHMode(argM, tempM)
+
+	-- Ensures tool is deactivated.
 	up()
-	
-	--Hides the old handle.
+
+	-- Hides the old handle.
 	if currH then
-		currH.Parent=script
-		adorn(nil)currN=nil
+		currH.Parent = script
+		adorn(nil)
+		currN = nil
 	end
-	
-	--Removes the old handle's binds.
+
+	-- Removes the old handle's binds.
 	if binds then
-		for i=#binds,1,-1 do
+		for i = #binds, 1, -1 do
 			if binds[i] then
 				binds[i]:disconnect()
-				binds[i]=nil
+				binds[i] = nil
 			end
 		end
 	end
-	
-	--Sets the global mode variables.
-	cMode=tempM or argM or cMode
-	mBind=tool.getBind(cMode)
-	
-	--Searches for and sets a new handle-set.
-	local h=script:findFirstChild(cMode[1])
-	currH=h if not h then return end
-	currN=h.Name
-	
-	if not tempM then magn=0
-		
-		--Processes the selection's origin for the given mode.
-		if not isPrev then specOrig=ogMod.process(currP,mBind.origin)end
-		
+
+	-- Sets the global mode variables.
+	cMode = tempM or argM or cMode
+	mBind = tool.getBind(cMode)
+
+	-- Searches for and sets a new handle-set.
+	local h = script:findFirstChild(cMode[1])
+	currH = h
+	if not h then return end
+	currN = h.Name
+
+	if not tempM then
+		magn = 0
+
+		-- Processes the selection's origin for the given mode.
+		if not isPrev then specOrig = ogMod.process(currP, mBind.origin) end
+
 		adorn(specOrig or currP)
-		h.Parent=cgui
-		
-		--Connects functions to each handle event.
-		binds[1]=h.MouseDrag:connect(drag)
-		binds[2]=h.MouseButton1Down:connect(dn)
-		binds[3]=h.MouseButton1Up:connect(up)
-		--binds[4]=h.MouseEnter:connect(lockM)
-		--binds[5]=h.MouseLeave:connect(unlockM)
+		h.Parent = cgui
+
+		-- Connects functions to each handle event.
+		binds[1] = h.MouseDrag:connect(drag)
+		binds[2] = h.MouseButton1Down:connect(dn)
+		binds[3] = h.MouseButton1Up:connect(up)
+		-- binds[4]=h.MouseEnter:connect(lockM)
+		-- binds[5]=h.MouseLeave:connect(unlockM)
 	end
-	
-	--Stores for next pass.
-	isPrev=not not tempM
+
+	-- Stores for next pass.
+	isPrev = not not tempM
 end
 
---Binds to mode change.
+-- Binds to mode change.
 mode.bind(setHMode)
 
---Binds to selection change.
+-- Binds to selection change.
 sel.bind(function(parts)
-	
-	--Sets the adornee if processing event.
-	if locked then setPart(parts[1])
-	
-	--Otherwise, prevents memory leaks.
-	else up()setPart(parts[1])end
+
+	-- Sets the adornee if processing event.
+	if locked then
+		setPart(parts[1])
+
+		-- Otherwise, prevents memory leaks.
+	else
+		up()
+		setPart(parts[1])
+	end
 end)
 
---Change handles' adornee.
+-- Change handles' adornee.
 function adorn(a)
-	
-	--Sets adornee to argument.
-	adornee,currH.Adornee=a,a
+
+	-- Sets adornee to argument.
+	adornee, currH.Adornee = a, a
 end
 
---Wrapper-function for adorning parts.
-function setPart(p)currP=p
-	
-	--Supresses the function call if deactivated.
-	if not actv.isActive()then return end
-	
-	--Sets handle mode if not yet configured.
-	if not cMode then setHMode(mode.get())
-	
-	--Otherwise, manually processes the origin from its config.
-	elseif currH then specOrig=ogMod.process(currP,mBind.origin)
-		
-		--Adorns the new origin or the selected part.
+-- Wrapper-function for adorning parts.
+function setPart(p)
+	currP = p
+
+	-- Supresses the function call if deactivated.
+	if not actv.isActive() then return end
+
+	-- Sets handle mode if not yet configured.
+	if not cMode then
+		setHMode(mode.get())
+
+		-- Otherwise, manually processes the origin from its config.
+	elseif currH then
+		specOrig = ogMod.process(currP, mBind.origin)
+
+		-- Adorns the new origin or the selected part.
 		adorn(specOrig or p)
 	end
 end
 
---Automatically shows when plugin is activated and hides when deactivated.
-actv.bind(function(a)if currH then adorn(a and currP or nil)end end)
+-- Automatically shows when plugin is activated and hides when deactivated.
+actv.bind(function(a) if currH then adorn(a and currP or nil) end end)
 
-return{
-	setHandleMode=setHMode,
-	getCFrame=function()
-		return adornee.CFrame
-	end,
-	setPart=setPart,
+return {
+	setHandleMode = setHMode,
+	getCFrame = function() return adornee.CFrame end,
+	setPart = setPart
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -3232,9 +3243,9 @@ return{
 							<G>0.156862751</G>
 							<B>0.10980393</B>
 						</Color3>
-
-
-
+						<Faces name="Faces">
+							<faces>63</faces>
+						</Faces>
 						<string name="Name">move</string>
 						<token name="Style">1</token>
 						<BinaryString name="Tags"></BinaryString>
@@ -3251,9 +3262,9 @@ return{
 							<G>0.470588267</G>
 							<B>0.843137324</B>
 						</Color3>
-
-
-
+						<Faces name="Faces">
+							<faces>63</faces>
+						</Faces>
 						<string name="Name">resize</string>
 						<token name="Style">0</token>
 						<BinaryString name="Tags"></BinaryString>
@@ -3265,9 +3276,9 @@ return{
 					<Properties>
 						<Ref name="Adornee">null</Ref>
 						<BinaryString name="AttributesSerialize"></BinaryString>
-
-
-
+						<Axes name="Axes">
+							<axes>7</axes>
+						</Axes>
 						<Color3 name="Color3">
 							<R>1</R>
 							<G>1</G>
@@ -3741,502 +3752,551 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">SelectionModule</string>
 					<string name="ScriptGuid">{CC525AF1-F6F3-4BA3-9B4E-131E90555750}</string>
-					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local algorSel=require(main.AlgorChooserModule).choose
-local algorConf=require(main.AlgorConfigModule)
-local evtMod=require(main.PartEventModule)
-local pfMod=require(main.PartFilterModule)
-local grTag=require(script.GroupTagModule)
-local hb=game['Run Service'].Heartbeat
-local active=require(main.ActiveModule)
-local selGroups,binds,locked={},{},nil
-local wpm=require(main.WaypointModule)
+					<ProtectedString name="Source"><![CDATA[local main = script.Parent
+local algorSel = require(main.AlgorChooserModule).choose
+local algorConf = require(main.AlgorConfigModule)
+local evtMod = require(main.PartEventModule)
+local pfMod = require(main.PartFilterModule)
+local grTag = require(script.GroupTagModule)
+local active = require(main.ActiveModule)
+local wpm = require(main.WaypointModule)
+local hb = game['Run Service'].Heartbeat
+local selGroups, binds, locked = {}, {}, nil
 
---Modifies global environment.
+-- Modifies global environment.
 require(main.DebugModule)()
 
---One-to-one mapping to each other by numerical index.
-local studioSels,pluginSels={},{}
+-- One-to-one mapping to each other by numerical index.
+local studioSels, pluginSels = {}, {}
 
---Only returns any selection if the plugin is active.
-function get()return active.isActive()and pluginSels or{}end
+-- Only returns any selection if the plugin is active.
+function get() return active.isActive() and pluginSels or {} end
 
---Prints contents of addT and remT.
-function tblPrint(t1,t2)
-	local l=math.max(#t1,#t2)
-	print()warn'Two-table dump:'
-	for i=1,l do print('    ',i,t1[i],t2[i])end
+-- Prints contents of addT and remT.
+function tblPrint(t1, t2)
+	local l = math.max(#t1, #t2)
+	print()
+	warn 'Two-table dump:'
+	for i = 1, l do print('    ', i, t1[i], t2[i]) end
 end
 
---Prints selection.
+-- Prints selection.
 function selPrint()
-	
-	--Dumps the selection data to the output.
-	print()warn'Selection dump:'
-	for i=1,math.max(#studioSels,#pluginSels) do
-		local ss,sl=studioSels[i],pluginSels[i]
-		if ss==sl then print('    ',i,ss)
-		else print('    ',i,ss,sl)end
+
+	-- Dumps the selection data to the output.
+	print()
+	warn 'Selection dump:'
+	for i = 1, math.max(#studioSels, #pluginSels) do
+		local ss, sl = studioSels[i], pluginSels[i]
+		if ss == sl then
+			print('    ', i, ss)
+		else
+			print('    ', i, ss, sl)
+		end
 	end
-	
-	--Dumps the main-parts of each selection group.
-	print()warn'Selection-group dump:'
-	for m in next,selGroups do print('    ',m)end
+
+	-- Dumps the main-parts of each selection group.
+	print()
+	warn 'Selection-group dump:'
+	for m in next, selGroups do print('    ', m) end
 end
 
---Fires events, overrides studio selections.
+-- Fires events, overrides studio selections.
 function send(bypass)
-	for i,b in next,binds do b(pluginSels)end
+	for i, b in next, binds do b(pluginSels) end
 	if locked or bypass then return end
-	
-	--Sets the actual selection on Studio.
-	lock()setStudioSels()unlock()
+
+	-- Sets the actual selection on Studio.
+	lock()
+	setStudioSels()
+	unlock()
 end
 
-function addP(p,selP)
-	selP=selP or p
-	local n=#studioSels
-	for i=1,n do
-		if studioSels[i]==p or pluginSels
-		[i]==selP then return end
+function addP(p, selP)
+	selP = selP or p
+	local n = #studioSels
+	for i = 1, n do if studioSels[i] == p or pluginSels[i] == selP then return end end
+
+	if pfMod.part(selP) then
+		while n > #pluginSels do
+			studioSels[n + 1] = studioSels[n]
+			pluginSels[n + 1] = pluginSels[n]
+			n = n - 1
+		end
+		pluginSels[n + 1] = selP
 	end
-	
-	if pfMod.part(selP)then
-		while n>#pluginSels do
-			studioSels[n+1]=studioSels[n]
-			pluginSels[n+1]=pluginSels[n]
-		n=n-1 end pluginSels[n+1]=selP
-	end
-	studioSels[n+1]=p
+	studioSels[n + 1] = p
 	return true
 end
 
 function removeP(p)
-	for i=#studioSels,1,-1 do
-		
-		--Case when part is included in selection.
-		if pluginSels[i]==p or studioSels[i]==p then
-			
-			--Removes element at critical index.
-			for I=i,#pluginSels do
-			pluginSels[I]=pluginSels[I+1]
-			studioSels[I]=studioSels[I+1]end
+	for i = #studioSels, 1, -1 do
+
+		-- Case when part is included in selection.
+		if pluginSels[i] == p or studioSels[i] == p then
+
+			-- Removes element at critical index.
+			for I = i, #pluginSels do
+				pluginSels[I] = pluginSels[I + 1]
+				studioSels[I] = studioSels[I + 1]
+			end
 			return true
 		end
 	end
 end
 
---More efficient version of removeP for associated arrays.
-function removeTbl(t)local b
-	
-	--Removes parts from the studioSels and pluginSels tables.
-	for i=#studioSels,1,-1 do
-		if t[studioSels[i]]or t[pluginSels[i]]then
-			
-			--Removes element at critical index.
-			for I=i,#studioSels do 
-			pluginSels[I]=pluginSels[I+1]
-			studioSels[I]=studioSels[I+1]end
-			b=true
+-- More efficient version of removeP for associated arrays.
+function removeTbl(t)
+	local b
+
+	-- Removes parts from the studioSels and pluginSels tables.
+	for i = #studioSels, 1, -1 do
+		if t[studioSels[i]] or t[pluginSels[i]] then
+
+			-- Removes element at critical index.
+			for I = i, #studioSels do
+				pluginSels[I] = pluginSels[I + 1]
+				studioSels[I] = studioSels[I + 1]
+			end
+			b = true
 		end
 	end
 	return b
 end
 
-function addG(a,p,...)
-	local par,g=p.Parent,{algor=a}
-	g.main,g.parts,g.defSel=a.input(p,...)
-	
-	g.main.Parent=par
-	selGroups[g.main]=g
+function addG(a, p, ...)
+	local par, g = p.Parent, {algor = a}
+	g.main, g.parts, g.defSel = a.input(p, ...)
+
+	g.main.Parent = par
+	selGroups[g.main] = g
 	return g
 end
 
---Method for removing group from its main part.
+-- Method for removing group from its main part.
 function removeGroup(main)
-	
-	--Returns if there is none linked to it.
-	if not selGroups[main]then return end
-	
-	--Declares variable for the group.
-	local g=selGroups[main]
-	
-	--Removes the group from persistence.
+
+	-- Returns if there is none linked to it.
+	if not selGroups[main] then return end
+
+	-- Declares variable for the group.
+	local g = selGroups[main]
+
+	-- Removes the group from persistence.
 	grTag.removeTagged(g)
-	
-	--Removes just the main part if as a unit.
-	if g.algor.asUnit then removeP(g.main)else
-		
-		--Removes all parts of the group otherwise.
-		local parts={}for i,p in next,g.parts
-		do parts[p]=true end removeTbl(parts)
+
+	-- Removes just the main part if as a unit.
+	if g.algor.asUnit then
+		removeP(g.main)
+	else
+
+		-- Removes all parts of the group otherwise.
+		local parts = {}
+		for i, p in next, g.parts do parts[p] = true end
+		removeTbl(parts)
 	end
-	
-	--Removes the group's temporary parts.
-	local p=g.algor.output(main,g.parts)
-	
-	--Clears all waypoints to resolve undo bugs.
-	if g.algor.clearUndo then wpm.reset()end
-	
-	selGroups[main]=nil return p
+
+	-- Removes the group's temporary parts.
+	local p = g.algor.output(main, g.parts)
+
+	-- Clears all waypoints to resolve undo bugs.
+	if g.algor.clearUndo then wpm.reset() end
+
+	selGroups[main] = nil
+	return p
 end
 
---Conditionally calls the group's respective algorithm function.
-function callGroupFunc(partI,name,...)
-	if not selGroups[partI]then return end
-	local g=selGroups[partI]local f=g.algor[name]
-	if f then return f(partI,g.parts,...)end
+-- Conditionally calls the group's respective algorithm function.
+function callGroupFunc(partI, name, ...)
+	if not selGroups[partI] then return end
+	local g = selGroups[partI]
+	local f = g.algor[name]
+	if f then return f(partI, g.parts, ...) end
 end
 
---Selects part in a group if one already lists it.
+-- Selects part in a group if one already lists it.
 function addGrPart(p)
-	
-	--Evaluates whether the part is already in a group.
-	--If the part to add is in a group, mark it and break the loop. 
+
+	-- Evaluates whether the part is already in a group.
+	-- If the part to add is in a group, mark it and break the loop. 
 	local inGroup
-	for m,g in next,selGroups do
+	for m, g in next, selGroups do
 		if not g.asUnit then
-			local gr=g.parts
-			for i,gp in next,gr do if gp==p
-			then inGroup=gr break end end
+			local gr = g.parts
+			for i, gp in next, gr do
+				if gp == p then
+					inGroup = gr
+					break
+				end
+			end
 			if inGroup then break end
 		end
 	end
-	
-	--Only add to group if the group is not as unit.
-	--As a unit, all group's parts would be selected.
-	if inGroup then return addP(p)end
+
+	-- Only add to group if the group is not as unit.
+	-- As a unit, all group's parts would be selected.
+	if inGroup then return addP(p) end
 end
 
---Creates a group then adds the first part.
-function createGroup(p,cmdMode)
-	
-	--Special cases for groups.
-	local algor=algorSel(p)
+-- Creates a group then adds the first part.
+function createGroup(p, cmdMode)
+
+	-- Special cases for groups.
+	local algor = algorSel(p)
 	if algor then
-		
-		--If algorithm is disabled, returns dummy value.
-		if not algorConf(algor,cmdMode)then return 0 end
-		
-		--Adds a group in the group table.
-		local g=addG(algor,p)
-		
-		--Tags them using CollectionService for when place gets open after being saved.
+
+		-- If algorithm is disabled, returns dummy value.
+		if not algorConf(algor, cmdMode) then return 0 end
+
+		-- Adds a group in the group table.
+		local g = addG(algor, p)
+
+		-- Tags them using CollectionService for when place gets open after being saved.
 		grTag.tagGroup(g)
-		
-		--Adds the group's main part along with a plugin-level cast onto the selection.
-		if algor.asUnit then addP(g.main,g.algor.get(g.main,g.parts))
-		
-		--If not as a unit, ensure there are default selected parts and select them.
-		else g.defSel=g.defSel or g.parts for i,gp in next,g.defSel do addP(gp)end end
-		
-		--Clears all waypoints to resolve undo bugs.
-		if algor.clearUndo then wpm.reset()end
-		
+
+		-- Adds the group's main part along with a plugin-level cast onto the selection.
+		if algor.asUnit then
+			addP(g.main, g.algor.get(g.main, g.parts))
+
+			-- If not as a unit, ensure there are default selected parts and select them.
+		else
+			g.defSel = g.defSel or g.parts
+			for i, gp in next, g.defSel do addP(gp) end
+		end
+
+		-- Clears all waypoints to resolve undo bugs.
+		if algor.clearUndo then wpm.reset() end
+
 		return g
 	end
 end
 
---Add part (command)
+-- Add part (command)
 function addC(p)
-	
-	--Debounce protection.
-	if locked then return
-	end lock()
-	
-	local b=p and(
-		addGrPart(p)or
-		createGroup(p,true)or
-		addP(p))
-	
+
+	-- Debounce protection.
+	if locked then return end
+	lock()
+
+	local b = p and (addGrPart(p) or createGroup(p, true) or addP(p))
+
 	unlock()
 	if not b then return end
-	selPrint()return p
+	selPrint()
+	return p
 end
 
---Remove part (command)
+-- Remove part (command)
 function removeC(p)
-	
-	--Debounce protection.
-	if locked then return
-	end lock()
-	
+
+	-- Debounce protection.
+	if locked then return end
+	lock()
+
 	local r
-	for i,g in next,selGroups do
-		local u,has=g.algor.asUnit,nil
-		
-		--Evaluates whether the part is in a selection group.
-		for i,gp in next,g.parts do if gp==p then has=true end end
+	for i, g in next, selGroups do
+		local u, has = g.algor.asUnit, nil
+
+		-- Evaluates whether the part is in a selection group.
+		for i, gp in next, g.parts do if gp == p then has = true end end
 		if has then
-			
-			--Removes the group.
-			if u then removeGroup(i)r=true
-			
-			--If not as a unit, removes part.
-			else if removeP(p)then
-					
-					--Evaluates whether there are other parts in the group.
-					for i,sp in next,studioSels do
-						for i,gp in next,g.parts do
-							if gp==sp then r=true break end
-						end if r then break end
+
+			-- Removes the group.
+			if u then
+				removeGroup(i)
+				r = true
+
+				-- If not as a unit, removes part.
+			else
+				if removeP(p) then
+
+					-- Evaluates whether there are other parts in the group.
+					for i, sp in next, studioSels do
+						for i, gp in next, g.parts do
+							if gp == sp then
+								r = true
+								break
+							end
+						end
+						if r then break end
 					end
-					
-					--If there are no parts left in the group.
-					if not r then r=removeGroup(i)end
-					
-				else r=false end
+
+					-- If there are no parts left in the group.
+					if not r then r = removeGroup(i) end
+
+				else
+					r = false
+				end
 			end
 			break
 		end
 	end
-	
-	if r==nil then
-	r=removeP(p)end unlock()
+
+	if r == nil then r = removeP(p) end
+	unlock()
 	return r and true or false
 end
 
---Efficiently replaces table indicies with corresponding values (one-to-one).
+-- Efficiently replaces table indicies with corresponding values (one-to-one).
 function replaceTblRaw(t)
-	
-	--Returns if locked or nothing in the table.
-	if locked or not next(t)then return end
-	
-	--Redirects all saved parts within each group.
-	local grRedirs,inGrT={},{}
-	for m,g in next,selGroups do
-		
-		--Redirects the main part of group.
-		grRedirs[m]=t[m]
-		
-		--Redirects default part table.
-		local ds,pt=g.defSel,g.parts
-		if ds and ds~=pt then
-			for i,gp in next,ds do
-				ds[i]=t[gp]or ds[i]
+
+	-- Returns if locked or nothing in the table.
+	if locked or not next(t) then return end
+
+	-- Redirects all saved parts within each group.
+	local grRedirs, inGrT = {}, {}
+	for m, g in next, selGroups do
+
+		-- Redirects the main part of group.
+		grRedirs[m] = t[m]
+
+		-- Redirects default part table.
+		local ds, pt = g.defSel, g.parts
+		if ds and ds ~= pt then for i, gp in next, ds do ds[i] = t[gp] or ds[i] end end
+
+		-- Redirects part table.
+		for i, gp in next, pt do
+
+			-- Also stores index of parts that are in groups.
+			local v = t[gp]
+			if v then
+				pt[i] = v
+				inGrT[gp] = v
 			end
 		end
-		
-		--Redirects part table.
-		for i,gp in next,pt do
-			
-			--Also stores index of parts that are in groups.
-			local v=t[gp]if v then pt[i]=v inGrT[gp]=v end
-		end
 	end
-	
-	--Redirects main-part indicies.
-	for p1,p2 in next,grRedirs do
-	selGroups[p2]=selGroups[p1]
-	selGroups[p1]=nil end
-	
-	--Redirects plugin-level selections.
-	for i,p in next,pluginSels do
-	pluginSels[i]=t[p]or pluginSels[i]end
-	
-	--Redirects both sleection tables.
-	for i=#studioSels,1,-1 do
-	pluginSels[i]=t[pluginSels[i]]or pluginSels[i]
-	studioSels[i]=t[studioSels[i]]or studioSels[i]end
-	
-	--Removals from newly-grouped parts.
-	local grRemove={}
-	
-	--Creates new groups from the parts.
-	for p1,p2 in next,t do
-		if not grRedirs[p1]
-		and not inGrT[p1]then
+
+	-- Redirects main-part indicies.
+	for p1, p2 in next, grRedirs do
+		selGroups[p2] = selGroups[p1]
+		selGroups[p1] = nil
+	end
+
+	-- Redirects plugin-level selections.
+	for i, p in next, pluginSels do pluginSels[i] = t[p] or pluginSels[i] end
+
+	-- Redirects both sleection tables.
+	for i = #studioSels, 1, -1 do
+		pluginSels[i] = t[pluginSels[i]] or pluginSels[i]
+		studioSels[i] = t[studioSels[i]] or studioSels[i]
+	end
+
+	-- Removals from newly-grouped parts.
+	local grRemove = {}
+
+	-- Creates new groups from the parts.
+	for p1, p2 in next, t do
+		if not grRedirs[p1] and not inGrT[p1] then
 			createGroup(p2)
-			grRemove[p2]=true
+			grRemove[p2] = true
 		end
 	end
-	
-	--Removes the parts.
+
+	-- Removes the parts.
 	removeTbl(grRemove)
 	return true
 end
 
---Wrapper function for code reference to be executed externally.
-function replaceTbl(...)if replaceTblRaw(...)then send()end end
+-- Wrapper function for code reference to be executed externally.
+function replaceTbl(...) if replaceTblRaw(...) then send() end end
 
---Shifts to the front.
+-- Shifts to the front.
 function shift(p)
-	
-	--Ensures the algorithm wouldn't do anything if it doesn't have to.
-	if pluginSels[1]==p or studioSels[1]==p then return true end
-	
-	for i=2,#pluginSels do
-		if pluginSels[i]==p then
-			
-			--Shifts the plugin selections.
-			pluginSels[i]=pluginSels[1]pluginSels[1]=p
-			
-			--Shifts the corresponding studio selections.
-			studioSels[i]=studioSels[1]studioSels[1]=p
-			
-			--Relays the event, bypassing selection changes.
-			send(true)return p
+
+	-- Ensures the algorithm wouldn't do anything if it doesn't have to.
+	if pluginSels[1] == p or studioSels[1] == p then return true end
+
+	for i = 2, #pluginSels do
+		if pluginSels[i] == p then
+
+			-- Shifts the plugin selections.
+			pluginSels[i] = pluginSels[1]
+			pluginSels[1] = p
+
+			-- Shifts the corresponding studio selections.
+			studioSels[i] = studioSels[1]
+			studioSels[1] = p
+
+			-- Relays the event, bypassing selection changes.
+			send(true)
+			return p
 		end
 	end
 end
 
---Self-explanitory.
-function getStudioSels()
-	return game.Selection:Get()
-end
+-- Self-explanitory.
+function getStudioSels() return game.Selection:Get() end
 
---Again, self-explanitory.
+-- Again, self-explanitory.
 function setStudioSels(t)
-	print'Selection set.'
-	studioSels=t or studioSels
+	print 'Selection set.'
+	studioSels = t or studioSels
 	game.Selection:Set(studioSels)
 end
 
---Passes in a table of enum. strings indexed by parts.
+-- Passes in a table of enum. strings indexed by parts.
 function changeSel(changes)
-	
-	--Determines if Selection:Set() should be invoked.
-	--local changed
-	
-	--Object that needs to be changed before proceeding.
-	local newSS={}
-	
-	--Redirects newly-selected parts.
-	for m,g in next,selGroups do
-		
-		--If as-a-unit, selects the group's main part.
-		if g.asUnit then for i,gp in next,g.parts do
-			if changes[gp]=='add'then
-				changes[gp]=nil
-				changes[m]='add'
-				break
-			end
-		end
-		
-		--If not as a unit, and main part is being added to selection, redirect to the default parts.
-		elseif changes[m]=='add'then changes[m]=nil for i,gp in next,g.defSel do changes[gp]='add'end end
-	end
-		
-	--Adds part to the new selection.
-	for p,l in next,changes do
-		if l=='keep'then
-			newSS[#newSS+1]=p
-		end
-	end
-	
-	--Sets the redirects in stone.
-	studioSels=newSS
-	
-	--Group-edition flags.
-	local grAdded,grRemvd
-	
-	--Part table to efficiently remove from.
-	local remove={}
-	
-	--Does special modifications on groups and their parts.
-	for m,g in next,selGroups do local u=g.algor.asUnit
-		
-		--If grouped as a unit.
-		if u then
-			
-			--Evaluates if at least one part got added/removed.
-			local a,r=changes[m]=='add',changes[m]=='remove'
-			
-			--Removes the entire unit only if a part is being deselected and another one is NOT being selected.
-			if r and not a then grRemvd=true removeGroup(m)changes[m]=nil end
-		else
-			--Evaluates whether all parts already selected within the selection group are being removed.
-			local all=true for i,gp in next,g.parts do if changes[gp]and'remove'~=changes[gp]then all=false break end end
-			
-			--Removes the selection group ONLY if none are being added back.
-			if all then
-				for i,gp in next,g.parts do
-					if'remove'==changes[gp]then
-						changes[gp]=nil
-					end
+
+	-- Determines if Selection:Set() should be invoked.
+	-- local changed
+
+	-- Object that needs to be changed before proceeding.
+	local newSS = {}
+
+	-- Redirects newly-selected parts.
+	for m, g in next, selGroups do
+
+		-- If as-a-unit, selects the group's main part.
+		if g.asUnit then
+			for i, gp in next, g.parts do
+				if changes[gp] == 'add' then
+					changes[gp] = nil
+					changes[m] = 'add'
+					break
 				end
-				grRemvd=true
+			end
+
+			-- If not as a unit, and main part is being added to selection, redirect to the default parts.
+		elseif changes[m] == 'add' then
+			changes[m] = nil
+			for i, gp in next, g.defSel do changes[gp] = 'add' end
+		end
+	end
+
+	-- Adds part to the new selection.
+	for p, l in next, changes do if l == 'keep' then newSS[#newSS + 1] = p end end
+
+	-- Sets the redirects in stone.
+	studioSels = newSS
+
+	-- Group-edition flags.
+	local grAdded, grRemvd
+
+	-- Part table to efficiently remove from.
+	local remove = {}
+
+	-- Does special modifications on groups and their parts.
+	for m, g in next, selGroups do
+		local u = g.algor.asUnit
+
+		-- If grouped as a unit.
+		if u then
+
+			-- Evaluates if at least one part got added/removed.
+			local a, r = changes[m] == 'add', changes[m] == 'remove'
+
+			-- Removes the entire unit only if a part is being deselected and another one is NOT being selected.
+			if r and not a then
+				grRemvd = true
 				removeGroup(m)
-				
-			--Otherwise, add and remove necessary parts.
-			else for i,gp in next,g.parts do
-					
-					--Remove function is omitted to be used all at once later.
-					if'remove'==changes[gp]then remove[gp]=true changes[gp]=nil
-					elseif'add'==changes[gp]then
-						newSS[#newSS+1]=gp
-						changes[gp]=nil
+				changes[m] = nil
+			end
+		else
+			-- Evaluates whether all parts already selected within the selection group are being removed.
+			local all = true
+			for i, gp in next, g.parts do
+				if changes[gp] and 'remove' ~= changes[gp] then
+					all = false
+					break
+				end
+			end
+
+			-- Removes the selection group ONLY if none are being added back.
+			if all then
+				for i, gp in next, g.parts do
+					if 'remove' == changes[gp] then changes[gp] = nil end
+				end
+				grRemvd = true
+				removeGroup(m)
+
+				-- Otherwise, add and remove necessary parts.
+			else
+				for i, gp in next, g.parts do
+
+					-- Remove function is omitted to be used all at once later.
+					if 'remove' == changes[gp] then
+						remove[gp] = true
+						changes[gp] = nil
+					elseif 'add' == changes[gp] then
+						newSS[#newSS + 1] = gp
+						changes[gp] = nil
 						addP(gp)
 					end
 				end
-			end 
+			end
 		end
 	end
-	
-	--Iterates through remaining changes.
-	for p,l in next,changes do
-		
-		--Stages that parts for removal.
-		if l=='remove'then remove[p]=true
-		
-		--For adding new part.
-		elseif l=='add'then
-			
-			--Attempts to create a new group.
-			local g=createGroup(p)
-			
-			--Modifies flag if group-able.
-			if g then grAdded=true
-			
-			--Adds that part to selection otherwise.
-			else addP(p)end
+
+	-- Iterates through remaining changes.
+	for p, l in next, changes do
+
+		-- Stages that parts for removal.
+		if l == 'remove' then
+			remove[p] = true
+
+			-- For adding new part.
+		elseif l == 'add' then
+
+			-- Attempts to create a new group.
+			local g = createGroup(p)
+
+			-- Modifies flag if group-able.
+			if g then
+				grAdded = true
+
+				-- Adds that part to selection otherwise.
+			else
+				addP(p)
+			end
 		end
 	end
-	
-	--Removes all parts counted for removal.
+
+	-- Removes all parts counted for removal.
 	removeTbl(remove)
-	
-	--Finalises selection changes.
+
+	-- Finalises selection changes.
 	send(not grAdded and not grRemvd)
 end
 
 function selChanged()
 	if locked or not active.isActive() then return end
-	warn'SelectionChanged event fired'
+	warn 'SelectionChanged event fired'
 	hb:wait()
-	
-	local logs,old={},studioSels
-	studioSels=getStudioSels()
-	
-	--Searches for objects to add.
-	for i,p1 in next,studioSels do
-		local b='add' 
-		for I,p2 in next,old do
-			if p1==p2 then
-				b='keep'
+
+	local logs, old = {}, studioSels
+	studioSels = getStudioSels()
+
+	-- Searches for objects to add.
+	for i, p1 in next, studioSels do
+		local b = 'add'
+		for I, p2 in next, old do
+			if p1 == p2 then
+				b = 'keep'
 				break
 			end
 		end
-		logs[p1]=b
+		logs[p1] = b
 	end
-	
-	--Searches for objects to remove.
-	for i,p in next,old do
-		if not logs[p]then
-			logs[p]='remove'
-		end
-	end
-	
-	--Main method.
+
+	-- Searches for objects to remove.
+	for i, p in next, old do if not logs[p] then logs[p] = 'remove' end end
+
+	-- Main method.
 	changeSel(logs)
 end
 
---Lock functions for the selection module.
-function lock()locked=true evtMod.lock()end
-function unlock()locked=false evtMod.unlock()end
+-- Lock functions for the selection module.
+function lock()
+	locked = true
+	evtMod.lock()
+end
+function unlock()
+	locked = false
+	evtMod.unlock()
+end
 
---Binds the refined selection event.
-evtMod.bind('selChanged',selChanged)
+-- Binds the refined selection event.
+evtMod.bind('selChanged', selChanged)
 
 --[[
 evtMod.bind('modifyGroup',function(addT,remT)
@@ -4246,156 +4306,194 @@ evtMod.bind('modifyGroup',function(addT,remT)
 end)
 ]]
 
-evtMod.bind('destroy',function(t)
-	for m,g in next,selGroups do
-		local all=true
-		for i,gp in next,g.parts do
-			if not t[gp]then
-			all=false break end
+evtMod.bind('destroy', function(t)
+	for m, g in next, selGroups do
+		local all = true
+		for i, gp in next, g.parts do
+			if not t[gp] then
+				all = false
+				break
+			end
 		end
 		if all then
-			
-			--Removes the group from persistence.
+
+			-- Removes the group from persistence.
 			grTag.removeTagged(g)
-			
-			--Removes just the main part if as a unit.
-			if g.algor.asUnit then removeP(g.main)else
-				
-				--Removes all parts of the group otherwise.
-				local parts={}for i,p in next,g.parts
-				do parts[p]=true end removeTbl(parts)
+
+			-- Removes just the main part if as a unit.
+			if g.algor.asUnit then
+				removeP(g.main)
+			else
+
+				-- Removes all parts of the group otherwise.
+				local parts = {}
+				for i, p in next, g.parts do parts[p] = true end
+				removeTbl(parts)
 			end
-			
-			--Removes reference.
-			selGroups[m]=nil
+
+			-- Removes reference.
+			selGroups[m] = nil
 		end
 	end
-	
-	--Clears selection tables.
-	studioSels,pluginSels={},{}
+
+	-- Clears selection tables.
+	studioSels, pluginSels = {}, {}
 	send(true)
 end)
 
---Implements bind for the negation of parts.
-evtMod.bind('negateSel',function(addT,remT)
-	
-	--Table for groups to remove.
-	local remGrT={}
-	
-	--Attempts to send event data to each group; will modify addT and remT.
-	for m,g in next,selGroups do if not callGroupFunc(m,'modify','negateSel',addT,remT)then remGrT[m]=true end end
-	
-	--Generates a one-to-one table that will be used to modify the current selection.
-	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
-	
-	--Removes groups that returned false on the other loop.
-	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
-	
-	tblPrint(addT,remT)
-	selPrint()send()
-end)
+-- Implements bind for the negation of parts.
+evtMod.bind('negateSel', function(addT, remT)
 
---Implements bind for separated parts.
-evtMod.bind('unionSel',function(addT,remT)
-	
-	--Table for groups to remove.
-	local remGrT={}
-	
-	--Attempts to send event data to each group; will modify addT and remT.
-	for m,g in next,selGroups do if not callGroupFunc(m,'modify','unionSel',addT,remT)then remGrT[m]=true end end
-	
-	--Generates a one-to-one table that will be used to modify the current selection.
-	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
-	
-	--Removes groups that returned false on the other loop.
-	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
-	
-	tblPrint(addT,remT)
-	selPrint()send()
-end)
+	-- Table for groups to remove.
+	local remGrT = {}
 
---Implements bind for separated parts.
-evtMod.bind('separSel',function(addT,remT)
-	
-	--Table for groups to remove.
-	local remGrT={}
-	
-	--Attempts to send event data to each group; will modify addT and remT.
-	for m,g in next,selGroups do if not callGroupFunc(m,'modify','separSel',addT,remT)then remGrT[m]=true end end
-	
-	--Generates a one-to-one table that will be used to modify the current selection.
-	local l,replT=#addT,{}for i=1,l do replT[remT[i]]=addT[i]end replaceTblRaw(replT)
-	
-	--Removes groups that returned false on the other loop.
-	for m in next,remGrT do addP(removeGroup(replT[m]or m))end
-	
-	tblPrint(addT,remT)
-	selPrint()send()
-end)
-
-evtMod.bind('restore',function(wp)
-	warn'Adjusting selection.'
-	local tempSS=getStudioSels()
-	local selIndexT={}
-	local algorIndexT={}
-	
-	for i,p in next,tempSS do
-		if algorSel(p)then
-			algorIndexT[p]=true
+	-- Attempts to send event data to each group; will modify addT and remT.
+	for m, g in next, selGroups do
+		if not callGroupFunc(m, 'modify', 'negateSel', addT, remT) then
+			remGrT[m] = true
 		end
 	end
-	
-	for m,g in next,selGroups do
-		for i,gp in next,g.parts do
+
+	-- Generates a one-to-one table that will be used to modify the current selection.
+	local l, replT = #addT, {}
+	for i = 1, l do replT[remT[i]] = addT[i] end
+	replaceTblRaw(replT)
+
+	-- Removes groups that returned false on the other loop.
+	for m in next, remGrT do addP(removeGroup(replT[m] or m)) end
+
+	tblPrint(addT, remT)
+	selPrint()
+	send()
+end)
+
+-- Implements bind for separated parts.
+evtMod.bind('unionSel', function(addT, remT)
+
+	-- Table for groups to remove.
+	local remGrT = {}
+
+	-- Attempts to send event data to each group; will modify addT and remT.
+	for m, g in next, selGroups do
+		if not callGroupFunc(m, 'modify', 'unionSel', addT, remT) then
+			remGrT[m] = true
+		end
+	end
+
+	-- Generates a one-to-one table that will be used to modify the current selection.
+	local l, replT = #addT, {}
+	for i = 1, l do replT[remT[i]] = addT[i] end
+	replaceTblRaw(replT)
+
+	-- Removes groups that returned false on the other loop.
+	for m in next, remGrT do addP(removeGroup(replT[m] or m)) end
+
+	tblPrint(addT, remT)
+	selPrint()
+	send()
+end)
+
+-- Implements bind for separated parts.
+evtMod.bind('separSel', function(addT, remT)
+
+	-- Table for groups to remove.
+	local remGrT = {}
+
+	-- Attempts to send event data to each group; will modify addT and remT.
+	for m, g in next, selGroups do
+		if not callGroupFunc(m, 'modify', 'separSel', addT, remT) then
+			remGrT[m] = true
+		end
+	end
+
+	-- Generates a one-to-one table that will be used to modify the current selection.
+	local l, replT = #addT, {}
+	for i = 1, l do replT[remT[i]] = addT[i] end
+	replaceTblRaw(replT)
+
+	-- Removes groups that returned false on the other loop.
+	for m in next, remGrT do addP(removeGroup(replT[m] or m)) end
+
+	tblPrint(addT, remT)
+	selPrint()
+	send()
+end)
+
+evtMod.bind('restore', function(wp)
+	warn 'Adjusting selection.'
+	local tempSS = getStudioSels()
+	local selIndexT = {}
+	local algorIndexT = {}
+
+	for i, p in next, tempSS do if algorSel(p) then algorIndexT[p] = true end end
+
+	for m, g in next, selGroups do
+		for i, gp in next, g.parts do
 			local nulled
-			
-			--If parts have been deleted, removes from group.
-			if nulled then removeP(gp)elseif not gp.Parent
-			then selGroups[m]=nil removeP(gp)nulled=true end
+
+			-- If parts have been deleted, removes from group.
+			if nulled then
+				removeP(gp)
+			elseif not gp.Parent then
+				selGroups[m] = nil
+				removeP(gp)
+				nulled = true
+			end
 		end
 	end
-	
-	--Create groupss
-	for p in next,algorIndexT do
-	createGroup(p)end send()
+
+	-- Create groupss
+	for p in next, algorIndexT do createGroup(p) end
+	send()
 end)
 
---Sets bind for (de)activation.
+-- Sets bind for (de)activation.
 active.bind(function(a)
-	
-	--If active, makes table blank.
-	if a then studioSels={}
-		
-		--Re-establishes the selection by iterating part-by-part.
-		for i,p in next,getStudioSels()do if pfMod.part(p)then
-		local r=createGroup(p)if not r then addP(p)end end end
-		
-	--Otherwise, reverts all selection-groups for streamlined use.
-	else for m,g in next,selGroups do addP(removeGroup(m))end
-		
-		--Sends without calling binds.
-		lock()setStudioSels()unlock()
-		
-		--Disposes the now-useless table.
-		pluginSels={}
+
+	-- If active, makes table blank.
+	if a then
+		studioSels = {}
+
+		-- Re-establishes the selection by iterating part-by-part.
+		for i, p in next, getStudioSels() do
+			if pfMod.part(p) then
+				local r = createGroup(p)
+				if not r then addP(p) end
+			end
+		end
+
+		-- Otherwise, reverts all selection-groups for streamlined use.
+	else
+		for m, g in next, selGroups do addP(removeGroup(m)) end
+
+		-- Sends without calling binds.
+		lock()
+		setStudioSels()
+		unlock()
+
+		-- Disposes the now-useless table.
+		pluginSels = {}
 	end
 end)
 
-return{
-	add=addC,get=get,
-	remove=removeC,
-	
-	--Determines if there are non-single objects selected.
-	hasGroups=function()return next(selGroups)~=nil end,
-	
-	shift=shift,set=setStudioSels,
-	replaceTbl=replaceTbl,
-	changeSel=changeSel,
-	
-	update=send,
-	lock=lock,unlock=unlock,
-	bind=function(f)binds[#binds+1]=f end,
-	selChanged=selChanged,
+return {
+	add = addC,
+	get = get,
+	remove = removeC,
+
+	-- Determines if there are non-single objects selected.
+	hasGroups = function() return next(selGroups) ~= nil end,
+
+	shift = shift,
+	set = setStudioSels,
+	replaceTbl = replaceTbl,
+	changeSel = changeSel,
+
+	update = send,
+	lock = lock,
+	unlock = unlock,
+	bind = function(f) binds[#binds + 1] = f end,
+	selChanged = selChanged
 }]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
@@ -4595,160 +4693,151 @@ return{
 					<Content name="LinkedSource"><null></null></Content>
 					<string name="Name">ToolModule</string>
 					<string name="ScriptGuid">{9F458B6D-90C5-4A9C-ADA4-BA655CCB57E1}</string>
-					<ProtectedString name="Source"><![CDATA[local main=script.Parent
-local sel=require(main.SelectionModule)
-local subMd=require(main.SubmodeModule)
-local ogMod=require(main.OriginModule)
-local wpm=require(main.WaypointModule)
+					<ProtectedString name="Source"><![CDATA[local main = script.Parent
+local sel = require(main.SelectionModule)
+local subMd = require(main.SubmodeModule)
+local ogMod = require(main.OriginModule)
+local wpm = require(main.WaypointModule)
 
---Modifies global environment.
+-- Modifies global environment.
 require(main.DebugModule)()
 
-local bind,tagT
-local binds=subMd.binds()
+local bind, tagT
+local binds = subMd.binds()
 function modeHash(modeT)
-	if not modeT then return''end
-	return modeT[1]..'_'..modeT[2]
+	if not modeT then return '' end
+	return modeT[1] .. '_' .. modeT[2]
 end
 
-function set(modeT)
+function set(modeT, ...)
 	if tagT then return end
-	local hash=modeHash(modeT)
-	warn'Tool set.'
-	bind=binds[hash]
-	tagT={}
-	
-	local repT={}
-	local s=sel.get()
-	local o=ogMod.get()
-	for i,p in next,s do
-		
-		local nP,par=p,p.Parent
-		local tags={tagged=false,mode=modeT}
+	local hash = modeHash(modeT)
+	warn 'Tool set.'
+	bind = binds[hash]
+	tagT = {}
+
+	local repT = {}
+	local t = sel.get()
+	local o = ogMod.get()
+	for i, p in next, t do
+
+		local nP, par = p, p.Parent
+		local tags = {tagged = false, mode = modeT}
 		if bind and bind.input then
-			nP,tags=bind.input(p)
-			tags.tagged=true
+			nP, tags = bind.input(true, p, ...)
+			tags.tagged = true
 		end
-		
-		tags.origin=o
-		tagT[nP]=tags
-		
-		--If the part is altered.
-		if p~=nP then
-			nP.Parent=par
+
+		tags.origin = o
+		tagT[nP] = tags
+
+		-- If the part is altered.
+		if p ~= nP then
+			nP.Parent = par
 			p:destroy()
-			repT[p]=nP
-			
-			--If the altered part happened to be an origin.
-			if o==p then tags.origin=nP o=nP end
+			repT[p] = nP
+
+			-- If the altered part happened to be an origin.
+			if o == p then
+				tags.origin = nP
+				o = nP
+			end
 		end
 	end
-	
-	tagT[o]=tagT[o]or{
-	origin=o,tagged=false}
-	tagT[o].isOrigin=true
-	
-	--Procrastinated call for efficient looping.
+
+	tagT[o] = tagT[o] or {origin = o, tagged = false}
+	tagT[o].isOrigin = true
+
+	-- Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
+
+	local ret = {}
+	if bind.limit then ret.min, ret.max = bind.limit(o, tagT, ...) end
+	return ret
 end
 
 function unset()
 	if not tagT then return end
-	warn'Tool unset.'
-	local repT={}
-	
-	for p,t in next,tagT do
-		local nP,par=p,p.Parent
-		if bind.output and t.tagged
-		then nP=bind.output(p,t)end
-		tagT[p]=nil
-		
-		--If the part is altered.
-		if p~=nP then
-			nP.Parent=par
+	warn 'Tool unset.'
+	local repT = {}
+
+	for p, t in next, tagT do
+		local nP, par = p, p.Parent
+		if bind.output and t.tagged then nP = bind.output(true, p, t) end
+		tagT[p] = nil
+
+		-- If the part is altered.
+		if p ~= nP then
+			nP.Parent = par
 			p:destroy()
-			repT[p]=nP
+			repT[p] = nP
 		end
 	end
-	
-	--Procrastinated call for efficient looping.
+
+	-- Procrastinated call for efficient looping.
 	sel.replaceTbl(repT)
-	
-	--Adds modifications to the undo chain.
+
+	-- Adds modifications to the undo chain.
 	if bind.waypoint then
-		wpm.set('RLVP_Tool_'..bind.waypoint)
+		wpm.set('RLVP_Tool_' .. bind.waypoint)
 		sel.set()
 	end
-	
-	--Variables are reset.
-	tagT,bind=nil,nil
+
+	-- Variables are reset.
+	tagT, bind = nil, nil
 end
 
---Execute after setting and before unsetting.
+-- Execute after setting and before unsetting.
 function exec(...)
-	if bind and tagT then
-		for p,t in next,tagT do
-			bind.drag(p,t,...)
-		end
-	end
+	if bind and tagT then for p, t in next, tagT do bind.drag(true, p, t, ...) end end
 end
 
---TODO: make it actually be used.
---Execute as a 'console' command.
-function execC(modeT,...)
-	if not bind then
-	return end
-	
+-- TODO: make it actually be used.
+-- Execute as a 'console' command.
+function execC(modeT, ...)
+	if not bind then return end
+
 	if not tagT then
-		local repT={}
-		local t=sel.get()
-		local o=ogMod.get()
-		
+		local repT = {}
+		local t = sel.get()
+		local o = ogMod.get()
+
 		if bind.input then
 			local originDone
-			for i,p in next,t do
-				
-				--Sets the object up.
-				local nP,tags=bind.input(...)
-				
-				--Miscellaneous tags.
-				tags.isOrigin=p==o
-				tags.inSelection=true
-				tags.tagged=true
-				tags.mode=modeT
-				tags.origin=o
-				
-				--Stores that the origin part was done.
-				originDone=originDone or p==o
-				
-				--Executes the object.
-				bind.drag(nP,tags,...)
-				
-				--Unsets the object.
-				nP=bind.output(p,tags)
-				
-				if p~=nP then
-				repT[p]=nP end
+			for i, p in next, t do
+
+				-- Sets the object up.
+				local nP, tags = bind.input(false, p, ...)
+
+				-- Miscellaneous tags.
+				tags.isOrigin = p == o
+				tags.inSelection = true
+				tags.tagged = true
+				tags.mode = modeT
+				tags.origin = o
+
+				-- Stores that the origin part was done.
+				originDone = originDone or p == o
+
+				-- Executes the object.
+				bind.drag(false, nP, tags, ...)
+
+				-- Unsets the object.
+				nP = bind.output(false, p, tags)
+
+				if p ~= nP then repT[p] = nP end
 			end
-			
+
 			if not originDone then
-				bind.drag(o,{
-					isOrigin=true,
-					inSelection=true,
-					tagged=false,
-				},...)
+				bind.drag(o, {isOrigin = true, inSelection = true, tagged = false}, ...)
 			end
-			
-			--Procrastinated call for efficient looping.
+
+			-- Procrastinated call for efficient looping.
 			sel.replaceTbl(repT)
-			
+
 		else
-			for i,p in next,t do
-				bind.drag(p,{
-					isOrigin=p==o,
-					inSelection=true,
-					tagged=false,
-				},...)
+			for i, p in next, t do
+				bind.drag(p, {isOrigin = p == o, inSelection = true, tagged = false}, ...)
 			end
 		end
 	else
@@ -4756,12 +4845,17 @@ function execC(modeT,...)
 	end
 end
 
+function limit(...) end
 
-return{
-	exec=exec,execC=execC,set=set,unset=unset,
-	getBind=function(modeT)return binds[modeHash(modeT)]or{}end,
-	--setBind=function(modeT,...)binds[modeHash(modeT)]={...}end,
-}]]></ProtectedString>
+return {
+	drag = exec,
+	exec = execC,
+	set = set,
+	unset = unset,
+	getBind = function(modeT) return binds[modeHash(modeT)] or {} end
+	-- setBind=function(modeT,...)binds[modeHash(modeT)]={...}end,
+}
+]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
@@ -7705,25 +7799,127 @@ return{
 						<Content name="LinkedSource"><null></null></Content>
 						<string name="Name">resize</string>
 						<string name="ScriptGuid">{D5CBCCC1-7E66-450B-895D-49ABF0F93C8D}</string>
-						<ProtectedString name="Source"><![CDATA[local main=script.Parent.Parent
-local plugin=main.Plugin.Value
+						<ProtectedString name="Source"><![CDATA[local SIZE_MIN = .05
+local main = script.Parent.Parent
+local plugin = main.Plugin.Value
 
-function resize(p,d)
-	p.Size=p.Size+d
+function getMesh(p) return p:findFirstChildWhichIsA 'DataModelMesh' end
+
+function getSize(p)
+	local mesh = getMesh(p)
+	local scale = mesh and mesh.Scale or Vector3.new(1, 1, 1)
+	return scale * p.Size
 end
 
-return{
-	[{'resize','face'}]={drag=function(p,tags,f,d)
-		local v1=CFrame.new(Vector3.FromNormalId(f)*d/2)
-		local v2=Vector3.FromNormalId(f.Value%3)*d
-		resize(p,v2)p.CFrame=p.CFrame*v1
-	end,waypoint='Resize'},
-	
-	[{'resize','both'}]={drag=function(p,tags,f,d)
-		local v=Vector3.FromNormalId(f.Value%3)*d
-		resize(p,v)
-	end,waypoint='Resize'},
-}]]></ProtectedString>
+function needsMesh(s)
+	for i, a in next, Enum.Axis:GetEnumItems() do
+		if math.abs(s[a.Name]) < SIZE_MIN then return true end
+	end
+end
+
+function canMakeMesh(p)
+	local cn = p.ClassName
+	if cn == 'Part' then
+		return true
+
+	elseif cn == 'WedgePart' then
+		return true
+
+	elseif cn == 'CornerWedgePart' then
+		return true
+	end
+end
+
+function makeMesh(p)
+	local cn, m = p.ClassName, nil
+
+	if cn == 'Part' then
+		local s = p.Shape.Name
+		if s == 'Block' then
+			m = Instance.new 'BlockMesh'
+		elseif s == 'Cylinder' then
+			m = Instance.new 'CylinderMesh'
+		elseif s == 'Ball' then
+			m = Instance.new 'SpecialMesh'
+			m.MeshType = 'Sphere'
+		end
+
+	elseif cn == 'WedgePart' then
+		m = Instance.new 'SpecialMesh'
+		m.MeshType = 'Wedge'
+
+	elseif cn == 'CornerWedgePart' then
+		m = Instance.new 'SpecialMesh'
+		m.MeshType = 'FileMesh'
+		m.MeshId = 699163800
+	end
+
+	if m then
+		m.Parent = p
+		return m
+	end
+end
+
+function scalePart(s)
+	local t = {}
+	for i, a in next, Enum.Axis:GetEnumItems() do
+		t[i] = math.max(SIZE_MIN, math.abs(s[a.Name]))
+	end
+	return Vector3.new(unpack(t))
+end
+
+function scaleMesh(s)
+	local t = {}
+	for i, a in next, Enum.Axis:GetEnumItems() do
+		t[i] = math.min(1, math.abs(s[a.Name]) / SIZE_MIN)
+	end
+	return Vector3.new(unpack(t))
+end
+
+function resize(p, f, d)
+	local deltaV3 = f * f * d
+	local newSize = getSize(p) + deltaV3
+	p.Size = scalePart(newSize)
+
+	local mesh = getMesh(p)
+	if needsMesh(newSize) then
+		if not mesh then mesh = makeMesh(p) end
+		if mesh then mesh.Scale = scaleMesh(newSize) end
+
+	else
+		if mesh then mesh:Destroy() end
+	end
+end
+
+function limit(p, tags, f)
+	local face = Vector3.FromNormalId(f)
+	local d = (face * getSize(p)).magnitude
+	local ret = (canMakeMesh(p) and 0 or SIZE_MIN) - d
+	return ret, nil
+end
+
+return {
+	[{'resize', 'face'}] = {
+		drag = function(isSet, p, tags, f, cD, pD)
+			local d, face = cD - pD, Vector3.FromNormalId(f)
+			local move = CFrame.new(face * d / 2)
+			p.CFrame = p.CFrame * move
+			resize(p, face, d)
+		end,
+		limit = limit,
+		waypoint = 'Resize'
+	},
+
+	[{'resize', 'both'}] = {
+		drag = function(isSet, p, tags, f, cD, pD)
+			local d, face = cD - pD, Vector3.FromNormalId(f)
+			resize(p, face, d)
+		end,
+		limit = limit,
+		waypoint = 'Resize'
+	}
+}
+]]></ProtectedString>
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
