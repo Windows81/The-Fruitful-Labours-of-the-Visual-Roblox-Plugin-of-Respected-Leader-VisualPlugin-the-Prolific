@@ -1,6 +1,9 @@
 --Why this weird setup?  Blame Accessible Plugins.
 local t={Start=function(plugin)
-	
+
+--Sneaky hack to disable RLVP when in edit mode (exclusive to RLVP.rbxlx).
+if game.Workspace.DistributedGameTime==-127 then script:destroy()return end
+
 script.Plugin.Value=plugin
 while not script.Plugin
 .Value do wait(1/2)end

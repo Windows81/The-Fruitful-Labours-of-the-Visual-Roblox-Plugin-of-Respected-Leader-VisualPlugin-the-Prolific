@@ -11,6 +11,7 @@ function execL(m)
 	local t=m.Target
 	if not validMode()or not t then return end
 	if not sel.remove(t)then sel.add(t)end
+	sel.update()
 end
 
 function execR(m)
