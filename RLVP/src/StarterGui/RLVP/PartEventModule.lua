@@ -41,6 +41,7 @@ end
 
 --Executes an action that relates to the one listed in undo history.
 function wpAction(wp,undo,...)
+	active.lock()
 	
 	--Sets waypoint if one is not given.
 	wp=wp or chooseWp(wp,...)
@@ -53,6 +54,8 @@ function wpAction(wp,undo,...)
 	else--if wp:sub(10)=='RLVP_Tool_'then
 		callBind('restore',wp)
 	end
+	
+	active.unlock()
 end
 
 --Event that fires when something gets added.

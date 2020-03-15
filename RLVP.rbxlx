@@ -745,6 +745,9 @@ UishTyRZblMEem0ublg4IDAENmkMdwwBXgB2YDdp]]></BinaryString>
 	<Item class="StudioData" referent="RBX815F4F2F337E4D39B564EC0E6DE28DBE">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
+			<int64 name="CommitInflightAuthorId">0</int64>
+			<string name="CommitInflightGuid"></string>
+			<int name="CommitInflightPlaceVersion">0</int>
 			<bool name="EnableScriptCollabByDefaultOnLoad">true</bool>
 			<bool name="EnableScriptCollabOnLoad">false</bool>
 			<string name="Name">StudioData</string>
@@ -3773,7 +3776,7 @@ local studioSels, pluginSels = {}, {}
 function get() return active.isActive() and pluginSels or {} end
 
 -- Prints contents of addT and remT.
-function printTable(t1, t2)
+function printTwoTables(t1, t2)
 	local l = math.max(#t1, #t2)
 	print()
 	warn 'Two-table dump:'
@@ -3826,7 +3829,7 @@ function addPart(p, selP)
 		pluginSels[n + 1] = selP
 	end
 	studioSels[n + 1] = p
-	return true
+	return p
 end
 
 function removePart(p)
@@ -3958,7 +3961,7 @@ function createGroup(p, cmdMode)
 		if algor.asUnit then
 			addPart(g.main, g.algor.get(g.main, g.parts))
 
-			-- If not as a unit, ensure there are default selected parts and select them.
+		-- If not as a unit, ensure there are default selected parts and select them.
 		else
 			g.defSel = g.defSel or g.parts
 			for i, gp in next, g.defSel do addPart(gp) end
@@ -4037,6 +4040,31 @@ function removeC(p)
 	return r and true or false
 end
 
+function changeGroupMain(fr, to)
+	if fr == to then return end
+	local g = selGroups[fr]
+	selGroups[fr] = nil
+	selGroups[to] = g
+	g.main = to
+	
+	local def = g.defSel
+	local parts = g.parts
+	if def ~= parts then
+		for i, p in next, def do
+			if p == fr then
+				def[i] = to
+			end
+		end
+	end
+	
+	for i, p in next, parts do
+		if p == fr then
+			parts[i] = to
+		end
+	end
+	return g
+end
+
 -- Efficiently replaces table indicies with corresponding values (one-to-one).
 function replaceSelectionGlobal(t)
 
@@ -4048,11 +4076,15 @@ function replaceSelectionGlobal(t)
 	for m, g in next, selGroups do
 
 		-- Redirects the main part of group.
-		grRedirs[m] = t[m]
+		grRedirs[m] = t[m] or grRedirs[m]
 
 		-- Redirects default part table.
 		local ds, pt = g.defSel, g.parts
-		if ds and ds ~= pt then for i, gp in next, ds do ds[i] = t[gp] or ds[i] end end
+		if ds and ds ~= pt then
+			for i, gp in next, ds do
+				ds[i] = t[gp] or ds[i]
+			end
+		end
 
 		-- Redirects part table.
 		for i, gp in next, pt do
@@ -4350,34 +4382,70 @@ evtMod.bind('negateSel', function(addT, remT)
 	-- Removes groups that returned false on the other loop.
 	for m in next, remGrT do addPart(removeGroup(replT[m] or m)) end
 
-	printTable(addT, remT)
+	printTwoTables(addT, remT)
 	printSelection()
 	send()
 end)
 
 -- Implements bind for new unions.
 evtMod.bind('unionSel', function(addT, remT)
-
-	-- Table for groups to remove.
-	local remGrT = {}
-	local modGrT = {}
 	
-	for i, p in next, addT do
-		local gr = createGroup(p)
-		if not gr then modGrT[gr] = true end
+	local remHash = {}
+	local grpHash = {}
+	
+	for i, p in next, remT do
+		remHash[p] = true
 	end
 
-	-- Attempts to send event data to each group; will modify addT and remT.
 	for m, g in next, selGroups do
-		if modGrT[g] and not callGroupFunc(m, 'modify', 'unionSel', addT, remT) then
-			remGrT[m] = true
+		local parts = g.parts
+		for i, p in next, parts do
+			if remHash[p] then
+				
+				local changed, newMain = callGroupFunc(m, 'modify', 'unionSel', addT, remT)
+				if changed then
+					local changeSubI = 1
+					for partSubI = i, #parts do
+						if changeSubI > #changed then
+							for partSubI = partSubI, #parts do
+								if remHash[p] then
+									local last = #parts
+									parts[partSubI] = parts[last]
+									parts[last] = nil
+								end
+							end
+							break
+						elseif remHash[p] then
+							parts[partSubI] = changed[changeSubI]
+							changeSubI = changeSubI + 1
+						end
+					end
+					if changeSubI < #changed then
+						for changeSubI = changeSubI, #changed do
+							parts[#parts + 1] = changed[changeSubI]
+						end
+					end
+					grpHash[m] = newMain
+				else
+					grpHash[m] = false
+				end
+				break
+			end
+		end
+	end
+	
+	removeSelectionFromTables(remHash)
+	for i, p in next, addT do addPart(p) end
+
+	for fr, to in next, grpHash do
+		if to then
+			changeGroupMain(fr, to)
+		else
+			addPart(removeGroup(fr))
 		end
 	end
 
-	-- Removes groups that returned false on the other loop.
-	for m in next, remGrT do addPart(removeGroup(m)) end
-
-	printTable(addT, remT)
+	printTwoTables(addT, remT)
 	printSelection()
 	send()
 end)
@@ -4388,7 +4456,7 @@ evtMod.bind('separSel', function(addT, remT)
 	-- Table for groups to remove.
 	local remGrT = {}
 
-	-- Attempts to send event data to each group; will modify addT and remT.
+	-- Attempts to send event data to each group; will modify addT.
 	for m, g in next, selGroups do
 		if not callGroupFunc(m, 'modify', 'separSel', addT, remT) then
 			remGrT[m] = true
@@ -4403,7 +4471,7 @@ evtMod.bind('separSel', function(addT, remT)
 	-- Removes groups that returned false on the other loop.
 	for m in next, remGrT do addPart(removeGroup(replT[m] or m)) end
 
-	printTable(addT, remT)
+	printTwoTables(addT, remT)
 	printSelection()
 	send()
 end)
@@ -6305,12 +6373,15 @@ return{
 			end
 			
 			--Would remove group if made false.
-			return keepGr
+			return keepGr and addT
 		
 		elseif mode=='unionSel'then
 			local u=addT[1]
 			local par=u.Parent
 			if#par:children()==1 then
+				if par==main then
+					main=nil
+				end
 				u.Parent=par.Parent
 				par:destroy()
 			end
@@ -6319,7 +6390,7 @@ return{
 			local f,t=explode(u)
 			
 			--Overwrites the add table for selection interop.
-			for i,p in next,t do addT[i]=p end return true
+			for i,p in next,t do addT[i]=p end return t,main or f
 			
 		else
 			--Explodes all newly-added parts; adds the residue in.
@@ -6339,6 +6410,7 @@ return{
 			--Clones the contents of newT to addT.
 			local l=math.max(#newT,#addT)
 			for i=1,l do addT[i]=newT[i]end
+			return true
 		end
 	end,
 }]]></ProtectedString>

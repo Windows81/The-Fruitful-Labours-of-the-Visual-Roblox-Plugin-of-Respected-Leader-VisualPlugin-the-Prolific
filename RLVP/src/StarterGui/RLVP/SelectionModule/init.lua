@@ -19,7 +19,7 @@ local studioSels, pluginSels = {}, {}
 function get() return active.isActive() and pluginSels or {} end
 
 -- Prints contents of addT and remT.
-function tblPrint(t1, t2)
+function printTable(t1, t2)
 	local l = math.max(#t1, #t2)
 	print()
 	warn 'Two-table dump:'
@@ -27,7 +27,7 @@ function tblPrint(t1, t2)
 end
 
 -- Prints selection.
-function selPrint()
+function printSelection()
 
 	-- Dumps the selection data to the output.
 	print()
@@ -58,7 +58,7 @@ function send(bypass)
 	unlock()
 end
 
-function addP(p, selP)
+function addPart(p, selP)
 	selP = selP or p
 	local n = #studioSels
 	for i = 1, n do if studioSels[i] == p or pluginSels[i] == selP then return end end
@@ -75,7 +75,7 @@ function addP(p, selP)
 	return true
 end
 
-function removeP(p)
+function removePart(p)
 	for i = #studioSels, 1, -1 do
 
 		-- Case when part is included in selection.
@@ -91,8 +91,8 @@ function removeP(p)
 	end
 end
 
--- More efficient version of removeP for associated arrays.
-function removeTbl(t)
+-- More efficient version of removePart for associated arrays.
+function removeSelectionFromTables(t)
 	local b
 
 	-- Removes parts from the studioSels and pluginSels tables.
@@ -133,13 +133,13 @@ function removeGroup(main)
 
 	-- Removes just the main part if as a unit.
 	if g.algor.asUnit then
-		removeP(g.main)
+		removePart(g.main)
 	else
 
 		-- Removes all parts of the group otherwise.
 		local parts = {}
 		for i, p in next, g.parts do parts[p] = true end
-		removeTbl(parts)
+		removeSelectionFromTables(parts)
 	end
 
 	-- Removes the group's temporary parts.
@@ -181,7 +181,7 @@ function addGrPart(p)
 
 	-- Only add to group if the group is not as unit.
 	-- As a unit, all group's parts would be selected.
-	if inGroup then return addP(p) end
+	if inGroup then return addPart(p) end
 end
 
 -- Creates a group then adds the first part.
@@ -202,12 +202,12 @@ function createGroup(p, cmdMode)
 
 		-- Adds the group's main part along with a plugin-level cast onto the selection.
 		if algor.asUnit then
-			addP(g.main, g.algor.get(g.main, g.parts))
+			addPart(g.main, g.algor.get(g.main, g.parts))
 
 			-- If not as a unit, ensure there are default selected parts and select them.
 		else
 			g.defSel = g.defSel or g.parts
-			for i, gp in next, g.defSel do addP(gp) end
+			for i, gp in next, g.defSel do addPart(gp) end
 		end
 
 		-- Clears all waypoints to resolve undo bugs.
@@ -224,11 +224,11 @@ function addC(p)
 	if locked then return end
 	lock()
 
-	local b = p and (addGrPart(p) or createGroup(p, true) or addP(p))
+	local b = p and (addGrPart(p) or createGroup(p, true) or addPart(p))
 
 	unlock()
 	if not b then return end
-	selPrint()
+	printSelection()
 	return p
 end
 
@@ -254,7 +254,7 @@ function removeC(p)
 
 				-- If not as a unit, removes part.
 			else
-				if removeP(p) then
+				if removePart(p) then
 
 					-- Evaluates whether there are other parts in the group.
 					for i, sp in next, studioSels do
@@ -278,13 +278,13 @@ function removeC(p)
 		end
 	end
 
-	if r == nil then r = removeP(p) end
+	if r == nil then r = removePart(p) end
 	unlock()
 	return r and true or false
 end
 
 -- Efficiently replaces table indicies with corresponding values (one-to-one).
-function replaceTblRaw(t)
+function replaceSelectionGlobal(t)
 
 	-- Returns if locked or nothing in the table.
 	if locked or not next(t) then return end
@@ -339,12 +339,9 @@ function replaceTblRaw(t)
 	end
 
 	-- Removes the parts.
-	removeTbl(grRemove)
+	removeSelectionFromTables(grRemove)
 	return true
 end
-
--- Wrapper function for code reference to be executed externally.
-function replaceTbl(...) if replaceTblRaw(...) then send() end end
 
 -- Shifts to the front.
 function shift(p)
@@ -383,12 +380,6 @@ end
 -- Passes in a table of enum. strings indexed by parts.
 function changeSel(changes)
 
-	-- Determines if Selection:Set() should be invoked.
-	-- local changed
-
-	-- Object that needs to be changed before proceeding.
-	local newSS = {}
-
 	-- Redirects newly-selected parts.
 	for m, g in next, selGroups do
 
@@ -409,17 +400,11 @@ function changeSel(changes)
 		end
 	end
 
-	-- Adds part to the new selection.
-	for p, l in next, changes do if l == 'keep' then newSS[#newSS + 1] = p end end
-
-	-- Sets the redirects in stone.
-	studioSels = newSS
-
 	-- Group-edition flags.
 	local grAdded, grRemvd
 
 	-- Part table to efficiently remove from.
-	local remove = {}
+	local removeTbl = {}
 
 	-- Does special modifications on groups and their parts.
 	for m, g in next, selGroups do
@@ -455,18 +440,17 @@ function changeSel(changes)
 				grRemvd = true
 				removeGroup(m)
 
-				-- Otherwise, add and remove necessary parts.
+			-- Otherwise, add and remove necessary parts.
 			else
 				for i, gp in next, g.parts do
 
 					-- Remove function is omitted to be used all at once later.
 					if 'remove' == changes[gp] then
-						remove[gp] = true
+						removeTbl[gp] = true
 						changes[gp] = nil
 					elseif 'add' == changes[gp] then
-						newSS[#newSS + 1] = gp
 						changes[gp] = nil
-						addP(gp)
+						addPart(gp)
 					end
 				end
 			end
@@ -478,7 +462,7 @@ function changeSel(changes)
 
 		-- Stages that parts for removal.
 		if l == 'remove' then
-			remove[p] = true
+			removeTbl[p] = true
 
 			-- For adding new part.
 		elseif l == 'add' then
@@ -490,15 +474,15 @@ function changeSel(changes)
 			if g then
 				grAdded = true
 
-				-- Adds that part to selection otherwise.
 			else
-				addP(p)
+				-- Adds that part to selection otherwise.
+				addPart(p)
 			end
 		end
 	end
 
 	-- Removes all parts counted for removal.
-	removeTbl(remove)
+	removeSelectionFromTables(removeTbl)
 
 	-- Finalises selection changes.
 	send(not grAdded and not grRemvd)
@@ -509,13 +493,13 @@ function selChanged()
 	warn 'SelectionChanged event fired'
 	hb:wait()
 
-	local logs, old = {}, studioSels
-	studioSels = getStudioSels()
+	local logs = {}
+	local newSels = getStudioSels()
 
 	-- Searches for objects to add.
-	for i, p1 in next, studioSels do
+	for i, p1 in next, newSels do
 		local b = 'add'
-		for I, p2 in next, old do
+		for I, p2 in next, studioSels do
 			if p1 == p2 then
 				b = 'keep'
 				break
@@ -525,7 +509,11 @@ function selChanged()
 	end
 
 	-- Searches for objects to remove.
-	for i, p in next, old do if not logs[p] then logs[p] = 'remove' end end
+	for i, p in next, studioSels do
+		if not logs[p] then
+			logs[p] = 'remove'
+		end
+	end
 
 	-- Main method.
 	changeSel(logs)
@@ -568,13 +556,13 @@ evtMod.bind('destroy', function(t)
 
 			-- Removes just the main part if as a unit.
 			if g.algor.asUnit then
-				removeP(g.main)
+				removePart(g.main)
 			else
 
 				-- Removes all parts of the group otherwise.
 				local parts = {}
 				for i, p in next, g.parts do parts[p] = true end
-				removeTbl(parts)
+				removeSelectionFromTables(parts)
 			end
 
 			-- Removes reference.
@@ -603,39 +591,40 @@ evtMod.bind('negateSel', function(addT, remT)
 	-- Generates a one-to-one table that will be used to modify the current selection.
 	local l, replT = #addT, {}
 	for i = 1, l do replT[remT[i]] = addT[i] end
-	replaceTblRaw(replT)
+	replaceSelectionGlobal(replT)
 
 	-- Removes groups that returned false on the other loop.
-	for m in next, remGrT do addP(removeGroup(replT[m] or m)) end
+	for m in next, remGrT do addPart(removeGroup(replT[m] or m)) end
 
-	tblPrint(addT, remT)
-	selPrint()
+	printTable(addT, remT)
+	printSelection()
 	send()
 end)
 
--- Implements bind for separated parts.
+-- Implements bind for new unions.
 evtMod.bind('unionSel', function(addT, remT)
 
 	-- Table for groups to remove.
 	local remGrT = {}
+	local modGrT = {}
+	
+	for i, p in next, addT do
+		local gr = createGroup(p)
+		if not gr then modGrT[gr] = true end
+	end
 
 	-- Attempts to send event data to each group; will modify addT and remT.
 	for m, g in next, selGroups do
-		if not callGroupFunc(m, 'modify', 'unionSel', addT, remT) then
+		if modGrT[g] and not callGroupFunc(m, 'modify', 'unionSel', addT, remT) then
 			remGrT[m] = true
 		end
 	end
 
-	-- Generates a one-to-one table that will be used to modify the current selection.
-	local l, replT = #addT, {}
-	for i = 1, l do replT[remT[i]] = addT[i] end
-	replaceTblRaw(replT)
-
 	-- Removes groups that returned false on the other loop.
-	for m in next, remGrT do addP(removeGroup(replT[m] or m)) end
+	for m in next, remGrT do addPart(removeGroup(m)) end
 
-	tblPrint(addT, remT)
-	selPrint()
+	printTable(addT, remT)
+	printSelection()
 	send()
 end)
 
@@ -655,13 +644,13 @@ evtMod.bind('separSel', function(addT, remT)
 	-- Generates a one-to-one table that will be used to modify the current selection.
 	local l, replT = #addT, {}
 	for i = 1, l do replT[remT[i]] = addT[i] end
-	replaceTblRaw(replT)
+	replaceSelectionGlobal(replT)
 
 	-- Removes groups that returned false on the other loop.
-	for m in next, remGrT do addP(removeGroup(replT[m] or m)) end
+	for m in next, remGrT do addPart(removeGroup(replT[m] or m)) end
 
-	tblPrint(addT, remT)
-	selPrint()
+	printTable(addT, remT)
+	printSelection()
 	send()
 end)
 
@@ -679,10 +668,10 @@ evtMod.bind('restore', function(wp)
 
 			-- If parts have been deleted, removes from group.
 			if nulled then
-				removeP(gp)
+				removePart(gp)
 			elseif not gp.Parent then
 				selGroups[m] = nil
-				removeP(gp)
+				removePart(gp)
 				nulled = true
 			end
 		end
@@ -704,13 +693,13 @@ active.bind(function(a)
 		for i, p in next, getStudioSels() do
 			if pfMod.part(p) then
 				local r = createGroup(p)
-				if not r then addP(p) end
+				if not r then addPart(p) end
 			end
 		end
 
 		-- Otherwise, reverts all selection-groups for streamlined use.
 	else
-		for m, g in next, selGroups do addP(removeGroup(m)) end
+		for m, g in next, selGroups do addPart(removeGroup(m)) end
 
 		-- Sends without calling binds.
 		lock()
@@ -732,8 +721,12 @@ return {
 
 	shift = shift,
 	set = setStudioSels,
-	replaceTbl = replaceTbl,
 	changeSel = changeSel,
+	replaceTbl = function(...)
+		if replaceSelectionGlobal(...) then
+			send()
+		end
+	end,
 
 	update = send,
 	lock = lock,
